@@ -122,129 +122,43 @@
     </nav>
 
 
-
-    <!-- Hero Section -->
-
-    <section id="home" class=" py-16 lg:py-32 mx-auto">
-        <div class=" lg:py-6 container max-w-screen-lg mx-auto flex flex-col md:flex-row items-center mb-4 px-2 md:px-16">
-
-            <div class=" md:w-1/2 flex flex-col items-center">
-
-                <img src="assets/profile-pic.png" alt="Profile Image" class="py-2 rounded-full w-52 h-52 object-cover" />
-
-
-                <div class="flex flex-col items-center mx-auto">
-
-                    <h1 class="text-xl font-bold text-gray-100 p-2">Hi, I am Ranran Li</h1>
-
-                    <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
-                        PhD candidate @Free University Amsterdam
-                    <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
-                        Ultimate Truth-Seeker
-                    <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
-                        Support Good Science. Always on the way.
-                    </p>
-
-                </div>
-
-
-                <div class="my-6 flex items-center justify-center space-x-4">
-                    <a href="#projects"
-                        class="text-gray-100 font-semibold hover:text-green-500 hover:underline transition duration-300">
-                        Research <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="#about"
-                        class="bg-gray-900 px-4 py-2 text-white font-semibold hover:bg-green-500 hover:underline transition duration-300">
-                        More Info<i class="fa-solid fa-circle-info fa-bounce fa-lg px-2"></i>
-                    </a>
-                </div>
-
-            </div>
-
-
-            <div class="md:w-1/2 p-4 text-center">
-
-                <div class="mb-6 py-4">
-                    <a href="path-to-your-resume.pdf" target="_blank" download
-                        class="bg-gray-900 text-white py-2 px-4 hover:bg-green-500 transition duration-300">
-                        <i class="fa-sharp fa-solid fa-down-long fa-beat-fade px-2"></i>Curriculum Vitae</a>
-                </div>
-                <ul class="flex items-center justify-center space-x-4 p-2">
-                     <li>
-                        <a href="https://sites.google.com/view/ranran-li" target="_blank"
-                            class="text-gray-100 hover:text-green-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-3xl">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-4h2v4zm0-5h-2V7h2v4zm8 4h-2v-5c0-1.76-1.24-3-3-3h-2V7h2c3.31 0 6 2.69 6 6v5z"/>
-                            </svg>
-                        </a>
-                    </li>                   
-                    <li>
-                        <a href="https://scholar.google.com/citations?hl=en&user=kWQOdUkAAAAJ&view_op=list_works&sortby=pubdate" target="_blank"
-                            class="text-gray-100 hover:text-green-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-3xl">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-4h2v4zm0-5h-2V7h2v4zm8 4h-2v-5c0-1.76-1.24-3-3-3h-2V7h2c3.31 0 6 2.69 6 6v5z"/>
-                            </svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/catherineranran" target="_blank"
-                            class="text-gray-100 hover:text-green-500">
-                            <i class="fab fa-twitter text-3xl"></i>
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="mt-4 py-2">
-                    <a href="#contact"
-                        class="bg-gray-900  text-white py-2 px-4 mx-auto hover:bg-green-500 transition duration-300">
-                        <i class="fa-sharp fa-solid fa-message fa-fade px-2"></i>Contact</a>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-
-
-
-
-    <!-- About Section -->
-
-    <section id="about" class="py-12 ">
-        <div class="container max-w-screen-lg mx-auto">
-            <div class="flex flex-col md:flex-row items-center justify-center">
-
-                <div class="md:w-1/2 p-4">
-
-                    <h3 class="text-xl text-center font-semibold text-gray-100 mb-8">About Me</h3>
-
-                    <p class="text-base text-gray-300  px-2 mt-2">
-                        PhD candidate @Free University Amsterdam. 
-                    <p class="text-base text-gray-300  px-2 mt-2">
-                        Incoming PostDoc @Max Planck Institute for the Study of Crime, Security and Law.
-                    <p class="text-base text-gray-300  px-2 mt-2">
-                        (Personality-Social) Psychology is 'Forever Moonlight'. I additionally have interdisciplinary interests, e.g., computational social science, behavioral economics, philosophy, and criminology. 
-                    </p>
-
-                </div>
-
-                <div class=" flex flex-col justify-center items-center my-2 py-6">
-
-                    <div class="grid grid-cols-3 md:grid-cols-4 md:gap-8 gap-2 mt-4">
-                        
-                        
-                       
-                    </div>
-
-                </div>
-
+    <!-- Merged Hero and About Sections -->
+<section id="hero-about" class="py-16 lg:py-32 mx-auto">
+    <div class="container max-w-screen-lg mx-auto flex flex-col md:flex-row items-center mb-4 px-2 md:px-16">
+        <!-- Hero Section -->
+        <div class="md:w-1/2 flex flex-col items-center">
+            <img src="assets/profile-pic.png" alt="Profile Image" class="py-2 rounded-full w-52 h-52 object-cover" />
+            <div class="flex flex-col items-center mx-auto">
+                <h1 class="text-xl font-bold text-gray-100 p-2">Hi, I am Ranran Li</h1>
+                <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
+                    PhD candidate @Free University Amsterdam
+                </p>
+                <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
+                    Ultimate Truth-Seeker
+                </p>
+                <p class="text-base lg:text-lg px-4 mt-2 text-center text-gray-200">
+                    Support Good Science. Always on the way.
+                </p>
             </div>
         </div>
-    </section>
 
+        <!-- About Section -->
+        <div class="md:w-1/2 p-4">
+            <h3 class="text-xl text-center font-semibold text-gray-100 mb-8">About Me</h3>
+            <p class="text-base text-gray-300 px-2 mt-2">
+                PhD candidate @Free University Amsterdam.
+            </p>
+            <p class="text-base text-gray-300 px-2 mt-2">
+                Incoming PostDoc @Max Planck Institute for the Study of Crime, Security and Law.
+            </p>
+            <p class="text-base text-gray-300 px-2 mt-2">
+                (Personality-Social) Psychology is 'Forever Moonlight'. I additionally have interdisciplinary interests, e.g., computational social science, behavioral economics, philosophy, and criminology.
+            </p>
+        </div>
+    </div>
+</section>
 
-
+    
     <!--Project section-->
 
     <section id="projects" class="py-16  ">
