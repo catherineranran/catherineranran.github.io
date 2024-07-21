@@ -376,6 +376,46 @@
     </div>
     </section>
 
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        /* Gallery styling within the Visualizations section */
+        #Visualizations .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three columns of equal width */
+            gap: 10px; /* Space between images */
+        }
+
+        #Visualizations .gallery img {
+            width: 100%; /* Ensures images fill the width of their grid column */
+            height: auto; /* Maintains the aspect ratio of images */
+            display: block; /* Removes extra space below images */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            #Visualizations .gallery {
+                grid-template-columns: repeat(2, 1fr); /* Two columns on medium screens */
+            }
+        }
+
+        @media (max-width: 600px) {
+            #Visualizations .gallery {
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Your HTML content here -->
+</body>
+</html>
+
+
 
     
     <!-- Contact Section -->
