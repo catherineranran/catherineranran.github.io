@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Limitations of p-Values and the Case for Bayesian Hypothesis Testing</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="../custom_css/style.css">
+</head>
+<body class="bg-gray-900 text-gray-100 px-6 py-12 font-sans leading-relaxed relative">
 
+  <!-- particles background -->
+  <div id="particles-bg" class="absolute inset-0 -z-10"></div>
+
+  <div class="max-w-3xl mx-auto z-10 relative">
+    <h1 class="text-3xl font-bold text-green-400 mb-4">The Limitations of p-Values and the Case for Bayesian Hypothesis Testing</h1>
+    <p class="text-sm text-gray-300 mb-4">By Ranran Li · November 2019</p>
+    <p class="text-sm text-gray-400 mb-10">Reviewed by: Shiying Wu & Chuanpeng Hu</p>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">I. What is a p-value and why is it problematic?</h2>
+    <p>The p-value is defined as: "Given that the null hypothesis (H0) is true, the probability of observing results as extreme or more extreme than the data we observed."</p>
+    <p>Introduced by British geneticist and statistician Ronald Fisher in the 1930s, the p-value was meant to serve as a reference point to determine whether a result is significant. Fisher recommended a significance threshold of α = 0.05 (approximately 2 standard deviations from the mean of a normal distribution). If the p-value is small, then either a rare event occurred under H0 or the null hypothesis should be rejected in favor of an alternative. This method is known as Null Hypothesis Significance Testing (NHST).</p>
+    <p>However, increasing numbers of researchers have questioned the concept of "statistical significance" and the limitations of p-values. Four major issues include:</p>
+    <ul class="list-disc list-inside">
+      <li><strong>"As or more extreme":</strong> The definition of "more extreme" is unclear and depends on the experimental design (e.g., fixed trials vs. sequential trials). This ambiguity raises concerns about what exactly p-values are measuring.</li>
+      <li><strong>Researcher Degrees of Freedom and p-hacking:</strong> Researchers may collect more data, exclude outliers, or try multiple analyses to reach a p-value under 0.05. This flexibility increases false positives and undermines replicability.</li>
+      <li><strong>Statistical significance may suggest an effect where none exists:</strong> NHST often leads to rejecting H0 too easily compared to Bayesian inference, especially because NHST does not account for the likelihood of the data under H1.</li>
+      <li><strong>Misinterpretation:</strong> Many mistakenly believe the p-value is the probability the hypothesis is true given the data (P(H|data)). This is incorrect. The p-value tells us the probability of the observed (or more extreme) data given that H0 is true.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">II. NHST vs. Bayesian Hypothesis Testing: Why is Bayesian inference gaining traction?</h2>
+    <p>Bayesian hypothesis testing differs in several key ways:</p>
+    <ul class="list-disc list-inside">
+      <li><strong>Focuses on actual observed data and compares both H0 and H1:</strong> Bayes Factors (BF) quantify the relative likelihood of data under H1 versus H0. For example, BF<sub>10</sub> = 10 means the data are 10 times more likely under H1 than under H0.</li>
+      <li><strong>Incorporates prior knowledge:</strong> Bayesian inference allows prior beliefs to inform analysis, which can then be updated based on new data to form posterior beliefs. Prior distributions can be default (diffuse) or informed (based on past studies).</li>
+      <li><strong>No fixed sample size required & allows for sequential analysis:</strong> Bayesian testing permits evidence to be monitored continuously. Once sufficient support for a hypothesis accumulates, data collection can stop — improving efficiency and reducing waste.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">III. Will Bayesian inference replace p-values?</h2>
+    <p>Bayesian logic is increasingly adopted, especially in light of the replication crisis. But will it replace p-values?</p>
+    <p>I believe the two methods reflect fundamentally different logics. NHST estimates the probability of data given H0; Bayes compares the probability of data under multiple hypotheses. Thus, Bayes factors are not replacements but complements to p-values, helping improve interpretability.</p>
+    <p>Despite advantages, Bayesian methods have caveats:</p>
+    <ul class="list-disc list-inside">
+      <li><strong>Strong priors can overpower data:</strong> If prior beliefs are too strong, the posterior may reflect the prior more than the actual observed data, especially in small samples.</li>
+      <li><strong>Model dependence:</strong> Bayes Factors compare specified models. A high BF could result from comparing a mediocre model with a very poor one.</li>
+      <li><strong>B-hacking:</strong> Like p-hacking, researchers might manipulate prior specifications or thresholds to report strong Bayes Factors. While less problematic, it's something to be cautious of.</li>
+    </ul>
+    <p>In 2018, 72 scholars proposed redefining statistical significance from p < 0.05 to p < 0.005 to reduce false positives (Benjamin et al., 2018).</p>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">IV. My Opinion</h2>
+    <p>If you have time and interest in methodology, I recommend learning Bayesian inference. Evaluate it only after you're sufficiently exposed.</p>
+    <p>When reporting results, it can be helpful to supplement p-values with Bayes factors. This is now easy thanks to JASP (a free, open-source statistical software for both Bayesian and frequentist analysis).</p>
+    <p>Since most researchers still rely on NHST, I suggest being cautious when interpreting near-threshold p-values, especially around the .05 boundary.</p>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">V. Learning Resources for Bayesian Analysis in JASP</h2>
+    <ul class="list-disc list-inside text-sm">
+      <li>Hu et al. (2018). Bayesian factors and their implementation in JASP. <em>Advances in Psychological Science</em>, 26(6), 951–965.</li>
+      <li>van Doorn, J. et al. (in press). An in-class demonstration of Bayesian inference. <em>Psychology Learning and Teaching</em>.</li>
+      <li>Marsman & Wagenmakers (2017). Bayesian benefits with JASP. <em>Eur. J. Dev. Psychol.</em>, 14, 545–555.</li>
+      <li>Wagenmakers et al. (2018). Bayesian inference for psychology. Part II. <em>Psychonomic Bulletin & Review</em>, 25(1), 58–76.</li>
+      <li>Rouder et al. (2009). Bayesian t tests. <em>Psychonomic Bulletin & Review</em>, 16, 225–237.</li>
+      <li>Gronau et al. (2017). Bayesian model-averaged meta-analysis. <em>Comprehensive Results in Social Psychology</em>, 2, 123–138.</li>
+      <li>van Doorn et al. (2019). The JASP guidelines for conducting and reporting a Bayesian analysis.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-green-300 mt-8 mb-2">References</h2>
+    <ul class="list-disc list-inside text-sm text-gray-300">
+      <li>Benjamin et al. (2018). Redefine statistical significance. <em>Nature Human Behaviour</em>, 2(1), 6–10.</li>
+      <li>Chambers, C. (2017). <em>The Seven Deadly Sins of Psychology</em>. Princeton University Press.</li>
+      <li>Jeffreys, H. (1961). <em>Theory of Probability</em>. Oxford University Press.</li>
+      <li>Lee & Wagenmakers (2013). <em>Bayesian Cognitive Modeling</em>. Cambridge University Press.</li>
+      <li>Lindley, D. V. (1993). The analysis of experimental data. <em>Teaching Statistics</em>, 15, 22–25.</li>
+    </ul>
+
+    <a href="../index.html#Blogs" class="block mt-12 text-blue-400 hover:underline">← Back to Blog Overview</a>
+  </div>
+
+  <!-- JS for particles background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="../script/particles.js"></script>
+
+</body>
+</html>
