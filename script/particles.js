@@ -1,43 +1,56 @@
 particlesJS("particles-bg", {
   particles: {
     number: {
-      value: 80, // Adjust the number of particles
+      value: 80,
       density: {
         enable: true,
-        value_area: 800, // Adjust the area in which particles are distributed
+        value_area: 800,
       },
     },
     color: {
-      value: ["#ffffff","#30b659","#111827"], // Set the color of particles
+      value: ["#ffffff", "#30b659", "#111827"],
     },
     shape: {
-      type: ["circle","triangle","square"], // You can use other shapes like "triangle", "polygon", etc.
+      type: ["circle", "triangle", "square"],
       stroke: {
         width: 0,
-        
       },
       polygon: {
         nb_sides: 4,
       },
     },
     opacity: {
-      value: 0.5, // Set the opacity of particles
+      value: 0.5,
       random: false,
       anim: {
         enable: false,
-        speed: 1,
+        speed: 0.6,
         opacity_min: 0.1,
         sync: false,
       },
     },
     size: {
-      value: 8, // Adjust the size of particles
+      value: 8,
       random: true,
       anim: {
         enable: false,
         speed: 40,
         size_min: 0.1,
         sync: false,
+      },
+    },
+    move: {
+      enable: true,
+      speed: 0.6,         // 🔑 lower = slower (default is ~2)
+      direction: "none",
+      random: false,
+      straight: false,
+      out_mode: "out",
+      bounce: false,
+      attract: {
+        enable: false,
+        rotateX: 600,
+        rotateY: 1200,
       },
     },
   },
