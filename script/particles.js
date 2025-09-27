@@ -24,7 +24,7 @@ particlesJS("particles-bg", {
       random: false,
       anim: {
         enable: false,
-        speed: 0.6,
+        speed: 0.8,
         opacity_min: 0.1,
         sync: false,
       },
