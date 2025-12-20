@@ -41,7 +41,7 @@ particlesJS("particles-bg", {
     },
     move: {
       enable: true,
-      speed: 0.6,         // 🔑 lower = slower (default is ~2)
+      speed: 0.8,         // 🔑 lower = slower (default is ~2)
       direction: "none",
       random: false,
       straight: false,
