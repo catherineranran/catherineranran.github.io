@@ -51,7 +51,8 @@ button:focus-visible {
 
 #Visualize .gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 240px));
+    justify-content: center;
     gap: 8px;
 }
 
