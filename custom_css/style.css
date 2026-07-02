@@ -102,11 +102,13 @@ button:focus-visible {
 }
 
 .exhibition-thread {
-    min-height: 70vh;
+    height: calc(100vh - 9rem);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 0.5rem;
     background: rgba(17, 24, 39, 0.28);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .exhibition-thread-header {
@@ -136,7 +138,8 @@ button:focus-visible {
     flex-direction: column;
     gap: 0.8rem;
     padding: 0.9rem;
-    max-height: 72vh;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
 }
 
@@ -200,8 +203,13 @@ button:focus-visible {
         grid-template-columns: 1fr;
     }
 
+    .exhibition-thread {
+        height: auto;
+    }
+
     .exhibition-sticker-list {
-        max-height: none;
+        min-height: auto;
+        overflow-y: visible;
     }
 }
 
