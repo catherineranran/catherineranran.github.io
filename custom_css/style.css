@@ -52,8 +52,7 @@ button:focus-visible {
 #Visualize .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 0 1rem;
+    gap: 8px;
 }
 
 #Visualize .image-container {
@@ -67,9 +66,10 @@ button:focus-visible {
 }
 
 #Visualize .image-container img {
-    width: 92%;
-    height: 92%;
-    object-fit: contain;
+    max-width: 97%;
+    max-height: 97%;
+    width: auto;
+    height: auto;
 }
 
 @media (max-width: 900px) {
