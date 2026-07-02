@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ranran Li's personal academic website, featuring research, publications, public writing, visual work, CV, and contact information." />
     <link rel="icon" href="./assets/icons/favicon.png" type="image/x-icon">
     <title> Ranran Li </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -23,29 +24,25 @@
 
     <!-- Navbar goes here -->
 
-    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-2 max-w-screen-lg uppercase">
+    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-2 my-3 max-w-screen-lg uppercase">
         <!-- Main menu -->
         <div class="container mx-auto px-4">
             <div class="flex justify-between md:justify-center">
 
-                <div class="flex justify-between items-center space-x-24">
+                <div class="flex justify-between items-center space-x-12">
 
                     <div>
                         <!-- Website Logo -->
-                        <a href="#home" class="flex items-center py-4 px-2 mx-1">
+                        <a href="#Home" class="flex items-center py-3 px-2 mx-1">
                             <span
-                                class="font-semibold uppercase tracking-widest hover:text-green-600 text-gray-100 text-xl">
-                                &lt; Ranran Li&gt;</span>
+                                class="font-semibold uppercase tracking-widest hover:text-green-600 text-gray-100 text-lg">
+                                Ranran Li</span>
                         </a>
                     </div>
 
                     <!-- Primary Navbar items -->
-                    <div class="hidden md:flex items-center space-x-8">
+                    <div class="hidden md:flex items-center space-x-6">
 
-                        <a href="#Home" class="flex flex-col items-center text-gray-100 hover:text-green-500">
-                            <i class="fas fa-home text-lg"></i>
-                            <span class="font-semibold">Home</span>
-                        </a>
                         <a href="#Research"
                             class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
                             <i class="fa-brands fa-researchgate"></i>
@@ -61,12 +58,16 @@
                             <i class="fa-solid fa-image"></i>
                             <span class="font-semibold">Visualize</span>
                         </a>
-
                         <a href="https://research.vu.nl/files/433582942/Dissertation_Li.pdf"
                             target="_blank"
                             class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
                             <i class="fa-solid fa-book"></i>
                             <span class="font-semibold">Dissertation</span>
+                        </a>
+                        <a href="./exhibition.html"
+                            class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span class="font-semibold">Exhibition</span>
                         </a>
                         
                         <a href="./assets/CV_RanranLi.pdf"
@@ -74,13 +75,6 @@
                             <i class="fa-solid fa-file"></i>
                             <span class="font-semibold">CV</span>
                         </a>
-                        
-                        <a href="#Contact"
-                            class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
-                            <i class="fas fa-envelope text-lg"></i>
-                            <span class="font-semibold">Contact</span>
-                        </a>
-
                     </div>
 
                 </div>
@@ -103,40 +97,42 @@
         <div class="hidden mobile-menu">
             <ul class="p-4">
 
-                <li><a href="#Home"
-                        class="flex flex-col items-center text-sm px-2 py-4 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
-                        <i class="fas fa-home text-lg mx-3"></i>
-                        <span>Home</span>
-                    </a></li>
                 <li><a href="#Research"
-                        class="flex flex-col items-center text-sm px-2 py-4 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
                         <i class="fa-brands fa-researchgate"></i>
                         <span>Research</span>
                     </a></li>
                 <li><a href="#Blogs"
-                        class="flex flex-col items-center text-sm px-2 py-4 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
                         <i class="fa-solid fa-blog"></i>
                         <span>Blogs</span>
                     </a></li>
                 <li><a href="#Visualize"
-                        class="flex flex-col items-center text-sm px-2 py-4 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
                         <i class="fa-solid fa-image"></i>
                         <span>Visualize</span>
                     </a></li>
                 <li>
                     <a href="https://research.vu.nl/files/433582942/Dissertation_Li.pdf"
                         target="_blank"
-                        class="flex flex-col items-center text-sm px-2 py-4 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
                         <i class="fa-solid fa-book text-lg mx-3"></i>
                         <span>Dissertation</span>
                     </a>
                 </li>
-
-                 <li><a href="./assets/CV_RanranLi.pdf"
-                         class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
-                         <i class="fa-solid fa-file"></i>CV</a>
-                         <span class="font-semibold">CV</span>
+                <li><a href="./exhibition.html"
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span>Exhibition</span>
                     </a></li>
+
+                <li>
+                    <a href="./assets/CV_RanranLi.pdf"
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        <i class="fa-solid fa-file text-lg mx-3"></i>
+                        <span>CV</span>
+                    </a>
+                </li>
                 
 
             </ul>
@@ -161,6 +157,12 @@
                 </p>
 
                 <ul class="flex items-center justify-center space-x-4 p-2">
+                    <li>
+                        <a href="mailto:r.li@csl.mpg.de"
+                                class="text-gray-100 hover:text-green-500">
+                                <i class="fas fa-envelope text-3xl"></i>
+                        </a>
+                    </li>
                     <li>
                         <a href="https://scholar.google.com/citations?hl=en&user=YuabfvMAAAAJ&view_op=list_works&sortby=pubdate" target="_blank"><i class="fa-brands fa-google-scholar fa-2xl" style="color: #fafafa;"></i>
                         </a>
@@ -437,6 +439,8 @@
                          style="width:55%;"
                          class="rounded-lg shadow-md hover:scale-105 transform transition" />
                   </div>
+                </td>
+              </tr>
 
             <!-- Paper ID -->
                <tr class="border-b border-gray-700 align-top">
@@ -497,8 +501,6 @@
             </div>
           </td>
         </tr> 
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -564,8 +566,6 @@
                   </div>
                 </td>
               </tr>
-              
-              <tbody>
               <tr class="border-b border-gray-700 align-top">
                 <td class="pr-4 py-4 text-sm text-gray-400">Conceptual/ Roadmap</td>
                 <td class="pr-6 py-4 text-sm text-gray-400">cultural x personality psychology</td>
@@ -708,20 +708,18 @@
   </td>
 
   <td class="pr-6 py-4 text-sm text-gray-400">
-    Perspective;<br>
-    Conceptual synthesis
   </td>
 
   <td class="py-4">
 
     <div style="padding-left:2ch; text-indent:-2ch;">
       He, Y., &amp; Li, R. (submitted).
-      <em>Helping in the dark: Toward a science of prosociality under risk.</em>
+      Helping in the dark: Toward a science of prosociality under risk.
     </div>
 
     <div class="mt-3" style="padding-left:2ch; text-indent:-2ch;">
       He, Y., &amp; Li, R. (submitted).
-      <em>Prosociality under risk: A conceptual synthesis and roadmap for future research.</em>
+      Prosociality under risk: A conceptual synthesis and roadmap for future research.
     </div>
 
   </td>
@@ -793,215 +791,183 @@
       </div>
 
     </div>
-  </div>
 </section>
 
 
 
 
-```html
-<!-- ================= Blogs & Public Writing ================= -->
+<!-- ================= Blogs ================= -->
+<section id="Blogs" class="py-16">
+<div class="container max-w-4xl mx-auto px-4">
 <div class="mb-10">
-  <h3 class="text-xl font-semibold text-gray-100 mb-4">
-    Blogs & Public Writing
-  </h3>
+  <h2 class="text-2xl text-center text-gray-100 font-bold mb-8">Blogs</h2>
 
   <div class="overflow-x-auto">
     <table class="w-full border-collapse text-gray-300">
       <colgroup>
-        <col style="width:10%">
-        <col style="width:12%">
-        <col style="width:12%">
-        <col style="width:66%">
+        <col style="width:16%">
+        <col style="width:84%">
       </colgroup>
-
-      <thead>
-        <tr class="border-b border-gray-700 text-left">
-          <th class="pr-4 py-3 text-sm font-semibold text-gray-400">Year</th>
-          <th class="pr-4 py-3 text-sm font-semibold text-gray-400">Chinese</th>
-          <th class="pr-4 py-3 text-sm font-semibold text-gray-400">English</th>
-          <th class="py-3 text-sm font-semibold text-gray-400">Title & Brief Summary</th>
-        </tr>
-      </thead>
 
       <tbody>
 
+        <!-- The Soul of Science -->
+        <tr class="border-b border-gray-700 align-top">
+          <td class="pr-10 py-4 text-sm text-gray-400">2025</td>
+          <td class="py-4">
+            <div class="max-w-2xl">
+            <div class="font-medium text-gray-300 text-lg">
+              The Soul of Science: On integrity in an age of pragmatic academia
+            </div>
+            <div class="mt-1 text-base text-gray-400">
+              As academia celebrates excellence via metrics, curiosity dims into deliverables, authorship inflates, and even Open Science and moral discourse risk becoming performative. In a system that rewards appearances, virtue turns strategic, and integrity becomes a fragile luxury.
+              <a href="https://ranranli.net/blogs/soul-of-science.html" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more: TBA</a>
+            </div>
+            </div>
+          </td>
+        </tr>
+
         <!-- APA Kudos -->
         <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2024</td>
-          <td class="pr-4 py-4 text-sm text-gray-400">—</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://www.growkudos.com/publications/10.1037%252Fpspi0000475/"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
+          <td class="pr-10 py-4 text-sm text-gray-400">2024</td>
           <td class="py-4">
-            <div class="font-medium text-gray-300">
-              How situational settings influence behavior: New insights from behavioral research
+            <div class="max-w-2xl">
+            <div class="font-medium text-gray-300 text-lg">
+              How Situational Settings Influence Behavior: New Insights from Behavioral Research
             </div>
-            <div class="mt-1 text-sm text-gray-400">
-              APA/Kudos showcase of research on situational strength and behavioral variability.
+            <div class="mt-1 text-base text-gray-400">
+              We utilized well-established economic game paradigms to address a debated proposition in personality and social psychology. The implications of this research extend beyond academic circles, offering valuable insights to scholars studying human behavior and policy-makers aiming to nudge desired behaviors.
+              <a href="https://www.growkudos.com/publications/10.1037%252Fpspi0000475/reader" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more</a>
+            </div>
             </div>
           </td>
         </tr>
 
         <!-- Amsterdam Leadership Lab -->
         <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2022</td>
-          <td class="pr-4 py-4 text-sm text-gray-400">—</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://www.amsterdamleadershiplab.nl/recent-development-in-personality-assessment"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
+          <td class="pr-10 py-4 text-sm text-gray-400">2022</td>
           <td class="py-4">
-            <div class="font-medium text-gray-300">
+            <div class="max-w-2xl">
+            <div class="font-medium text-gray-300 text-lg">
               Recent Development in Personality Assessment
             </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Overview of recent developments in personality assessment and measurement.
+            <div class="mt-1 text-base text-gray-400">
+              Explore the latest advancements in personality assessment, including new methodologies and their implications for research and practice.
+              <a href="https://www.amsterdamleadershiplab.nl/recent-development-in-personality-assessment" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more</a>
+            </div>
             </div>
           </td>
         </tr>
 
-        <!-- QRPs -->
-        <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2021</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://mp.weixin.qq.com/s/1fDl5gUYtRjIs2bHHXJmBA"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://ranranli.net/blogs/qrps.html"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="py-4">
-            <div class="font-medium text-gray-300">
-              Questionable Research Practices (QRPs) in Social Science Research
-            </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Reflection on questionable research practices and research integrity in social science.
-            </div>
-          </td>
-        </tr>
+	        <!-- QRPs -->
+	        <tr class="border-b border-gray-700 align-top">
+	          <td class="pr-10 py-4 text-sm text-gray-400">2021</td>
+	          <td class="py-4">
+            <div class="max-w-2xl">
+	            <div class="font-medium text-gray-300 text-lg">
+	              Questionable Research Practices (QRPs) in Social Science Research
+	            </div>
+	            <div class="mt-1 text-base text-gray-400">
+	              An examination of questionable research practices in social science, their consequences, and strategies for promoting research integrity.
+		              <a href="https://mp.weixin.qq.com/s/1fDl5gUYtRjIs2bHHXJmBA" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in Chinese</a>
+		              <span class="text-gray-500">|</span>
+		              <a href="https://ranranli.net/blogs/qrps.html" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in English</a>
+		            </div>
+		            </div>
+		          </td>
+		        </tr>
 
-        <!-- AOM -->
-        <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2020</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://mp.weixin.qq.com/s/iVOEuHauUwGY9PYO7S6aSw"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://ranranli.net/blogs/aom2020.html"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="py-4">
-            <div class="font-medium text-gray-300">
-              AOM 2020 Reflections: Insights from the Academy of Management Annual Meeting
-            </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Reflections on ideas, methods, and trends from the Academy of Management Annual Meeting.
-            </div>
-          </td>
-        </tr>
+	        <!-- p-value and Bayesian -->
+	        <tr class="border-b border-gray-700 align-top">
+	          <td class="pr-10 py-4 text-sm text-gray-400">2019</td>
+	          <td class="py-4">
+            <div class="max-w-2xl">
+	            <div class="font-medium text-gray-300 text-lg">
+	              The Limitations of p-value and Bayesian Hypothesis Testing
+	            </div>
+	            <div class="mt-1 text-base text-gray-400">
+	              An in-depth discussion on the limitations of p-value in hypothesis testing and the advantages of Bayesian approaches in statistical analysis.
+		              <a href="https://mp.weixin.qq.com/s/sTBc3Yvd7aBpFt4Dmt7r9Q" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in Chinese</a>
+		              <span class="text-gray-500">|</span>
+		              <a href="https://ranranli.net/blogs/pvalue-bayes.html" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in English</a>
+		            </div>
+		            </div>
+		          </td>
+		        </tr>
 
-        <!-- Big Data -->
-        <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2020</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://mp.weixin.qq.com/s/zg01AE3mKxQ7HWQkwTtBDA"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://ranranli.net/blogs/bigdata.html"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="py-4">
-            <div class="font-medium text-gray-300">
-              Big Data Analytics in Psychology and Management Research
-            </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Discussion of big data approaches and their implications for psychology and management research.
-            </div>
-          </td>
-        </tr>
+	        <!-- Big Data -->
+	        <tr class="border-b border-gray-700 align-top">
+	          <td class="pr-10 py-4 text-sm text-gray-400">2020</td>
+	          <td class="py-4">
+            <div class="max-w-2xl">
+	            <div class="font-medium text-gray-300 text-lg">
+	              Big Data Analytics in Psychology and Management Research
+	            </div>
+	            <div class="mt-1 text-base text-gray-400">
+	              Discover how big data analytics is transforming research in psychology and management, offering new insights and enhancing decision-making processes.
+		              <a href="https://mp.weixin.qq.com/s/zg01AE3mKxQ7HWQkwTtBDA" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in Chinese</a>
+		              <span class="text-gray-500">|</span>
+		              <a href="https://ranranli.net/blogs/bigdata.html" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in English</a>
+		            </div>
+		            </div>
+		          </td>
+		        </tr>
 
-        <!-- Psychology useless -->
-        <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2020</td>
-          <td class="pr-4 py-4 text-sm text-gray-400">Chinese</td>
-          <td class="pr-4 py-4 text-sm text-gray-400">—</td>
-          <td class="py-4">
-            <div class="font-medium text-gray-300">
-              Is Psychology a Useless Discipline?
-            </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Chinese essay reflecting on the value, limits, and intellectual role of psychology.
-            </div>
-          </td>
-        </tr>
-
-        <!-- p-value and Bayesian -->
-        <tr class="border-b border-gray-700 align-top">
-          <td class="pr-4 py-4 text-sm text-gray-400">2019</td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://mp.weixin.qq.com/s/sTBc3Yvd7aBpFt4Dmt7r9Q"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="pr-4 py-4 text-sm">
-            <a href="https://ranranli.net/blogs/pvalue-bayes.html"
-               target="_blank"
-               class="text-green-400 hover:underline">
-              Link
-            </a>
-          </td>
-          <td class="py-4">
-            <div class="font-medium text-gray-300">
-              The Limitations of p-value and Bayesian Hypothesis Testing
-            </div>
-            <div class="mt-1 text-sm text-gray-400">
-              Explanation and critique of p-values, Bayesian testing, and statistical reasoning in research.
-            </div>
-          </td>
-        </tr>
+	        <!-- AOM -->
+	        <tr class="border-b border-gray-700 align-top">
+	          <td class="pr-10 py-4 text-sm text-gray-400">2020</td>
+	          <td class="py-4">
+            <div class="max-w-2xl">
+	            <div class="font-medium text-gray-300 text-lg">
+	              AOM (Academy of Management) Conference Reflections
+	            </div>
+	            <div class="mt-1 text-base text-gray-400">
+	              A reflection on the insights and experiences from the AOM 2020 Conference, highlighting key takeaways and their significance for management professionals.
+		              <a href="https://mp.weixin.qq.com/s/iVOEuHauUwGY9PYO7S6aSw" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in Chinese</a>
+		              <span class="text-gray-500">|</span>
+		              <a href="https://ranranli.net/blogs/aom2020.html" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">Read more in English</a>
+		            </div>
+		            </div>
+		          </td>
+		        </tr>
 
       </tbody>
     </table>
   </div>
 </div>
-```
+</div>
+</section>
 
-    
-    <!-- Visualize section -->
+<!-- Visualize section -->
     <section id="Visualize" class="py-16">
         <div class="container max-w-screen-lg mx-auto">
             <h2 class="text-2xl text-center text-gray-100 font-bold mb-8">Visualize</h2>
+            <div class="max-w-3xl mx-auto mb-8 text-gray-300 text-base leading-7">
+                <p>All analytical scripts, supplementary materials are available here:</p>
+                <ul class="mt-3 space-y-1">
+                    <li>
+                        Poster &amp; presentation slides (update irregularly):
+                        <a href="https://osf.io/a83tv/" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">https://osf.io/a83tv/</a>
+                    </li>
+                    <li>
+                        Scale development:
+                        <a href="https://osf.io/hma7u/" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">https://osf.io/hma7u/</a>
+                        (R Markdown)
+                    </li>
+                    <li>
+                        Meta-analysis (of variance restriction):
+                        <a href="https://osf.io/j5ap2/" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">https://osf.io/j5ap2/</a>
+                    </li>
+                    <li>
+                        Diary survey:
+                        <a href="https://osf.io/p327r/" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">https://osf.io/p327r/</a>
+                    </li>
+                    <li>
+                        Experimental cheating games:
+                        <a href="https://osf.io/y9pcz" target="_blank" class="text-green-700 hover:text-green-500 hover:underline">https://osf.io/y9pcz</a>
+                    </li>
+                </ul>
+            </div>
             <div class="gallery">
                 <div class="image-container">
                     <img src="./assets/1-1.png" alt="Image 1">
@@ -1051,8 +1017,6 @@
             </div>
         </div>
     </section>
-</body>
-</html>
 
     
 
@@ -1065,10 +1029,10 @@
     </h2>
 
     <div class="flex justify-center">
-      <div class="text-center">
+      <div class="text-left">
 
         <!-- Email -->
-        <div class="flex items-center justify-center space-x-3 mb-6">
+        <div class="flex items-center space-x-3 mb-6">
           <i class="fas fa-envelope text-3xl text-gray-100"></i>
           <a href="mailto:r.li@csl.mpg.de"
              class="text-gray-300 hover:text-green-400 text-lg">
@@ -1078,7 +1042,7 @@
 
         <!-- Affiliation -->
         <div class="text-gray-300 leading-8">
-          <p class="font-medium text-gray-100">
+          <p>
             Department of Criminology
           </p>
 
@@ -1106,7 +1070,7 @@
   <div class="container mx-auto px-2 flex flex-col items-center text-center">
     
     <p class="text-sm uppercase">
-      Ranran Li &dash; 2025 &copy;
+      Ranran Li &dash; 2026 &copy;
     </p>
 
     <p class="mt-3 text-sm text-gray-400 leading-relaxed">

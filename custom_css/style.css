@@ -39,6 +39,172 @@
     background-color: #2D3748;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #68d391;
+    outline-offset: 4px;
+}
+
+#Visualize .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 1rem;
+}
+
+#Visualize .image-container {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+    width: 100%;
+}
+
+#Visualize .image-container img {
+    width: 92%;
+    height: 92%;
+    object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    #Visualize .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #Visualize .gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    nav .space-x-24 > :not([hidden]) ~ :not([hidden]) {
+        margin-left: 0;
+    }
+
+    table {
+        min-width: 640px;
+    }
+}
+
+.exhibition-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.exhibition-thread {
+    min-height: 70vh;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.5rem;
+    background: rgba(17, 24, 39, 0.28);
+    overflow: hidden;
+}
+
+.exhibition-thread-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    color: #f9fafb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(17, 24, 39, 0.42);
+}
+
+.exhibition-thread-header h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.exhibition-thread-header span {
+    color: #d1d5db;
+    font-weight: 700;
+}
+
+.exhibition-sticker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 0.9rem;
+    max-height: 72vh;
+    overflow-y: auto;
+}
+
+.exhibition-sticker {
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 0.45rem;
+    background: rgba(255, 255, 255, 0.64);
+    padding: 0.9rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+    color: #1f2937;
+}
+
+.exhibition-sticker-date {
+    margin-bottom: 0.55rem;
+    color: #374151;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.exhibition-sticker-body {
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.exhibition-sticker-body p + p {
+    margin-top: 0.7rem;
+}
+
+.exhibition-file-drawer-note {
+    color: #e5e7eb;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.45;
+    padding: 0 0.2rem 0.3rem;
+}
+
+.exhibition-idea {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 0.45rem;
+    background: rgba(255, 255, 255, 0.64);
+    padding: 0.55rem 0.7rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+    color: #1f2937;
+    font-size: 0.9rem;
+    line-height: 1.25;
+}
+
+.exhibition-idea span {
+    flex: 0 0 auto;
+    color: #4b5563;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    .exhibition-board {
+        grid-template-columns: 1fr;
+    }
+
+    .exhibition-sticker-list {
+        max-height: none;
+    }
+}
+
 
 #particles-bg {
     position: fixed;
