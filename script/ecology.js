@@ -56,7 +56,7 @@ const ecologyNodes = [
         affiliation: "University of Copenhagen",
     },
     { id: "daniel-balliet", name: "Daniel Balliet", knownSince: 2020, field: "", expertise: "", affiliation: "" },
-    { id: "isabel-thielmann", name: "Isabel Thielmann", knownSince: 2020, field: "", expertise: "", affiliation: "" },
+    { id: "isabel-thielmann", name: "Isabel Thielmann", knownSince: 2020, orbitScale: 1, field: "", expertise: "", affiliation: "" },
     { id: "rene-mottus", name: "René Mõttus", knownSince: 2022, field: "", expertise: "", affiliation: "" },
     { id: "giulio-costantini", name: "Giulio Costantini", knownSince: 2023, field: "", expertise: "", affiliation: "" },
     { id: "hadas-okon-singer", name: "Hadas Okon-Singer", knownSince: 2026, field: "", expertise: "", affiliation: "" },
