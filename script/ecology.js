@@ -21,6 +21,14 @@ const ecologyNodes = [
         expertise: "bridging personality psychology with criminology, behavioral economics, etc.",
         affiliation: "Max Planck Institute for the Study of Crime, Security, and Law",
     },
+    {
+        id: "botao-amber-hu",
+        name: "Botao Amber Hu",
+        knownSince: 2026,
+        field: "computer science, AI, HCI",
+        expertise: "Human-Computer Interaction (social computing), protocol studies, experiential futures, etc.",
+        affiliation: "University of Oxford; Reality Design Lab",
+    },
     { id: "matthijs-baas", name: "Matthijs Baas", knownSince: 2018, field: "", expertise: "", affiliation: "" },
     {
         id: "reinout",
@@ -34,6 +42,7 @@ const ecologyNodes = [
         id: "jean-louis",
         name: "Jean-Louis van Gelder",
         knownSince: 2024,
+        orbitScale: 0.48,
         field: "criminology, psychology",
         expertise: "Virtual Reality in criminology, affect and cognition, future orientation, short-term mindsets",
         affiliation: "Max Planck Institute for the Study of Crime, Security, and Law",
@@ -72,14 +81,6 @@ const ecologyNodes = [
     { id: "heith-copes", name: "Heith Copes", knownSince: 2025, field: "", expertise: "", affiliation: "" },
     { id: "william-pridemore", name: "William Pridemore", knownSince: 2025, field: "", expertise: "", affiliation: "" },
     { id: "roza-g-kamiloglu", name: "Roza G. Kamiloğlu", knownSince: 2024, field: "", expertise: "", affiliation: "" },
-    {
-        id: "botao-amber-hu",
-        name: "Botao Amber Hu",
-        knownSince: 2026,
-        field: "computer science, AI, HCI",
-        expertise: "Human-Computer Interaction (social computing), protocol studies, experiential futures, etc.",
-        affiliation: "University of Oxford; Reality Design Lab",
-    },
     { id: "jon-brauer", name: "Jon Brauer", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "felix-schonbrodt", name: "Felix Schönbrodt", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "victor-van-der-geest", name: "Victor van der Geest", knownSince: 2026, field: "", expertise: "", affiliation: "" },
@@ -231,7 +232,7 @@ function createNetworkState(width, height) {
         const ringIndex = isInner ? index : index - innerCount;
         const ringCount = isInner ? innerCount : orbitNodes.length - innerCount;
         const angle = (Math.PI * 2 * ringIndex) / ringCount - Math.PI / 2 + (isInner ? 0 : Math.PI / ringCount);
-        const scale = isInner ? 0.62 : 1;
+        const scale = node.orbitScale || (isInner ? 0.62 : 1);
         basePositions[node.id] = {
             x: centerX + Math.cos(angle) * radiusX * scale,
             y: centerY + Math.sin(angle) * radiusY * scale,
