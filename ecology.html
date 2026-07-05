@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="./assets/icons/favicon.png" type="image/x-icon">
+    <title>Current and Future Collaboration Ecology | Ranran Li</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20260705a">
+</head>
+<body class="bg collaborator-page">
+    <div id="particles-bg"></div>
+
+    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-1 max-w-screen-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center">
+                <a href="./index.html#Home" class="flex flex-col items-center py-2 px-2 mx-1 text-center">
+                    <span class="font-semibold tracking-wide hover:text-green-600 text-gray-100 text-lg">
+                        Current and Future Collaboration Ecology
+                    </span>
+                    <span class="mt-1 text-xs tracking-widest text-gray-400">
+                        Ranran Li
+                    </span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen max-w-screen-xl mx-auto px-4 py-10">
+        <section id="network-lock" class="collaborator-lock" aria-labelledby="network-lock-title">
+            <div class="collaborator-lock-panel">
+                <p class="collaborator-eyebrow">Private workspace</p>
+                <h1 id="network-lock-title">Ecology</h1>
+                <p class="collaborator-lock-copy">
+                    Consult Ranran for password, or figure it out yourself :)
+                </p>
+
+                <form id="network-password-form" class="collaborator-password-form">
+                    <label for="network-password">Password</label>
+                    <div class="collaborator-password-row">
+                        <input id="network-password" name="password" type="password" autocomplete="current-password" required>
+                        <button type="submit">Enter</button>
+                    </div>
+                    <p id="network-password-message" class="collaborator-password-message" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+
+        <section id="network-content" class="collaborator-content is-hidden" aria-labelledby="network-title">
+            <header class="collaborator-hero">
+                <h1 id="network-title" class="sr-only">Current and Future Collaboration Ecology</h1>
+            </header>
+
+            <section class="ecology-network-panel" aria-labelledby="ecology-network-title">
+                <div class="ecology-network-header">
+                    <div>
+                        <p id="ecology-network-title" class="collaborator-eyebrow">Ranran's collaboration ecology</p>
+                    </div>
+                    <div class="ecology-year-control">
+                        <label for="ecology-year-slider">Known by <span id="ecology-year-value">2026</span></label>
+                        <input id="ecology-year-slider" type="range" min="2019" max="2026" value="2026" step="1">
+                    </div>
+                </div>
+                <div class="ecology-network-wrap">
+                    <svg id="ecology-network" role="img" aria-label="Network of current and future collaborators"></svg>
+                    <div id="ecology-node-tooltip" class="ecology-node-tooltip is-hidden" role="status"></div>
+                </div>
+                <div id="ecology-network-status" class="ecology-network-status" aria-live="polite"></div>
+            </section>
+
+            <div class="ecology-scroll-space" aria-hidden="true"></div>
+
+            <div class="collaborator-board ecology-board is-hidden" aria-hidden="true">
+                <section class="collaborator-panel collaborator-panel-wide">
+                    <div class="collaborator-panel-header">
+                        <h2>People Map</h2>
+                    </div>
+                    <div class="collaborator-table-wrap">
+                        <table class="collaborator-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Main Field</th>
+                                    <th>Expertise</th>
+                                    <th>Current Affiliation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ranran Li</td>
+                                    <td>psychology (personality)</td>
+                                    <td>bridging personality psychology with criminology, behavioral economics, etc.</td>
+                                    <td>Max Planck Institute for the Study of Crime, Security, and Law</td>
+                                </tr>
+                                <tr>
+                                    <td>Reinout E. de Vries</td>
+                                    <td>psychology (personality)</td>
+                                    <td>HEXACO personality, personality assessment, psychometrics, scale development, communication styles, leadership</td>
+                                    <td>Vrije Universiteit Amsterdam</td>
+                                </tr>
+                                <tr>
+                                    <td>Jean-Louis van Gelder</td>
+                                    <td>criminology, psychology</td>
+                                    <td>Virtual Reality in criminology, affect and cognition, future orientation, short-term mindsets</td>
+                                    <td>Max Planck Institute for the Study of Crime, Security, and Law</td>
+                                </tr>
+                                <tr>
+                                    <td>Ingo Zettler</td>
+                                    <td>psychology (personality)</td>
+                                    <td>HEXACO personality, Dark factor of personality, prosocial & antisocial behavior, cultural psychology</td>
+                                    <td>University of Copenhagen</td>
+                                </tr>
+                                <tr>
+                                    <td>Botao Amber Hu</td>
+                                    <td>computer science, AI, HCI</td>
+                                    <td>Human-Computer Interaction (social computing), protocol studies, experiential futures, etc.</td>
+                                    <td>University of Oxford; Reality Design Lab</td>
+                                </tr>
+                                <tr>
+                                    <td>Matthijs Baas</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Daniel Balliet</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Isabel Thielmann</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>René Mõttus</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Giulio Costantini</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Hadas Okon-Singer</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Hannes Rusche</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Nicholas Umashev</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Rima-Maria Rahal</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Lennart Reddmann</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Yixin Zou</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Yijin He</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Yunrui Liu</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Loreen Tisdall</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Luke Smille</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Joshua Wilt</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Timothy C Narnum</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Shaina Herman</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Carspar J. van Lissa</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Nick Ballou</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Emily Caspar</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Ori Weisel</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Balazs Aczel</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Max Knabe</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Heith Copes</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>William Pridemore</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Roza G. Kamiloğlu</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Jon Brauer</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Felix Schönbrodt</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Victor van der Geest</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script/particles.js"></script>
+    <script src="https://kit.fontawesome.com/8022519056.js" crossorigin="anonymous"></script>
+    <script src="script/ecology.js"></script>
+</body>
+</html>

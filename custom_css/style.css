@@ -199,6 +199,442 @@ button:focus-visible {
     font-weight: 700;
 }
 
+.collaborator-page {
+    color: #f9fafb;
+}
+
+.is-hidden {
+    display: none !important;
+}
+
+.collaborator-lock {
+    min-height: calc(100vh - 9rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collaborator-lock-panel,
+.collaborator-panel {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.5rem;
+    background: rgba(17, 24, 39, 0.58);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+}
+
+.collaborator-lock-panel {
+    width: min(100%, 34rem);
+    padding: 2rem;
+}
+
+.collaborator-eyebrow {
+    color: #68d391;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.collaborator-lock-panel h1,
+.collaborator-hero h1 {
+    margin-top: 0.65rem;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.02;
+}
+
+.collaborator-lock-copy,
+.collaborator-hero p,
+.collaborator-notes p {
+    margin-top: 1rem;
+    color: #d1d5db;
+    line-height: 1.7;
+}
+
+.collaborator-password-form {
+    margin-top: 1.5rem;
+}
+
+.collaborator-password-form label {
+    display: block;
+    color: #e5e7eb;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.collaborator-password-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem;
+}
+
+.collaborator-password-row input {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: #111827;
+    padding: 0.72rem 0.85rem;
+}
+
+.collaborator-password-row button,
+.collaborator-logout {
+    border: 1px solid rgba(104, 211, 145, 0.68);
+    border-radius: 0.35rem;
+    background: rgba(104, 211, 145, 0.16);
+    color: #f9fafb;
+    font-weight: 800;
+    padding: 0.72rem 1rem;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.collaborator-password-row button:hover,
+.collaborator-logout:hover {
+    background: rgba(104, 211, 145, 0.28);
+    border-color: rgba(104, 211, 145, 0.95);
+}
+
+.collaborator-password-message {
+    min-height: 1.5rem;
+    margin-top: 0.8rem;
+    color: #fca5a5;
+    font-size: 0.9rem;
+}
+
+.collaborator-hero {
+    padding: 4rem 0 2.25rem;
+}
+
+.collaborator-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.collaborator-logout {
+    margin-top: 0.8rem;
+}
+
+.collaborator-board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.ecology-board {
+    grid-template-columns: 1fr;
+}
+
+.ecology-scroll-space {
+    min-height: 34vh;
+}
+
+.ecology-network-panel {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.5rem;
+    background: rgba(17, 24, 39, 0.68);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+    padding: 1.1rem;
+}
+
+.ecology-network-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ecology-network-header h2 {
+    margin-top: 0.35rem;
+    color: #f9fafb;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.ecology-year-control {
+    width: min(100%, 22rem);
+}
+
+.ecology-year-control label {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #d1d5db;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.ecology-year-control input {
+    width: 100%;
+    margin-top: 0.65rem;
+    accent-color: #68d391;
+}
+
+.ecology-network-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 42rem;
+    overflow: hidden;
+}
+
+#ecology-network {
+    display: block;
+    width: 100%;
+    height: 44rem;
+}
+
+.ecology-edge {
+    stroke: rgba(74, 124, 93, 0.46);
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    transition: opacity 160ms ease;
+}
+
+.ecology-edge.is-muted {
+    opacity: 0.08;
+}
+
+.ecology-node circle {
+    fill: #68d391;
+    stroke: none;
+    filter: drop-shadow(0 0 14px rgba(104, 211, 145, 0.24));
+}
+
+.ecology-node-hit-area {
+    fill: transparent;
+    pointer-events: all;
+}
+
+.ecology-node.is-anchor circle {
+    fill: #68d391;
+    filter: drop-shadow(0 0 20px rgba(104, 211, 145, 0.36));
+}
+
+.ecology-node.is-muted {
+    opacity: 0.24;
+}
+
+.ecology-node,
+.ecology-edge-label {
+    transition: opacity 160ms ease;
+}
+
+.ecology-node text {
+    fill: #f9fafb;
+    font-size: 0.86rem;
+    font-weight: 400;
+    text-anchor: start;
+    cursor: default;
+}
+
+.ecology-node tspan {
+    dominant-baseline: middle;
+}
+
+.ecology-node-year {
+    fill: #9ca3af;
+    font-size: 0.74rem;
+    font-weight: 400;
+}
+
+.ecology-edge-label {
+    fill: #d1d5db;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-anchor: middle;
+}
+
+.ecology-network-status {
+    min-height: 1.5rem;
+    color: #d1d5db;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.ecology-node-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: min(18rem, calc(100% - 1rem));
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0.45rem;
+    background: rgba(249, 250, 251, 0.94);
+    color: #1f2937;
+    padding: 0.85rem;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+    pointer-events: none;
+}
+
+.ecology-node-tooltip-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.ecology-node-tooltip-year {
+    margin-top: 0.15rem;
+    color: #4b5563;
+    font-size: 0.78rem;
+}
+
+.ecology-node-tooltip-row {
+    margin-top: 0.65rem;
+}
+
+.ecology-node-tooltip-row span {
+    display: block;
+    color: #374151;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.ecology-node-tooltip-row p,
+.ecology-node-tooltip-empty {
+    margin-top: 0.18rem;
+    color: #1f2937;
+    font-size: 0.84rem;
+    line-height: 1.4;
+}
+
+.collaborator-panel {
+    min-width: 0;
+    width: 100%;
+    padding: 1.1rem;
+}
+
+.collaborator-panel-wide {
+    grid-column: 1 / -1;
+}
+
+.collaborator-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.collaborator-panel-header h2 {
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.collaborator-panel-header span {
+    color: #9ca3af;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.collaborator-principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.collaborator-principles article {
+    border-left: 3px solid #68d391;
+    padding-left: 0.85rem;
+}
+
+.collaborator-principles h3,
+.collaborator-list strong {
+    color: #f9fafb;
+    font-weight: 800;
+}
+
+.collaborator-principles p,
+.collaborator-list span {
+    display: block;
+    margin-top: 0.4rem;
+    color: #d1d5db;
+    line-height: 1.55;
+}
+
+.collaborator-list {
+    padding-top: 0.4rem;
+}
+
+.collaborator-list li {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.collaborator-list li:last-child {
+    border-bottom: 0;
+}
+
+.collaborator-table-wrap {
+    overflow-x: auto;
+}
+
+.collaborator-table {
+    width: 100%;
+    min-width: 48rem;
+    border-collapse: collapse;
+    margin-top: 0.85rem;
+    table-layout: fixed;
+}
+
+.collaborator-table th:nth-child(1),
+.collaborator-table td:nth-child(1) {
+    width: 18%;
+}
+
+.collaborator-table th:nth-child(2),
+.collaborator-table td:nth-child(2) {
+    width: 18%;
+}
+
+.collaborator-table th:nth-child(3),
+.collaborator-table td:nth-child(3) {
+    width: 42%;
+}
+
+.collaborator-table th:nth-child(4),
+.collaborator-table td:nth-child(4) {
+    width: 22%;
+}
+
+.collaborator-table th,
+.collaborator-table td {
+    padding: 0.78rem 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d1d5db;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+
+.collaborator-table th {
+    text-align: center;
+}
+
+.collaborator-table td {
+    text-align: left;
+}
+
+.collaborator-table th {
+    color: #f9fafb;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+}
+
+.collaborator-table td {
+    color: #b9c1cc;
+}
+
+.collaborator-notes p + p {
+    margin-top: 0.85rem;
+}
+
 @media (max-width: 1024px) {
     .exhibition-board {
         grid-template-columns: 1fr;
@@ -211,6 +647,48 @@ button:focus-visible {
     .exhibition-sticker-list {
         min-height: auto;
         overflow-y: visible;
+    }
+
+    .collaborator-board,
+    .collaborator-principles {
+        grid-template-columns: 1fr;
+    }
+
+    .collaborator-panel-wide {
+        grid-column: auto;
+    }
+
+    .ecology-network-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .ecology-year-control {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .collaborator-lock-panel {
+        padding: 1.2rem;
+    }
+
+    .collaborator-password-row,
+    .collaborator-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .collaborator-password-row button,
+    .collaborator-logout {
+        width: 100%;
+    }
+
+    .ecology-network-wrap {
+        min-height: 36rem;
+    }
+
+    #ecology-network {
+        height: 38rem;
     }
 }
 
