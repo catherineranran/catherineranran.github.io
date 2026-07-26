@@ -456,6 +456,14 @@ button:focus-visible {
     line-height: 1.5;
 }
 
+.ecology-network-note {
+    margin: 0.2rem 0 0;
+    color: #d1d5db;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+
 .ecology-node-tooltip {
     position: absolute;
     top: 0;
