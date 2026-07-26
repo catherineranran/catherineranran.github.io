@@ -84,6 +84,9 @@ const ecologyNodes = [
     { id: "jon-brauer", name: "Jon Brauer", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "felix-schonbrodt", name: "Felix Schönbrodt", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "victor-van-der-geest", name: "Victor van der Geest", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "william-fleeson", name: "William Fleeson", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "shaul-oreg", name: "Shaul Oreg", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "anna-baumert", name: "Anna Baumert", knownSince: 2026, field: "", expertise: "", affiliation: "" },
 ];
 
 const ecologyEdges = [
