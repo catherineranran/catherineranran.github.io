@@ -52,7 +52,6 @@ button:focus-visible {
 .flowing-update-quote {
     display: inline-block;
     position: relative;
-    font-weight: 700;
     background: linear-gradient(90deg, #d1fae5, #6ee7b7, #93c5fd, #f0abfc, #d1fae5);
     background-size: 260% 100%;
     -webkit-background-clip: text;
@@ -60,18 +59,6 @@ button:focus-visible {
     color: transparent;
     animation: flowingQuoteText 7s ease-in-out infinite;
     text-shadow: 0 0 18px rgba(110, 231, 183, 0.26);
-}
-
-.flowing-update-quote::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.3rem;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(110, 231, 183, 0.9), rgba(147, 197, 253, 0.8), transparent);
-    background-size: 220% 100%;
-    animation: flowingQuoteLine 4.5s ease-in-out infinite;
 }
 
 @keyframes flowingQuoteText {
@@ -86,24 +73,8 @@ button:focus-visible {
     }
 }
 
-@keyframes flowingQuoteLine {
-    0% {
-        background-position: 100% 50%;
-        opacity: 0.35;
-    }
-    50% {
-        background-position: 0% 50%;
-        opacity: 0.95;
-    }
-    100% {
-        background-position: 100% 50%;
-        opacity: 0.35;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .flowing-update-quote,
-    .flowing-update-quote::after {
+    .flowing-update-quote {
         animation: none;
     }
 }
