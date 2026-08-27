@@ -61,17 +61,6 @@ button:focus-visible {
     text-shadow: 0 0 18px rgba(110, 231, 183, 0.26);
 }
 
-.dynamic-about-phrase {
-    display: inline-block;
-    background: linear-gradient(90deg, #d1fae5, #6ee7b7, #93c5fd, #f0abfc, #d1fae5);
-    background-size: 260% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: flowingQuoteText 7s ease-in-out infinite;
-    text-shadow: 0 0 14px rgba(110, 231, 183, 0.18);
-}
-
 .flowing-update-quote::after {
     content: "";
     position: absolute;
@@ -82,14 +71,6 @@ button:focus-visible {
     background: linear-gradient(90deg, transparent, rgba(110, 231, 183, 0.9), rgba(147, 197, 253, 0.8), transparent);
     background-size: 220% 100%;
     animation: flowingQuoteLine 4.5s ease-in-out infinite;
-}
-
-.update-paper-link {
-    color: #22c55e;
-}
-
-.update-paper-link:hover {
-    color: #16a34a;
 }
 
 @keyframes flowingQuoteText {
@@ -121,8 +102,7 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
     .flowing-update-quote,
-    .flowing-update-quote::after,
-    .dynamic-about-phrase {
+    .flowing-update-quote::after {
         animation: none;
     }
 }
