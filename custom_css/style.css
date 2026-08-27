@@ -52,6 +52,7 @@ button:focus-visible {
 .flowing-update-quote {
     display: inline-block;
     position: relative;
+    font-weight: 700;
     background: linear-gradient(90deg, #d1fae5, #6ee7b7, #93c5fd, #f0abfc, #d1fae5);
     background-size: 260% 100%;
     -webkit-background-clip: text;
