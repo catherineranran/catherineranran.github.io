@@ -74,11 +74,11 @@ button:focus-visible {
 }
 
 .update-paper-link {
-    color: #15803d;
+    color: #16a34a;
 }
 
 .update-paper-link:hover {
-    color: #166534;
+    color: #15803d;
 }
 
 @keyframes flowingQuoteText {
