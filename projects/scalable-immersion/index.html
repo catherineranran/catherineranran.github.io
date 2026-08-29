@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <link rel="icon" href="../../assets/icons/favicon.png" type="image/x-icon">
+    <title>Project Workspace | Ranran Li</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../custom_css/style.css?v=20260829ag">
+</head>
+<body class="bg project-workspace-page">
+    <div id="particles-bg"></div>
+
+    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-1 max-w-screen-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center">
+                <a href="../../index.html#Research" class="project-workspace-nav-link">
+                    <span>Project Workspace</span>
+                    <small>Ranran Li</small>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="project-workspace-main">
+        <section id="project-lock" class="project-lock" aria-labelledby="project-lock-title">
+            <div class="project-lock-panel">
+                <p class="project-eyebrow">Private research workspace</p>
+                <h1 id="project-lock-title">Scalable Immersion</h1>
+                <p class="project-lock-copy">Enter the project password to view the workspace.</p>
+
+                <form id="project-password-form" class="project-password-form">
+                    <label for="project-password">Password</label>
+                    <div class="project-password-row">
+                        <input id="project-password" name="password" type="password" autocomplete="current-password" required autofocus>
+                        <button type="submit">Enter</button>
+                    </div>
+                    <p id="project-password-message" class="project-password-message" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+
+        <section id="project-content" class="project-content is-hidden" aria-live="polite"></section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="../../script/particles.js"></script>
+    <script src="https://kit.fontawesome.com/8022519056.js" crossorigin="anonymous"></script>
+    <script src="../../script/scalable-immersion.js?v=20260829b"></script>
+</body>
+</html>
