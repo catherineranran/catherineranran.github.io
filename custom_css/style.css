@@ -966,7 +966,8 @@ button:focus-visible {
 
 .project-lock-panel,
 .project-citation-panel,
-.project-resources {
+.project-resources,
+.project-document-preview {
     border: 1px solid rgba(196, 181, 253, 0.3);
     border-radius: 0.8rem;
     background: linear-gradient(145deg, rgba(196, 181, 253, 0.09), transparent 38%), rgba(15, 23, 42, 0.76);
@@ -1083,7 +1084,8 @@ button:focus-visible {
 }
 
 .project-citation-panel,
-.project-resources {
+.project-resources,
+.project-document-preview {
     padding: clamp(1.2rem, 3vw, 2rem);
 }
 
@@ -1111,6 +1113,48 @@ button:focus-visible {
 
 .project-resources {
     margin-top: 1rem;
+}
+
+.project-document-preview {
+    margin-top: 1rem;
+}
+
+.project-preview-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.project-preview-heading h2 {
+    margin-top: 0.35rem;
+    color: #f8fafc;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.project-preview-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 0 0 auto;
+    color: #c4b5fd;
+    font-size: 0.78rem;
+}
+
+.project-preview-open:hover {
+    text-decoration: underline;
+}
+
+.project-preview-frame {
+    display: block;
+    width: 100%;
+    height: min(70vh, 48rem);
+    min-height: 32rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(196, 181, 253, 0.24);
+    border-radius: 0.55rem;
+    background: #ffffff;
 }
 
 .project-section-heading h2 {
@@ -1182,6 +1226,19 @@ button:focus-visible {
 
     .project-resource-grid {
         grid-template-columns: 1fr;
+    }
+
+    .project-preview-heading {
+        display: block;
+    }
+
+    .project-preview-open {
+        margin-top: 0.8rem;
+    }
+
+    .project-preview-frame {
+        height: 65vh;
+        min-height: 26rem;
     }
 }
 

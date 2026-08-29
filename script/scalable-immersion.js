@@ -47,6 +47,11 @@ function externalLink(url, className, label, iconClass) {
     return link;
 }
 
+function googleDocPreviewUrl(documentUrl) {
+    const match = documentUrl.match(/\/document\/d\/([^/]+)/);
+    return match ? `https://docs.google.com/document/d/${match[1]}/preview` : documentUrl;
+}
+
 function renderProject(project) {
     const header = document.createElement("header");
     header.className = "project-hero";
@@ -105,16 +110,37 @@ function renderProject(project) {
     const resourceGrid = document.createElement("div");
     resourceGrid.className = "project-resource-grid";
     resourceGrid.append(
-        externalLink(project.documentUrl, "project-resource-card project-document-card", project.documentTitle, "fa-regular fa-file-lines"),
+        externalLink(project.documentUrl, "project-resource-card project-document-card", `${project.documentTitle} (see preview below)`, "fa-regular fa-file-lines"),
         externalLink(project.folderUrl, "project-resource-card project-folder-card", "Open the Google Drive folder", "fa-regular fa-folder-open")
     );
     resources.append(resourcesHeader, resourceGrid);
+
+    const preview = document.createElement("section");
+    preview.className = "project-document-preview";
+    const previewHeader = document.createElement("div");
+    previewHeader.className = "project-preview-heading";
+    const previewCopy = document.createElement("div");
+    const previewLabel = document.createElement("p");
+    previewLabel.className = "project-panel-label";
+    previewLabel.textContent = "Document preview";
+    const previewTitle = document.createElement("h2");
+    previewTitle.textContent = project.documentTitle;
+    previewCopy.append(previewLabel, previewTitle);
+    previewHeader.append(previewCopy, externalLink(project.documentUrl, "project-preview-open", "Open in Google Docs", "fa-solid fa-arrow-up-right-from-square"));
+
+    const previewFrame = document.createElement("iframe");
+    previewFrame.className = "project-preview-frame";
+    previewFrame.src = googleDocPreviewUrl(project.documentUrl);
+    previewFrame.title = `${project.documentTitle} preview`;
+    previewFrame.loading = "lazy";
+    previewFrame.referrerPolicy = "strict-origin-when-cross-origin";
+    preview.append(previewHeader, previewFrame);
 
     const note = document.createElement("p");
     note.className = "project-access-note";
     note.textContent = "Google Drive permissions apply when opening or editing these materials.";
 
-    contentSection.replaceChildren(header, citationPanel, resources, note);
+    contentSection.replaceChildren(header, citationPanel, resources, preview, note);
     lockSection.classList.add("is-hidden");
     contentSection.classList.remove("is-hidden");
     document.title = `${project.title} | Ranran Li`;
