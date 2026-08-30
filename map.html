@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ranran Li's growing map of ideas across disciplines and perspectives.">
+    <link rel="icon" href="./assets/icons/favicon.png" type="image/x-icon">
+    <title>Perspectives | Ranran Li</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20260830at">
+</head>
+<body class="bg knowledge-map-page">
+    <div id="particles-bg"></div>
+
+    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-1 max-w-screen-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center">
+                <a href="./index.html#Home" class="knowledge-map-nav-link">
+                    <span>Perspectives</span>
+                    <small>Ranran Li</small>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="knowledge-map-main">
+        <header class="knowledge-map-hero">
+            <p class="knowledge-map-eyebrow">A growing map of perspectives</p>
+            <h1>Ranran's Perspectives</h1>
+            <p>
+                This map gathers perspectives I like across disciplines and traces the bridges I see between them.
+            </p>
+        </header>
+
+        <section class="knowledge-map-shell" aria-labelledby="map-network-title">
+            <div class="knowledge-map-toolbar">
+                <div>
+                    <h2 id="map-network-title">Network of Perspectives</h2>
+                </div>
+                <div class="knowledge-map-legend" aria-label="Discipline colors">
+                    <span style="--legend-color:#68d391">Economics</span>
+                    <span style="--legend-color:#f6ad55">Evolutionary biology</span>
+                    <span style="--legend-color:#63b3ed">Political science</span>
+                    <span style="--legend-color:#c4b5fd">Cultural psychology</span>
+                    <span style="--legend-color:#f9a8d4">Personality psychology</span>
+                    <span style="--legend-color:#67e8f9">Social psychology</span>
+                </div>
+            </div>
+
+            <div class="knowledge-map-viewport" tabindex="0" aria-label="Scrollable knowledge network">
+                <div id="knowledge-map-canvas" class="knowledge-map-canvas">
+                    <svg id="knowledge-map-edges" class="knowledge-map-edges" aria-hidden="true"></svg>
+                    <div id="knowledge-map-nodes" class="knowledge-map-nodes"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="knowledge-map-clarifications" aria-labelledby="clarifications-title">
+            <h2 id="clarifications-title">Clarifications:</h2>
+            <dl>
+                <div>
+                    <dt>Modernization ↔ individual differences:</dt>
+                    <dd>Societal development changes which traits and values are adaptive.</dd>
+                </div>
+                <div>
+                    <dt>Interdependence ↔ commons:</dt>
+                    <dd>Institutions structure patterns of mutual dependence.</dd>
+                </div>
+                <div>
+                    <dt>Multilevel selection ↔ interdependence:</dt>
+                    <dd>Interdependence determines when individual and collective interests align.</dd>
+                </div>
+                <div>
+                    <dt>Modernization ↔ commons:</dt>
+                    <dd>Development transforms the conditions for collective governance.</dd>
+                </div>
+            </dl>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="./script/particles.js"></script>
+    <script src="https://kit.fontawesome.com/8022519056.js" crossorigin="anonymous"></script>
+    <script src="./script/map.js?v=20260830j"></script>
+</body>
+</html>

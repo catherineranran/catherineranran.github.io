@@ -10,7 +10,7 @@
     <link rel="icon" href="./assets/icons/favicon.png" type="image/x-icon">
     <title> Ranran Li </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20260829ag">
+    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20260830at">
 
 
 
@@ -41,7 +41,7 @@
                     </div>
 
                     <!-- Primary Navbar items -->
-                    <div class="hidden md:flex items-center space-x-6">
+                    <div class="primary-navbar hidden md:flex items-center space-x-6">
 
                         <a href="#Research"
                             class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
@@ -64,6 +64,11 @@
                             <i class="fa-solid fa-image"></i>
                             <span class="font-semibold">Visualize</span>
                         </a>
+                        <a href="#Perspectives"
+                            class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            <span class="font-semibold">Perspectives</span>
+                        </a>
                         <a href="./exhibition.html"
                             class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
                             <i class="fa-solid fa-lightbulb"></i>
@@ -74,7 +79,6 @@
                             <i class="fa-solid fa-diagram-project"></i>
                             <span class="font-semibold">Ecology</span>
                         </a>
-                        
                         <a href="./assets/CV_RanranLi.pdf"
                             class="flex flex-col items-center text-gray-100 hover:text-green-500 transition duration-300">
                             <i class="fa-solid fa-file"></i>
@@ -125,6 +129,11 @@
                         <i class="fa-solid fa-image"></i>
                         <span>Visualize</span>
                     </a></li>
+                <li><a href="#Perspectives"
+                        class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                        <span>Perspectives</span>
+                    </a></li>
                 <li><a href="./exhibition.html"
                         class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
                         <i class="fa-solid fa-lightbulb"></i>
@@ -135,7 +144,6 @@
                         <i class="fa-solid fa-diagram-project"></i>
                         <span>Ecology</span>
                     </a></li>
-
                 <li>
                     <a href="./assets/CV_RanranLi.pdf"
                         class="flex flex-col items-center text-sm px-2 py-3 text-gray-100 hover:bg-green-500 hover:text-white font-semibold transition duration-300">
@@ -1290,7 +1298,35 @@
         </div>
     </section>
 
-    
+<!-- Perspectives section -->
+<section id="Perspectives" class="perspectives-home-section py-16">
+    <div class="container max-w-screen-lg mx-auto px-4">
+        <h2 class="text-2xl text-center text-gray-100 font-bold mb-8">Perspectives</h2>
+        <a href="./map.html" class="perspectives-home-card" aria-label="Explore Ranran's perspectives map">
+            <div class="perspectives-home-copy">
+                <p class="perspectives-home-eyebrow">A growing network of ideas</p>
+                <h3>Perspectives and bridges</h3>
+                <p>This map gathers perspectives I like across disciplines and traces the bridges I see between them.</p>
+                <span>Explore the map <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </div>
+            <div class="perspectives-home-network" aria-hidden="true">
+                <svg viewBox="0 0 360 210" role="presentation">
+                    <path d="M64 55 C116 28 135 67 176 84 S244 58 298 44"></path>
+                    <path d="M64 55 C95 112 118 130 167 158 S248 171 302 150"></path>
+                    <path d="M176 84 C195 112 210 126 238 129"></path>
+                    <path d="M298 44 C306 83 297 111 302 150"></path>
+                    <circle cx="64" cy="55" r="11"></circle>
+                    <circle cx="176" cy="84" r="11"></circle>
+                    <circle cx="298" cy="44" r="11"></circle>
+                    <circle cx="167" cy="158" r="11"></circle>
+                    <circle cx="238" cy="129" r="11"></circle>
+                    <circle cx="302" cy="150" r="11"></circle>
+                </svg>
+            </div>
+        </a>
+    </div>
+</section>
+
 
 <!-- Contact Section -->
 <section id="Contact" class="py-16">
