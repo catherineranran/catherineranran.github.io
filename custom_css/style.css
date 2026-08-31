@@ -1944,14 +1944,15 @@ button:focus-visible {
 }
 
 .postdoc-meetings-page .floating-tulip-left {
-    left: calc(50% - min(17rem, 42vw));
-    top: calc(50vh - 21rem);
+    left: calc(50% - min(26rem, 46vw));
+    top: calc(50vh - 16rem);
     transform: rotate(-11deg);
 }
 
 .postdoc-meetings-page .floating-tulip-right {
-    right: calc(50% - min(17rem, 42vw));
-    bottom: calc(50vh - 21rem);
+    right: calc(50% - min(26rem, 46vw));
+    top: calc(50vh - 7rem);
+    bottom: auto;
     transform: scaleX(-1) rotate(10deg);
 }
 
