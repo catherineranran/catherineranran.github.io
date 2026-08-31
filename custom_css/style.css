@@ -138,26 +138,27 @@ button:focus-visible {
 }
 
 .main-content-tulip-profile {
-    left: clamp(0.2rem, 4vw, 3.4rem);
-    top: 12.2rem;
+    left: clamp(0rem, 3vw, 2.6rem);
+    top: 13.3rem;
     transform: rotate(-8deg);
 }
 
 .main-content-tulip-contact {
-    right: clamp(1rem, 7vw, 8rem);
-    bottom: -2rem;
+    right: clamp(1.8rem, 8.5vw, 9.5rem);
+    bottom: -0.8rem;
     transform: scaleX(-1) rotate(8deg);
     animation-delay: -3.5s;
 }
 
 @media (max-width: 1024px) {
     .main-content-tulip-profile {
-        left: 0.5rem;
-        top: 11.5rem;
+        left: 0.2rem;
+        top: 12.4rem;
     }
 
     .main-content-tulip-contact {
-        right: 1rem;
+        right: 1.5rem;
+        bottom: -0.3rem;
     }
 }
 
