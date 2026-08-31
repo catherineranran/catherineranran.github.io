@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 360" role="img" aria-label="Hand-drawn patchwork tulip">
+  <defs>
+    <filter id="soft-pencil" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="12" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.3"/>
+    </filter>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft-pencil)">
+    <path d="M88 119 C84 181 85 245 91 335" stroke="#e0a719" stroke-width="5"/>
+    <path d="M93 122 C96 182 96 248 99 336" stroke="#f3bf2f" stroke-width="2.4" opacity=".78"/>
+    <path d="M86 287 C36 250 19 184 31 134 C76 165 94 229 86 287Z" fill="#8de4d8" opacity=".78" stroke="#75d8ce" stroke-width="4"/>
+    <path d="M98 287 C145 246 158 181 144 133 C105 164 89 226 98 287Z" fill="#8de4d8" opacity=".74" stroke="#75d8ce" stroke-width="4"/>
+    <path d="M87 286 C66 232 52 183 31 134" stroke="#2f7d66" stroke-width="1.9" opacity=".75"/>
+    <path d="M99 286 C116 230 128 181 144 133" stroke="#2f7d66" stroke-width="1.9" opacity=".75"/>
+    <path d="M40 163 C55 174 67 181 84 186M35 190 C52 199 68 207 88 214M39 219 C56 226 70 232 90 237M50 248 C64 252 76 256 91 259" stroke="#2f7d66" stroke-width="1.5" opacity=".62"/>
+    <path d="M136 162 C122 173 111 180 98 186M143 190 C128 199 114 207 97 214M139 218 C125 226 111 232 95 237M130 247 C118 252 108 256 96 259" stroke="#2f7d66" stroke-width="1.5" opacity=".62"/>
+    <path d="M28 335 C51 306 77 294 95 306 C119 288 150 303 162 334" fill="#8aa38d" opacity=".35" stroke="#6f8a75" stroke-width="2"/>
+    <path d="M43 335 C54 315 65 305 79 300M58 338 C67 318 80 307 94 304M114 335 C121 315 133 304 148 299" stroke="#6f8a75" stroke-width="1.4" opacity=".58"/>
+    <path d="M21 91 C24 52 43 30 82 27 C123 25 151 43 158 91 C124 113 62 113 21 91Z" fill="#c65ab8" opacity=".88" stroke="#b047a7" stroke-width="4"/>
+    <path d="M21 91 C35 118 125 119 158 91" stroke="#b047a7" stroke-width="4"/>
+    <path d="M28 86 L42 36 L74 33 L54 90Z" fill="#8e3ab4" opacity=".9"/>
+    <path d="M42 36 L69 33 L55 51Z" fill="#f5b71e" opacity=".92"/>
+    <path d="M57 91 L73 34 L91 34 L84 109Z" fill="#ffd828" opacity=".95"/>
+    <path d="M75 35 L98 34 L104 104 L85 110Z" fill="#f47b21" opacity=".96"/>
+    <path d="M101 35 L128 37 L111 108 L103 103Z" fill="#f250b9" opacity=".9"/>
+    <path d="M128 37 L154 47 L158 91 L133 91Z" fill="#7b4aa5" opacity=".83"/>
+    <path d="M133 47 L154 47 L157 63 L132 60Z" fill="#c90d5c" opacity=".9"/>
+    <path d="M137 61 L158 65 L156 90 L134 89Z" fill="#183575" opacity=".92"/>
+    <path d="M110 39 L145 41 L128 56 L102 54Z" fill="#65d2c8" opacity=".88"/>
+    <path d="M24 91 L46 61 L63 78 L54 100Z" fill="#ea7084" opacity=".83"/>
+    <path d="M53 100 L66 79 L83 94 L73 111Z" fill="#f3c3ba" opacity=".85"/>
+    <path d="M72 111 L86 94 L104 105 L99 119Z" fill="#93c9a0" opacity=".86"/>
+    <path d="M104 105 L113 80 L124 111 L103 118Z" fill="#202b2e" opacity=".9"/>
+    <path d="M114 80 L133 91 L125 113Z" fill="#19809d" opacity=".78"/>
+    <path d="M49 77 L65 88 L54 99 L32 93Z" fill="#113923" opacity=".94"/>
+    <path d="M73 85 L84 54 L96 76 L85 94Z" fill="#f01816" opacity=".84"/>
+    <path d="M21 91 L42 36 L74 33 L98 34 L128 37 L154 47 L158 91" stroke="#b047a7" stroke-width="2.4" opacity=".7"/>
+    <path d="M54 100 L73 111 L99 119 L125 113 L158 91M57 91 L73 34M85 110 L98 34M103 118 L128 37M46 61 L83 94L124 111" stroke="#b047a7" stroke-width="2.2" opacity=".65"/>
+    <path d="M108 120 C114 132 124 132 129 121 C122 114 114 113 108 120Z" fill="#0087a7" stroke="#0087a7" stroke-width="2" opacity=".92"/>
+    <path d="M149 33 C145 20 153 9 164 13 C173 15 175 28 166 38 C161 44 152 43 149 33Z" fill="#79d8c4" stroke="#227d6d" stroke-width="2"/>
+    <path d="M163 34 C170 24 180 25 183 35 C187 47 176 53 166 45 C161 42 160 38 163 34Z" fill="#74d7bf" stroke="#227d6d" stroke-width="2"/>
+    <path d="M157 43 L155 53M164 43 L164 54M171 45 L175 54M151 47 C146 48 144 51 142 56M177 48 C181 49 184 52 186 56" stroke="#227d6d" stroke-width="1.8"/>
+    <circle cx="155" cy="22" r="1.8" fill="#227d6d"/>
+    <circle cx="164" cy="19" r="1.6" fill="#227d6d"/>
+    <circle cx="170" cy="31" r="1.6" fill="#227d6d"/>
+  </g>
+</svg>
