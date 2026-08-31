@@ -1924,6 +1924,14 @@ button:focus-visible {
     transition: opacity 160ms ease;
 }
 
+.ecology-edge.is-ongoing {
+    stroke-width: 2.15;
+}
+
+.ecology-edge.is-past {
+    stroke-dasharray: 6 6;
+}
+
 .ecology-edge.is-muted {
     opacity: 0.08;
 }

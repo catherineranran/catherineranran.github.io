@@ -66,13 +66,13 @@ const ecologyNodes = [
     { id: "lennart-reddmann", name: "Lennart Reddmann", knownSince: 2024, field: "", expertise: "", affiliation: "" },
     { id: "yixin-zou", name: "Yixin Zou", knownSince: 2026, orbitScale: 1, field: "", expertise: "", affiliation: "" },
     { id: "yijin-he", name: "Yijin He", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "yunrui-liu", name: "Yunrui Liu", knownSince: 2026, orbitScale: 0.48, field: "", expertise: "", affiliation: "" },
-    { id: "loreen-tisdall", name: "Loreen Tisdall", knownSince: 2025, orbitScale: 0.48, field: "", expertise: "", affiliation: "" },
+    { id: "yunrui-liu", name: "Yunrui Liu", knownSince: 2026, orbitScale: 0.62, field: "", expertise: "", affiliation: "" },
+    { id: "lorren-tisdall", name: "Lorren Tisdall", knownSince: 2025, orbitScale: 0.62, field: "", expertise: "", affiliation: "" },
     { id: "luke-smille", name: "Luke Smille", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "joshua-wilt", name: "Joshua Wilt", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "timothy-c-narnum", name: "Timothy C Narnum", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "timothy-c-barnum", name: "Timothy C Barnum", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "shaina-herman", name: "Shaina Herman", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "carspar-j-van-lissa", name: "Carspar J. van Lissa", knownSince: 2025, field: "", expertise: "", affiliation: "" },
+    { id: "caspar-j-van-lissa", name: "Caspar J. van Lissa", knownSince: 2025, field: "", expertise: "", affiliation: "" },
     { id: "nick-ballou", name: "Nick Ballou", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "emily-caspar", name: "Emily Caspar", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "ori-weisel", name: "Ori Weisel", knownSince: 2025, field: "", expertise: "", affiliation: "" },
@@ -87,27 +87,30 @@ const ecologyNodes = [
     { id: "william-fleeson", name: "William Fleeson", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "shaul-oreg", name: "Shaul Oreg", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "anna-baumert", name: "Anna Baumert", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "nicola-baumann", name: "Nicola Baumann", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "reeshad-s-dalal", name: "Reeshad S. Dalal", knownSince: 2025, field: "", expertise: "", affiliation: "" },
     { id: "simon-columbus", name: "Simon Columbus", knownSince: 2022, field: "", expertise: "", affiliation: "" },
 ];
 
 const ecologyEdges = [
-    { source: "ranran", target: "matthijs-baas", knownSince: 2018, collaborated: true },
-    { source: "ranran", target: "reinout", knownSince: 2020, collaborated: true },
-    { source: "ranran", target: "jean-louis", knownSince: 2024, collaborated: true },
-    { source: "ranran", target: "ingo", knownSince: 2024, collaborated: true },
-    { source: "ranran", target: "daniel-balliet", knownSince: 2020, collaborated: true },
-    { source: "ranran", target: "isabel-thielmann", knownSince: 2020, collaborated: true },
-    { source: "ranran", target: "hannes-rusche", knownSince: 2024, collaborated: true },
-    { source: "ranran", target: "nicholas-umashev", knownSince: 2025, collaborated: true },
-    { source: "ranran", target: "yijin-he", knownSince: 2026, collaborated: true },
-    { source: "ranran", target: "loreen-tisdall", knownSince: 2025, collaborated: true },
-    { source: "ranran", target: "joshua-wilt", knownSince: 2025, collaborated: true },
-    { source: "ranran", target: "timothy-c-narnum", knownSince: 2026, collaborated: true },
-    { source: "ranran", target: "shaina-herman", knownSince: 2026, collaborated: true },
-    { source: "ranran", target: "carspar-j-van-lissa", knownSince: 2025, collaborated: true },
-    { source: "ranran", target: "nick-ballou", knownSince: 2026, collaborated: true },
-    { source: "ranran", target: "max-knabe", knownSince: 2025, collaborated: true },
+    { source: "ranran", target: "matthijs-baas", knownSince: 2018, status: "past" },
+    { source: "ranran", target: "reinout", knownSince: 2020, status: "ongoing" },
+    { source: "ranran", target: "jean-louis", knownSince: 2024, status: "ongoing" },
+    { source: "ranran", target: "ingo", knownSince: 2024, status: "past" },
+    { source: "ranran", target: "daniel-balliet", knownSince: 2020, status: "past" },
+    { source: "ranran", target: "isabel-thielmann", knownSince: 2020, status: "past" },
+    { source: "ranran", target: "hannes-rusche", knownSince: 2024, status: "past" },
+    { source: "ranran", target: "nicholas-umashev", knownSince: 2025, status: "past" },
+    { source: "ranran", target: "yijin-he", knownSince: 2026, status: "ongoing" },
+    { source: "ranran", target: "lorren-tisdall", knownSince: 2025, status: "ongoing" },
+    { source: "ranran", target: "joshua-wilt", knownSince: 2025, status: "past" },
+    { source: "ranran", target: "timothy-c-barnum", knownSince: 2026, status: "ongoing" },
+    { source: "ranran", target: "shaina-herman", knownSince: 2026, status: "ongoing" },
+    { source: "ranran", target: "caspar-j-van-lissa", knownSince: 2025, status: "ongoing" },
+    { source: "ranran", target: "nick-ballou", knownSince: 2026, status: "past" },
+    { source: "ranran", target: "max-knabe", knownSince: 2025, status: "ongoing" },
+    { source: "ranran", target: "botao-amber-hu", knownSince: 2026, status: "ongoing" },
+    { source: "ranran", target: "nicola-baumann", knownSince: 2026, status: "ongoing" },
 ];
 
 let ecologyAnimationFrame = null;
@@ -296,7 +299,8 @@ function updateNetworkVisibility() {
     }
     if (ecologyNetworkStatus) {
         const count = visibleEdges.length;
-        ecologyNetworkStatus.textContent = `${count} collaboration ${count === 1 ? "edge is" : "edges are"} visible by ${selectedYear}.`;
+        const ongoingCount = visibleEdges.filter((edge) => edge.status === "ongoing").length;
+        ecologyNetworkStatus.textContent = `${count} collaboration ${count === 1 ? "edge is" : "edges are"} visible by ${selectedYear}. Solid lines represent ongoing collaborations (N=${ongoingCount}) whereas dashed lines represent past collaborations.`;
     }
 }
 
@@ -366,7 +370,7 @@ function renderEcologyNetwork() {
     const nodeGroup = makeSvgElement("g", { class: "ecology-node-layer" });
 
     ecologyNetworkState.edges.forEach((edge) => {
-        const line = makeSvgElement("line", { class: "ecology-edge" });
+        const line = makeSvgElement("line", { class: `ecology-edge is-${edge.status || "past"}` });
         edgeGroup.appendChild(line);
 
         edge.line = line;
