@@ -61,6 +61,17 @@ button:focus-visible {
     text-shadow: 0 0 18px rgba(110, 231, 183, 0.26);
 }
 
+.flowing-profile-tagline {
+    display: inline-block;
+    background: linear-gradient(90deg, #d1fae5, #6ee7b7, #93c5fd, #f0abfc, #d1fae5);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: flowingQuoteText 7s ease-in-out infinite;
+    text-shadow: 0 0 18px rgba(110, 231, 183, 0.26);
+}
+
 .flowing-update-quote::after {
     content: "";
     position: absolute;
@@ -102,7 +113,8 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
     .flowing-update-quote,
-    .flowing-update-quote::after {
+    .flowing-update-quote::after,
+    .flowing-profile-tagline {
         animation: none;
     }
 }
