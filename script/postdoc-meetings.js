@@ -14,6 +14,7 @@ async function postdocMeetingsSha256(value) {
 }
 
 function showPostdocMeetingsContent() {
+    document.body.classList.add("postdoc-meetings-unlocked");
     postdocMeetingsLock.classList.add("is-hidden");
     postdocMeetingsContent.classList.remove("is-hidden");
 }

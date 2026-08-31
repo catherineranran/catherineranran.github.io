@@ -1923,7 +1923,55 @@ button:focus-visible {
 }
 
 .postdoc-meetings-content {
+    position: relative;
+    z-index: 2;
     padding: 2.5rem 0 4rem;
+}
+
+.postdoc-meetings-page main {
+    position: relative;
+    z-index: 2;
+}
+
+.postdoc-meetings-page .floating-tulips {
+    z-index: 1;
+}
+
+.postdoc-meetings-page .floating-tulip {
+    top: auto;
+    width: clamp(5.2rem, 9vw, 8rem);
+    opacity: 0.84;
+}
+
+.postdoc-meetings-page .floating-tulip-left {
+    left: calc(50% - min(17rem, 42vw));
+    top: calc(50vh - 21rem);
+    transform: rotate(-11deg);
+}
+
+.postdoc-meetings-page .floating-tulip-right {
+    right: calc(50% - min(17rem, 42vw));
+    bottom: calc(50vh - 21rem);
+    transform: scaleX(-1) rotate(10deg);
+}
+
+.postdoc-meetings-page.postdoc-meetings-unlocked .floating-tulip {
+    width: clamp(4.6rem, 7vw, 6.8rem);
+    opacity: 0.58;
+}
+
+.postdoc-meetings-page.postdoc-meetings-unlocked .floating-tulip-left {
+    left: clamp(0.8rem, 4vw, 3rem);
+    top: 5.25rem;
+    bottom: auto;
+    transform: rotate(-9deg);
+}
+
+.postdoc-meetings-page.postdoc-meetings-unlocked .floating-tulip-right {
+    right: clamp(0.8rem, 4vw, 3rem);
+    top: auto;
+    bottom: 1.5rem;
+    transform: scaleX(-1) rotate(8deg);
 }
 
 .postdoc-meetings-eyebrow,
