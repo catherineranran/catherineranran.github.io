@@ -106,6 +106,67 @@ button:focus-visible {
     }
 }
 
+.main-home-section,
+.main-contact-section {
+    position: relative;
+}
+
+.main-profile-panel {
+    position: relative;
+}
+
+.main-profile-panel > :not(.main-content-tulip) {
+    position: relative;
+    z-index: 1;
+}
+
+.main-contact-section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.main-content-tulip {
+    pointer-events: none;
+    position: absolute;
+    width: clamp(4.9rem, 7vw, 7rem);
+    aspect-ratio: 1 / 2;
+    background: url("../assets/floating-tulip.svg") center / contain no-repeat;
+    opacity: 0.7;
+    filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.18));
+    animation: tulip-float 8.5s ease-in-out infinite;
+    z-index: 0;
+}
+
+.main-content-tulip-profile {
+    left: clamp(0.2rem, 4vw, 3.4rem);
+    top: 12.2rem;
+    transform: rotate(-8deg);
+}
+
+.main-content-tulip-contact {
+    right: clamp(1rem, 7vw, 8rem);
+    bottom: -2rem;
+    transform: scaleX(-1) rotate(8deg);
+    animation-delay: -3.5s;
+}
+
+@media (max-width: 1024px) {
+    .main-content-tulip-profile {
+        left: 0.5rem;
+        top: 11.5rem;
+    }
+
+    .main-content-tulip-contact {
+        right: 1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .main-content-tulip {
+        display: none;
+    }
+}
+
 .flowing-update-quote {
     display: inline-block;
     position: relative;
