@@ -115,8 +115,6 @@ const ecologyEdges = [
     { source: "ranran", target: "botao-amber-hu", knownSince: 2026, status: "ongoing" },
     { source: "ranran", target: "nicola-baumann", knownSince: 2026, status: "ongoing" },
     { source: "ranran", target: "wilco-van-dijk", knownSince: 2025, status: "ongoing" },
-    { source: "ranran", target: "daniel-leising", knownSince: 2026, status: "past" },
-    { source: "ranran", target: "gari-walkowitz", knownSince: 2026, status: "past" },
 ];
 
 let ecologyAnimationFrame = null;
