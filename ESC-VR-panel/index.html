@@ -8,7 +8,7 @@
     <link rel="icon" href="../assets/icons/favicon.png" type="image/x-icon">
     <title>Virtual Reality as a Window into Crime | ESC 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./esc-panel.css?v=20260907p">
+    <link rel="stylesheet" href="./esc-panel.css?v=20260907q">
 </head>
 <body class="esc-panel-page">
     <div id="particles-bg" aria-hidden="true"></div>
@@ -278,14 +278,16 @@
                 <span>Subscribe to the working group</span>
                 <span>“VR in European Criminology”</span>
             </h3>
-            <form id="working-group-form" class="working-group-form">
+            <form id="working-group-form" class="working-group-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfkQVXM56qHSCJvcJb8HgK6XL1EjRfVGMudgqkFo_klJ13AMg/formResponse" method="post" target="working-group-response-frame">
                 <label for="working-group-email">Email address</label>
                 <div class="working-group-form-row">
-                    <input id="working-group-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+                    <input id="working-group-email" name="entry.1821416039" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
                     <button type="submit">Subscribe</button>
                 </div>
-                <p class="working-group-note">This will open a prepared subscription message in your email app.</p>
+                <p class="working-group-note">Your email address will be added to the working group’s Google Sheet.</p>
+                <p id="working-group-status" class="working-group-status" role="status" aria-live="polite"></p>
             </form>
+            <iframe class="working-group-response-frame" name="working-group-response-frame" title="Working group subscription response"></iframe>
         </section>
       </aside>
     </main>
@@ -299,14 +301,26 @@
     <script src="../script/particles.js"></script>
     <script>
         const workingGroupForm = document.getElementById('working-group-form');
-        workingGroupForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const emailField = document.getElementById('working-group-email');
-            if (!emailField.reportValidity()) return;
+        const workingGroupFrame = document.querySelector('.working-group-response-frame');
+        const workingGroupStatus = document.getElementById('working-group-status');
+        const workingGroupButton = workingGroupForm.querySelector('button[type="submit"]');
+        let workingGroupSubmissionPending = false;
 
-            const subject = encodeURIComponent('Subscribe to VR in European Criminology');
-            const body = encodeURIComponent(`Please add ${emailField.value} to the VR in European Criminology working group mailing list.`);
-            window.location.href = `mailto:r.li@csl.mpg.de?subject=${subject}&body=${body}`;
+        workingGroupForm.addEventListener('submit', () => {
+            workingGroupSubmissionPending = true;
+            workingGroupButton.disabled = true;
+            workingGroupButton.textContent = 'Submitting…';
+            workingGroupStatus.textContent = '';
+        });
+
+        workingGroupFrame.addEventListener('load', () => {
+            if (!workingGroupSubmissionPending) return;
+
+            workingGroupSubmissionPending = false;
+            workingGroupForm.reset();
+            workingGroupButton.disabled = false;
+            workingGroupButton.textContent = 'Subscribe';
+            workingGroupStatus.textContent = 'Thank you. Your email address has been added.';
         });
     </script>
 </body>
