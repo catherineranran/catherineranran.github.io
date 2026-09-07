@@ -87,6 +87,7 @@ const ecologyNodes = [
     { id: "william-fleeson", name: "William Fleeson", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "shaul-oreg", name: "Shaul Oreg", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "anna-baumert", name: "Anna Baumert", knownSince: 2026, field: "", expertise: "", affiliation: "" },
+    { id: "daniel-leising", name: "Daniel Leising", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "nicola-baumann", name: "Nicola Baumann", knownSince: 2026, field: "", expertise: "", affiliation: "" },
     { id: "reeshad-s-dalal", name: "Reeshad S. Dalal", knownSince: 2025, field: "", expertise: "", affiliation: "" },
     { id: "wilco-van-dijk", name: "Wilco van Dijk", knownSince: 2025, field: "", expertise: "", affiliation: "" },
@@ -113,6 +114,7 @@ const ecologyEdges = [
     { source: "ranran", target: "botao-amber-hu", knownSince: 2026, status: "ongoing" },
     { source: "ranran", target: "nicola-baumann", knownSince: 2026, status: "ongoing" },
     { source: "ranran", target: "wilco-van-dijk", knownSince: 2025, status: "ongoing" },
+    { source: "ranran", target: "daniel-leising", knownSince: 2026, status: "past" },
 ];
 
 let ecologyAnimationFrame = null;
