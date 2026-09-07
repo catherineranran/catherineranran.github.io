@@ -8,7 +8,7 @@
     <link rel="icon" href="../assets/icons/favicon.png" type="image/x-icon">
     <title>Virtual Reality as a Window into Crime | ESC 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./esc-panel.css?v=20260901">
+    <link rel="stylesheet" href="./esc-panel.css?v=20260907p">
 </head>
 <body class="esc-panel-page">
     <div id="particles-bg" aria-hidden="true"></div>
@@ -19,7 +19,8 @@
         <a href="#papers" class="panel-papers-link">Charting the Future of VR research in Criminology</a>
     </nav>
 
-    <main>
+    <main class="dual-panel-layout">
+      <div class="conference-column research-panel-column">
         <header class="panel-hero">
             <div class="panel-hero-copy">
                 <p class="panel-kicker">EUROCRIM 2026 · Warsaw, Poland · 9–12 September</p>
@@ -29,6 +30,12 @@
                     Five studies use immersive virtual reality to examine crime-related decisions through the lens of bystanders, potential victims, and offenders.
                 </p>
             </div>
+
+            <section class="panel-chairs" aria-labelledby="chairs-title">
+                <p id="chairs-title" class="section-label">Chairs <span class="chair-note">(warmly configured by)</span></p>
+                <p class="chair-names">Jean-Louis van Gelder, Ranran Li,</p>
+                <p class="chair-names chair-names-secondary">Max Knabe, Ann-Kathrin Arui, Shadi Derakhshan</p>
+            </section>
 
             <aside class="panel-event-card" aria-label="Panel time and location">
                 <div class="panel-event-primary">
@@ -42,30 +49,15 @@
             </aside>
         </header>
 
-        <section class="panel-chairs" aria-labelledby="chairs-title">
-            <p id="chairs-title" class="section-label">Chairs <span class="chair-note">(warmly configured by)</span></p>
-            <p class="chair-names">Jean-Louis van Gelder, Ranran Li,</p>
-            <p class="chair-names chair-names-secondary">Max Knabe, Ann-Kathrin Arui, Shadi Derakhshan</p>
-        </section>
-
-        <section class="panel-overview" aria-label="Panel abstract">
-            <div class="perspective-grid" aria-label="Panel perspectives">
-                <div><span>01–02</span><strong>Bystanders</strong></div>
-                <div><span>03–04</span><strong>Potential victims</strong></div>
-                <div><span>05</span><strong>Offenders</strong></div>
-            </div>
-
-            <div class="panel-abstract">
-                <div class="abstract-copy">
-                    <p>Virtual reality (VR) offers unprecedented opportunities to study crime-related decision-making in ecologically valid yet experimentally controlled environments. This panel brings together five complementary studies that leverage VR-based experimental approaches to examine crime-related decision-making from multiple perspectives: bystanders (<strong class="talk-label"><u>Talk 1</u></strong> and <strong class="talk-label"><u>Talk 2</u></strong>), potential victims (<strong class="talk-label"><u>Talk 3</u></strong> and <strong class="talk-label"><u>Talk 4</u></strong>, focusing on fear of crime), and offenders (<strong class="talk-label"><u>Talk 5</u></strong>).</p>
-                    <p>The first and second papers examine bystander intervention using an immersive 360° VR scenario from different angles. <strong class="talk-label"><u>Talk 1</u></strong> examines whether beliefs about actors’ pre-existing social relationships influence intervention intention. <strong class="talk-label"><u>Talk 2</u></strong> introduces a trait–state model of reactive guardianship, demonstrating how personality traits influence intervention pathways via situationally activated cognitive and affective states. The third and fourth papers take a potential-victim perspective, combining VR and real-life urban environments to investigate how perceived disorder and personality traits shape fear of crime (<strong class="talk-label"><u>Talk 3</u></strong>), and using a mixed-methods approach to study behavioural adaptations due to fear of crime (<strong class="talk-label"><u>Talk 4</u></strong>). The fifth paper adopts an offender perspective, using VR combined with eye-tracking to uncover implicit perceptual mechanisms underlying target evaluation and revealing systematic divergences between visual attention and explicit judgment (<strong class="talk-label"><u>Talk 5</u></strong>).</p>
-                    <p>Together, these studies illustrate how quantitative analyses, mixed-methods designs, and physiological measures can be integrated within VR-based paradigms to uncover the psychological mechanisms linking traits, situational cues, and behavior. By bridging perspectives across bystanders, potential victims, and offenders, the panel demonstrates the value of VR for advancing a unified, psychologically grounded understanding of crime-related decision-making.</p>
-                </div>
-            </div>
-        </section>
+        <div class="perspective-grid research-perspective-band" aria-label="Panel perspectives">
+            <div><span>01–02</span><strong>Bystanders</strong></div>
+            <div><span>03–04</span><strong>Potential victims</strong></div>
+            <div><span>05</span><strong>Offenders</strong></div>
+        </div>
 
         <section id="papers" class="papers-section" aria-labelledby="papers-title">
             <div class="section-heading papers-heading">
+                <p class="section-label">Program outline</p>
                 <h2 id="papers-title">Five papers</h2>
                 <p>Open any abstract to see the study in detail.</p>
             </div>
@@ -184,6 +176,118 @@
                 </article>
             </div>
         </section>
+
+        <section class="panel-overview" aria-label="Panel abstract">
+            <div class="panel-abstract">
+                <div class="abstract-copy">
+                    <p>Virtual reality (VR) offers unprecedented opportunities to study crime-related decision-making in ecologically valid yet experimentally controlled environments. This panel brings together five complementary studies that leverage VR-based experimental approaches to examine crime-related decision-making from multiple perspectives: bystanders (<strong class="talk-label"><u>Talk 1</u></strong> and <strong class="talk-label"><u>Talk 2</u></strong>), potential victims (<strong class="talk-label"><u>Talk 3</u></strong> and <strong class="talk-label"><u>Talk 4</u></strong>, focusing on fear of crime), and offenders (<strong class="talk-label"><u>Talk 5</u></strong>).</p>
+                    <p>The first and second papers examine bystander intervention using an immersive 360° VR scenario from different angles. <strong class="talk-label"><u>Talk 1</u></strong> examines whether beliefs about actors’ pre-existing social relationships influence intervention intention. <strong class="talk-label"><u>Talk 2</u></strong> introduces a trait–state model of reactive guardianship, demonstrating how personality traits influence intervention pathways via situationally activated cognitive and affective states. The third and fourth papers take a potential-victim perspective, combining VR and real-life urban environments to investigate how perceived disorder and personality traits shape fear of crime (<strong class="talk-label"><u>Talk 3</u></strong>), and using a mixed-methods approach to study behavioural adaptations due to fear of crime (<strong class="talk-label"><u>Talk 4</u></strong>). The fifth paper adopts an offender perspective, using VR combined with eye-tracking to uncover implicit perceptual mechanisms underlying target evaluation and revealing systematic divergences between visual attention and explicit judgment (<strong class="talk-label"><u>Talk 5</u></strong>).</p>
+                    <p>Together, these studies illustrate how quantitative analyses, mixed-methods designs, and physiological measures can be integrated within VR-based paradigms to uncover the psychological mechanisms linking traits, situational cues, and behavior. By bridging perspectives across bystanders, potential victims, and offenders, the panel demonstrates the value of VR for advancing a unified, psychologically grounded understanding of crime-related decision-making.</p>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <aside class="conference-column roundtable-column" aria-labelledby="roundtable-title">
+        <header class="roundtable-hero">
+            <div class="roundtable-hero-copy">
+                <p class="panel-kicker">Round table · EUROCRIM 2026</p>
+                <h2 id="roundtable-title">Virtual Reality in European Criminology</h2>
+                <p class="roundtable-subtitle">Round table following the VR special issue @European Journal on Criminal Policy and Research,</p>
+                <p class="roundtable-invitation">You are warmly invited to join us as speakers for an interactive discussion about shared experiences, the special issue, and future developments in the field.</p>
+            </div>
+
+            <section class="panel-chairs roundtable-chairs" aria-labelledby="roundtable-chairs-title">
+                <p id="roundtable-chairs-title" class="section-label">Chairs</p>
+                <p class="chair-names">Jean-Louis van Gelder, Stefano Caneppele,</p>
+                <p class="chair-names chair-names-secondary">Edoardo Cocco</p>
+            </section>
+
+            <section class="panel-event-card roundtable-event-card" aria-label="Round table time and location">
+                <div class="panel-event-primary">
+                    <p class="panel-event-label">Thursday · 10 September 2026</p>
+                    <p class="panel-event-time">15:45–17:00</p>
+                </div>
+                <div class="panel-event-detail">
+                    <p><strong>Faculty of Applied Languages</strong></p>
+                    <p>55 Dobra Street · Floor 3 · Room 3.110</p>
+                </div>
+            </section>
+        </header>
+
+        <section class="roundtable-agenda" aria-labelledby="roundtable-agenda-title">
+            <div class="roundtable-section-heading">
+                <p class="section-label">Discussion outline</p>
+                <h3 id="roundtable-agenda-title">Six points for our conversation</h3>
+            </div>
+
+            <ol class="roundtable-steps">
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">01</span>
+                    <div>
+                        <h4>Welcome and introduction</h4>
+                        <p class="roundtable-role">Guest editors</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">02</span>
+                    <div>
+                        <h4>Practical information about the special issue</h4>
+                        <p>A brief discussion of the rationale and structure of the special issue, its current status, and the expected timeline.</p>
+                        <p class="roundtable-role">Guest editors</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">03</span>
+                    <div>
+                        <h4>Presentation of the studies and their main findings</h4>
+                        <p>Each author will be invited to briefly introduce their study, including its main research question, approach, and findings.</p>
+                        <p class="roundtable-role">Each author</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">04</span>
+                    <div>
+                        <h4>Developing and conducting the studies</h4>
+                        <p>We will discuss experiences, barriers, and challenges encountered during the development and implementation of the studies, including methodological, practical, ethical, technical, and institutional issues. We will also reflect on current bottlenecks, anticipated challenges, and the resources or support needed to develop future research plans.</p>
+                        <p class="roundtable-role">Each author</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">05</span>
+                    <div>
+                        <h4>The future of VR in European criminology</h4>
+                        <p>How might VR research develop in Europe over the coming year? Which questions or applications will become especially important? We will consider the role of VR in criminological research, education, prevention, policing, corrections, and victimology, alongside the opportunities and risks researchers and institutions should anticipate.</p>
+                        <p class="roundtable-role">Each author</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="roundtable-step-number" aria-hidden="true">06</span>
+                    <div>
+                        <h4>Towards a European Working Group on Criminology and VR</h4>
+                        <p>We will move towards a practical discussion about creating a European working group, considering its potential objectives and activities and how interested participants could contribute to establishing and developing it.</p>
+                        <p class="roundtable-role">All authors and participants</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="working-group-signup" aria-labelledby="working-group-title">
+            <p class="section-label">Stay connected</p>
+            <h3 id="working-group-title">
+                <span>Subscribe to the working group</span>
+                <span>“VR in European Criminology”</span>
+            </h3>
+            <form id="working-group-form" class="working-group-form">
+                <label for="working-group-email">Email address</label>
+                <div class="working-group-form-row">
+                    <input id="working-group-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+                    <button type="submit">Subscribe</button>
+                </div>
+                <p class="working-group-note">This will open a prepared subscription message in your email app.</p>
+            </form>
+        </section>
+      </aside>
     </main>
 
     <footer class="panel-footer">
@@ -193,5 +297,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js/2.0.0/particles.min.js"></script>
     <script src="../script/particles.js"></script>
+    <script>
+        const workingGroupForm = document.getElementById('working-group-form');
+        workingGroupForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const emailField = document.getElementById('working-group-email');
+            if (!emailField.reportValidity()) return;
+
+            const subject = encodeURIComponent('Subscribe to VR in European Criminology');
+            const body = encodeURIComponent(`Please add ${emailField.value} to the VR in European Criminology working group mailing list.`);
+            window.location.href = `mailto:r.li@csl.mpg.de?subject=${subject}&body=${body}`;
+        });
+    </script>
 </body>
 </html>

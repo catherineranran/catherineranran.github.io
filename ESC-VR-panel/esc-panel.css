@@ -27,7 +27,7 @@ body {
     overflow-x: hidden;
     background:
         radial-gradient(circle at 16% 12%, rgba(104, 211, 145, 0.1), transparent 26rem),
-        radial-gradient(circle at 86% 52%, rgba(147, 197, 253, 0.08), transparent 30rem),
+        radial-gradient(circle at 86% 52%, rgba(196, 181, 253, 0.09), transparent 30rem),
         #2d3748;
     color: var(--ink);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -58,7 +58,7 @@ summary:focus-visible {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: min(calc(100% - 2rem), 68rem);
+    width: min(calc(100% - 2rem), 96rem);
     margin: 0 auto;
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--line);
@@ -79,8 +79,76 @@ summary:focus-visible {
 }
 
 main {
-    width: min(calc(100% - 2rem), 68rem);
+    width: min(calc(100% - 2rem), 96rem);
     margin: 0 auto;
+}
+
+.dual-panel-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2.5rem, 4vw, 4rem);
+    align-items: start;
+}
+
+.conference-column {
+    min-width: 0;
+}
+
+.research-panel-column {
+    padding-left: 3rem;
+}
+
+.roundtable-column {
+    margin-top: 0;
+    padding-left: clamp(2.5rem, 4vw, 4rem);
+    border-left: 1px solid var(--line);
+}
+
+.roundtable-column .panel-kicker,
+.roundtable-column .panel-event-label,
+.roundtable-column .section-label,
+.roundtable-column .roundtable-role {
+    color: var(--violet);
+}
+
+.research-panel-column .panel-hero,
+.roundtable-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 0;
+    min-height: 48rem;
+    padding: clamp(4.5rem, 10vw, 8rem) 0 4.5rem;
+}
+
+.panel-hero-copy,
+.roundtable-hero-copy {
+    grid-row: 1;
+}
+
+.research-panel-column .panel-chairs,
+.roundtable-chairs {
+    grid-row: 3;
+    min-height: 9rem;
+}
+
+.research-panel-column .panel-hero h1 {
+    font-size: clamp(1.75rem, 2.15vw, 2.15rem);
+}
+
+.research-panel-column .panel-event-card {
+    grid-row: 4;
+    width: min(100%, 25rem);
+    margin-top: 2.25rem;
+    margin-left: auto;
+}
+
+.roundtable-event-card {
+    grid-row: 4;
+    width: min(100%, 25rem);
+    margin-top: 2.25rem;
+    margin-right: auto;
+    border-top-color: var(--violet);
 }
 
 .panel-hero {
@@ -137,6 +205,10 @@ main {
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
 }
 
+.panel-event-card.roundtable-event-card {
+    border-top-color: var(--violet);
+}
+
 .panel-event-primary,
 .panel-event-detail {
     padding: 1.35rem 1.4rem;
@@ -168,6 +240,15 @@ main {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     color: var(--quiet);
+}
+
+.research-panel-column .perspective-grid {
+    width: 100%;
+    margin-left: 0;
+}
+
+.roundtable-chairs {
+    border-bottom-color: rgba(196, 181, 253, 0.58);
 }
 
 .chair-names {
@@ -239,6 +320,10 @@ main {
 
 .perspective-grid strong {
     font-size: 0.95rem;
+}
+
+.research-perspective-band {
+    height: 6.25rem;
 }
 
 details summary {
@@ -313,6 +398,7 @@ details[open] > summary .abstract-toggle::after {
 }
 
 .papers-section {
+    padding: clamp(4.5rem, 7vw, 6rem) 0;
     border-top: 1px solid var(--line);
 }
 
@@ -324,7 +410,13 @@ details[open] > summary .abstract-toggle::after {
 
 .papers-heading h2 {
     grid-column: 1;
+    grid-row: 2;
     font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.papers-heading .section-label {
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .papers-heading > p:last-child {
@@ -413,13 +505,193 @@ details[open] > summary .abstract-toggle::after {
 .panel-footer {
     display: flex;
     justify-content: space-between;
-    width: min(calc(100% - 2rem), 68rem);
+    width: min(calc(100% - 2rem), 96rem);
     margin: 0 auto;
     padding: 1.8rem 0 2.5rem;
     border-top: 1px solid var(--line);
     color: var(--quiet);
     font-size: 0.78rem;
     letter-spacing: 0.04em;
+}
+
+.roundtable-hero {
+    padding-bottom: 4.5rem;
+}
+
+.roundtable-hero h2 {
+    max-width: none;
+    margin-top: 0.8rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.75rem, 2.15vw, 2.15rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    white-space: nowrap;
+}
+
+.roundtable-subtitle {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(0.97rem, 2.16vw, 1.44rem);
+    font-style: italic;
+    line-height: 1.25;
+}
+
+.roundtable-invitation {
+    max-width: 39rem;
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 1.02rem;
+}
+
+.roundtable-agenda {
+    margin-top: 6.25rem;
+    padding: clamp(4.5rem, 7vw, 6rem) 0;
+}
+
+.roundtable-section-heading h3 {
+    margin-top: 0.45rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.roundtable-steps {
+    margin-top: 2rem;
+    border-top: 1px solid var(--line);
+    list-style: none;
+}
+
+.roundtable-steps li {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.45rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.roundtable-step-number {
+    color: var(--violet);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.76rem;
+}
+
+.roundtable-steps h4 {
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.13rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.roundtable-steps li p:not(.roundtable-role) {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.91rem;
+    line-height: 1.7;
+}
+
+.roundtable-role {
+    margin-top: 0.75rem;
+    color: var(--green);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.working-group-signup {
+    margin-bottom: clamp(4.5rem, 7vw, 6rem);
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border-top: 3px solid var(--violet);
+    border-bottom: 1px solid var(--line);
+    background: rgba(196, 181, 253, 0.07);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
+}
+
+.working-group-signup h3 {
+    max-width: 34rem;
+    margin-top: 0.55rem;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.working-group-signup h3 span {
+    display: block;
+}
+
+.working-group-signup h3 span + span {
+    margin-top: 0.18em;
+}
+
+.working-group-form {
+    margin-top: 1.75rem;
+}
+
+.working-group-form label {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.working-group-form-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+}
+
+.working-group-form input {
+    min-width: 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(196, 181, 253, 0.48);
+    border-radius: 0;
+    outline: none;
+    background: rgba(17, 24, 39, 0.54);
+    color: var(--ink);
+    font: inherit;
+}
+
+.working-group-form input::placeholder {
+    color: var(--quiet);
+}
+
+.working-group-form input:focus {
+    border-color: var(--violet);
+    box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.16);
+}
+
+.working-group-form button {
+    padding: 0.85rem 1.2rem;
+    border: 1px solid var(--violet);
+    background: var(--violet);
+    color: #24283a;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.working-group-form button:hover,
+.working-group-form button:focus-visible {
+    background: #ddd6fe;
+    border-color: #ddd6fe;
+}
+
+.working-group-note {
+    margin-top: 0.7rem;
+    color: var(--quiet);
+    font-size: 0.78rem;
+    line-height: 1.5;
 }
 
 .panel-tulip {
@@ -452,6 +724,56 @@ details[open] > summary .abstract-toggle::after {
     }
 }
 
+@media (max-width: 80rem) {
+    .dual-panel-layout {
+        grid-template-columns: 1fr;
+        max-width: 68rem;
+    }
+
+    .roundtable-column {
+        margin-top: 0;
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+
+    .research-panel-column {
+        padding-left: 0;
+    }
+
+    .research-panel-column .perspective-grid {
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+    }
+
+    .roundtable-agenda {
+        margin-top: 0;
+    }
+
+    .research-panel-column .panel-hero h1,
+    .roundtable-hero h2 {
+        font-size: clamp(2rem, 3.7vw, 2.35rem);
+    }
+
+    .research-panel-column .panel-hero,
+    .roundtable-hero {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .research-panel-column .panel-chairs,
+    .roundtable-chairs {
+        min-height: 0;
+    }
+
+    .research-panel-column .panel-event-card,
+    .roundtable-event-card {
+        margin: 2.25rem auto 0;
+    }
+}
+
 @media (max-width: 760px) {
     .panel-hero {
         grid-template-columns: 1fr;
@@ -459,13 +781,18 @@ details[open] > summary .abstract-toggle::after {
         padding: 4.25rem 0 3.5rem;
     }
 
-    .panel-hero h1 {
+    .panel-hero h1,
+    .roundtable-hero h2 {
         font-size: clamp(3rem, 15vw, 5rem);
         white-space: normal;
     }
 
     .panel-event-card {
         max-width: 28rem;
+    }
+
+    .working-group-form-row {
+        grid-template-columns: 1fr;
     }
 
     .perspective-grid {
