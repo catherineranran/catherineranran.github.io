@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Scalable Immersion headset session: view captured monoscopic 180-degree video in immersive WebXR.">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>Scalable Immersion — VR Headset | Ranran Li</title>
+    <link rel="icon" href="/assets/icons/favicon.png" type="image/png">
+    <link rel="canonical" href="https://ranranli.net/projects/scalable-immersion-videos/VR-headset/">
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #f2f5fa;
+            background: #0b1019;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; }
+        a { color: #9cc9ff; text-underline-offset: 4px; }
+        a:hover { color: #fff; }
+        a:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 5px; border-radius: 3px; }
+        .skip-link { position: absolute; top: -80px; left: 20px; z-index: 2; padding: 12px; background: #15243b; }
+        .skip-link:focus { top: 12px; }
+        .page-header { border-bottom: 1px solid #283447; }
+        .header-content {
+            max-width: 1304px;
+            margin: 0 auto;
+            padding: 18px 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 30px;
+        }
+        .project-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 20px; }
+        .home-link { font-size: 0.9375rem; font-weight: 600; text-decoration: none; }
+        h1 { margin: 0; color: #d6e1ef; font-size: 1rem; line-height: 1.5; font-weight: 500; }
+        .page-links { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.875rem; }
+        .page-links a { white-space: nowrap; }
+        main { width: 100%; }
+        iframe {
+            display: block;
+            width: 100%;
+            height: calc(100vh - 65px);
+            height: calc(100dvh - 65px);
+            min-height: 560px;
+            border: 0;
+            background: #0b1019;
+        }
+        .fallback { margin: 0; padding: 16px 24px; line-height: 1.5; }
+        @media (max-width: 700px) {
+            .header-content { padding: 16px; align-items: flex-start; flex-direction: column; gap: 10px; }
+            .project-heading { gap: 8px 16px; }
+            iframe { height: calc(100dvh - 105px); min-height: 560px; }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#video-player">Skip to video player</a>
+    <header class="page-header">
+        <div class="header-content">
+            <div class="project-heading">
+                <a class="home-link" href="/#Research">Ranran Li</a>
+                <h1>Scalable Immersion · VR Headset</h1>
+            </div>
+            <nav class="page-links" aria-label="Project navigation">
+                <a href="/projects/scalable-immersion-videos/">Screen session</a>
+                <a href="https://bystander-magic-window.catherineranran.chatgpt.site/headset" target="_blank" rel="noopener noreferrer">Open direct VR player</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <iframe
+            id="video-player"
+            title="Captured 180-degree video: WebXR headset session"
+            src="https://bystander-magic-window.catherineranran.chatgpt.site/headset"
+            allow="xr-spatial-tracking; fullscreen; autoplay"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <noscript><p class="fallback">Enable JavaScript to use the interactive video player.</p></noscript>
+    </main>
+</body>
+</html>
