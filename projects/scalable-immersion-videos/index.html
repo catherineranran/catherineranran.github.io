@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Scalable Immersion video workspace: explore captured 180-degree footage in an interactive magic-window player.">
+    <meta name="description" content="Scalable Immersion video workspace: separate screen magic-window and WebXR headset sessions using the same captured 180-degree footage.">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Scalable Immersion — Videos | Ranran Li</title>
     <link rel="icon" href="/assets/icons/favicon.png" type="image/png">
@@ -65,16 +65,16 @@
             </div>
             <nav class="page-links" aria-label="Project navigation">
                 <a href="/projects/scalable-immersion/">Project workspace</a>
-                <a href="https://bystander-magic-window.catherineranran.chatgpt.site/" target="_blank" rel="noopener noreferrer">Open player in new tab</a>
+                <a href="https://bystander-magic-window.catherineranran.chatgpt.site/" target="_blank" rel="noopener noreferrer">Open sessions in new tab</a>
             </nav>
         </div>
     </header>
     <main>
         <iframe
             id="video-player"
-            title="Captured 180-degree video: interactive magic-window player"
+            title="Captured 180-degree video: screen and WebXR headset sessions"
             src="https://bystander-magic-window.catherineranran.chatgpt.site/"
-            allow="fullscreen; autoplay"
+            allow="xr-spatial-tracking; fullscreen; autoplay"
             allowfullscreen
             referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
