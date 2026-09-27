@@ -142,6 +142,12 @@ function renderProject(project, analysisUrl = null) {
         externalLink(project.documentUrl, "project-resource-card project-document-card", `${project.documentTitle} (see preview below)`, "fa-regular fa-file-lines"),
         externalLink(project.folderUrl, "project-resource-card project-folder-card", "Open the Google Drive folder", "fa-regular fa-folder-open")
     );
+    if (window.projectWorkspaceConfig.scenarioUrl) {
+        resourceGrid.classList.add("project-resource-grid-three");
+        resourceGrid.append(
+            externalLink(window.projectWorkspaceConfig.scenarioUrl, "project-resource-card project-scenario-card", "Scenario website", "fa-solid fa-film")
+        );
+    }
     if (analysisUrl) {
         resourceGrid.classList.add("project-resource-grid-three");
         resourceGrid.append(
