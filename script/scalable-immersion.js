@@ -1,5 +1,6 @@
 window.projectWorkspaceConfig = {
     eyebrow: "Scalable immersive scenarios",
+    scenarioUrl: "https://ranranli.net/projects/scalable-immersion-videos/",
     encryptedProject: {
         salt: "YJs9Vd/WGSCCCOvBwuzaxw==",
         iv: "8YefE5Fh9PZnNufy",
