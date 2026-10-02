@@ -1,4 +1,3 @@
-const PASSWORD_HASH = "ebb3de8a3d9a40366132eb5deb5af44e4c96c11696f8fc34ea2c1d8bd8399171";
 const lockSection = document.querySelector("#network-lock");
 const contentSection = document.querySelector("#network-content");
 const passwordForm = document.querySelector("#network-password-form");
@@ -11,123 +10,39 @@ const ecologyNodeTooltip = document.querySelector("#ecology-node-tooltip");
 const ecologyYearSlider = document.querySelector("#ecology-year-slider");
 const ecologyYearValue = document.querySelector("#ecology-year-value");
 const ecologyNetworkStatus = document.querySelector("#ecology-network-status");
+const ecologyBoard = document.querySelector("#ecology-board");
 
-const ecologyNodes = [
-    {
-        id: "ranran",
-        name: "Ranran Li",
-        anchor: true,
-        field: "psychology (personality)",
-        expertise: "bridging personality psychology with criminology, behavioral economics, etc.",
-        affiliation: "Max Planck Institute for the Study of Crime, Security, and Law",
-    },
-    {
-        id: "botao-amber-hu",
-        name: "Botao Amber Hu",
-        knownSince: 2026,
-        field: "computer science, AI, HCI",
-        expertise: "Human-Computer Interaction (social computing), protocol studies, experiential futures, etc.",
-        affiliation: "University of Oxford; Reality Design Lab",
-    },
-    { id: "matthijs-baas", name: "Matthijs Baas", knownSince: 2018, field: "", expertise: "", affiliation: "" },
-    {
-        id: "reinout",
-        name: "Reinout E. de Vries",
-        knownSince: 2020,
-        field: "psychology (personality)",
-        expertise: "HEXACO personality, personality assessment, psychometrics, scale development, communication styles, leadership",
-        affiliation: "Vrije Universiteit Amsterdam",
-    },
-    {
-        id: "jean-louis",
-        name: "Jean-Louis van Gelder",
-        knownSince: 2024,
-        orbitScale: 0.48,
-        field: "criminology, psychology",
-        expertise: "Virtual Reality in criminology, affect and cognition, future orientation, short-term mindsets",
-        affiliation: "Max Planck Institute for the Study of Crime, Security, and Law",
-    },
-    {
-        id: "ingo",
-        name: "Ingo Zettler",
-        knownSince: 2024,
-        field: "psychology (personality)",
-        expertise: "HEXACO personality, Dark factor of personality, prosocial & antisocial behavior, cultural psychology",
-        affiliation: "University of Copenhagen",
-    },
-    { id: "daniel-balliet", name: "Daniel Balliet", knownSince: 2020, field: "", expertise: "", affiliation: "" },
-    { id: "isabel-thielmann", name: "Isabel Thielmann", knownSince: 2020, orbitScale: 1, field: "", expertise: "", affiliation: "" },
-    { id: "rene-mottus", name: "René Mõttus", knownSince: 2022, orbitScale: 1, field: "", expertise: "", affiliation: "" },
-    { id: "giulio-costantini", name: "Giulio Costantini", knownSince: 2022, field: "", expertise: "", affiliation: "" },
-    { id: "hadas-okon-singer", name: "Hadas Okon-Singer", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "hannes-rusche", name: "Hannes Rusch", knownSince: 2024, field: "", expertise: "", affiliation: "" },
-    { id: "nicholas-umashev", name: "Nicholas Umashev", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "rima-maria-rahal", name: "Rima-Maria Rahal", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "lennart-reddmann", name: "Lennart Reddmann", knownSince: 2024, field: "", expertise: "", affiliation: "" },
-    { id: "yixin-zou", name: "Yixin Zou", knownSince: 2026, orbitScale: 1, field: "", expertise: "", affiliation: "" },
-    { id: "yijin-he", name: "Yijin He", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "yunrui-liu", name: "Yunrui Liu", knownSince: 2026, orbitScale: 0.62, field: "", expertise: "", affiliation: "" },
-    { id: "lorren-tisdall", name: "Lorren Tisdall", knownSince: 2025, orbitScale: 0.62, field: "", expertise: "", affiliation: "" },
-    { id: "luke-smille", name: "Luke Smille", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "joshua-wilt", name: "Joshua Wilt", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "timothy-c-barnum", name: "Timothy C Barnum", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "shaina-herman", name: "Shaina Herman", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "caspar-j-van-lissa", name: "Caspar J. van Lissa", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "nick-ballou", name: "Nick Ballou", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "emily-caspar", name: "Emily Caspar", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "ori-weisel", name: "Ori Weisel", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "balazs-aczel", name: "Balazs Aczel", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "max-knabe", name: "Max Knabe", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "heith-copes", name: "Heith Copes", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "william-pridemore", name: "William Pridemore", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "roza-g-kamiloglu", name: "Roza G. Kamiloğlu", knownSince: 2024, field: "", expertise: "", affiliation: "" },
-    { id: "jon-brauer", name: "Jon Brauer", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "felix-schonbrodt", name: "Felix Schönbrodt", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "victor-van-der-geest", name: "Victor van der Geest", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "william-fleeson", name: "William Fleeson", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "shaul-oreg", name: "Shaul Oreg", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "anna-baumert", name: "Anna Baumert", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "daniel-leising", name: "Daniel Leising", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "gari-walkowitz", name: "Gari Walkowitz", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "adam-joinson", name: "Adam Joinson", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "christoph-herrmann", name: "Christoph Herrmann", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "nicola-baumann", name: "Nicola Baumann", knownSince: 2026, field: "", expertise: "", affiliation: "" },
-    { id: "reeshad-s-dalal", name: "Reeshad S. Dalal", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "wilco-van-dijk", name: "Wilco van Dijk", knownSince: 2025, field: "", expertise: "", affiliation: "" },
-    { id: "simon-columbus", name: "Simon Columbus", knownSince: 2022, field: "", expertise: "", affiliation: "" },
-];
-
-const ecologyEdges = [
-    { source: "ranran", target: "matthijs-baas", knownSince: 2018, status: "past" },
-    { source: "ranran", target: "reinout", knownSince: 2020, status: "ongoing" },
-    { source: "ranran", target: "jean-louis", knownSince: 2024, status: "ongoing" },
-    { source: "ranran", target: "ingo", knownSince: 2024, status: "past" },
-    { source: "ranran", target: "daniel-balliet", knownSince: 2020, status: "past" },
-    { source: "ranran", target: "isabel-thielmann", knownSince: 2020, status: "past" },
-    { source: "ranran", target: "hannes-rusche", knownSince: 2024, status: "past" },
-    { source: "ranran", target: "nicholas-umashev", knownSince: 2025, status: "past" },
-    { source: "ranran", target: "yijin-he", knownSince: 2026, status: "ongoing" },
-    { source: "ranran", target: "lorren-tisdall", knownSince: 2025, status: "ongoing" },
-    { source: "ranran", target: "joshua-wilt", knownSince: 2025, status: "past" },
-    { source: "ranran", target: "timothy-c-barnum", knownSince: 2026, status: "ongoing" },
-    { source: "ranran", target: "shaina-herman", knownSince: 2026, status: "ongoing" },
-    { source: "ranran", target: "caspar-j-van-lissa", knownSince: 2025, status: "ongoing" },
-    { source: "ranran", target: "nick-ballou", knownSince: 2026, status: "past" },
-    { source: "ranran", target: "max-knabe", knownSince: 2025, status: "ongoing" },
-    { source: "ranran", target: "botao-amber-hu", knownSince: 2026, status: "ongoing" },
-    { source: "ranran", target: "nicola-baumann", knownSince: 2026, status: "ongoing" },
-    { source: "ranran", target: "wilco-van-dijk", knownSince: 2025, status: "ongoing" },
-];
+// People and collaborations live only in the encrypted payload (script/ecology-data.js).
+let ecologyNodes = [];
+let ecologyEdges = [];
 
 let ecologyAnimationFrame = null;
 let ecologyNetworkState = null;
 
-async function sha256(value) {
-    const encoded = new TextEncoder().encode(value);
-    const digest = await crypto.subtle.digest("SHA-256", encoded);
-    return Array.from(new Uint8Array(digest))
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("");
+function fromBase64(value) {
+    return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+}
+
+async function decryptEcology(password) {
+    const payload = window.ecologyEncrypted;
+    if (!payload) {
+        throw new Error("missing-payload");
+    }
+    const encoder = new TextEncoder();
+    const material = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]);
+    const key = await crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: fromBase64(payload.salt), iterations: payload.iterations || 250000, hash: "SHA-256" },
+        material,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["decrypt"]
+    );
+    const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: fromBase64(payload.iv) },
+        key,
+        fromBase64(payload.ciphertext)
+    );
+    return JSON.parse(new TextDecoder().decode(decrypted));
 }
 
 function showContent() {
@@ -148,14 +63,25 @@ passwordForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     passwordMessage.textContent = "Checking...";
 
-    const submittedHash = await sha256(passwordInput.value.trim());
-    if (submittedHash === PASSWORD_HASH) {
-        showContent();
+    let data;
+    try {
+        data = await decryptEcology(passwordInput.value.trim());
+    } catch (error) {
+        passwordMessage.textContent = error.message === "missing-payload"
+            ? "The workspace data could not be loaded."
+            : "That password did not work.";
+        passwordInput.select();
         return;
     }
 
-    passwordMessage.textContent = "That password did not work.";
-    passwordInput.select();
+    ecologyNodes = data.nodes || [];
+    ecologyEdges = data.edges || [];
+    if (ecologyBoard && data.boardHtml) {
+        ecologyBoard.innerHTML = data.boardHtml;
+    }
+    passwordInput.value = "";
+    passwordMessage.textContent = "";
+    showContent();
 });
 
 if (lockButton) {
@@ -362,7 +288,7 @@ function startEcologyAnimation() {
 }
 
 function renderEcologyNetwork() {
-    if (!ecologyNetwork || !ecologyYearSlider) {
+    if (!ecologyNetwork || !ecologyYearSlider || !ecologyNodes.length) {
         return;
     }
 
@@ -439,5 +365,4 @@ function renderEcologyNetwork() {
 if (ecologyYearSlider) {
     ecologyYearSlider.addEventListener("input", updateNetworkVisibility);
     window.addEventListener("resize", renderEcologyNetwork);
-    renderEcologyNetwork();
 }
