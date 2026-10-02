@@ -7,7 +7,7 @@
     <link rel="icon" href="./assets/icons/favicon.png" type="image/x-icon">
     <title>Exhibition | Ranran Li</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20260702b">
+    <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20261002a">
 </head>
 <body class="bg">
     <div id="particles-bg"></div>
@@ -27,14 +27,49 @@
         </div>
     </nav>
 
-    <main class="min-h-screen max-w-screen-xl mx-auto px-4 py-12">
-        <div class="exhibition-board">
+    <main class="exhibition-main min-h-screen max-w-screen-xl mx-auto px-4 py-12">
+        <p class="exhibition-scroll-hint">Scroll horizontally through the columns and vertically within each column.</p>
+        <div class="exhibition-board" tabindex="0" aria-label="Horizontally scrollable exhibition columns">
+            <section class="exhibition-thread exhibition-thread-narrow">
+                <header class="exhibition-thread-header">
+                    <h2>Daily vibecoding</h2>
+                    <span>1</span>
+                </header>
+                <div class="exhibition-sticker-list">
+                    <article class="exhibition-sticker exhibition-video-card">
+                        <div class="exhibition-sticker-date">02.10.2026</div>
+                        <div class="exhibition-video" data-video>
+                            <video
+                                src="./assets/videos/tit-for-tat.mp4"
+                                poster="./assets/videos/tit-for-tat-poster.jpg"
+                                preload="none"
+                                playsinline
+                                aria-label="Tit for Tat: a short animated explainer on the evolution of cooperation"></video>
+                            <button type="button" class="exhibition-video-play" aria-label="Play video: Tit for Tat">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+                            </button>
+                            <span class="exhibition-video-duration">2:27</span>
+                        </div>
+                        <div class="exhibition-sticker-body">
+                            <p><strong>Tit for Tat</strong> &mdash; why the simplest strategy won the cooperation game.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
             <section class="exhibition-thread">
                 <header class="exhibition-thread-header">
                     <h2>Daily Rants Post-PhD</h2>
-                    <span>11</span>
+                    <span>12</span>
                 </header>
                 <div class="exhibition-sticker-list">
+                    <article class="exhibition-sticker">
+                        <div class="exhibition-sticker-date">02.10.2026</div>
+                        <div class="exhibition-sticker-body">
+                            <p>Productivity = judgment (vision, taste) × execution.</p>
+                            <p>Exciting era when any dream can come true; very much looking forward to seeing the future unfold, and to being part of it myself.</p>
+                        </div>
+                    </article>
                     <article class="exhibition-sticker">
                         <div class="exhibition-sticker-date">28.09.2026</div>
                         <div class="exhibition-sticker-body">
@@ -396,5 +431,28 @@ Visited my alma mater and met my graduate advisor again. He was as leisurely as 
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script/particles.js"></script>
+    <script>
+        (function () {
+            var board = document.querySelector('.exhibition-board');
+            var hint = document.querySelector('.exhibition-scroll-hint');
+            function updateHint() {
+                hint.textContent = board.scrollWidth > board.clientWidth + 1
+                    ? 'Scroll horizontally through the columns and vertically within each column.'
+                    : 'Scroll vertically within each column.';
+            }
+            updateHint();
+            window.addEventListener('resize', updateHint);
+        })();
+
+        document.querySelectorAll('[data-video]').forEach(function (wrap) {
+            var video = wrap.querySelector('video');
+            var button = wrap.querySelector('.exhibition-video-play');
+            button.addEventListener('click', function () {
+                wrap.classList.add('is-playing');
+                video.controls = true;
+                video.play();
+            });
+        });
+    </script>
 </body>
 </html>
