@@ -1,0 +1,55 @@
+:root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #f2f5fa; background: #0b1019; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: #0b1019; }
+a { color: #9cc9ff; text-underline-offset: 4px; }
+a:hover { color: #fff; }
+a:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 5px; border-radius: 3px; }
+.skip-link { position: absolute; top: -80px; left: 20px; z-index: 2; padding: 12px; background: #15243b; }
+.skip-link:focus { top: 12px; }
+.page-header { border-bottom: 1px solid #283447; }
+.header-content { max-width: 1304px; margin: 0 auto; padding: 18px 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px 30px; }
+.project-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; }
+h1 { margin: 0; color: #d6e1ef; font-size: 1rem; line-height: 1.5; font-weight: 500; }
+.tag { padding: 3px 8px; border: 1px solid rgba(156, 201, 255, .45); border-radius: 6px; color: #9cc9ff; font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.page-links { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.875rem; }
+.page-links a { white-space: nowrap; }
+main { width: 100%; }
+.access { min-height: calc(100dvh - 65px); display: grid; place-items: center; padding: 32px 16px; }
+.panel { width: 100%; max-width: 440px; background: #111b2b; border: 1px solid #283447; border-radius: 12px; padding: 28px 28px 24px; }
+.eyebrow { margin: 0 0 6px; color: #9cc9ff; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+h2 { margin: 0 0 8px; font-size: 1.5rem; line-height: 1.2; font-weight: 600; }
+.lead { margin: 0 0 20px; color: #c9d4e3; line-height: 1.5; }
+label { display: block; margin-bottom: 6px; font-size: 0.875rem; color: #c9d4e3; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+input[type="password"] { flex: 1 1 200px; min-width: 0; padding: 11px 12px; font: inherit; color: #f2f5fa; background: #0b1019; border: 1px solid #3a4a63; border-radius: 8px; }
+input[type="password"]:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 1px; border-color: #9cc9ff; }
+button { padding: 11px 18px; font: inherit; font-weight: 600; color: #0b1019; background: #9cc9ff; border: 0; border-radius: 8px; cursor: pointer; }
+button:hover { background: #c2deff; }
+button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+button:disabled { opacity: 0.55; cursor: default; }
+.help { margin: 14px 0 0; font-size: 0.875rem; color: #9aa8bb; line-height: 1.45; }
+.status { min-height: 1.4em; margin: 12px 0 0; font-size: 0.9rem; line-height: 1.4; }
+.status.err { color: #ffb4a8; }
+.stage { position: relative; width: 100%; height: calc(100vh - 65px); height: calc(100dvh - 65px); min-height: 480px; overflow: hidden; background: #05080d; }
+.stage canvas { display: block; cursor: grab; }
+.stage canvas:active { cursor: grabbing; }
+.controls { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 12px; border: 1px solid #283447; border-radius: 10px; background: rgba(11, 16, 25, .86); }
+.controls button { padding: 8px 12px; font-size: .85rem; color: #f2f5fa; background: #1a2840; }
+.controls button:hover { background: #24375a; }
+.controls button.primary { color: #0b1019; background: #9cc9ff; }
+.controls button.primary:hover { background: #c2deff; }
+.controls button[aria-pressed="true"] { color: #0b1019; background: #9cc9ff; }
+.time { font-variant-numeric: tabular-nums; font-size: .85rem; color: #c9d4e3; }
+.track { flex: 1 1 120px; min-width: 80px; height: 4px; border-radius: 2px; background: #283447; overflow: hidden; }
+.track span { display: block; width: 0; height: 100%; background: #9cc9ff; }
+.hint { font-size: .8rem; color: #9aa8bb; }
+.overlay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(5, 8, 13, .45); }
+.overlay button { padding: 14px 26px; font-size: 1.05rem; }
+.fallback { margin: 0; padding: 16px 24px; line-height: 1.5; }
+@media (max-width: 700px) {
+    .header-content { padding: 16px; align-items: flex-start; flex-direction: column; gap: 10px; }
+    .access { min-height: calc(100dvh - 105px); }
+    .stage { height: calc(100dvh - 105px); }
+    .hint { display: none; }
+}
