@@ -6,7 +6,8 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
 
 const SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000;
 const BASE = '/projects/scalable-immersion-videos/generated-bystander-assets/';
-const VIDEO_FILE = 'prelim-95-185.mp4.enc', KEY_FILE = 'content-key.enc';
+// The video is split in two parts (GitHub's web upload takes at most 25 MB per file); each part is sealed separately.
+const VIDEO_PARTS = ['prelim-95-185.part1.enc', 'prelim-95-185.part2.enc'], KEY_FILE = 'content-key.enc';
 const KEEP = 'si-world-access';
 const DELIVERY = window.SI_DELIVERY === 'headset' ? 'headset' : 'screen';
 
@@ -55,10 +56,13 @@ async function unlock(pass) {
         }
         try { sessionStorage.setItem(KEEP, pass); } catch (e) {}
         const ck = await crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
-        const enc = await fetchWithProgress(BASE + VIDEO_FILE, (f) => say('Loading the video… ' + Math.round(f * 100) + '%'));
+        const parts = [];
+        for (let i = 0; i < VIDEO_PARTS.length; i++) {
+            const enc = await fetchWithProgress(BASE + VIDEO_PARTS[i], (f) => say('Loading the video… ' + Math.round(100 * (i + f) / VIDEO_PARTS.length) + '%'));
+            parts.push(await gcmOpen(ck, enc));
+        }
         say('Opening the video…');
-        const data = await gcmOpen(ck, enc);
-        start(URL.createObjectURL(new Blob([data], { type: 'video/mp4' })));
+        start(URL.createObjectURL(new Blob(parts, { type: 'video/mp4' })));
     } catch (e) {
         say(String(e && e.message || e), true); btn.disabled = false;
     }
