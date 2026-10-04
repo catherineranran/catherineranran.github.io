@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="View the reconstructed 180-degree Bystander video in an interactive magic window on your screen.">
+    <meta name="description" content="Open the reconstructed Bystander pub as a fixed-viewpoint 180-degree magic window on your screen with the study password.">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Reconstructed · Magic window | Scalable Immersion</title>
     <link rel="icon" href="/assets/icons/favicon.png" type="image/png">
@@ -16,6 +16,7 @@
             background: #0b1019;
         }
         * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
         body { margin: 0; }
         a { color: #9cc9ff; text-underline-offset: 4px; }
         a:hover { color: #fff; }
@@ -37,6 +38,22 @@
         .page-links { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.875rem; }
         .page-links a { white-space: nowrap; }
         main { width: 100%; }
+        .access { min-height: calc(100dvh - 65px); display: grid; place-items: center; padding: 32px 16px; }
+        .panel { width: 100%; max-width: 440px; background: #111b2b; border: 1px solid #283447; border-radius: 12px; padding: 28px 28px 24px; }
+        .eyebrow { margin: 0 0 6px; color: #9cc9ff; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        h2 { margin: 0 0 8px; font-size: 1.5rem; line-height: 1.2; font-weight: 600; }
+        .lead { margin: 0 0 20px; color: #c9d4e3; line-height: 1.5; }
+        label { display: block; margin-bottom: 6px; font-size: 0.875rem; color: #c9d4e3; }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="password"] { flex: 1 1 200px; min-width: 0; padding: 11px 12px; font: inherit; color: #f2f5fa; background: #0b1019; border: 1px solid #3a4a63; border-radius: 8px; }
+        input[type="password"]:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 1px; border-color: #9cc9ff; }
+        button { padding: 11px 18px; font: inherit; font-weight: 600; color: #0b1019; background: #9cc9ff; border: 0; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #c2deff; }
+        button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+        button:disabled { opacity: 0.55; cursor: wait; }
+        .help { margin: 14px 0 0; font-size: 0.875rem; color: #9aa8bb; line-height: 1.45; }
+        .status { min-height: 1.4em; margin: 12px 0 0; font-size: 0.9rem; line-height: 1.4; }
+        .status.err { color: #ffb4a8; }
         iframe {
             display: block;
             width: 100%;
@@ -51,11 +68,12 @@
             .header-content { padding: 16px; align-items: flex-start; flex-direction: column; gap: 10px; }
             .project-heading { gap: 8px 16px; }
             iframe { height: calc(100dvh - 105px); min-height: 560px; }
+            .access { min-height: calc(100dvh - 105px); }
         }
     </style>
 </head>
 <body>
-    <a class="skip-link" href="#video-player">Skip to video player</a>
+    <a class="skip-link" href="#study-session">Skip to study access</a>
     <header class="page-header">
         <div class="header-content">
             <div class="project-heading">
@@ -63,21 +81,76 @@
             </div>
             <nav class="page-links" aria-label="Project navigation">
                 <a href="/projects/scalable-immersion-videos/">All scenarios</a>
-                <a href="https://bystander-magic-window.catherineranran.chatgpt.site/reconstructed-screen" target="_blank" rel="noopener noreferrer">Open direct player</a>
             </nav>
         </div>
     </header>
-    <main>
-        <iframe
-            id="video-player"
-            title="Reconstructed Bystander 180-degree video: magic-window screen session"
-            src="https://bystander-magic-window.catherineranran.chatgpt.site/reconstructed-screen"
-            allow="xr-spatial-tracking; fullscreen; autoplay"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-        <noscript><p class="fallback">Enable JavaScript to use the interactive video player.</p></noscript>
+    <main id="study-session">
+        <section class="access" id="access" aria-labelledby="access-title">
+            <form class="panel" id="gate" autocomplete="on">
+                <p class="eyebrow">Scalable Immersion</p>
+                <h2 id="access-title">Study access</h2>
+                <p class="lead">Enter the password to open this viewing session.</p>
+                <input type="text" name="username" value="study" autocomplete="username" hidden>
+                <label for="pw">Password</label>
+                <div class="row">
+                    <input type="password" id="pw" name="password" autocomplete="current-password" required>
+                    <button type="submit" id="open">Open session</button>
+                </div>
+                <p class="status" id="status" role="status" aria-live="polite"></p>
+                <p class="help">Use the password supplied by your study researcher.</p>
+            </form>
+        </section>
+        <iframe id="world" title="Reconstructed · Magic window" allow="xr-spatial-tracking; fullscreen; autoplay; screen-wake-lock" hidden></iframe>
+        <noscript><p class="fallback">Enable JavaScript to open this study session.</p></noscript>
     </main>
+    <script>
+    // The session's page, sound, video and photos are stored encrypted (AES-GCM, key from the password by
+    // PBKDF2-SHA-256). The password unlocks them in this browser; nothing readable sits on the server.
+    (function () {
+        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, BASE = '/projects/scalable-immersion-videos/reconstructed-3Dworld/assets/', DELIVERY = 'screen', VIEW = '3dof';
+        var MEDIA = [['scenario-audio.mp3', 'audio/mpeg'], ['scenario-180.mp4', 'video/mp4'], ['pano.jpg', 'image/jpeg'], ['front-upper.jpg', 'image/jpeg'], ['pub-ambience.mp3', 'audio/mpeg']];
+        var form = document.getElementById('gate'), pw = document.getElementById('pw'), btn = document.getElementById('open'), status = document.getElementById('status');
+        var KEEP = 'si-world-access';
+        function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+        function say(t, err) { status.textContent = t; status.className = 'status' + (err ? ' err' : ''); }
+        async function deriveKey(pass) {
+            var raw = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+            return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(SALT), iterations: ITER, hash: 'SHA-256' }, raw, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+        }
+        async function decryptFile(key, name) {
+            var res = await fetch(BASE + name, { cache: 'force-cache' });
+            if (!res.ok) throw new Error('missing ' + name);
+            var buf = await res.arrayBuffer();
+            return crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(buf, 0, 12) }, key, new Uint8Array(buf, 12));
+        }
+        async function unlock(pass) {
+            btn.disabled = true; say('Opening the session…');
+            try {
+                if (!window.crypto || !crypto.subtle) throw new Error('This browser can’t open protected sessions. Use a current Chrome, Edge, Safari, Firefox or Meta Quest Browser.');
+                var key = await deriveKey(pass), html;
+                try { html = new TextDecoder().decode(await decryptFile(key, 'world.enc')); }
+                catch (e) { if (String(e && e.message).indexOf('missing') === 0) throw e; say('That password didn’t work. Check it and try again.', true); btn.disabled = false; pw.select(); return; }
+                try { sessionStorage.setItem(KEEP, pass); } catch (e) {}
+                for (var i = 0; i < MEDIA.length; i++) {
+                    say('Opening the session… ' + (i + 1) + ' of ' + MEDIA.length);
+                    var data = await decryptFile(key, MEDIA[i][0] + '.enc');
+                    var url = URL.createObjectURL(new Blob([data], { type: MEDIA[i][1] }));
+                    html = html.split("'" + MEDIA[i][0] + "'").join("'" + url + "'");
+                }
+                var head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><base href="' + BASE + '">'
+                    + '<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui;background:#0b1019}img{max-width:100%}[hidden]{display:none!important}</style>'
+                    + '<script>window.__DELIVERY=' + JSON.stringify(DELIVERY) + ';window.__VIEW=' + JSON.stringify(VIEW) + ';<\/script></head><body>';
+                var frame = document.getElementById('world');
+                frame.srcdoc = head + html + '</body></html>';
+                document.getElementById('access').hidden = true; frame.hidden = false; frame.focus();
+            } catch (e) {
+                say(String(e && e.message || e), true); btn.disabled = false;
+            }
+        }
+        form.addEventListener('submit', function (e) { e.preventDefault(); if (pw.value) unlock(pw.value); });
+        var kept = null; try { kept = sessionStorage.getItem(KEEP); } catch (e) {}
+        if (kept) unlock(kept); else pw.focus();
+    })();
+    </script>
 </body>
 </html>
-

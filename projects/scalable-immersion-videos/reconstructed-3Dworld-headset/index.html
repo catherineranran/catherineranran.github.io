@@ -107,7 +107,7 @@
     // The session's page, sound, video and photos are stored encrypted (AES-GCM, key from the password by
     // PBKDF2-SHA-256). The password unlocks them in this browser; nothing readable sits on the server.
     (function () {
-        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, BASE = '/projects/scalable-immersion-videos/reconstructed-3Dworld/assets/', DELIVERY = 'headset';
+        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, BASE = '/projects/scalable-immersion-videos/reconstructed-3Dworld/assets/', DELIVERY = 'headset', VIEW = '6dof';
         var MEDIA = [['scenario-audio.mp3', 'audio/mpeg'], ['scenario-180.mp4', 'video/mp4'], ['pano.jpg', 'image/jpeg'], ['front-upper.jpg', 'image/jpeg'], ['pub-ambience.mp3', 'audio/mpeg']];
         var form = document.getElementById('gate'), pw = document.getElementById('pw'), btn = document.getElementById('open'), status = document.getElementById('status');
         var KEEP = 'si-world-access';
@@ -139,7 +139,7 @@
                 }
                 var head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><base href="' + BASE + '">'
                     + '<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui;background:#0b1019}img{max-width:100%}[hidden]{display:none!important}</style>'
-                    + '<script>window.__DELIVERY=' + JSON.stringify(DELIVERY) + ';<\/script></head><body>';
+                    + '<script>window.__DELIVERY=' + JSON.stringify(DELIVERY) + ';window.__VIEW=' + JSON.stringify(VIEW) + ';<\/script></head><body>';
                 var frame = document.getElementById('world');
                 frame.srcdoc = head + html + '</body></html>';
                 document.getElementById('access').hidden = true; frame.hidden = false; frame.focus();

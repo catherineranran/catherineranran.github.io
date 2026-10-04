@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Open the reconstructed walkable 3D Bystander world on your screen with the study password.">
+    <meta name="description" content="Open the reconstructed Bystander pub as a fixed-viewpoint, monoscopic 180-degree view in a WebXR headset with the study password.">
     <meta name="robots" content="noindex, nofollow, noarchive">
-    <title>Reconstructed · Walkable 3D world | Scalable Immersion</title>
+    <title>Reconstructed · 180° mono | Scalable Immersion</title>
     <link rel="icon" href="/assets/icons/favicon.png" type="image/png">
-    <link rel="canonical" href="https://ranranli.net/projects/scalable-immersion-videos/reconstructed-3Dworld/">
+    <link rel="canonical" href="https://ranranli.net/projects/scalable-immersion-videos/reconstructed-3Dworld-VR180/">
     <style>
         :root {
             color-scheme: dark;
@@ -77,7 +77,7 @@
     <header class="page-header">
         <div class="header-content">
             <div class="project-heading">
-                <h1>Reconstructed · Walkable 3D world</h1>
+                <h1>Reconstructed · 180° mono</h1>
             </div>
             <nav class="page-links" aria-label="Project navigation">
                 <a href="/projects/scalable-immersion-videos/">All scenarios</a>
@@ -89,7 +89,7 @@
             <form class="panel" id="gate" autocomplete="on">
                 <p class="eyebrow">Scalable Immersion</p>
                 <h2 id="access-title">Study access</h2>
-                <p class="lead">Enter the password to open this viewing session.</p>
+                <p class="lead">Enter the password to open this viewing session. Then choose Enter VR.</p>
                 <input type="text" name="username" value="study" autocomplete="username" hidden>
                 <label for="pw">Password</label>
                 <div class="row">
@@ -97,17 +97,17 @@
                     <button type="submit" id="open">Open session</button>
                 </div>
                 <p class="status" id="status" role="status" aria-live="polite"></p>
-                <p class="help">Use the password supplied by your study researcher.</p>
+                <p class="help">Use the password supplied by your study researcher. Open this page in your headset’s browser, for example Meta Quest Browser.</p>
             </form>
         </section>
-        <iframe id="world" title="Reconstructed · Walkable 3D world" allow="xr-spatial-tracking; fullscreen; autoplay; screen-wake-lock" hidden></iframe>
+        <iframe id="world" title="Reconstructed · 180° mono" allow="xr-spatial-tracking; fullscreen; autoplay; screen-wake-lock" hidden></iframe>
         <noscript><p class="fallback">Enable JavaScript to open this study session.</p></noscript>
     </main>
     <script>
     // The session's page, sound, video and photos are stored encrypted (AES-GCM, key from the password by
     // PBKDF2-SHA-256). The password unlocks them in this browser; nothing readable sits on the server.
     (function () {
-        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, BASE = '/projects/scalable-immersion-videos/reconstructed-3Dworld/assets/', DELIVERY = 'screen', VIEW = '6dof';
+        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, BASE = '/projects/scalable-immersion-videos/reconstructed-3Dworld/assets/', DELIVERY = 'headset', VIEW = '3dof';
         var MEDIA = [['scenario-audio.mp3', 'audio/mpeg'], ['scenario-180.mp4', 'video/mp4'], ['pano.jpg', 'image/jpeg'], ['front-upper.jpg', 'image/jpeg'], ['pub-ambience.mp3', 'audio/mpeg']];
         var form = document.getElementById('gate'), pw = document.getElementById('pw'), btn = document.getElementById('open'), status = document.getElementById('status');
         var KEEP = 'si-world-access';
