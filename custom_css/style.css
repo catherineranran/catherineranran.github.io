@@ -1188,6 +1188,38 @@ button:focus-visible {
     display: none;
 }
 
+/* Link preview card (same look as the video preview, but it opens a page) */
+a.exhibition-video {
+    display: block;
+}
+
+.exhibition-sticker-body + .exhibition-video {
+    margin-top: 0.75rem;
+}
+
+.exhibition-video img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+a.exhibition-video:focus-visible {
+    outline: 3px solid #9cc9ff;
+    outline-offset: -3px;
+}
+
+.exhibition-inline-link {
+    color: #1d4ed8;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.exhibition-inline-link:hover {
+    color: #1e3a8a;
+}
+
 .collaborator-page {
     color: #f9fafb;
 }
