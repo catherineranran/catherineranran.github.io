@@ -67,13 +67,12 @@
       var p = c.prio || 0, open = !!ui.openNotes[c.id];
       var st = strandOf(c);
       var h = '<article class="card' + (c.done ? ' done' : '') + (st ? ' has-strand' : '') + '" id="' + esc(c.id) + '" data-id="' + esc(c.id) + '" data-prio="' + p + '"' + (st ? ' style="--s:' + st.hex + '"' : '') + ' draggable="' + (c.done ? 'false' : 'true') + '" tabindex="0">';
-      if (st && !c.done) h += '<span class="strand-tag">' + esc(st.short) + '</span>';
+      if (st) h += '<span class="strand-dot" title="' + esc(st.name) + '" aria-label="' + esc(st.name) + '"></span>';
       h += '<div class="card-top"><button type="button" class="tick" aria-label="' + (c.done ? 'Mark as not finished' : 'Mark as finished') + '" title="' + (c.done ? 'Reopen' : 'Finished') + '">' + CHECK + '</button>';
       h += '<div class="card-title">' + titleHtml(c) + '</div></div>';
-      if (c.due || p) {
+      if (c.due) {
         h += '<div class="meta">';
         if (c.due) h += '<span class="due ' + L.dueClass(c.due, c.done) + '" title="' + esc(L.relDue(c.due)) + '">' + CAL + esc(L.fmtDue(c.due)) + ' · ' + esc(L.relDue(c.due)) + '</span>';
-        if (p) h += '<span class="prio-tag">' + L.PRIO[p].name + '</span>';
         h += '</div>';
       }
       if (c.next) h += '<div class="next"><b>Next</b>' + L.linkify(c.next) + '</div>';

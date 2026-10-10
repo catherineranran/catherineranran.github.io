@@ -578,3 +578,9 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .cm-prio button i { width: 12px; height: 12px; border-radius: 50%; background: var(--p, transparent); border: 1px solid rgba(255, 255, 255, .5); }
 .menu .cm-prio button.on { border-color: #fff; background: rgba(255, 255, 255, .2); }
 #strandSeg button i { background: var(--p); border-color: var(--p); }
+
+/* strand shown as a coloured dot (top right of the card) */
+.strand-tag { display: none; }
+.strand-dot { position: absolute; top: 9px; right: 9px; width: 10px; height: 10px; border-radius: 50%; background: var(--s); box-shadow: 0 0 0 2px rgba(255, 255, 255, .55), 0 0 8px var(--s); }
+.card.has-strand .card-title { padding-right: 14px; }
+.card.done .strand-dot { top: 50%; transform: translateY(-50%); width: 8px; height: 8px; }
