@@ -152,7 +152,7 @@ main { padding: 16px clamp(16px, 3vw, 36px) 40px; }
 .home-side { display: grid; gap: 20px; min-width: 0; }
 @media (max-width: 1000px) { .home { grid-template-columns: 1fr; } }
 
-.music-frame { display: block; width: 100%; height: clamp(520px, 72vh, 900px); border: 0; background: #0d0a1a; }
+.music-frame { display: block; width: 100%; height: clamp(347px, 48vh, 600px); border: 0; background: #0d0a1a; }
 .music-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .timer { display: inline-flex; align-items: center; gap: 8px; padding: 3px 4px 3px 12px; border-radius: 999px; background: var(--glass-2); border: 1px solid var(--line); }
 .timer b { font-variant-numeric: tabular-nums; font-weight: 650; min-width: 44px; }
