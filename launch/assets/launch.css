@@ -465,3 +465,19 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .menu .swatch:hover { background: var(--c); }
 .menu .swatch[data-c=""], .menu .swatch[data-c=""]:hover { background: conic-gradient(var(--c) 0 50%, rgba(255, 255, 255, .85) 50% 100%); }
 .modal [hidden] { display: none !important; }
+
+/* Google-style event menu: Delete, pencil, 24 colours, Default */
+.cv-menu { width: 300px; padding: 6px 0 10px; }
+.cv-menu hr { margin: 6px 0 8px; }
+.menu .cvm-del { display: flex; align-items: center; gap: 14px; width: 100%; padding: 10px 18px; border-radius: 0; font-size: 15px; }
+.cvm-body { padding: 2px 12px 0; display: grid; gap: 10px; }
+.menu .cvm-pen { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .45); display: grid; place-items: center; padding: 0; }
+.swatches.grid24 { display: grid; grid-template-columns: repeat(9, 1fr); gap: 7px; justify-items: center; }
+.swatches.grid24 .swatch { width: 24px; height: 24px; }
+.swatches.grid24.in-dialog { grid-template-columns: repeat(12, 24px); justify-content: start; gap: 8px; }
+@media (max-width: 520px) { .swatches.grid24.in-dialog { grid-template-columns: repeat(8, 24px); } }
+.cvm-default { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 1px solid var(--line); background: rgba(255, 255, 255, .10); color: var(--ink); border-radius: 12px; padding: 8px 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+.menu .cvm-default { width: 100%; text-align: center; border-radius: 12px; padding: 8px 12px; background: rgba(255, 255, 255, .10); }
+.cvm-default.small { width: auto; margin-top: 8px; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+.cvm-default i { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--c); display: inline-block; }
+.cvm-default.on { border-color: #fff; background: rgba(255, 255, 255, .22); }
