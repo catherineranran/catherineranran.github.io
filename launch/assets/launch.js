@@ -506,6 +506,13 @@
   /* ---------- backgrounds ---------- */
   var U = 'https://images.unsplash.com/';
   var BACKGROUNDS = [
+    { id: 'pink-range', name: 'Pink alpine range', photo: 'photo-1705873339772-605ce4d98e99' },
+    { id: 'pink-snow', name: 'Snowy ridge at dusk', photo: 'photo-1549472579-e133f59d8b23' },
+    { id: 'golden-peak', name: 'Golden peak', photo: 'photo-1603989112393-db862d0176b4' },
+    { id: 'pastel-range', name: 'Pastel range', photo: 'photo-1582045741356-d2dae798716c' },
+    { id: 'cloud-island', name: 'Peak above the clouds', photo: 'photo-1486046866764-e426b5b93d98' },
+    { id: 'rose-ridge', name: 'Rose-lit ridge', photo: 'photo-1501082183835-b7b33db89c3f' },
+    { id: 'pastel-peaks', name: 'Pastel peaks (illustrated)', url: '/launch/assets/bg/pastel-peaks.svg' },
     { id: 'alpine-dusk', name: 'Alpine dusk', photo: 'photo-1508020268086-b96cf4f4bb2e' },
     { id: 'blue-sky', name: 'Blue sky', photo: 'photo-1602498456745-e9503b30470b' },
     { id: 'soft-clouds', name: 'Soft clouds', photo: 'photo-1514477917009-389c76a86b68' },

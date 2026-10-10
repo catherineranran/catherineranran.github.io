@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="0.35">
+      <stop offset="0" stop-color="#ffd9a0"/>
+      <stop offset="0.28" stop-color="#f8c3b8"/>
+      <stop offset="0.6" stop-color="#e2b4d6"/>
+      <stop offset="1" stop-color="#a99ddb"/>
+    </linearGradient>
+    <linearGradient id="skyV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b9a7e6" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.12" cy="0.42" r="0.45">
+      <stop offset="0" stop-color="#fff6d8" stop-opacity="1"/>
+      <stop offset="0.25" stop-color="#ffe2a8" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#ffd0a0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="haze" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"/></filter>
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3eaf6"/><stop offset="1" stop-color="#c9c3e6"/></linearGradient>
+    <linearGradient id="mid" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff4ec"/><stop offset=".55" stop-color="#ece6f6"/><stop offset="1" stop-color="#d7d2ee"/></linearGradient>
+    <linearGradient id="midShade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a86b6"/><stop offset="1" stop-color="#5f5a8e"/></linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dcd9f0"/></linearGradient>
+    <linearGradient id="nearShade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7d7aa8"/><stop offset="1" stop-color="#4d4a78"/></linearGradient>
+  </defs>
+
+  <rect width="2400" height="1100" fill="url(#sky)"/>
+  <rect width="2400" height="1100" fill="url(#skyV)"/>
+  <rect width="2400" height="1100" fill="url(#sun)"/>
+
+  <!-- wispy clouds -->
+  <g filter="url(#soft)" fill="#ffffff">
+    <ellipse cx="700" cy="170" rx="520" ry="34" opacity=".45" transform="rotate(-6 700 170)"/>
+    <ellipse cx="1500" cy="120" rx="640" ry="30" opacity=".35" transform="rotate(4 1500 120)"/>
+    <ellipse cx="1900" cy="300" rx="420" ry="22" opacity=".4" transform="rotate(-3 1900 300)"/>
+    <ellipse cx="380" cy="420" rx="380" ry="16" opacity=".5"/>
+    <ellipse cx="1250" cy="360" rx="300" ry="14" opacity=".3"/>
+  </g>
+  <g filter="url(#soft)" fill="#c9a5e0" opacity=".35">
+    <ellipse cx="1700" cy="210" rx="520" ry="26" transform="rotate(-2 1700 210)"/>
+    <ellipse cx="2150" cy="430" rx="380" ry="18"/>
+  </g>
+
+  <!-- far range -->
+  <path filter="url(#haze)" fill="url(#far)" opacity=".9" d="M0 690 L120 650 L210 672 L330 610 L430 655 L560 630 L700 668 L820 640 L980 662 L1120 618 L1260 650 L1420 600 L1560 640 L1720 590 L1860 625 L2000 585 L2140 620 L2280 600 L2400 615 L2400 1100 L0 1100 Z"/>
+
+  <!-- middle range with the main summit -->
+  <path fill="url(#mid)" d="M0 760 L140 700 L260 640 L330 660 L420 610 L520 680 L640 640 L760 700 L900 600 L1000 560 L1060 470 L1100 430 L1130 455 L1160 400 L1200 420 L1260 500 L1330 530 L1420 590 L1520 620 L1600 600 L1700 530 L1790 470 L1830 445 L1880 500 L1980 560 L2080 600 L2200 580 L2300 620 L2400 600 L2400 1100 L0 1100 Z"/>
+  <path fill="url(#midShade)" opacity=".55" d="M1160 400 L1200 420 L1260 500 L1330 530 L1420 590 L1520 620 L1420 640 L1300 610 L1240 560 L1190 505 L1170 470 Z"/>
+  <path fill="url(#midShade)" opacity=".5" d="M1830 445 L1880 500 L1980 560 L2080 600 L1990 615 L1900 580 L1850 520 Z"/>
+  <path fill="url(#midShade)" opacity=".35" d="M1060 470 L1100 430 L1090 500 L1040 560 L1000 560 Z"/>
+  <path fill="url(#midShade)" opacity=".4" d="M260 640 L330 660 L420 610 L400 680 L320 700 Z"/>
+
+  <!-- near ridges -->
+  <path fill="url(#near)" d="M0 880 L160 800 L300 760 L420 790 L560 720 L660 700 L780 760 L900 820 L1040 790 L1180 840 L1320 800 L1460 740 L1560 700 L1660 760 L1800 810 L1960 760 L2100 700 L2240 740 L2400 720 L2400 1100 L0 1100 Z"/>
+  <path fill="url(#nearShade)" opacity=".5" d="M660 700 L780 760 L900 820 L820 860 L720 820 L680 760 Z"/>
+  <path fill="url(#nearShade)" opacity=".45" d="M1560 700 L1660 760 L1800 810 L1720 850 L1620 800 L1580 750 Z"/>
+  <path fill="url(#nearShade)" opacity=".4" d="M2100 700 L2240 740 L2400 720 L2400 800 L2260 790 L2160 760 Z"/>
+  <path fill="url(#nearShade)" opacity=".35" d="M300 760 L420 790 L560 720 L520 800 L400 830 Z"/>
+
+  <!-- foreground slope -->
+  <path fill="#f6f3fb" d="M0 990 L220 930 L460 900 L700 940 L980 910 L1260 960 L1540 920 L1820 960 L2100 930 L2400 950 L2400 1100 L0 1100 Z"/>
+  <path fill="#bdb8dc" opacity=".35" d="M460 900 L700 940 L620 980 L520 960 Z"/>
+  <path fill="#bdb8dc" opacity=".3" d="M1540 920 L1820 960 L1700 990 L1600 965 Z"/>
+</svg>
