@@ -7,6 +7,8 @@
   var SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.calendarlist.readonly';
   var EVENT_COLORS = { 1: '#7986cb', 2: '#33b679', 3: '#8e24aa', 4: '#e67c73', 5: '#f6bf26', 6: '#f4511e', 7: '#039be5', 8: '#616161', 9: '#3f51b5', 10: '#0b8043', 11: '#d50000' };
   var DAY = 86400000;
+  var COLOR_MENU = [['11', 'Tomato'], ['4', 'Flamingo'], ['6', 'Tangerine'], ['5', 'Banana'], ['2', 'Sage'], ['10', 'Basil'],
+    ['7', 'Peacock'], ['9', 'Blueberry'], ['1', 'Lavender'], ['3', 'Grape'], ['8', 'Graphite']];
   // The API still reports calendar colours in Google's old palette; the Calendar app shows these instead.
   var MODERN = {
     '#ac725e': '#795548', '#d06b64': '#e67c73', '#f83a22': '#d50000', '#fa573c': '#f4511e', '#ff7537': '#ef6c00',
@@ -125,7 +127,7 @@
       var end = allDay ? parseDate(e.end.date) : new Date(e.end.dateTime);
       return {
         id: e.id, calId: cal.id, title: e.summary || '(No title)', start: start, end: end, allDay: allDay,
-        color: e.colorId ? EVENT_COLORS[e.colorId] : cal.color, location: e.location || '', description: e.description || '',
+        color: e.colorId ? EVENT_COLORS[e.colorId] : cal.color, colorId: e.colorId || '', calColor: cal.color, location: e.location || '', description: e.description || '',
         link: e.htmlLink, recurring: !!e.recurringEventId, editable: cal.writable && !e.locked,
         raw: e
       };
@@ -158,6 +160,48 @@
   };
   if (G.configured()) loadGis().catch(function () { /* offline */ });
 
+  function defaultCal(cals) { return cals.filter(function (c) { return c.primary; })[0] || cals[0] || { color: '#7986cb' }; }
+  function swatchHtml(calColor) {
+    return '<button type="button" class="swatch" role="radio" data-c="" title="Calendar colour" style="--c:' + esc(calColor || '#7986cb') + '"><span>Calendar colour</span></button>' +
+      COLOR_MENU.map(function (x) { return '<button type="button" class="swatch" role="radio" data-c="' + x[0] + '" title="' + x[1] + '" style="--c:' + EVENT_COLORS[x[0]] + '"><span>' + x[1] + '</span></button>'; }).join('');
+  }
+
+  /* right-click colour menu, like Google Calendar */
+  function colorMenu(ev, x, y, onDone) {
+    document.querySelectorAll('.cv-menu').forEach(function (n) { n.remove(); });
+    var m = document.createElement('div');
+    m.className = 'menu cv-menu'; m.setAttribute('role', 'menu');
+    m.innerHTML = '<div class="swatches small">' + swatchHtml(ev.calColor) + '</div>' +
+      '<hr><button type="button" data-a="edit">Edit…</button>' +
+      (ev.link ? '<button type="button" data-a="open">Open in Google</button>' : '') +
+      '<button type="button" data-a="del" class="danger">Delete</button>';
+    document.body.appendChild(m);
+    m.querySelectorAll('.swatch').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.c === (ev.colorId || ''))); });
+    var w = m.offsetWidth, h = m.offsetHeight;
+    m.style.left = Math.min(x, window.innerWidth - w - 8) + window.scrollX + 'px';
+    m.style.top = Math.min(y, window.innerHeight - h - 8) + window.scrollY + 'px';
+    function close() { m.remove(); document.removeEventListener('pointerdown', outside, true); document.removeEventListener('keydown', esc1); }
+    function outside(e) { if (!m.contains(e.target)) close(); }
+    function esc1(e) { if (e.key === 'Escape') close(); }
+    setTimeout(function () { document.addEventListener('pointerdown', outside, true); document.addEventListener('keydown', esc1); }, 0);
+    m.addEventListener('click', function (e) {
+      var sw = e.target.closest('.swatch'), a = e.target.dataset && e.target.dataset.a;
+      if (sw) {
+        close();
+        var c = sw.dataset.c;
+        G.patchEvent(ev.calId, ev.id, { colorId: c || null }).then(onDone)
+          .catch(function (x) { alert(x.needAuth ? 'Google connection expired. Reconnect and try again.' : 'Couldn’t change the colour: ' + x.message); });
+        onDone(c);
+      } else if (a === 'edit') { close(); openEventEditor(ev, function () { onDone(); }); }
+      else if (a === 'open') { close(); window.open(ev.link, '_blank', 'noopener'); }
+      else if (a === 'del') {
+        close();
+        if (!confirm('Delete “' + ev.title + '”' + (ev.recurring ? ' (this occurrence)' : '') + '?')) return;
+        G.deleteEvent(ev.calId, ev.id).then(function () { onDone(); }).catch(function (x) { alert('Couldn’t delete: ' + x.message); });
+      }
+    });
+  }
+
   /* ---------- event editor ---------- */
   function openEventEditor(ev, onDone) {
     var isNew = !ev.id;
@@ -178,6 +222,7 @@
       '    <label class="enddate" hidden>Until <input type="date" name="endDate"></label>' +
       '  </div>' +
       (isNew ? '  <label>Calendar <select name="cal">' + cals.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>'; }).join('') + '</select></label>' : '') +
+      '  <div><label style="margin-bottom:6px">Colour</label><div class="swatches" role="radiogroup" aria-label="Event colour">' + swatchHtml(isNew ? defaultCal(cals).color : ev.calColor) + '</div></div>' +
       '  <label>Location <input name="location" placeholder="Add location"></label>' +
       '  <label>Description <textarea name="description" rows="3" placeholder="Add description"></textarea></label>' +
       (ev.recurring ? '  <p class="muted small-note">Repeating event: changes here apply to this one occurrence. To change the whole series, open it in Google Calendar.</p>' : '') +
@@ -198,6 +243,14 @@
     f.endDate.value = iso(endShown);
     f.location.value = ev.location || ''; f.description.value = ev.description || '';
     if (isNew && f.cal) { var prim = cals.filter(function (c) { return c.primary; })[0]; if (prim) f.cal.value = prim.id; }
+    var colorId = ev.colorId || '';
+    function paintSwatches() { dlg.querySelectorAll('.swatch').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.c === colorId)); }); }
+    paintSwatches();
+    dlg.querySelector('.swatches').addEventListener('click', function (e) { var b = e.target.closest('.swatch'); if (!b || !canEdit) return; colorId = b.dataset.c; paintSwatches(); });
+    if (isNew && f.cal) f.cal.addEventListener('change', function () {
+      var c = cals.filter(function (x) { return x.id === f.cal.value; })[0];
+      var d = dlg.querySelector('.swatch[data-c=""]'); if (c && d) d.style.setProperty('--c', c.color);
+    });
     function syncAllDay() {
       f.start.disabled = f.end.disabled = f.allDay.checked;
       $('.enddate', dlg).hidden = !f.allDay.checked;
@@ -221,6 +274,7 @@
           if (end <= start) end = new Date(start.getTime() + 3600000);
         }
         var body = Object.assign({ summary: f.title.value.trim() || '(No title)', location: f.location.value.trim(), description: f.description.value }, G.timeBody(start, end, f.allDay.checked));
+        if (colorId || !isNew) body.colorId = colorId || null;
         err.textContent = 'Saving…';
         (isNew ? G.createEvent(f.cal.value, body) : G.patchEvent(ev.calId, ev.id, body)).then(function () {
           dlg.close(); onDone && onDone();
@@ -249,6 +303,15 @@
     this.req = 0;
     var self = this;
     root.addEventListener('pointerdown', function (e) { self.onDown(e); });
+    root.addEventListener('contextmenu', function (e) {
+      var n = e.target.closest('.cv-ev, .cv-chip'); if (!n) return;
+      var ev = self.find(n.dataset.ev); if (!ev || !ev.editable) return;
+      e.preventDefault();
+      colorMenu(ev, e.clientX, e.clientY, function (c) {
+        if (typeof c === 'string') { ev.colorId = c; ev.color = c ? EVENT_COLORS[c] : ev.calColor; self.render(false); }
+        else self.load();
+      });
+    });
     setInterval(function () { self.paintNow(); }, 60000);
   }
   CalView.prototype.range = function () {

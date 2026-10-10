@@ -449,3 +449,19 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .due-cols h3 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
 .due-cols .more { display: inline-block; margin-top: 6px; font-size: 12.5px; color: var(--accent); text-decoration: none; }
 @media (max-width: 640px) { .due-cols { grid-template-columns: 1fr; gap: 16px; } }
+
+/* event colours */
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.swatch { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .55); background: var(--c); cursor: pointer; padding: 0; position: relative; }
+.swatch span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.swatch:hover { transform: scale(1.12); }
+.swatch[aria-checked="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--c); }
+.swatch[aria-checked="true"]::after { content: '✓'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 800; }
+.swatch[data-c=""] { background: conic-gradient(var(--c) 0 50%, rgba(255, 255, 255, .85) 50% 100%); }
+.swatches.small { padding: 6px 6px 2px; max-width: 200px; gap: 7px; }
+.swatches.small .swatch { width: 22px; height: 22px; }
+.cv-menu { min-width: 0; }
+.menu .swatch { background: var(--c); padding: 0; border-radius: 50%; text-align: center; }
+.menu .swatch:hover { background: var(--c); }
+.menu .swatch[data-c=""], .menu .swatch[data-c=""]:hover { background: conic-gradient(var(--c) 0 50%, rgba(255, 255, 255, .85) 50% 100%); }
+.modal [hidden] { display: none !important; }
