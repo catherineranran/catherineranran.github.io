@@ -8,25 +8,40 @@
   <link rel="icon" href="/assets/icons/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/launch/assets/launch.css?v=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/launch/assets/launch.css?v=2">
 </head>
 <body class="locked">
   <main>
-    <section class="panel cal-wrap" aria-labelledby="calH">
-      <div class="panel-head">
-        <h2 id="calH">This week</h2>
-        <div class="row">
-          <span class="muted" style="font-size:13px">Events missing? Sign in to Google in this browser.</span>
-          <a class="btn small" href="https://calendar.google.com/calendar/u/0/r/week" target="_blank" rel="noopener">Open Google Calendar</a>
+    <div class="cal-page">
+      <aside class="cal-side">
+        <section class="panel">
+          <div class="panel-body" style="padding-bottom:4px"><button type="button" class="btn primary" id="calCreate">+ Create</button></div>
+          <div id="calMonth"></div>
+        </section>
+        <section class="panel" id="calListPanel" hidden>
+          <div class="panel-head"><h2>My calendars</h2></div>
+          <ul class="cal-list" id="calList"></ul>
+        </section>
+      </aside>
+      <section class="panel cal-main" aria-label="Calendar">
+        <div class="cal-toolbar">
+          <button type="button" class="btn small" id="calToday">Today</button>
+          <button type="button" class="icon-btn" id="calPrev" aria-label="Previous">‹</button>
+          <button type="button" class="icon-btn" id="calNext" aria-label="Next">›</button>
+          <h2 id="calTitle"></h2>
+          <div class="seg2" role="group" aria-label="View"><button type="button" data-days="1">Day</button><button type="button" data-days="7" class="on">Week</button></div>
+          <a class="btn small ghost" href="https://calendar.google.com/calendar/u/0/r/week" target="_blank" rel="noopener">Google ↗</a>
         </div>
-      </div>
-      <div id="calSlot"></div>
-    </section>
+        <div id="calBanner"></div>
+        <div id="calView" style="flex:1;min-height:0;display:flex;flex-direction:column"></div>
+      </section>
+    </div>
   </main>
 
-  <script src="/launch/assets/config.js?v=1"></script>
-  <script src="/launch/assets/launch.js?v=1"></script>
-  <script src="/launch/assets/calendar.js?v=1"></script>
+  <script src="/launch/assets/config.js?v=2"></script>
+  <script src="/launch/assets/launch.js?v=2"></script>
+  <script src="/launch/assets/gcal.js?v=2"></script>
+  <script src="/launch/assets/calendar.js?v=2"></script>
 </body>
 </html>

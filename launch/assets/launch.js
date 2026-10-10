@@ -336,6 +336,8 @@
   function ready() {
     if (started) { Store.emit('remote'); return; }
     started = true;
+    if (Store.doc.settings && Store.doc.settings.background) applyBackground(Store.doc.settings.background, Store.doc.settings.backgroundUrl);
+    Store.on(function (d, why) { if (why === 'remote' && d.settings && d.settings.background) applyBackground(d.settings.background, d.settings.backgroundUrl); });
     Store.setStatus(Store.dirty ? 'saving' : 'saved');
     readyCallbacks.forEach(function (fn) { fn(Store.doc); });
     if (Store.dirty) Store.save();
@@ -427,13 +429,14 @@
       '</div>' +
       '<nav class="tabs" aria-label="Launch pad">' +
       '  <a href="/launch/" class="tab' + (active === 'home' ? ' on' : '') + '">Today</a>' +
-      '  <a href="/launch/task-list/" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
       '  <a href="/launch/calendar/" class="tab' + (active === 'calendar' ? ' on' : '') + '">Calendar</a>' +
+      '  <a href="/launch/task-list/" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
       '  <a href="/launch/vibecodings/" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
       '</nav>' +
       '<div class="top-tools">' +
       '  <span id="syncStatus" class="sync"></span>' +
       '  <span id="unlockInfo" class="unlock-info"></span>' +
+      '  <button type="button" class="icon-btn" id="bgBtn" title="Change background" aria-label="Change background">' + ICONS.image + '</button>' +
       '  <button type="button" class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">' + ICONS.gear + '</button>' +
       '  <button type="button" class="icon-btn" id="lockBtn" title="Lock now" aria-label="Lock now">' + ICONS.lock + '</button>' +
       '</div>';
@@ -452,6 +455,7 @@
       if (Store.dirty) Store.save().then(go); else go();
     });
     $('#settingsBtn').addEventListener('click', openSettings);
+    $('#bgBtn').addEventListener('click', openBackgrounds);
   }
 
   function openSettings() {
@@ -461,36 +465,99 @@
     dlg.innerHTML =
       '<form method="dialog" class="modal-body">' +
       '  <h2>Settings</h2>' +
-      '  <label>Google calendars to show <small>One calendar ID per line, e.g. your Gmail address.</small>' +
-      '    <textarea name="cals" rows="4"></textarea></label>' +
-      '  <label>Time zone <input name="tz" placeholder="Europe/Berlin"></label>' +
-      '  <label>Focus music link <input name="music" placeholder="https://my.brain.fm/…"></label>' +
-      '  <label>Island page <input name="island" placeholder="/pleasure-island-experiment/"></label>' +
-      '  <div class="modal-actions"><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
+      '  <label>Focus music link <small>Your Brain.fm player link.</small><input name="music" placeholder="https://my.brain.fm/…"></label>' +
+      '  <label>Second time zone in the calendar <small>Shown next to your own, like in Google Calendar. Leave empty for none.</small><input name="tz2" placeholder="Asia/Shanghai"></label>' +
+      '  <label>Short name for it <input name="tz2label" placeholder="CN"></label>' +
+      '  <div class="modal-actions"><button type="button" class="btn ghost left-btn" data-bg>Change background…</button><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
       '</form>';
     document.body.appendChild(dlg);
     var f = $('form', dlg);
-    f.cals.value = (s.calendars || []).join('\n');
-    f.tz.value = s.timezone || '';
     f.music.value = s.musicUrl || '';
-    f.island.value = s.islandUrl || '';
+    f.tz2.value = s.tz2 == null ? 'Asia/Shanghai' : s.tz2;
+    f.tz2label.value = s.tz2label == null ? 'CN' : s.tz2label;
+    $('[data-bg]', dlg).addEventListener('click', function () { dlg.close(); openBackgrounds(); });
     dlg.addEventListener('close', function () {
       if (dlg.returnValue === 'save') {
-        Store.setSettings({
-          calendars: f.cals.value.split(/\s*\n\s*/).map(function (x) { return x.trim(); }).filter(Boolean),
-          timezone: f.tz.value.trim() || 'Europe/Berlin',
-          musicUrl: f.music.value.trim(),
-          islandUrl: f.island.value.trim() || '/pleasure-island-experiment/'
-        });
+        var tz2 = f.tz2.value.trim();
+        if (tz2) { try { new Intl.DateTimeFormat('en-GB', { timeZone: tz2 }); } catch (e) { tz2 = ''; } }
+        Store.setSettings({ musicUrl: f.music.value.trim(), tz2: tz2, tz2label: f.tz2label.value.trim() });
       }
       dlg.remove();
     });
     dlg.showModal();
   }
 
+  /* ---------- backgrounds ---------- */
+  var U = 'https://images.unsplash.com/';
+  var BACKGROUNDS = [
+    { id: 'lavender-peaks', name: 'Lavender peaks', photo: 'photo-1517504734587-2890819debab' },
+    { id: 'violet-lake', name: 'Violet lake', photo: 'photo-1564572681888-6d02eed77008' },
+    { id: 'dusk-mountain', name: 'Dusk mountain lake', photo: 'photo-1583583729052-7800f1392773' },
+    { id: 'mirror-sky', name: 'Mirror sky', photo: 'photo-1746185896983-5e021159cb04' },
+    { id: 'lilac-fjord', name: 'Lilac fjord', photo: 'photo-1749230322510-8257ea537970' },
+    { id: 'above-clouds', name: 'Above the clouds', photo: 'photo-1508020268086-b96cf4f4bb2e' },
+    { id: 'pink-clouds', name: 'Pink clouds', photo: 'photo-1534271057238-c2c170a76672' },
+    { id: 'purple-tide', name: 'Purple tide', photo: 'photo-1533371452382-d45a9da51ad9' },
+    { id: 'evening-sea', name: 'Evening sea', photo: 'photo-1708819250631-bb426d85c3a7' },
+    { id: 'white-sands', name: 'White sands moon', photo: 'photo-1554147090-e1221a04a025' },
+    { id: 'aurora', name: 'Aurora glass', css: 'radial-gradient(60% 50% at 20% 25%, #b58cf2 0%, transparent 70%), radial-gradient(50% 45% at 80% 30%, #f3a7c6 0%, transparent 70%), radial-gradient(60% 60% at 60% 85%, #6fb7e8 0%, transparent 70%), linear-gradient(160deg, #3b2a63, #6a4a8c 45%, #2d3f6e)' },
+    { id: 'peach-mist', name: 'Peach mist', css: 'radial-gradient(55% 50% at 25% 30%, #ffd1b8 0%, transparent 70%), radial-gradient(60% 55% at 80% 70%, #c9a7f0 0%, transparent 70%), linear-gradient(200deg, #8d6aa8, #d79aa6 50%, #7e7fb8)' }
+  ];
+  var BG_KEY = 'launch.bg.v1';
+  function bgCss(b, w) {
+    if (!b) b = BACKGROUNDS[0];
+    if (b.css) return b.css;
+    var url = b.url || (U + b.photo + '?auto=format&fit=crop&w=' + (w || 2400) + '&q=80');
+    return 'url("' + url.replace(/"/g, '%22') + '")';
+  }
+  function findBg(id, custom) {
+    if (id === 'custom' && custom) return { id: 'custom', url: custom };
+    for (var i = 0; i < BACKGROUNDS.length; i++) if (BACKGROUNDS[i].id === id) return BACKGROUNDS[i];
+    return BACKGROUNDS[0];
+  }
+  function applyBackground(id, custom) {
+    var layer = document.getElementById('bgLayer');
+    if (!layer) {
+      layer = el('div', { id: 'bgLayer', 'aria-hidden': 'true' });
+      document.body.insertBefore(layer, document.body.firstChild);
+    }
+    var b = findBg(id, custom);
+    layer.style.backgroundImage = bgCss(b);
+    lsSet(BG_KEY, { id: b.id, custom: b.url || '' });
+  }
+  (function () { var c = lsGet(BG_KEY) || {}; applyBackground(c.id, c.custom); })();
+
+  function openBackgrounds() {
+    var s = (Store.doc && Store.doc.settings) || {}, cur = lsGet(BG_KEY) || {};
+    var dlg = el('dialog', { class: 'modal wide' });
+    dlg.innerHTML =
+      '<form method="dialog" class="modal-body">' +
+      '  <h2>Background</h2>' +
+      '  <div class="bg-grid">' + BACKGROUNDS.map(function (b) {
+        return '<button type="button" class="bg-opt' + (cur.id === b.id ? ' on' : '') + '" data-id="' + b.id + '" style="background-image:' + esc(bgCss(b, 480)) + '"><span>' + esc(b.name) + '</span></button>';
+      }).join('') + '</div>' +
+      '  <label>Or your own image link <input name="custom" placeholder="https://…jpg"></label>' +
+      '  <p class="muted small-note">Photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>, free to use.</p>' +
+      '  <div class="modal-actions"><button value="close" class="btn primary">Done</button></div>' +
+      '</form>';
+    document.body.appendChild(dlg);
+    var f = $('form', dlg);
+    f.custom.value = cur.id === 'custom' ? cur.custom : '';
+    function pick(id, custom) {
+      applyBackground(id, custom);
+      dlg.querySelectorAll('.bg-opt').forEach(function (n) { n.classList.toggle('on', n.dataset.id === id); });
+      if (Store.doc) Store.setSettings({ background: id, backgroundUrl: custom || '' });
+    }
+    dlg.addEventListener('click', function (e) { var o = e.target.closest('.bg-opt'); if (o) pick(o.dataset.id); });
+    f.custom.addEventListener('change', function () { var u = safeUrl(f.custom.value); if (u) pick('custom', u); });
+    dlg.addEventListener('close', function () { dlg.remove(); });
+    dlg.showModal();
+  }
+
   var ICONS = {
     gear: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
     lock: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+    image: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>',
     ext: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>'
   };
 
@@ -498,14 +565,7 @@
     Store: Store, $: $, el: el, esc: esc, linkify: linkify, safeUrl: safeUrl, uid: uid,
     todayISO: todayISO, daysUntil: daysUntil, fmtDue: fmtDue, relDue: relDue, dueClass: dueClass,
     lsGet: lsGet, lsSet: lsSet, ICONS: ICONS,
-    calendarEmbed: function (settings, mode) {
-      var s = settings || {}, cals = s.calendars && s.calendars.length ? s.calendars : [];
-      var q = 'ctz=' + encodeURIComponent(s.timezone || 'Europe/Berlin') + '&mode=' + mode +
-        '&wkst=2&showTitle=0&showPrint=0&showTabs=' + (mode === 'AGENDA' ? 0 : 1) + '&showCalendars=0&showTz=0&showDate=1&showNav=1' +
-        '&bgcolor=' + encodeURIComponent('#ffffff');
-      cals.forEach(function (c) { q += '&src=' + encodeURIComponent(c); });
-      return 'https://calendar.google.com/calendar/embed?' + q;
-    },
+    applyBackground: applyBackground,
     PRIO: [
       { v: 0, name: 'None' },
       { v: 1, name: 'Low' },

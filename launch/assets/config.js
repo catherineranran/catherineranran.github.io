@@ -10,5 +10,7 @@ window.LAUNCH_CONFIG = {
   supabaseUrl: 'https://dcucmzobeolwvhibavfl.supabase.co',
   supabaseKey: 'sb_publishable_T_E73ky6YPaN7ZYvT-xE-A_J88sI5Oi',
   vaultId: 'ranran-launch',
-  unlockHours: 8
+  unlockHours: 8,
+  // Google sign-in for the calendar (public client ID; only works on https://ranranli.net).
+  googleClientId: '270543400403-qfeirftcu5ev9tfbfa6jbilq804rf3db.apps.googleusercontent.com'
 };

@@ -8,59 +8,27 @@
   <link rel="icon" href="/assets/icons/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/launch/assets/launch.css?v=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/launch/assets/launch.css?v=2">
 </head>
 <body class="locked">
   <main>
     <div class="home">
       <div class="home-main">
-        <section class="panel" aria-labelledby="islandH">
+        <section class="panel music" aria-labelledby="musicH">
           <div class="panel-head">
-            <h2 id="islandH">Ranran’s island</h2>
-            <a class="btn small ghost" id="islandOpen" href="/pleasure-island-experiment/" target="_blank" rel="noopener">Open full screen</a>
-          </div>
-          <div id="islandSlot"></div>
-        </section>
-
-        <section class="panel" aria-labelledby="focusH">
-          <div class="panel-head">
-            <h2 id="focusH">Focus</h2>
-            <span class="muted" id="focusState">Ready when you are</span>
-          </div>
-          <div class="panel-body focus">
-            <div class="ring" aria-hidden="true">
-              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="44"/><circle class="prog" id="ringProg" cx="50" cy="50" r="44"/></svg>
-              <div class="ring-label"><div class="ring-time" id="ringTime">50:00</div><div class="ring-sub" id="ringSub">focus block</div></div>
-            </div>
-            <div class="focus-controls">
-              <div class="row">
-                <button type="button" class="btn primary" id="musicBtn">▶ Start focus music</button>
-                <a class="btn ghost" id="musicTab" href="#" target="_blank" rel="noopener">Open Brain.fm in a tab</a>
-              </div>
-              <p>Brain.fm doesn’t allow being shown inside other pages, so the music opens in a small window next to this one.</p>
-              <div class="chips" role="group" aria-label="Block length">
-                <button type="button" class="chip" data-min="25">25 min</button>
-                <button type="button" class="chip" data-min="50">50 min</button>
-                <button type="button" class="chip" data-min="90">90 min</button>
-              </div>
-              <div class="row">
-                <button type="button" class="btn" id="timerGo">Start timer</button>
-                <button type="button" class="btn ghost" id="timerReset">Reset</button>
-              </div>
+            <h2 id="musicH">Focus music</h2>
+            <div class="music-tools">
+              <span class="timer" title="Focus timer">
+                <b id="timerTime">50:00</b>
+                <select id="timerLen" aria-label="Block length"><option value="25">25 min</option><option value="50" selected>50 min</option><option value="90">90 min</option></select>
+                <button type="button" class="btn small" id="timerGo">Start</button>
+              </span>
+              <button type="button" class="btn small ghost" id="musicPop">Pop out <span id="popIcon"></span></button>
             </div>
           </div>
-        </section>
-      </div>
-
-      <aside class="home-side">
-        <section class="panel" aria-labelledby="agendaH">
-          <div class="panel-head">
-            <h2 id="agendaH">Today’s agenda</h2>
-            <a class="btn small ghost" href="/launch/calendar/">Week view</a>
-          </div>
-          <div id="agendaSlot"></div>
-          <p class="frame-note">Events missing? Sign in to Google in this browser.</p>
+          <div id="musicSlot"></div>
+          <p class="frame-note">If Brain.fm asks you to sign in inside this panel, sign in once. If it won’t play here, use Pop out.</p>
         </section>
 
         <section class="panel" aria-labelledby="dueH">
@@ -70,12 +38,30 @@
           </div>
           <div class="panel-body"><ul class="due-list" id="dueList"></ul></div>
         </section>
+      </div>
+
+      <aside class="home-side">
+        <section class="panel agenda" aria-labelledby="agendaH">
+          <div class="panel-head">
+            <h2 id="agendaH" class="sr">Agenda</h2>
+            <div class="agenda-nav">
+              <button type="button" class="icon-btn" id="agPrev" aria-label="Previous day">‹</button>
+              <strong id="agDate"></strong>
+              <button type="button" class="icon-btn" id="agNext" aria-label="Next day">›</button>
+            </div>
+            <a class="btn small ghost" href="/launch/calendar/">Week</a>
+          </div>
+          <div id="agendaBanner"></div>
+          <div id="agendaView"></div>
+          <div id="agendaMonth" style="border-top:1px solid var(--line-2)"></div>
+        </section>
       </aside>
     </div>
   </main>
 
-  <script src="/launch/assets/config.js?v=1"></script>
-  <script src="/launch/assets/launch.js?v=1"></script>
-  <script src="/launch/assets/home.js?v=1"></script>
+  <script src="/launch/assets/config.js?v=2"></script>
+  <script src="/launch/assets/launch.js?v=2"></script>
+  <script src="/launch/assets/gcal.js?v=2"></script>
+  <script src="/launch/assets/home.js?v=2"></script>
 </body>
 </html>

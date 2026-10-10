@@ -1,68 +1,36 @@
-/* Today page: island, focus music + timer, agenda, coming-up deadlines. */
+/* Today page: Brain.fm focus music, focus timer, coming-up tasks, day agenda + mini month. */
 (function () {
   'use strict';
-  var L = window.Launch, S = L.Store, $ = L.$;
+  var L = window.Launch, S = L.Store, $ = L.$, GC = window.GCal;
   var FOCUS_KEY = 'launch.focus.v1';
-  var C = 2 * Math.PI * 44;
 
-  L.boot('home', function (doc) {
-    var settings = doc.settings || {};
-
-    // Island
-    var islandUrl = settings.islandUrl || '/pleasure-island-experiment/';
-    $('#islandSlot').innerHTML = '<iframe class="island-frame" title="Ranran’s island" src="' + L.esc(islandUrl) + '" allow="autoplay; fullscreen"></iframe>';
-    $('#islandOpen').href = islandUrl;
-
-    // Agenda
-    function paintAgenda(s) {
-      var slot = $('#agendaSlot');
-      if (!s.calendars || !s.calendars.length) {
-        slot.innerHTML = '<div class="panel-body"><p class="empty">Add your Google calendar in Settings (the gear, top right).</p></div>';
-        return;
-      }
-      var src = L.calendarEmbed(s, 'AGENDA');
-      var f = slot.querySelector('iframe');
-      if (f && f.getAttribute('src') === src) return;
-      slot.innerHTML = '<iframe class="agenda-frame" title="Today’s agenda" src="' + L.esc(src) + '"></iframe>';
-    }
-    paintAgenda(settings);
-
-    // Music
+  L.boot('home', function () {
+    /* ---------- Brain.fm ---------- */
     function musicUrl() { return (S.doc.settings || {}).musicUrl || 'https://my.brain.fm/'; }
-    $('#musicTab').href = musicUrl();
-    $('#musicBtn').addEventListener('click', function () {
+    function paintMusic() {
+      var slot = $('#musicSlot'), url = L.safeUrl(musicUrl()), f = slot.querySelector('iframe');
+      if (f && f.getAttribute('src') === url) return;
+      slot.innerHTML = '<iframe class="music-frame" title="Brain.fm" src="' + L.esc(url) + '" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>';
+    }
+    paintMusic();
+    $('#popIcon').innerHTML = L.ICONS.ext;
+    $('#musicPop').addEventListener('click', function () {
       var w = Math.min(460, screen.availWidth), h = Math.min(820, screen.availHeight);
       var win = window.open(musicUrl(), 'ranran-brainfm', 'popup=yes,width=' + w + ',height=' + h + ',left=' + (screen.availWidth - w) + ',top=0');
       if (!win) window.open(musicUrl(), '_blank', 'noopener');
-      var t = L.lsGet(FOCUS_KEY) || {};
-      if (!t.endAt) startTimer();
     });
 
-    // Focus timer (kept on this device so it survives switching tabs)
-    var ring = $('#ringProg');
-    ring.style.strokeDasharray = C;
+    /* ---------- focus timer (kept on this device) ---------- */
     function state() { var t = L.lsGet(FOCUS_KEY) || {}; if (!t.mins) t.mins = 50; return t; }
-    function save(t) { L.lsSet(FOCUS_KEY, t); paint(); }
-    function startTimer() {
-      var t = state();
-      var left = t.left != null ? t.left : t.mins * 60000;
-      t.endAt = Date.now() + left; t.left = null; save(t);
-    }
-    function paint() {
-      var t = state(), total = t.mins * 60000, left;
-      if (t.endAt) left = Math.max(0, t.endAt - Date.now());
-      else left = t.left != null ? t.left : total;
-      var m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
-      $('#ringTime').textContent = m + ':' + String(s).padStart(2, '0');
-      ring.style.strokeDashoffset = C * (1 - left / total);
-      $('#ringSub').textContent = t.endAt ? 'focusing' : left < total ? 'paused' : t.mins + ' min block';
-      $('#timerGo').textContent = t.endAt ? 'Pause' : left < total ? 'Resume' : 'Start timer';
-      $('#focusState').textContent = t.endAt ? 'In the zone until ' + new Date(t.endAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : 'Ready when you are';
-      document.querySelectorAll('.chips .chip').forEach(function (b) { b.classList.toggle('on', +b.dataset.min === t.mins); });
+    function save(t) { L.lsSet(FOCUS_KEY, t); paintTimer(); }
+    function paintTimer() {
+      var t = state(), total = t.mins * 60000, left = t.endAt ? Math.max(0, t.endAt - Date.now()) : (t.left != null ? t.left : total);
+      $('#timerTime').textContent = Math.floor(left / 60000) + ':' + String(Math.floor((left % 60000) / 1000)).padStart(2, '0');
+      $('#timerGo').textContent = t.endAt ? 'Pause' : left < total ? 'Resume' : 'Start';
+      $('#timerLen').value = String(t.mins);
       if (t.endAt && left === 0) {
         t.endAt = null; t.left = null; L.lsSet(FOCUS_KEY, t);
         chime();
-        $('#focusState').textContent = 'Block done — take a break';
         document.title = '✓ Block done · Launch Pad';
         setTimeout(function () { document.title = 'Launch Pad · Today'; }, 60000);
       }
@@ -82,40 +50,48 @@
     }
     $('#timerGo').addEventListener('click', function () {
       var t = state();
-      if (t.endAt) { t.left = Math.max(0, t.endAt - Date.now()); t.endAt = null; save(t); }
-      else startTimer();
+      if (t.endAt) { t.left = Math.max(0, t.endAt - Date.now()); t.endAt = null; }
+      else { t.endAt = Date.now() + (t.left != null ? t.left : t.mins * 60000); t.left = null; }
+      save(t);
     });
-    $('#timerReset').addEventListener('click', function () { var t = state(); t.endAt = null; t.left = null; save(t); });
-    document.querySelectorAll('.chips .chip').forEach(function (b) {
-      b.addEventListener('click', function () { save({ mins: +b.dataset.min, endAt: null, left: null }); });
-    });
-    paint();
-    setInterval(paint, 1000);
+    $('#timerLen').addEventListener('change', function () { save({ mins: +this.value, endAt: null, left: null }); });
+    paintTimer(); setInterval(paintTimer, 1000);
 
-    // Coming up: every open card with a deadline in the next 3 weeks (or overdue)
+    /* ---------- coming up ---------- */
     function paintDue() {
       var cols = {};
       (S.doc.columns || []).forEach(function (c) { cols[c.id] = c.name; });
-      var list = S.allCards().filter(function (c) {
-        return !c.done && c.due && cols[c.col] && L.daysUntil(c.due) <= 21;
-      }).sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : (b.prio || 0) - (a.prio || 0); });
+      var list = S.allCards().filter(function (c) { return !c.done && c.due && cols[c.col] && L.daysUntil(c.due) <= 21; })
+        .sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : (b.prio || 0) - (a.prio || 0); });
       var ul = $('#dueList');
       if (!list.length) { ul.innerHTML = '<li class="empty" style="display:block">Nothing due in the next three weeks.</li>'; return; }
       ul.innerHTML = list.slice(0, 12).map(function (c) {
         return '<li><span class="pdot" data-prio="' + (c.prio || 0) + '"></span>' +
-          '<span class="t"><a href="/launch/task-list/#' + c.id + '" style="color:inherit;text-decoration:none">' + L.esc(c.title) + '</a><small>' + L.esc(cols[c.col]) + (c.next ? ' · ' + L.esc(c.next.split('\n')[0]) : '') + '</small></span>' +
+          '<span class="t"><a href="/launch/task-list/#' + c.id + '">' + L.esc(c.title) + '</a><small>' + L.esc(cols[c.col]) + (c.next ? ' · ' + L.esc(c.next.split('\n')[0]) : '') + '</small></span>' +
           '<span class="d ' + L.dueClass(c.due) + '">' + L.esc(L.fmtDue(c.due)) + '<br>' + L.esc(L.relDue(c.due)) + '</span></li>';
       }).join('');
     }
     paintDue();
 
-    S.on(function () {
-      var s = S.doc.settings || {};
-      paintAgenda(s);
-      $('#musicTab').href = musicUrl();
-      var iu = s.islandUrl || '/pleasure-island-experiment/', f = $('#islandSlot iframe');
-      if (f && f.getAttribute('src') !== iu) { f.src = iu; $('#islandOpen').href = iu; }
-      paintDue();
-    });
+    /* ---------- agenda: one day + mini month ---------- */
+    var day = new Date(); day.setHours(0, 0, 0, 0);
+    function paintDate() {
+      var today = GC.sameDay(day, new Date());
+      $('#agDate').textContent = (today ? 'Today · ' : '') + day.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+    var cal = GC.mount($('#agendaView'), $('#agendaBanner'), { days: 1, compact: true, date: day, connectText: 'See today’s plan from Google Calendar here, and add or move events.', onConnect: function () { if (cal && cal.view) cal.view.setDate(day); } });
+    var month = new GC.MiniMonth($('#agendaMonth'), { date: day, onSelect: function (d) { go(d); } });
+    function go(d) {
+      day = new Date(d); day.setHours(0, 0, 0, 0);
+      paintDate(); month.setSelected(day);
+      if (cal.view) cal.view.setDate(day);
+    }
+    $('#agPrev').addEventListener('click', function () { go(GC.addDays(day, -1)); });
+    $('#agNext').addEventListener('click', function () { go(GC.addDays(day, 1)); });
+    paintDate();
+    // refresh events when coming back to the page
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && GC.G.token()) cal.view.load(); });
+
+    S.on(function () { paintMusic(); paintDue(); });
   });
 })();
