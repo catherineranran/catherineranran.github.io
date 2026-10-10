@@ -419,13 +419,25 @@
     // all-day row
     var allDay = this.events.filter(function (e) { return e.allDay; });
     h += '<div class="cv-allday"><div class="cv-gl" style="grid-column:span ' + (tz2 ? 2 : 1) + '">all-day</div>';
-    days.forEach(function (d) {
-      var next = addDays(d, 1);
-      var chips = allDay.filter(function (e) { return e.start < next && e.end > d; });
-      h += '<div class="cv-adcell" data-day="' + iso(d) + '">' + chips.map(function (e) {
-        return '<div class="cv-chip" data-ev="' + esc(e.calId + '|' + e.id) + '" style="--c:' + esc(e.color) + ';--t:' + textOn(e.color) + '" title="' + esc(e.title) + '">' + esc(e.title) + '</div>';
-      }).join('') + '</div>';
+    // Multi-day events are one bar across the days they cover, stacked in lanes (like Google Calendar).
+    var n0 = days[0], spans = allDay.map(function (e) {
+      var sIdx = Math.round((startOfDay(e.start) - n0) / DAY), eIdx = Math.round((startOfDay(e.end) - n0) / DAY); // end is exclusive
+      return { e: e, s: Math.max(0, sIdx), en: Math.min(n, eIdx), contL: sIdx < 0, contR: eIdx > n };
+    }).filter(function (x) { return x.en > x.s; })
+      .sort(function (a, b) { return a.s - b.s || (b.en - b.s) - (a.en - a.s); });
+    var lanes = [];
+    spans.forEach(function (x) {
+      for (var l = 0; l < lanes.length; l++) if (lanes[l] <= x.s) { x.lane = l; lanes[l] = x.en; return; }
+      x.lane = lanes.length; lanes.push(x.en);
     });
+    var rows = Math.max(1, lanes.length);
+    h += '<div class="cv-adgrid" style="grid-column:span ' + n + ';grid-template-rows:repeat(' + rows + ', 22px)">';
+    days.forEach(function (d, i) { h += '<div class="cv-adcell" data-day="' + iso(d) + '" style="grid-column:' + (i + 1) + ';grid-row:1 / span ' + rows + '"></div>'; });
+    spans.forEach(function (x) {
+      var e = x.e;
+      h += '<div class="cv-chip' + (x.contL ? ' cont-l' : '') + (x.contR ? ' cont-r' : '') + '" data-ev="' + esc(e.calId + '|' + e.id) + '" style="grid-column:' + (x.s + 1) + ' / ' + (x.en + 1) + ';grid-row:' + (x.lane + 1) + ';--c:' + esc(e.color) + ';--t:' + textOn(e.color) + '" title="' + esc(e.title) + '">' + esc(e.title) + '</div>';
+    });
+    h += '</div>';
     h += '</div>';
     // timed grid
     h += '<div class="cv-scroll"><span class="cv-loading" hidden>Loading…</span><div class="cv-body">';
