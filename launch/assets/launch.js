@@ -490,19 +490,20 @@
   /* ---------- backgrounds ---------- */
   var U = 'https://images.unsplash.com/';
   var BACKGROUNDS = [
-    { id: 'lavender-peaks', name: 'Lavender peaks', photo: 'photo-1517504734587-2890819debab' },
-    { id: 'violet-lake', name: 'Violet lake', photo: 'photo-1564572681888-6d02eed77008' },
-    { id: 'dusk-mountain', name: 'Dusk mountain lake', photo: 'photo-1583583729052-7800f1392773' },
+    { id: 'blue-sky', name: 'Blue sky', photo: 'photo-1602498456745-e9503b30470b' },
+    { id: 'soft-clouds', name: 'Soft clouds', photo: 'photo-1514477917009-389c76a86b68' },
+    { id: 'ocean-day', name: 'Ocean day', photo: 'photo-1501589345162-ecc3f6fc298b' },
+    { id: 'alpine-meadow', name: 'Alpine meadow', photo: 'photo-1615117804087-6629d6f20e80' },
+    { id: 'clear-sky', name: 'Clear sky', css: 'radial-gradient(70% 50% at 75% 15%, rgba(255,255,255,.75) 0%, transparent 70%), linear-gradient(180deg, #2f7fd0 0%, #5aa9e6 45%, #a9d6f5 80%, #e8f4fd 100%)' },
     { id: 'mirror-sky', name: 'Mirror sky', photo: 'photo-1746185896983-5e021159cb04' },
     { id: 'lilac-fjord', name: 'Lilac fjord', photo: 'photo-1749230322510-8257ea537970' },
     { id: 'above-clouds', name: 'Above the clouds', photo: 'photo-1508020268086-b96cf4f4bb2e' },
-    { id: 'pink-clouds', name: 'Pink clouds', photo: 'photo-1534271057238-c2c170a76672' },
-    { id: 'purple-tide', name: 'Purple tide', photo: 'photo-1533371452382-d45a9da51ad9' },
     { id: 'evening-sea', name: 'Evening sea', photo: 'photo-1708819250631-bb426d85c3a7' },
     { id: 'white-sands', name: 'White sands moon', photo: 'photo-1554147090-e1221a04a025' },
-    { id: 'aurora', name: 'Aurora glass', css: 'radial-gradient(60% 50% at 20% 25%, #b58cf2 0%, transparent 70%), radial-gradient(50% 45% at 80% 30%, #f3a7c6 0%, transparent 70%), radial-gradient(60% 60% at 60% 85%, #6fb7e8 0%, transparent 70%), linear-gradient(160deg, #3b2a63, #6a4a8c 45%, #2d3f6e)' },
-    { id: 'peach-mist', name: 'Peach mist', css: 'radial-gradient(55% 50% at 25% 30%, #ffd1b8 0%, transparent 70%), radial-gradient(60% 55% at 80% 70%, #c9a7f0 0%, transparent 70%), linear-gradient(200deg, #8d6aa8, #d79aa6 50%, #7e7fb8)' }
+    { id: 'lavender-peaks', name: 'Lavender peaks', photo: 'photo-1517504734587-2890819debab' },
+    { id: 'ranranli', name: 'ranranli.net', css: '#2D3748', particles: true }
   ];
+
   var BG_KEY = 'launch.bg.v1';
   function bgCss(b, w) {
     if (!b) b = BACKGROUNDS[0];
@@ -522,10 +523,45 @@
       document.body.insertBefore(layer, document.body.firstChild);
     }
     var b = findBg(id, custom);
-    layer.style.backgroundImage = bgCss(b);
+    layer.style.backgroundImage = b.particles ? 'none' : bgCss(b);
+    layer.style.backgroundColor = b.particles ? b.css : '';
+    layer.classList.toggle('plain', !!b.particles);
+    particles(!!b.particles);
     lsSet(BG_KEY, { id: b.id, custom: b.url || '' });
   }
   (function () { var c = lsGet(BG_KEY) || {}; applyBackground(c.id, c.custom); })();
+
+  // The same drifting shapes as the main site (particles.js with the site's settings).
+  var particlesLoad = null;
+  function particles(on) {
+    var host = document.getElementById('bgParticles');
+    if (!on) { if (host) host.remove(); return; }
+    if (host) return;
+    host = el('div', { id: 'bgParticles', 'aria-hidden': 'true' });
+    document.body.insertBefore(host, document.body.firstChild);
+    particlesLoad = particlesLoad || new Promise(function (res, rej) {
+      if (window.particlesJS) return res();
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'; sc.onload = res; sc.onerror = rej;
+      document.head.appendChild(sc);
+    });
+    particlesLoad.then(function () {
+      if (!document.getElementById('bgParticles')) return;
+      window.particlesJS('bgParticles', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: ['#ffffff', '#30b659', '#111827'] },
+          shape: { type: ['circle', 'triangle', 'square'], stroke: { width: 0 }, polygon: { nb_sides: 4 } },
+          opacity: { value: 0.5, random: false },
+          size: { value: 8, random: true },
+          line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+          move: { enable: true, speed: 0.8, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+        },
+        interactivity: { detect_on: 'window', events: { onhover: { enable: false }, onclick: { enable: false }, resize: true } },
+        retina_detect: true
+      });
+    }).catch(function () { /* offline: plain colour */ });
+  }
 
   function openBackgrounds() {
     var s = (Store.doc && Store.doc.settings) || {}, cur = lsGet(BG_KEY) || {};
@@ -534,7 +570,8 @@
       '<form method="dialog" class="modal-body">' +
       '  <h2>Background</h2>' +
       '  <div class="bg-grid">' + BACKGROUNDS.map(function (b) {
-        return '<button type="button" class="bg-opt' + (cur.id === b.id ? ' on' : '') + '" data-id="' + b.id + '" style="background-image:' + esc(bgCss(b, 480)) + '"><span>' + esc(b.name) + '</span></button>';
+        var look = b.particles ? 'background:radial-gradient(circle at 20% 30%, #30b659 0 5px, transparent 6px), radial-gradient(circle at 70% 60%, #fff 0 4px, transparent 5px), radial-gradient(circle at 45% 80%, #111827 0 6px, transparent 7px), radial-gradient(circle at 85% 20%, #fff 0 3px, transparent 4px), #2D3748' : 'background-image:' + bgCss(b, 480);
+        return '<button type="button" class="bg-opt' + ((cur.id || BACKGROUNDS[0].id) === b.id ? ' on' : '') + '" data-id="' + b.id + '" style="' + esc(look) + '"><span>' + esc(b.name) + '</span></button>';
       }).join('') + '</div>' +
       '  <label>Or your own image link <input name="custom" placeholder="https://…jpg"></label>' +
       '  <p class="muted small-note">Photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>, free to use.</p>' +
