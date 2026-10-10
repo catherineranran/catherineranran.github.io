@@ -484,7 +484,7 @@
       '  <label>Focus music link <small>Your Brain.fm player link.</small><input name="music" placeholder="https://my.brain.fm/…"></label>' +
       '  <label>Second time zone in the calendar <small>Shown next to your own, like in Google Calendar. Leave empty for none.</small><input name="tz2" placeholder="Asia/Shanghai"></label>' +
       '  <label>Short name for it <input name="tz2label" placeholder="CN"></label>' +
-      '  <div class="modal-actions"><button type="button" class="btn ghost left-btn" data-bg>Change background…</button><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
+      '  <div class="modal-actions"><span class="left"><button type="button" class="btn ghost" data-bg>Change background…</button><button type="button" class="btn ghost" data-pw>Change password…</button></span><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
       '</form>';
     document.body.appendChild(dlg);
     var f = $('form', dlg);
@@ -492,6 +492,7 @@
     f.tz2.value = s.tz2 == null ? 'Asia/Shanghai' : s.tz2;
     f.tz2label.value = s.tz2label == null ? 'CN' : s.tz2label;
     $('[data-bg]', dlg).addEventListener('click', function () { dlg.close(); openBackgrounds(); });
+    $('[data-pw]', dlg).addEventListener('click', function () { dlg.close(); openPassword(); });
     dlg.addEventListener('close', function () {
       if (dlg.returnValue === 'save') {
         var tz2 = f.tz2.value.trim();
@@ -500,6 +501,48 @@
       }
       dlg.remove();
     });
+    dlg.showModal();
+  }
+
+  /* ---------- change password ---------- */
+  function openPassword() {
+    var dlg = el('dialog', { class: 'modal' });
+    dlg.innerHTML =
+      '<form method="dialog" class="modal-body" autocomplete="off">' +
+      '  <h2>Change password</h2>' +
+      '  <p class="muted small-note">Your tasks and settings get re-locked with the new password. Other devices will ask for it the next time they sync.</p>' +
+      '  <label>New password <input type="password" name="p1" autocomplete="new-password" required minlength="6"></label>' +
+      '  <label>Repeat it <input type="password" name="p2" autocomplete="new-password" required minlength="6"></label>' +
+      '  <p class="muted small-note err" role="status"></p>' +
+      '  <div class="modal-actions"><button value="cancel" class="btn" formnovalidate>Cancel</button><button value="ok" class="btn primary">Change password</button></div>' +
+      '</form>';
+    document.body.appendChild(dlg);
+    var f = $('form', dlg), err = $('.err', dlg);
+    f.addEventListener('submit', function (e) {
+      if (!e.submitter || e.submitter.value !== 'ok') return;
+      e.preventDefault();
+      if (f.p1.value !== f.p2.value) { err.textContent = 'The two don’t match.'; return; }
+      if (f.p1.value.length < 6) { err.textContent = 'Use at least 6 characters.'; return; }
+      err.textContent = 'Re-locking your data…';
+      var go = Store.dirty ? Store.save() : Promise.resolve();
+      var nd;
+      go.then(function () { return derive(f.p1.value); }).then(function (d) {
+        nd = d;
+        return Promise.all([encrypt(Store.doc, d.key), crypto.subtle.digest('SHA-256', te.encode(d.token))]);
+      }).then(function (r) {
+        return rpc('launch_rekey', { p_id: CFG.vaultId, p_token: Store.unlock.token, p_new_hash: hex(r[1]), p_blob: r[0], p_rev: Store.rev });
+      }).then(function (rev) {
+        var u = { token: nd.token, key: nd.key, until: (lsGet(UNLOCK_KEY) || {}).until || Date.now() + 8 * 3600000 };
+        lsSet(UNLOCK_KEY, u);
+        Store.unlock = u; Store.rev = rev; Store.dirty = false;
+        Store.cacheLocal();
+        err.textContent = 'Done. Use the new password from now on.';
+        setTimeout(function () { dlg.close(); }, 1200);
+      }).catch(function (x) {
+        err.textContent = 'Couldn’t change it (' + (x && x.message || 'error') + '). Your old password still works.';
+      });
+    });
+    dlg.addEventListener('close', function () { dlg.remove(); });
     dlg.showModal();
   }
 

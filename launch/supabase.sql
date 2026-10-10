@@ -69,3 +69,27 @@ grant execute on function public.launch_put(text, text, text, bigint) to anon, a
 
 -- The vault row itself (with the encrypted starting board) is inserted once, separately.
 -- There is deliberately no function that creates rows.
+
+-- Change the password: with the current token, replace the token hash and the blob
+-- (re-encrypted in the browser with the new password's key) in one step.
+create or replace function public.launch_rekey(p_id text, p_token text, p_new_hash text, p_blob text, p_rev bigint)
+returns bigint
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_rev bigint;
+begin
+  if p_new_hash !~ '^[0-9a-f]{64}$' then raise exception 'bad hash'; end if;
+  if length(p_blob) > 3000000 then raise exception 'launch pad data too large'; end if;
+  update public.launch_vault
+     set token_hash = p_new_hash, blob = p_blob, rev = rev + 1, updated_at = now()
+   where id = p_id and token_hash = encode(sha256(convert_to(p_token, 'UTF8')), 'hex') and rev = p_rev
+  returning rev into v_rev;
+  if v_rev is null then raise exception 'not allowed or out of date' using errcode = '28000'; end if;
+  return v_rev;
+end;
+$$;
+revoke all on function public.launch_rekey(text, text, text, text, bigint) from public;
+grant execute on function public.launch_rekey(text, text, text, text, bigint) to anon, authenticated;
