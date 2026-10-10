@@ -36,6 +36,7 @@
     function dayKey(d) { return L.todayISOOf(d); }
     var lastFocusPaint = '';
     function paintFocus() {
+      if (!$('#focusStats')) return;
       var by = S.focusByDay(), today = new Date(); today.setHours(0, 0, 0, 0);
       var tToday = by[dayKey(today)] || 0;
       // this week (Mon–Sun), last 7 days, streak
@@ -65,7 +66,7 @@
     function stat(label, value, sub) {
       return '<div class="fstat"><span>' + L.esc(label) + '</span><b>' + L.esc(value) + '</b>' + (sub ? '<small>' + L.esc(sub) + '</small>' : '') + '</div>';
     }
-    $('#focusAdd').addEventListener('click', function () {
+    if ($('#focusAdd')) $('#focusAdd').addEventListener('click', function () {
       var v = prompt('Add focus time for today (minutes), e.g. if you worked without the timer:', '30');
       var m = Math.round(parseFloat(v));
       if (m > 0 && m < 24 * 60) F.addManual(m);
