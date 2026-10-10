@@ -339,6 +339,7 @@
     if (Store.doc.settings && Store.doc.settings.background) applyBackground(Store.doc.settings.background, Store.doc.settings.backgroundUrl);
     Store.on(function (d, why) { if (why === 'remote' && d.settings && d.settings.background) applyBackground(d.settings.background, d.settings.backgroundUrl); });
     Store.setStatus(Store.dirty ? 'saving' : 'saved');
+    migrate();
     readyCallbacks.forEach(function (fn) { fn(Store.doc); });
     if (Store.dirty) Store.save();
     document.addEventListener('visibilitychange', function () {
@@ -354,6 +355,20 @@
     lockTimer = setInterval(checkExpiry, 30000);
     paintUnlockInfo();
   }
+  // One-off updates to the saved launch pad (run once, on whichever device opens it first).
+  function migrate() {
+    var done = (Store.doc.settings && Store.doc.settings.migrations) || [];
+    if (done.indexOf('vibes-2') !== -1) return;
+    var byTitle = {};
+    Store.vibeList().forEach(function (v) { byTitle[(v.title || '').toLowerCase()] = v; });
+    function patch(title, fields) { var v = byTitle[title.toLowerCase()]; if (v) Store.setVibe(v.id, fields); }
+    patch('Survey Studio', { image: '/assets/vibes/survey-studio.jpg' });
+    patch('Grill My Supervisor', { image: '/assets/vibes/grill-my-supervisor.jpg', url: 'https://grillmysupervisor.online/', status: 'live', blurb: 'Where the Light Rests: a walkable 3D gallery of sandstone and glass. Kind words go on the posters, complaints in the bin.' });
+    patch('Launch Pad', { image: '/assets/vibes/launch-pad.jpg', blurb: 'This daily workspace: focus music, agenda, calendar, tasks and vibecodings.' });
+    if (!byTitle['tit for tat']) Store.setVibe(uid(), { title: 'Tit for Tat', url: 'https://ranranli.net/exhibition.html', date: '2026-10-02', status: 'video', image: '/assets/videos/tit-for-tat-poster.jpg', repo: '', blurb: 'Animated explainer: why the simplest strategy won the cooperation game.' });
+    Store.setSettings({ migrations: done.concat(['vibes-2']) });
+  }
+
   function checkExpiry() {
     if (Store.unlock && !getUnlock()) {
       if (Store.dirty) Store.save().then(function () { Launch.lock('Unlocked for 8 hours — time’s up. Enter your password to continue.'); });
@@ -434,6 +449,7 @@
       '  <a href="/launch/vibecodings/" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
       '</nav>' +
       '<div class="top-tools">' +
+      '  <a class="btn small site-link" href="https://ranranli.net/" target="_blank" rel="noopener">To Personal Site ' + ICONS.ext + '</a>' +
       '  <span id="syncStatus" class="sync"></span>' +
       '  <span id="unlockInfo" class="unlock-info"></span>' +
       '  <button type="button" class="icon-btn" id="bgBtn" title="Change background" aria-label="Change background">' + ICONS.image + '</button>' +
@@ -490,6 +506,7 @@
   /* ---------- backgrounds ---------- */
   var U = 'https://images.unsplash.com/';
   var BACKGROUNDS = [
+    { id: 'alpine-dusk', name: 'Alpine dusk', photo: 'photo-1508020268086-b96cf4f4bb2e' },
     { id: 'blue-sky', name: 'Blue sky', photo: 'photo-1602498456745-e9503b30470b' },
     { id: 'soft-clouds', name: 'Soft clouds', photo: 'photo-1514477917009-389c76a86b68' },
     { id: 'ocean-day', name: 'Ocean day', photo: 'photo-1501589345162-ecc3f6fc298b' },
@@ -497,7 +514,6 @@
     { id: 'clear-sky', name: 'Clear sky', css: 'radial-gradient(70% 50% at 75% 15%, rgba(255,255,255,.75) 0%, transparent 70%), linear-gradient(180deg, #2f7fd0 0%, #5aa9e6 45%, #a9d6f5 80%, #e8f4fd 100%)' },
     { id: 'mirror-sky', name: 'Mirror sky', photo: 'photo-1746185896983-5e021159cb04' },
     { id: 'lilac-fjord', name: 'Lilac fjord', photo: 'photo-1749230322510-8257ea537970' },
-    { id: 'above-clouds', name: 'Above the clouds', photo: 'photo-1508020268086-b96cf4f4bb2e' },
     { id: 'evening-sea', name: 'Evening sea', photo: 'photo-1708819250631-bb426d85c3a7' },
     { id: 'white-sands', name: 'White sands moon', photo: 'photo-1554147090-e1221a04a025' },
     { id: 'lavender-peaks', name: 'Lavender peaks', photo: 'photo-1517504734587-2890819debab' },

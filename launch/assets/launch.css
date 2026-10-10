@@ -442,3 +442,10 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 
 #bgParticles { position: fixed; inset: 0; z-index: -1; }
 #bgParticles canvas { display: block; }
+
+.site-link { margin-right: 6px; white-space: nowrap; }
+@media (max-width: 560px) { .site-link { padding: 5px 9px; font-size: 12px; } }
+.due-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
+.due-cols h3 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
+.due-cols .more { display: inline-block; margin-top: 6px; font-size: 12.5px; color: var(--accent); text-decoration: none; }
+@media (max-width: 640px) { .due-cols { grid-template-columns: 1fr; gap: 16px; } }

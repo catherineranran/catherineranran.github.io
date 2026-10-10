@@ -58,18 +58,27 @@
     paintTimer(); setInterval(paintTimer, 1000);
 
     /* ---------- coming up ---------- */
+    // Two columns: the open cards of "To do: Miscellaneous" and "To do: Research", dated ones first.
     function paintDue() {
-      var cols = {};
-      (S.doc.columns || []).forEach(function (c) { cols[c.id] = c.name; });
-      var list = S.allCards().filter(function (c) { return !c.done && c.due && cols[c.col] && L.daysUntil(c.due) <= 21; })
-        .sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : (b.prio || 0) - (a.prio || 0); });
-      var ul = $('#dueList');
-      if (!list.length) { ul.innerHTML = '<li class="empty" style="display:block">Nothing due in the next three weeks.</li>'; return; }
-      ul.innerHTML = list.slice(0, 12).map(function (c) {
-        return '<li><span class="pdot" data-prio="' + (c.prio || 0) + '"></span>' +
-          '<span class="t"><a href="/launch/task-list/#' + c.id + '">' + L.esc(c.title) + '</a><small>' + L.esc(cols[c.col]) + (c.next ? ' · ' + L.esc(c.next.split('\n')[0]) : '') + '</small></span>' +
-          '<span class="d ' + L.dueClass(c.due) + '">' + L.esc(L.fmtDue(c.due)) + '<br>' + L.esc(L.relDue(c.due)) + '</span></li>';
-      }).join('');
+      var cols = S.doc.columns || [];
+      function find(re, fallback) { var c = cols.filter(function (x) { return re.test(x.name); })[0]; return c || cols.filter(function (x) { return x.id === fallback; })[0]; }
+      [[find(/misc/i, 'misc'), '#dueMisc', '#dueMiscH'], [find(/research/i, 'research'), '#dueRes', '#dueResH']].forEach(function (x) {
+        var col = x[0], ul = $(x[1]);
+        if (!col) { ul.innerHTML = ''; return; }
+        $(x[2]).textContent = col.name;
+        var list = S.cardsIn(col.id).filter(function (c) { return !c.done; }).sort(function (a, b) {
+          if (a.due && b.due) return a.due < b.due ? -1 : a.due > b.due ? 1 : (b.prio || 0) - (a.prio || 0);
+          if (a.due || b.due) return a.due ? -1 : 1;
+          return (b.prio || 0) - (a.prio || 0) || (a.order || 0) - (b.order || 0);
+        });
+        if (!list.length) { ul.innerHTML = '<li class="empty" style="display:block">All clear.</li>'; return; }
+        var shown = list.slice(0, 10);
+        ul.innerHTML = shown.map(function (c) {
+          return '<li><span class="pdot" data-prio="' + (c.prio || 0) + '"></span>' +
+            '<span class="t"><a href="/launch/task-list/#' + c.id + '">' + L.esc(c.title) + '</a>' + (c.next ? '<small>' + L.esc(c.next.split('\n')[0]) + '</small>' : '') + '</span>' +
+            '<span class="d ' + (c.due ? L.dueClass(c.due) : '') + '">' + (c.due ? L.esc(L.fmtDue(c.due)) + '<br>' + L.esc(L.relDue(c.due)) : '') + '</span></li>';
+        }).join('') + (list.length > shown.length ? '<li style="display:block;border:0"><a class="more" href="/launch/task-list/">+ ' + (list.length - shown.length) + ' more</a></li>' : '');
+      });
     }
     paintDue();
 
