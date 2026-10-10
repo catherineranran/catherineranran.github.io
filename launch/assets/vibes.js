@@ -3,7 +3,7 @@
   'use strict';
   var L = window.Launch, S = L.Store, $ = L.$, esc = L.esc;
 
-  function hue(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
+  function hue(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 40; return 190 + h; } // sky blues
   function sorted() {
     return S.vibeList().sort(function (a, b) { return (b.date || '') < (a.date || '') ? -1 : (b.date || '') > (a.date || '') ? 1 : (a.order || 0) - (b.order || 0); });
   }

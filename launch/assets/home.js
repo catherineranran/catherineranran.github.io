@@ -77,7 +77,7 @@
     var day = new Date(); day.setHours(0, 0, 0, 0);
     function paintDate() {
       var today = GC.sameDay(day, new Date());
-      $('#agDate').textContent = (today ? 'Today · ' : '') + day.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      $('#agDate').textContent = day.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }); $('#agDate').title = today ? 'Today' : '';
     }
     var cal = GC.mount($('#agendaView'), $('#agendaBanner'), { days: 1, compact: true, date: day, connectText: 'See today’s plan from Google Calendar here, and add or move events.', onConnect: function () { if (cal && cal.view) cal.view.setDate(day); } });
     var month = new GC.MiniMonth($('#agendaMonth'), { date: day, onSelect: function (d) { go(d); } });

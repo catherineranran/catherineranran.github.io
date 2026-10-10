@@ -7,6 +7,20 @@
   var SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.calendarlist.readonly';
   var EVENT_COLORS = { 1: '#7986cb', 2: '#33b679', 3: '#8e24aa', 4: '#e67c73', 5: '#f6bf26', 6: '#f4511e', 7: '#039be5', 8: '#616161', 9: '#3f51b5', 10: '#0b8043', 11: '#d50000' };
   var DAY = 86400000;
+  // The API still reports calendar colours in Google's old palette; the Calendar app shows these instead.
+  var MODERN = {
+    '#ac725e': '#795548', '#d06b64': '#e67c73', '#f83a22': '#d50000', '#fa573c': '#f4511e', '#ff7537': '#ef6c00',
+    '#ffad46': '#f09300', '#42d692': '#009688', '#16a765': '#0b8043', '#7bd148': '#7cb342', '#b3dc6c': '#c0ca33',
+    '#fbe983': '#e4c441', '#fad165': '#f6bf26', '#92e1c0': '#33b679', '#9fe1e7': '#039be5', '#9fc6e7': '#4285f4',
+    '#4986e7': '#3f51b5', '#9a9cff': '#7986cb', '#b99aff': '#b39ddb', '#c2c2c2': '#616161', '#cabdbf': '#a79b8e',
+    '#cca6ac': '#ad1457', '#f691b2': '#d81b60', '#cd74e6': '#8e24aa', '#a47ae2': '#9e69af'
+  };
+  function modern(c) { c = String(c || '').toLowerCase(); return MODERN[c] || c || '#7986cb'; }
+  function textOn(hex) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex || ''); if (!m) return '#fff';
+    var n = parseInt(m[1], 16), r = n >> 16 & 255, g = n >> 8 & 255, b = n & 255;
+    return (0.299 * r + 0.587 * g + 0.114 * b) > 170 ? '#202124' : '#fff';
+  }
 
   /* ---------- dates ---------- */
   function startOfDay(d) { var x = new Date(d); x.setHours(0, 0, 0, 0); return x; }
@@ -93,7 +107,7 @@
       if (G.calendars) return Promise.resolve(G.calendars);
       return G.api('/users/me/calendarList?maxResults=250').then(function (j) {
         G.calendars = (j.items || []).map(function (c) {
-          return { id: c.id, name: c.summaryOverride || c.summary, color: c.backgroundColor || '#7986cb', primary: !!c.primary,
+          return { id: c.id, name: c.summaryOverride || c.summary, color: modern(c.backgroundColor), primary: !!c.primary,
             writable: c.accessRole === 'owner' || c.accessRole === 'writer', selected: c.selected !== false };
         }).sort(function (a, b) { return (b.primary - a.primary) || (b.writable - a.writable) || a.name.localeCompare(b.name); });
         return G.calendars;
@@ -278,7 +292,7 @@
       var next = addDays(d, 1);
       var chips = allDay.filter(function (e) { return e.start < next && e.end > d; });
       h += '<div class="cv-adcell" data-day="' + iso(d) + '">' + chips.map(function (e) {
-        return '<div class="cv-chip" data-ev="' + esc(e.calId + '|' + e.id) + '" style="--c:' + esc(e.color) + '" title="' + esc(e.title) + '">' + esc(e.title) + '</div>';
+        return '<div class="cv-chip" data-ev="' + esc(e.calId + '|' + e.id) + '" style="--c:' + esc(e.color) + ';--t:' + textOn(e.color) + '" title="' + esc(e.title) + '">' + esc(e.title) + '</div>';
       }).join('') + '</div>';
     });
     h += '</div>';
@@ -335,7 +349,7 @@
       c.items.forEach(function (it) {
         var w = 100 / cols.length, dur = it.en - it.s;
         var e = it.e, past = e.end < now;
-        html += '<div class="cv-ev' + (e.editable ? '' : ' ro') + (dur >= 45 ? ' tall' : '') + (past ? ' past' : '') + '" data-ev="' + esc(e.calId + '|' + e.id) + '" style="--c:' + esc(e.color) +
+        html += '<div class="cv-ev' + (e.editable ? '' : ' ro') + (dur >= 45 ? ' tall' : '') + (past ? ' past' : '') + '" data-ev="' + esc(e.calId + '|' + e.id) + '" style="--c:' + esc(e.color) + ';--t:' + textOn(e.color) +
           ';top:calc(' + (it.s / 60) + ' * var(--hour));height:calc(' + (dur / 60) + ' * var(--hour) - 2px);left:calc(' + (it.col * w) + '% + 2px);width:calc(' + w + '% - 4px)" title="' + esc(e.title + ' · ' + hm(e.start) + '–' + hm(e.end)) + '">' +
           '<b>' + esc(e.title) + '</b>' + (dur >= 30 ? '<small>' + hm(e.start) + ' – ' + hm(e.end) + '</small>' : '') +
           (e.editable ? '<span class="cv-resize"></span>' : '') + '</div>';
@@ -515,5 +529,5 @@
     return { get view() { return view; }, refresh: refresh };
   }
 
-  window.GCal = { G: G, CalView: CalView, mount: mount, MiniMonth: MiniMonth, openEventEditor: openEventEditor, startOfWeek: startOfWeek, addDays: addDays, iso: iso, sameDay: sameDay };
+  window.GCal = { G: G, CalView: CalView, mount: mount, modernColor: modern, MiniMonth: MiniMonth, openEventEditor: openEventEditor, startOfWeek: startOfWeek, addDays: addDays, iso: iso, sameDay: sameDay };
 })();
