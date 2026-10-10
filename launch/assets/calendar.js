@@ -47,7 +47,7 @@
         GC.openEventEditor({ start: s, end: new Date(s.getTime() + 3600000), allDay: false }, function () { if (cal.view) cal.view.load(); });
       });
     });
-    document.addEventListener('keydown', function (e) {
+    L.listen(document, 'keydown', function (e) {
       if (e.target.closest('input, textarea, select, dialog')) return;
       if (e.key === 't') go(new Date());
       else if (e.key === 'ArrowLeft' || e.key === 'j') go(GC.addDays(date, -days));
@@ -74,8 +74,8 @@
     });
     paintTitle();
     paintList();
-    G.on(function (w) { if (w === 'auth') paintList(); });
-    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && G.token()) cal.view.load(); });
-    S.on(function (d, why) { if (why === 'remote' && cal.view) cal.view.render(false); });
+    L.scoped(G.on(function (w) { if (w === 'auth') paintList(); }));
+    L.listen(document, 'visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && G.token()) cal.view.load(); });
+    L.onStore(function (d, why) { if (why === 'remote' && cal.view) cal.view.render(false); });
   });
 })();

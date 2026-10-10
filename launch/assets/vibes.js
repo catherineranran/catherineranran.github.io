@@ -115,6 +115,6 @@
     });
     $('#addVibe').addEventListener('click', function () { editor(null); });
     render();
-    S.on(render);
+    L.onStore(render);
   });
 })();

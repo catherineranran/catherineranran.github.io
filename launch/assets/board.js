@@ -165,8 +165,8 @@
 
     /* ---------- column menu ---------- */
     function closeMenus() { document.querySelectorAll('.menu').forEach(function (m) { m.remove(); }); }
-    document.addEventListener('click', function (e) { if (!e.target.closest('.menu') && !e.target.closest('.col-menu')) closeMenus(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenus(); });
+    L.listen(document, 'click', function (e) { if (!e.target.closest('.menu') && !e.target.closest('.col-menu')) closeMenus(); });
+    L.listen(document, 'keydown', function (e) { if (e.key === 'Escape') closeMenus(); });
 
     function colMenu(colId, anchor) {
       closeMenus();
@@ -330,7 +330,7 @@
     /* ---------- go ---------- */
     paintLegend();
     render();
-    S.on(function () { render(); });
+    L.onStore(function () { render(); });
 
     if (location.hash.length > 1) {
       var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));

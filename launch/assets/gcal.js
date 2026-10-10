@@ -108,7 +108,7 @@
 
   var G = {
     listeners: [],
-    on: function (fn) { this.listeners.push(fn); },
+    on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
     emit: function (w) { this.listeners.forEach(function (fn) { fn(w); }); },
     configured: function () { return !!CFG.googleClientId; },
     token: function () { var t = L.lsGet(TOK); return t && t.access && t.exp > Date.now() + 30000 ? t.access : null; },
@@ -380,7 +380,7 @@
         else self.load();
       });
     });
-    setInterval(function () { self.paintNow(); }, 60000);
+    (L.every || setInterval)(function () { self.paintNow(); }, 60000);
   }
   CalView.prototype.range = function () {
     var from = this.opts.days === 7 ? startOfWeek(this.date) : startOfDay(this.date);
@@ -667,7 +667,7 @@
     });
     bannerEl.addEventListener('click', function (e) { if (e.target.closest('[data-reconnect]')) doConnect(false); });
     opts.onError = function (e) { if (e && e.needAuth) banner(true); };
-    G.on(function (w) { if (w === 'auth' && G.token() && view) { banner(false); view.load(); } });
+    L.scoped(G.on(function (w) { if (w === 'auth' && G.token() && view) { banner(false); view.load(); } }));
     refresh();
     return { get view() { return view; }, refresh: refresh };
   }

@@ -151,7 +151,7 @@
   // card: { id, col, title, link, due, next, note, prio 0-4, done, doneAt, order, at, del }
   function mergeDocs(a, b) {
     var out = { v: 1 };
-    ['cards', 'vibes'].forEach(function (key) {
+    ['cards', 'vibes', 'focus'].forEach(function (key) {
       var A = a[key] || {}, B = b[key] || {}, m = {};
       Object.keys(Object.assign({}, A, B)).forEach(function (id) {
         var x = A[id], y = B[id];
@@ -169,7 +169,7 @@
   var Store = {
     doc: null, rev: 0, dirty: false, saving: false, again: false, timer: null, listeners: [], status: 'saved',
     unlock: null,
-    on: function (fn) { this.listeners.push(fn); },
+    on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
     emit: function (why) { var self = this; this.listeners.forEach(function (fn) { fn(self.doc, why); }); },
     setStatus: function (s) {
       this.status = s;
@@ -285,6 +285,16 @@
       return Object.keys(v).map(function (k) { return v[k]; }).filter(function (x) { return !x.del; })
         .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
     },
+    setFocus: function (id, patch) {
+      this.doc.focus = this.doc.focus || {};
+      this.doc.focus[id] = Object.assign({}, this.doc.focus[id] || { id: id }, patch, { at: Date.now() });
+      this.change();
+    },
+    focusByDay: function () {
+      var f = (this.doc && this.doc.focus) || {}, out = {};
+      Object.keys(f).forEach(function (k) { var x = f[k]; if (!x.del && x.day) out[x.day] = (out[x.day] || 0) + (x.min || 0); });
+      return out;
+    },
     setVibe: function (id, patch) {
       this.doc.vibes = this.doc.vibes || {};
       var cur = this.doc.vibes[id] || { id: id, order: -Date.now() };
@@ -303,7 +313,7 @@
     return u;
   }
 
-  var readyCallbacks = [], started = false, lockTimer = null;
+  var started = false, lockTimer = null;
 
   function start(u, preloaded) {
     Store.unlock = u;
@@ -337,10 +347,12 @@
     if (started) { Store.emit('remote'); return; }
     started = true;
     if (Store.doc.settings && Store.doc.settings.background) applyBackground(Store.doc.settings.background, Store.doc.settings.backgroundUrl);
-    Store.on(function (d, why) { if (why === 'remote' && d.settings && d.settings.background) applyBackground(d.settings.background, d.settings.backgroundUrl); });
+    Store.on(function (d, why) { if (why === 'remote' && d.settings && d.settings.background) applyBackground(d.settings.background, d.settings.backgroundUrl); Dock.refresh(); });
     Store.setStatus(Store.dirty ? 'saving' : 'saved');
     migrate();
-    readyCallbacks.forEach(function (fn) { fn(Store.doc); });
+    runPage(currentPage);
+    setInterval(function () { Focus.tick(); }, 1000);
+    Focus.tick();
     if (Store.dirty) Store.save();
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible') { checkExpiry(); Store.refresh(); }
@@ -443,13 +455,14 @@
       '  <p class="top-sub"><span id="topDate"></span><span class="dot">·</span><span id="topWeek"></span><span class="dot">·</span><span id="topTime"></span></p>' +
       '</div>' +
       '<nav class="tabs" aria-label="Launch pad">' +
-      '  <a href="/launch/" class="tab' + (active === 'home' ? ' on' : '') + '">Today</a>' +
-      '  <a href="/launch/calendar/" class="tab' + (active === 'calendar' ? ' on' : '') + '">Calendar</a>' +
-      '  <a href="/launch/task-list/" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
-      '  <a href="/launch/vibecodings/" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
+      '  <a href="/launch/" data-page="home" class="tab' + (active === 'home' ? ' on' : '') + '">Today</a>' +
+      '  <a href="/launch/calendar/" data-page="calendar" class="tab' + (active === 'calendar' ? ' on' : '') + '">Calendar</a>' +
+      '  <a href="/launch/task-list/" data-page="tasks" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
+      '  <a href="/launch/vibecodings/" data-page="vibes" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
       '</nav>' +
       '<div class="top-tools">' +
       '  <a class="btn small site-link" href="https://ranranli.net/" target="_blank" rel="noopener">To Personal Site ' + ICONS.ext + '</a>' +
+      '  <a id="focusPill" class="focus-pill" href="/launch/" hidden title="Focus timer running"><i></i><b></b></a>' +
       '  <span id="syncStatus" class="sync"></span>' +
       '  <span id="unlockInfo" class="unlock-info"></span>' +
       '  <button type="button" class="icon-btn" id="bgBtn" title="Change background" aria-label="Change background">' + ICONS.image + '</button>' +
@@ -664,10 +677,180 @@
     ext: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>'
   };
 
+  /* ---------- page lifecycle: switch tabs inside one page ---------- */
+  var pageScope = [], pages = {}, currentPage = null, shellBuilt = false, navSeq = 0;
+  function scoped(off) { pageScope.push(off); }
+  function cleanupPage() { var list = pageScope; pageScope = []; list.forEach(function (f) { try { f(); } catch (e) { /* ignore */ } }); }
+  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes' };
+  var loadedScripts = {};
+  Array.prototype.forEach.call(document.querySelectorAll('script[src]'), function (s) { loadedScripts[s.getAttribute('src').split('?')[0]] = true; });
+  function runPage(name) {
+    currentPage = name;
+    document.querySelectorAll('.tabs .tab').forEach(function (t) { t.classList.toggle('on', t.dataset.page === name); });
+    if (pages[name]) pages[name](Store.doc);
+    Dock.place();
+    paintPill();
+  }
+  function go(url, push) {
+    var u = new URL(url, location.href), my = ++navSeq;
+    return fetch(u.pathname, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('nav'); return r.text(); }).then(function (html) {
+      if (my !== navSeq) return;
+      var d = new DOMParser().parseFromString(html, 'text/html'), main = d.querySelector('main');
+      if (!main) throw new Error('nav');
+      var srcs = Array.prototype.map.call(d.querySelectorAll('script[src]'), function (x) { return x.getAttribute('src'); });
+      var name = null;
+      srcs.forEach(function (src) { var f = src.split('?')[0].split('/').pop(); if (SCRIPT_PAGE[f]) name = SCRIPT_PAGE[f]; });
+      if (!name) throw new Error('nav');
+      cleanupPage();
+      document.querySelectorAll('dialog[open]').forEach(function (x) { x.close(); });
+      document.querySelectorAll('.menu').forEach(function (x) { x.remove(); });
+      if (push !== false) history.pushState({}, '', u.pathname + u.search + u.hash);
+      document.title = d.title;
+      document.querySelector('main').innerHTML = main.innerHTML;
+      window.scrollTo(0, 0);
+      var chain = Promise.resolve();
+      srcs.forEach(function (src) {
+        var key = src.split('?')[0];
+        if (loadedScripts[key]) return;
+        loadedScripts[key] = true;
+        chain = chain.then(function () {
+          return new Promise(function (res, rej) { var sc = document.createElement('script'); sc.src = src; sc.onload = res; sc.onerror = rej; document.body.appendChild(sc); });
+        });
+      });
+      return chain.then(function () { runPage(name); });
+    }).catch(function () { location.href = u.href; });
+  }
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || !started) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || !/^\/launch\//.test(u.pathname)) return;
+    if (u.pathname === location.pathname && u.hash) return;
+    e.preventDefault();
+    go(u.href);
+  });
+  window.addEventListener('popstate', function () { if (started) go(location.href, false); });
+
+  /* ---------- focus music: one Brain.fm player that survives tab switches ---------- */
+  var Dock = {
+    el: null, frame: null, open: false, ro: null,
+    url: function () { return safeUrl(((Store.doc && Store.doc.settings) || {}).musicUrl || 'https://my.brain.fm/'); },
+    ensure: function () {
+      if (this.el) return;
+      var self = this;
+      this.el = el('div', { id: 'musicDock', class: 'music-dock' });
+      this.el.innerHTML = '<div class="dock-bar"><button type="button" class="dock-toggle" aria-expanded="false"><i></i>Focus music</button>' +
+        '<a class="icon-btn" href="/launch/" title="Back to Today" aria-label="Back to Today">⤢</a>' +
+        '<button type="button" class="icon-btn dock-close" title="Stop the music" aria-label="Stop the music">✕</button></div>';
+      this.frame = el('iframe', { title: 'Brain.fm', src: this.url(), allow: 'autoplay; encrypted-media; fullscreen; picture-in-picture' });
+      this.el.appendChild(this.frame);
+      document.body.appendChild(this.el);
+      this.el.querySelector('.dock-toggle').addEventListener('click', function () { self.open = !self.open; self.place(); });
+      this.el.querySelector('.dock-close').addEventListener('click', function () {
+        if (self.ro) { self.ro.disconnect(); self.ro = null; }
+        self.el.remove(); self.el = null; self.frame = null;
+      });
+      window.addEventListener('resize', function () { self.place(); });
+    },
+    place: function () {
+      var slot = document.getElementById('musicSlot'), self = this;
+      if (this.ro) { this.ro.disconnect(); this.ro = null; }
+      if (slot) {
+        this.ensure();
+        this.el.className = 'music-dock docked';
+        var sync = function () {
+          if (!self.el || !document.body.contains(slot)) return;
+          var r = slot.getBoundingClientRect();
+          self.el.style.left = (r.left + window.scrollX) + 'px'; self.el.style.top = (r.top + window.scrollY) + 'px';
+          self.el.style.width = r.width + 'px'; self.el.style.height = r.height + 'px';
+        };
+        sync();
+        this.ro = new ResizeObserver(sync); this.ro.observe(slot); this.ro.observe(document.body);
+      } else if (this.el) {
+        this.el.className = 'music-dock mini' + (this.open ? ' open' : '');
+        this.el.style.left = this.el.style.top = this.el.style.width = this.el.style.height = '';
+        this.el.querySelector('.dock-toggle').setAttribute('aria-expanded', String(this.open));
+      }
+    },
+    refresh: function () { if (this.frame && this.frame.getAttribute('src') !== this.url()) this.frame.src = this.url(); }
+  };
+
+  /* ---------- focus timer + concentration log (runs on every tab) ---------- */
+  var FOCUS_KEY = 'launch.focus.v1';
+  var Focus = {
+    listeners: [],
+    on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
+    emit: function () { this.listeners.forEach(function (fn) { fn(); }); paintPill(); },
+    state: function () { var t = lsGet(FOCUS_KEY) || {}; if (!t.mins) t.mins = 50; return t; },
+    save: function (t) { lsSet(FOCUS_KEY, t); this.emit(); },
+    running: function () { return !!this.state().endAt; },
+    left: function () { var t = this.state(); return t.endAt ? Math.max(0, t.endAt - Date.now()) : (t.left != null ? t.left : t.mins * 60000); },
+    // Every running stretch is saved as a session { day, start, min }, updated each minute,
+    // so the day's total grows live and nothing is lost if the page closes.
+    log: function (t, end) {
+      if (!t.seg || !Store.doc || !Store.unlock) return;
+      var min = Math.round(Math.max(0, (end || Date.now()) - t.seg.start) / 6000) / 10;
+      if (min < 0.1) return;
+      var cur = (Store.doc.focus || {})[t.seg.id];
+      if (!end && cur && Math.abs((cur.min || 0) - min) < 0.95) return;
+      Store.setFocus(t.seg.id, { day: todayISOOf(new Date(t.seg.start)), start: t.seg.start, min: min });
+    },
+    start: function () {
+      var t = this.state(); if (t.endAt) return;
+      var left = t.left != null && t.left > 0 ? t.left : t.mins * 60000;
+      t.endAt = Date.now() + left; t.left = null; t.seg = { id: uid(), start: Date.now() };
+      this.save(t);
+    },
+    pause: function () {
+      var t = this.state(); if (!t.endAt) return;
+      this.log(t, Math.min(Date.now(), t.endAt));
+      t.left = Math.max(0, t.endAt - Date.now()); t.endAt = null; t.seg = null;
+      this.save(t);
+    },
+    reset: function () { var t = this.state(); if (t.endAt) this.log(t, Math.min(Date.now(), t.endAt)); this.save({ mins: t.mins }); },
+    setLength: function (m) { var t = this.state(); if (t.endAt) this.log(t, Math.min(Date.now(), t.endAt)); this.save({ mins: m }); },
+    addManual: function (minutes, day) { Store.setFocus(uid(), { day: day || todayISO(), start: Date.now(), min: minutes, manual: true }); },
+    tick: function () {
+      var t = this.state();
+      if (t.endAt && Date.now() >= t.endAt) {
+        this.log(t, t.endAt);
+        this.save({ mins: t.mins });
+        chime();
+        var title = document.title; document.title = '✓ Focus block done';
+        setTimeout(function () { document.title = title; }, 60000);
+        return;
+      }
+      if (t.endAt) this.log(t);
+      this.emit();
+    }
+  };
+  function todayISOOf(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function fmtClock(ms) { var s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function paintPill() {
+    var pill = document.getElementById('focusPill'); if (!pill) return;
+    var on = Focus.running();
+    pill.hidden = !on || currentPage === 'home';
+    if (on) pill.querySelector('b').textContent = fmtClock(Focus.left());
+  }
+  function chime() {
+    try {
+      var ac = new (window.AudioContext || window.webkitAudioContext)();
+      [0, .25, .5].forEach(function (d, i) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.frequency.value = [660, 880, 990][i]; o.connect(g); g.connect(ac.destination);
+        g.gain.setValueAtTime(.0001, ac.currentTime + d);
+        g.gain.exponentialRampToValueAtTime(.2, ac.currentTime + d + .02);
+        g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + d + .6);
+        o.start(ac.currentTime + d); o.stop(ac.currentTime + d + .65);
+      });
+    } catch (e) { /* no audio */ }
+  }
+
   window.Launch = {
     Store: Store, $: $, el: el, esc: esc, linkify: linkify, safeUrl: safeUrl, uid: uid,
     todayISO: todayISO, daysUntil: daysUntil, fmtDue: fmtDue, relDue: relDue, dueClass: dueClass,
-    lsGet: lsGet, lsSet: lsSet, ICONS: ICONS,
+    lsGet: lsGet, lsSet: lsSet, ICONS: ICONS, fmtClock: fmtClock, todayISOOf: todayISOOf,
     applyBackground: applyBackground,
     PRIO: [
       { v: 0, name: 'None' },
@@ -676,12 +859,24 @@
       { v: 3, name: 'High' },
       { v: 4, name: 'Urgent' }
     ],
-    boot: function (active, onReady) {
-      readyCallbacks.push(onReady);
-      shell(active);
+    // Each tab's script registers itself here. The first page builds the shell; later tabs are
+    // swapped in without reloading (see go()), so the music player and timer keep running.
+    boot: function (name, onReady) {
+      pages[name] = onReady;
+      if (shellBuilt) return;
+      shellBuilt = true;
+      currentPage = name;
+      shell(name);
       var u = getUnlock();
       if (u) start(u); else { lsDel(UNLOCK_KEY); showLock(); }
     },
+    go: function (url) { return go(url); },
+    listen: function (target, type, fn, opt) { target.addEventListener(type, fn, opt); scoped(function () { target.removeEventListener(type, fn, opt); }); },
+    every: function (fn, ms) { var id = setInterval(fn, ms); scoped(function () { clearInterval(id); }); return id; },
+    onStore: function (fn) { scoped(Store.on(fn)); },
+    scoped: function (off) { if (typeof off === 'function') scoped(off); },
+    Focus: Focus,
+    Dock: Dock,
     lock: function (message) {
       lsDel(UNLOCK_KEY);
       // Keep only the encrypted copy on this device; it's useless without the password.
