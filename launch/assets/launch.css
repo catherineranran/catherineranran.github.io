@@ -558,3 +558,23 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .add-card { padding: 7px; font-size: 13px; margin: 0 8px 8px; }
 .add-col { flex-basis: 180px; padding: 10px; font-size: 13px; }
 @media (max-width: 560px) { .col { flex-basis: 80vw; } }
+
+/* research-strand colours on task cards (ranranli.net palette) */
+.card.has-strand { background-color: color-mix(in srgb, var(--s) 26%, rgba(255, 255, 255, .06)); border-color: color-mix(in srgb, var(--s) 60%, transparent); }
+.card.has-strand:hover { background-color: color-mix(in srgb, var(--s) 34%, rgba(255, 255, 255, .08)); }
+.card.done.has-strand { background-color: color-mix(in srgb, var(--s) 12%, rgba(255, 255, 255, .04)); }
+.strand-tag { display: inline-block; margin: 0 0 4px 23px; font-size: 9.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #10243a; background: var(--s); border-radius: 999px; padding: 1px 7px; }
+.legend-sep { width: 1px; align-self: stretch; background: var(--line); margin: 2px 4px; }
+.strand-chip i { background: var(--s) !important; }
+.strand-chip.on { background: var(--s); color: #10243a; border-color: var(--s); }
+.card-menu { width: 236px; padding: 8px; }
+.cm-label { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 2px 6px 4px; }
+.menu .cm-swatch { display: flex; align-items: center; gap: 9px; width: 100%; padding: 6px 8px; font-size: 13px; }
+.cm-swatch i { width: 16px; height: 16px; border-radius: 50%; background: var(--s); flex: none; border: 2px solid rgba(255, 255, 255, .5); }
+.cm-swatch i.none { background: transparent; border-style: dashed; }
+.menu .cm-swatch.on { background: rgba(255, 255, 255, .16); font-weight: 700; }
+.cm-prio { display: flex; gap: 6px; padding: 2px 6px 4px; }
+.menu .cm-prio button { width: 26px; height: 26px; border-radius: 50%; padding: 0; display: grid; place-items: center; border: 1.5px solid rgba(255, 255, 255, .35); }
+.cm-prio button i { width: 12px; height: 12px; border-radius: 50%; background: var(--p, transparent); border: 1px solid rgba(255, 255, 255, .5); }
+.menu .cm-prio button.on { border-color: #fff; background: rgba(255, 255, 255, .2); }
+#strandSeg button i { background: var(--p); border-color: var(--p); }

@@ -7,6 +7,14 @@
   var DOTS = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>';
   var CAL = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>';
 
+  // Research strands from ranranli.net (same colours as the Research section there).
+  var STRANDS = [
+    { v: 1, name: 'Person–Situation Processes', short: '01 Person–Situation', hex: '#68d391' },
+    { v: 2, name: 'Prosocial and Moral Behavior', short: '02 Prosocial & Moral', hex: '#93c5fd' },
+    { v: 3, name: 'Method Lab: Virtual Reality and beyond', short: '03 Method Lab', hex: '#c4b5fd' }
+  ];
+  function strandOf(c) { return STRANDS[(c.strand || 0) - 1] || null; }
+
   var ui = {
     q: '', prio: null, showDone: false,
     openNotes: {}, openDone: {}, adding: null, draft: '',
@@ -20,14 +28,18 @@
     function paintLegend() {
       var chips = [{ v: null, name: 'All' }].concat(L.PRIO.slice(1).reverse());
       $('#legend').innerHTML = chips.map(function (p) {
-        return '<button type="button" class="chip' + (ui.prio === p.v ? ' on' : '') + '" data-p="' + (p.v == null ? '' : p.v) + '"' +
+        return '<button type="button" class="chip' + (ui.prio === p.v && ui.strand == null ? ' on' : '') + '" data-p="' + (p.v == null ? '' : p.v) + '"' +
           (p.v ? ' data-prio="' + p.v + '"' : '') + '>' + (p.v ? '<i></i>' : '') + p.name + '</button>';
+      }).join('') + '<span class="legend-sep"></span>' + STRANDS.map(function (st) {
+        return '<button type="button" class="chip strand-chip' + (ui.strand === st.v ? ' on' : '') + '" data-s="' + st.v + '" style="--s:' + st.hex + '" title="' + esc(st.name) + '"><i></i>' + esc(st.short) + '</button>';
       }).join('');
     }
     $('#legend').addEventListener('click', function (e) {
       var b = e.target.closest('.chip'); if (!b) return;
+      if (b.dataset.s) { var sv = +b.dataset.s; ui.strand = ui.strand === sv ? null : sv; paintLegend(); render(); return; }
       var v = b.dataset.p === '' ? null : +b.dataset.p;
       ui.prio = ui.prio === v ? null : v;
+      if (v == null) ui.strand = null;
       paintLegend(); render();
     });
     $('#q').addEventListener('input', function () { ui.q = this.value.trim().toLowerCase(); render(); });
@@ -40,6 +52,7 @@
 
     function matches(c) {
       if (ui.prio != null && (c.prio || 0) !== ui.prio) return false;
+      if (ui.strand != null && (c.strand || 0) !== ui.strand) return false;
       if (!ui.q) return true;
       return [c.title, c.next, c.note, c.link].join(' ').toLowerCase().indexOf(ui.q) !== -1;
     }
@@ -52,7 +65,9 @@
     }
     function cardHtml(c) {
       var p = c.prio || 0, open = !!ui.openNotes[c.id];
-      var h = '<article class="card' + (c.done ? ' done' : '') + '" id="' + esc(c.id) + '" data-id="' + esc(c.id) + '" data-prio="' + p + '" draggable="' + (c.done ? 'false' : 'true') + '" tabindex="0">';
+      var st = strandOf(c);
+      var h = '<article class="card' + (c.done ? ' done' : '') + (st ? ' has-strand' : '') + '" id="' + esc(c.id) + '" data-id="' + esc(c.id) + '" data-prio="' + p + '"' + (st ? ' style="--s:' + st.hex + '"' : '') + ' draggable="' + (c.done ? 'false' : 'true') + '" tabindex="0">';
+      if (st && !c.done) h += '<span class="strand-tag">' + esc(st.short) + '</span>';
       h += '<div class="card-top"><button type="button" class="tick" aria-label="' + (c.done ? 'Mark as not finished' : 'Mark as finished') + '" title="' + (c.done ? 'Reopen' : 'Finished') + '">' + CHECK + '</button>';
       h += '<div class="card-title">' + titleHtml(c) + '</div></div>';
       if (c.due || p) {
@@ -134,6 +149,38 @@
         var name = prompt('Name of the new column');
         if (name && name.trim()) S.setColumns((S.doc.columns || []).concat([{ id: L.uid(), name: name.trim() }]));
       }
+    });
+    // Right-click a card: strand colour, importance, finish, edit, delete
+    board.addEventListener('contextmenu', function (e) {
+      var cardEl = e.target.closest('.card'); if (!cardEl) return;
+      e.preventDefault();
+      closeMenus();
+      var id = cardEl.dataset.id, c = S.doc.cards[id]; if (!c) return;
+      var m = L.el('div', { class: 'menu card-menu', role: 'menu' });
+      m.innerHTML =
+        '<div class="cm-label">Research strand</div>' +
+        '<div class="cm-strands">' + STRANDS.map(function (st) {
+          return '<button type="button" class="cm-swatch' + ((c.strand || 0) === st.v ? ' on' : '') + '" data-s="' + st.v + '" style="--s:' + st.hex + '" title="' + esc(st.name) + '"><i></i><span>' + esc(st.short) + '</span></button>';
+        }).join('') + '<button type="button" class="cm-swatch' + (!c.strand ? ' on' : '') + '" data-s="0"><i class="none"></i><span>No colour</span></button></div>' +
+        '<hr><div class="cm-label">Importance</div><div class="cm-prio">' + L.PRIO.map(function (p) {
+          return '<button type="button" data-p="' + p.v + '"' + (p.v ? ' data-prio="' + p.v + '"' : '') + ' class="' + ((c.prio || 0) === p.v ? 'on' : '') + '" title="' + p.name + '"><i></i></button>';
+        }).join('') + '</div>' +
+        '<hr><button type="button" data-a="done">' + (c.done ? 'Reopen' : '✓ Mark finished') + '</button>' +
+        '<button type="button" data-a="edit">Edit…</button>' +
+        '<button type="button" data-a="del" class="danger">Delete</button>';
+      document.body.appendChild(m);
+      var w = m.offsetWidth, hgt = m.offsetHeight;
+      m.style.left = Math.max(8, Math.min(e.clientX, window.innerWidth - w - 8)) + window.scrollX + 'px';
+      m.style.top = Math.max(8, Math.min(e.clientY, window.innerHeight - hgt - 8)) + window.scrollY + 'px';
+      m.addEventListener('click', function (ev) {
+        var b = ev.target.closest('button'); if (!b) return;
+        closeMenus();
+        if (b.dataset.s != null) S.setCard(id, { strand: +b.dataset.s });
+        else if (b.dataset.p != null) S.setCard(id, { prio: +b.dataset.p });
+        else if (b.dataset.a === 'done') toggleDone(id);
+        else if (b.dataset.a === 'edit') openEditor(id);
+        else if (b.dataset.a === 'del') { if (confirm('Delete “' + (c.title || 'this card') + '”?')) S.deleteCard(id); }
+      });
     });
     board.addEventListener('keydown', function (e) {
       var cardEl = e.target.closest && e.target.closest('.card');
@@ -281,6 +328,9 @@
         '  <div><label style="margin-bottom:6px">Importance / urgency</label><div class="seg" id="prioSeg">' +
         L.PRIO.map(function (p) { return '<button type="button" data-v="' + p.v + '"' + (p.v ? ' data-prio="' + p.v + '"' : '') + '><i></i>' + p.name + '</button>'; }).join('') +
         '  </div></div>' +
+        '  <div><label style="margin-bottom:6px">Research strand</label><div class="seg" id="strandSeg"><button type="button" data-s="0">None</button>' +
+        STRANDS.map(function (st) { return '<button type="button" data-s="' + st.v + '" style="--p:' + st.hex + '"><i></i>' + esc(st.short) + '</button>'; }).join('') +
+        '  </div></div>' +
         '  <label>Next steps <small>Shown on the card.</small><textarea name="next" rows="3" placeholder="e.g. Draft the 500-word abstract"></textarea></label>' +
         '  <label>Note <small>Unfolds from the card. Links work.</small><textarea name="note" rows="6" placeholder="Details, links, ideas…"></textarea></label>' +
         '  <label>Link <small>Makes the title clickable.</small><input name="link" placeholder="https://…"></label>' +
@@ -297,6 +347,7 @@
       function paintSeg() {
         var p = cur().prio || 0;
         dlg.querySelectorAll('#prioSeg button').forEach(function (b) { b.classList.toggle('on', +b.dataset.v === p); });
+        dlg.querySelectorAll('#strandSeg button').forEach(function (b) { b.classList.toggle('on', +b.dataset.s === (cur().strand || 0)); });
         $('[data-done]', dlg).textContent = cur().done ? 'Reopen' : '✓ Mark finished';
       }
       paintSeg();
@@ -308,6 +359,10 @@
       f.col.addEventListener('change', function () {
         var others = S.cardsIn(f.col.value).filter(function (x) { return !x.done; });
         S.setCard(id, { col: f.col.value, order: others.length ? others[others.length - 1].order + 1000 : 1000 });
+      });
+      $('#strandSeg', dlg).addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        S.setCard(id, { strand: +b.dataset.s }); paintSeg();
       });
       $('#prioSeg', dlg).addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) return;
