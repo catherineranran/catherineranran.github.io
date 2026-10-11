@@ -260,7 +260,7 @@
     filter: brightness(1.06);
 }
 
-/* ---- "Vibecoding everyday": two-column card feed, like RedNote ---------- */
+/* ---- "Vibecoding everyday": the same cards, in two columns ------------ */
 
 .exhibition-page .vibe-feed-list {
     padding: 0.6rem;
@@ -279,84 +279,56 @@
     display: block;
     position: relative;
 }
-.vibe-feed.is-masonry > .vibe-card {
+.vibe-feed.is-masonry > .exhibition-sticker {
     position: absolute;
 }
 
-.exhibition-page .vibe-card {
+/* the cards keep their look, sized for half the column */
+.exhibition-page .vibe-feed .exhibition-sticker {
     container: vibe-card / inline-size;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+    padding: 0.6rem 0.6rem 0.65rem;
     border-radius: 14px;
-    overflow: hidden;
 }
-
-/* covers run edge to edge across the top of the card */
-.exhibition-page .vibe-card .exhibition-video {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
+.exhibition-page .vibe-feed .exhibition-sticker-date {
+    margin-bottom: 0.4rem;
+    font-size: 0.66rem;
 }
-.exhibition-page .vibe-card .exhibition-shot { background: rgba(5, 10, 25, 0.35); }
-
-/* the same play button and label, sized for the smaller covers */
-.exhibition-page .vibe-card .exhibition-video-play { padding: 0.4rem; }
-.exhibition-page .vibe-card .exhibition-video-play svg {
-    width: 1.75rem;
-    height: 1.75rem;
-    padding: 0.45rem 0.38rem 0.45rem 0.52rem;
-}
-.exhibition-page .vibe-card .exhibition-video-duration {
-    right: 0.4rem;
-    bottom: 0.55rem;
-    padding: 0.08rem 0.42rem;
-    font-size: 0.6rem;
-}
-/* on phone-width cards the label moves to the top corner so it never covers the button */
-@container vibe-card (max-width: 140px) {
-    .exhibition-page .vibe-card .exhibition-video-duration {
-        top: 0.4rem;
-        bottom: auto;
-    }
-}
-
-.vibe-card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.55rem 0.65rem 0.6rem;
-}
-
-.vibe-card-text {
-    font-size: 0.78rem;
+.exhibition-page .vibe-feed .exhibition-sticker-body {
+    font-size: 0.76rem;
     line-height: 1.45;
     overflow-wrap: anywhere;
 }
-.vibe-card-text p:first-child {
-    color: #f8fafc;
-    font-weight: 600;
-}
-.vibe-card-text p + p {
-    margin-top: 0.35rem;
-    color: rgba(226, 232, 240, 0.86);
-}
-.vibe-card-text strong { color: #ffffff; }
+.exhibition-page .vibe-feed .exhibition-sticker-body p + p { margin-top: 0.45rem; }
 
-.vibe-card-date {
-    color: var(--xg-muted);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    font-variant-numeric: tabular-nums;
+.exhibition-page .vibe-feed .exhibition-video {
+    width: 100%;
+    margin: 0 0 0.5rem;
+    border-radius: 10px;
+}
+.exhibition-page .vibe-feed .exhibition-sticker-body + .exhibition-video { margin-top: 0.5rem; }
+.exhibition-page .vibe-feed .exhibition-video:last-child { margin-bottom: 0; }
+
+.exhibition-page .vibe-feed .exhibition-video-play { padding: 0.4rem; }
+.exhibition-page .vibe-feed .exhibition-video-play svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    padding: 0.4rem 0.34rem 0.4rem 0.48rem;
+}
+.exhibition-page .vibe-feed .exhibition-video-duration {
+    right: 0.4rem;
+    bottom: 0.5rem;
+    padding: 0.06rem 0.36rem;
+    font-size: 0.56rem;
 }
 
-/* phone-width cards: a touch smaller text and padding */
+/* phone-width cards: the label moves to the top corner so it never covers
+   the button, and the text gets a touch smaller */
 @container vibe-card (max-width: 140px) {
-    .vibe-card-body { padding: 0.5rem 0.55rem 0.55rem; }
-    .vibe-card-text { font-size: 0.72rem; }
+    .exhibition-page .vibe-feed .exhibition-video-duration {
+        top: 0.4rem;
+        bottom: auto;
+    }
+    .exhibition-page .vibe-feed .exhibition-sticker-body { font-size: 0.7rem; }
 }
 
 /* ---- small screens and accessibility -------------------------------- */
