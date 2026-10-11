@@ -253,6 +253,20 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
+/* Screenshots keep their own shape (no 16:9 crop) and open full size on click. */
+.exhibition-page .exhibition-shot {
+    aspect-ratio: auto;
+    background: transparent;
+}
+.exhibition-page .exhibition-shot img {
+    height: auto;
+    transition: transform 300ms var(--xg-spring), filter 200ms ease;
+}
+.exhibition-page .exhibition-shot:hover img {
+    transform: scale(1.02);
+    filter: brightness(1.06);
+}
+
 /* ---- small screens and accessibility -------------------------------- */
 
 @media (max-width: 767px) {
