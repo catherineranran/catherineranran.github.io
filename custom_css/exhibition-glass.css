@@ -221,13 +221,6 @@
 
 /* ---- media previews -------------------------------------------------- */
 
-/* The vibecoding column is a little wider than it used to be, but its
-   preview cards keep their former size: 92% of the old 0.75-width column. */
-.exhibition-page .exhibition-thread-narrow .exhibition-video {
-    width: calc(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px));
-    max-width: 100%;
-}
-
 .exhibition-page .exhibition-video {
     border-radius: 14px;
     background: rgba(5, 10, 25, 0.6);
@@ -265,6 +258,105 @@
 .exhibition-page .exhibition-shot:hover img {
     transform: scale(1.02);
     filter: brightness(1.06);
+}
+
+/* ---- "Vibecoding everyday": two-column card feed, like RedNote ---------- */
+
+.exhibition-page .vibe-feed-list {
+    padding: 0.6rem;
+    scrollbar-gutter: stable;
+}
+
+/* without the layout script: one stacked column */
+.vibe-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* with it: two columns, each card placed by the script */
+.vibe-feed.is-masonry {
+    display: block;
+    position: relative;
+}
+.vibe-feed.is-masonry > .vibe-card {
+    position: absolute;
+}
+
+.exhibition-page .vibe-card {
+    container: vibe-card / inline-size;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* covers run edge to edge across the top of the card */
+.exhibition-page .vibe-card .exhibition-video {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+.exhibition-page .vibe-card .exhibition-shot { background: rgba(5, 10, 25, 0.35); }
+
+/* the same play button and label, sized for the smaller covers */
+.exhibition-page .vibe-card .exhibition-video-play { padding: 0.4rem; }
+.exhibition-page .vibe-card .exhibition-video-play svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0.45rem 0.38rem 0.45rem 0.52rem;
+}
+.exhibition-page .vibe-card .exhibition-video-duration {
+    right: 0.4rem;
+    bottom: 0.55rem;
+    padding: 0.08rem 0.42rem;
+    font-size: 0.6rem;
+}
+/* on phone-width cards the label moves to the top corner so it never covers the button */
+@container vibe-card (max-width: 140px) {
+    .exhibition-page .vibe-card .exhibition-video-duration {
+        top: 0.4rem;
+        bottom: auto;
+    }
+}
+
+.vibe-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.55rem 0.65rem 0.6rem;
+}
+
+.vibe-card-text {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.vibe-card-text p:first-child {
+    color: #f8fafc;
+    font-weight: 600;
+}
+.vibe-card-text p + p {
+    margin-top: 0.35rem;
+    color: rgba(226, 232, 240, 0.86);
+}
+.vibe-card-text strong { color: #ffffff; }
+
+.vibe-card-date {
+    color: var(--xg-muted);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* phone-width cards: a touch smaller text and padding */
+@container vibe-card (max-width: 140px) {
+    .vibe-card-body { padding: 0.5rem 0.55rem 0.55rem; }
+    .vibe-card-text { font-size: 0.72rem; }
 }
 
 /* ---- small screens and accessibility -------------------------------- */
