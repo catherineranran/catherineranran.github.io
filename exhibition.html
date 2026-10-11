@@ -8,25 +8,19 @@
     <title>Exhibition | Ranran Li</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20261006a">
+    <link rel="stylesheet" type="text/css" href="./custom_css/exhibition-glass.css?v=20261012">
     <link rel="stylesheet" href="custom_css/starry-sky.css?v=20261012">
 </head>
-<body class="bg">
+<body class="bg exhibition-page">
     <div class="sky-glow" aria-hidden="true"><span></span><span></span><span></span></div>
     <div id="particles-bg" data-content-width="1610"></div>
 
-    <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-1 max-w-screen-lg">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-center">
-                <a href="./index.html#Home" class="flex flex-col items-center py-2 px-2 mx-1">
-                    <span class="font-semibold tracking-wide hover:text-green-600 text-gray-100 text-lg">
-                        A Personal Exhibition of Rants Surviving—and Enjoying—Academia
-                    </span>
-                    <span class="mt-1 text-xs tracking-widest text-gray-400">
-                        Ranran Li
-                    </span>
-                </a>
-            </div>
-        </div>
+    <!-- Title: floating glass capsule (custom_css/exhibition-glass.css) -->
+    <nav class="exhibition-titlebar-wrap" aria-label="Back to the homepage">
+        <a href="./index.html#Home" class="exhibition-titlebar">
+            <span class="exhibition-titlebar-title">A Personal Exhibition of Rants Surviving—and Enjoying—Academia</span>
+            <span class="exhibition-titlebar-by">Ranran Li</span>
+        </a>
     </nav>
 
     <main class="exhibition-main min-h-screen max-w-screen-xl mx-auto px-4 py-12">
