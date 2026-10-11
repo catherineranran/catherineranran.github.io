@@ -25,9 +25,11 @@
     z-index: -2;
     overflow: hidden;
     pointer-events: none;
+    /* night sky: deep navy overhead, a rosy glow low on the horizon */
     background:
-        radial-gradient(120% 80% at 50% -10%, #34405a 0%, transparent 60%),
-        linear-gradient(180deg, #273042 0%, #2d3748 45%, #252e3f 100%);
+        radial-gradient(100% 70% at 50% -15%, rgba(70, 92, 170, 0.35) 0%, transparent 60%),
+        radial-gradient(90% 50% at 50% 115%, rgba(150, 90, 160, 0.3) 0%, transparent 65%),
+        linear-gradient(180deg, #0b1027 0%, #121a38 45%, #1a1b3c 80%, #241d3f 100%);
 }
 
 .lg-aurora span {
@@ -41,23 +43,24 @@
 .lg-aurora span:nth-child(1) {
     width: 46vw; height: 46vw;
     left: -10vw; top: -8vw;
-    background: #34d399;
+    background: #2dd4bf; /* a hint of aurora */
+    opacity: 0.12;
     animation: lg-drift-a 38s ease-in-out infinite alternate;
 }
 
 .lg-aurora span:nth-child(2) {
     width: 40vw; height: 40vw;
     right: -12vw; top: 18vh;
-    background: #60a5fa;
-    opacity: 0.3;
+    background: #6366f1;
+    opacity: 0.22;
     animation: lg-drift-b 44s ease-in-out infinite alternate;
 }
 
 .lg-aurora span:nth-child(3) {
     width: 34vw; height: 34vw;
     left: 28vw; bottom: -14vw;
-    background: #e879f9;
-    opacity: 0.2;
+    background: #c084fc;
+    opacity: 0.16;
     animation: lg-drift-c 52s ease-in-out infinite alternate;
 }
 
@@ -65,9 +68,15 @@
 @keyframes lg-drift-b { to { transform: translate(-20vw, 30vh) scale(0.9); } }
 @keyframes lg-drift-c { to { transform: translate(-16vw, -40vh) scale(1.2); } }
 
+.starry-sky {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 /* the flat body colour would sit on top of the aurora otherwise */
 body.bg { background-color: transparent; }
-html { background-color: #2d3748; }
+html { background-color: #0f1530; }
 
 /* --------------------------------------------------------------------------
    Shared glass recipe
