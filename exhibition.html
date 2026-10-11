@@ -490,7 +490,7 @@ Visited my alma mater and met my graduate advisor again. He was as leisurely as 
         (function () {
             var feed = document.querySelector('[data-masonry]');
             if (!feed || !('ResizeObserver' in window)) return;
-            var GAP = 12, MIN_CARD = 240;
+            var GAP = 12, MIN_CARD = 152;
 
             // newest first, by each card's date; a card without one keeps its place
             var cards = Array.prototype.filter.call(feed.children, function (el) { return el.tagName === 'ARTICLE'; });
