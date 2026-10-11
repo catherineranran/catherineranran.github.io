@@ -9,7 +9,7 @@
 
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - document.querySelector('nav').offsetHeight,
+                    top: targetElement.offsetTop - ((document.querySelector(".glass-nav-wrap") || document.querySelector("nav")).offsetHeight + 24),
                     behavior: 'smooth'
                 });
             }
