@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="How the reconstructed 3D Bystander world was built: a workflow summary, opened with the study password.">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>Reconstructed · How the 3D world was built | Scalable Immersion</title>
+    <link rel="icon" href="/assets/icons/favicon.png" type="image/png">
+    <link rel="canonical" href="https://ranranli.net/projects/scalable-immersion-videos/reconstructed-3Dworld-workflow/">
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #f2f5fa;
+            background: #0b1019;
+        }
+        * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
+        body { margin: 0; }
+        a { color: #9cc9ff; text-underline-offset: 4px; }
+        a:hover { color: #fff; }
+        a:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 5px; border-radius: 3px; }
+        .skip-link { position: absolute; top: -80px; left: 20px; z-index: 2; padding: 12px; background: #15243b; }
+        .skip-link:focus { top: 12px; }
+        .page-header { border-bottom: 1px solid #283447; }
+        .header-content { max-width: 1304px; margin: 0 auto; padding: 18px 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px 30px; }
+        h1 { margin: 0; color: #d6e1ef; font-size: 1rem; line-height: 1.5; font-weight: 500; }
+        .page-links { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.875rem; }
+        .page-links a { white-space: nowrap; }
+        .access { min-height: calc(100dvh - 65px); display: grid; place-items: center; padding: 32px 16px; }
+        .panel { width: 100%; max-width: 440px; background: #111b2b; border: 1px solid #283447; border-radius: 12px; padding: 28px 28px 24px; }
+        .eyebrow { margin: 0 0 6px; color: #9cc9ff; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        h2 { margin: 0 0 8px; font-size: 1.5rem; line-height: 1.2; font-weight: 600; }
+        .lead { margin: 0 0 20px; color: #c9d4e3; line-height: 1.5; }
+        label { display: block; margin-bottom: 6px; font-size: 0.875rem; color: #c9d4e3; }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="password"] { flex: 1 1 200px; min-width: 0; padding: 11px 12px; font: inherit; color: #f2f5fa; background: #0b1019; border: 1px solid #3a4a63; border-radius: 8px; }
+        input[type="password"]:focus-visible { outline: 2px solid #9cc9ff; outline-offset: 1px; border-color: #9cc9ff; }
+        button { padding: 11px 18px; font: inherit; font-weight: 600; color: #0b1019; background: #9cc9ff; border: 0; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #c2deff; }
+        button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+        button:disabled { opacity: 0.55; cursor: wait; }
+        .help { margin: 14px 0 0; font-size: 0.875rem; color: #9aa8bb; line-height: 1.45; }
+        .status { min-height: 1.4em; margin: 12px 0 0; font-size: 0.9rem; line-height: 1.4; }
+        .status.err { color: #ffb4a8; }
+        .fallback { margin: 0; padding: 16px 24px; line-height: 1.5; }
+        @media (max-width: 700px) {
+            .header-content { padding: 16px; align-items: flex-start; flex-direction: column; gap: 10px; }
+            .access { min-height: calc(100dvh - 105px); }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#access">Skip to study access</a>
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Reconstructed · How the 3D world was built</h1>
+            <nav class="page-links" aria-label="Project navigation">
+                <a href="/projects/scalable-immersion-videos/">All scenarios</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="access" id="access" aria-labelledby="access-title">
+            <form class="panel" id="gate" autocomplete="on">
+                <p class="eyebrow">Scalable Immersion</p>
+                <h2 id="access-title">Study access</h2>
+                <p class="lead">Enter the password to open the workflow summary of the reconstructed 3D world.</p>
+                <input type="text" name="username" value="study" autocomplete="username" hidden>
+                <label for="pw">Password</label>
+                <div class="row">
+                    <input type="password" id="pw" name="password" autocomplete="current-password" required>
+                    <button type="submit" id="open">Open</button>
+                </div>
+                <p class="status" id="status" role="status" aria-live="polite"></p>
+                <p class="help">Use the password supplied by your study researcher.</p>
+            </form>
+        </section>
+        <noscript><p class="fallback">Enable JavaScript to open this page.</p></noscript>
+    </main>
+    <script>
+    // The page is stored encrypted (AES-GCM, key from the password by PBKDF2-SHA-256), like the reconstructed
+    // 3D world's sessions; the password unlocks it in this browser, and a tab that has opened one of those
+    // sessions opens this page without asking again.
+    (function () {
+        var SALT = 'Ermju/gB3rbmZtE/7vFo2g==', ITER = 310000, FILE = '/projects/scalable-immersion-videos/reconstructed-3Dworld-workflow/workflow.enc';
+        var form = document.getElementById('gate'), pw = document.getElementById('pw'), btn = document.getElementById('open'), status = document.getElementById('status');
+        var KEEP = 'si-world-access';
+        function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+        function say(t, err) { status.textContent = t; status.className = 'status' + (err ? ' err' : ''); }
+        async function unlock(pass) {
+            btn.disabled = true; say('Opening…');
+            try {
+                if (!window.crypto || !crypto.subtle) throw new Error('This browser can’t open protected pages. Use a current Chrome, Edge, Safari or Firefox.');
+                var raw = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+                var key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(SALT), iterations: ITER, hash: 'SHA-256' }, raw, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+                var res = await fetch(FILE, { cache: 'no-cache' });
+                if (!res.ok) throw new Error('The page couldn’t load. Reload and try again.');
+                var buf = await res.arrayBuffer(), html;
+                try { html = new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(buf, 0, 12) }, key, new Uint8Array(buf, 12))); }
+                catch (e) { say('That password didn’t work. Check it and try again.', true); btn.disabled = false; pw.select(); return; }
+                try { sessionStorage.setItem(KEEP, pass); } catch (e) {}
+                document.open(); document.write(html); document.close();
+            } catch (e) {
+                say(String(e && e.message || e), true); btn.disabled = false;
+            }
+        }
+        form.addEventListener('submit', function (e) { e.preventDefault(); if (pw.value) unlock(pw.value); });
+        var kept = null; try { kept = sessionStorage.getItem(KEEP); } catch (e) {}
+        if (kept) unlock(kept); else pw.focus();
+    })();
+    </script>
+</body>
+</html>
