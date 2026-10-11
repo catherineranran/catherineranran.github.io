@@ -947,8 +947,8 @@ button:focus-visible {
 }
 
 .exhibition-main {
-    /* Wide enough for all four columns (the first at 0.85 width) at their original width */
-    max-width: 102.75rem;
+    /* Wide enough for all four columns (the first at 1.7 width) at their original width */
+    max-width: 124.25rem;
 }
 
 .exhibition-scroll-hint {
@@ -1015,9 +1015,19 @@ button:focus-visible {
     flex-direction: column;
 }
 
-.exhibition-thread-narrow {
-    flex-basis: calc(var(--exhibition-col) * 0.85);
-    width: calc(var(--exhibition-col) * 0.85);
+/* "Vibecoding everyday": twice its former width (0.85 -> 1.7 of a column),
+   so its cards sit two side by side at their original size */
+.exhibition-thread-wide {
+    flex-basis: calc(var(--exhibition-col) * 1.7);
+    width: calc(var(--exhibition-col) * 1.7);
+}
+
+/* phones: the same width as the other columns, cards in one column */
+@media (max-width: 767px) {
+    .exhibition-thread-wide {
+        flex-basis: var(--exhibition-col);
+        width: var(--exhibition-col);
+    }
 }
 
 /* Center the columns when they all fit; no effect while scrolling */

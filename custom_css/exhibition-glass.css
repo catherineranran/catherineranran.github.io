@@ -260,21 +260,19 @@
     filter: brightness(1.06);
 }
 
-/* ---- "Vibecoding everyday": the same cards, in two columns ------------ */
+/* ---- "Vibecoding everyday": the cards, two side by side ---------------- */
 
-.exhibition-page .vibe-feed-list {
-    padding: 0.6rem;
-    scrollbar-gutter: stable;
-}
+.exhibition-page .vibe-feed-list { scrollbar-gutter: stable; }
 
-/* without the layout script: one stacked column */
+/* without the layout script: plain rows of two, newest first */
 .vibe-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    align-items: start;
+    gap: 0.75rem;
 }
 
-/* with it: two columns, each card placed by the script */
+/* with it: each card goes into whichever column is shorter */
 .vibe-feed.is-masonry {
     display: block;
     position: relative;
@@ -283,52 +281,12 @@
     position: absolute;
 }
 
-/* the cards keep their look, sized for half the column */
-.exhibition-page .vibe-feed .exhibition-sticker {
-    container: vibe-card / inline-size;
-    padding: 0.6rem 0.6rem 0.65rem;
-    border-radius: 14px;
-}
-.exhibition-page .vibe-feed .exhibition-sticker-date {
-    margin-bottom: 0.4rem;
-    font-size: 0.66rem;
-}
-.exhibition-page .vibe-feed .exhibition-sticker-body {
-    font-size: 0.76rem;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
-}
-.exhibition-page .vibe-feed .exhibition-sticker-body p + p { margin-top: 0.45rem; }
-
+/* the cards look exactly like the other columns' notes; the preview cards
+   keep their original size (92% of the first, narrower version of this column) */
 .exhibition-page .vibe-feed .exhibition-video {
-    width: 100%;
-    margin: 0 0 0.5rem;
-    border-radius: 10px;
-}
-.exhibition-page .vibe-feed .exhibition-sticker-body + .exhibition-video { margin-top: 0.5rem; }
-.exhibition-page .vibe-feed .exhibition-video:last-child { margin-bottom: 0; }
-
-.exhibition-page .vibe-feed .exhibition-video-play { padding: 0.4rem; }
-.exhibition-page .vibe-feed .exhibition-video-play svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    padding: 0.4rem 0.34rem 0.4rem 0.48rem;
-}
-.exhibition-page .vibe-feed .exhibition-video-duration {
-    right: 0.4rem;
-    bottom: 0.5rem;
-    padding: 0.06rem 0.36rem;
-    font-size: 0.56rem;
-}
-
-/* phone-width cards: the label moves to the top corner so it never covers
-   the button, and the text gets a touch smaller */
-@container vibe-card (max-width: 140px) {
-    .exhibition-page .vibe-feed .exhibition-video-duration {
-        top: 0.4rem;
-        bottom: auto;
-    }
-    .exhibition-page .vibe-feed .exhibition-sticker-body { font-size: 0.7rem; }
+    width: calc(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px));
+    min-width: 10.75rem; /* never so small that the label touches the play button */
+    max-width: 100%;
 }
 
 /* ---- small screens and accessibility -------------------------------- */
