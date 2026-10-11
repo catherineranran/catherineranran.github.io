@@ -13,7 +13,8 @@
     --xg-edge: rgba(255, 255, 255, 0.12);
     --xg-edge-top: rgba(255, 255, 255, 0.24);
     --xg-highlight: rgba(255, 255, 255, 0.38);
-    --xg-link: #86efac;
+    --xg-link: #c4b5fd;       /* the purple of research strand 03 on the homepage */
+    --xg-link-hover: #ddd6fe;
     --xg-spring: cubic-bezier(0.32, 1.32, 0.48, 1);
 }
 
@@ -190,11 +191,19 @@
 
 .exhibition-page .exhibition-sticker-body strong { color: #ffffff; }
 
-.exhibition-page .exhibition-inline-link {
+/* Every text link on this page, now and later, uses the strand-03 purple.
+   The preview cards (also links) and the title capsule keep their own look. */
+.exhibition-page .exhibition-main a:not(.exhibition-video) {
     color: var(--xg-link);
-    text-decoration-color: rgba(134, 239, 172, 0.45);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(196, 181, 253, 0.45);
+    text-underline-offset: 2px;
 }
-.exhibition-page .exhibition-inline-link:hover { color: #bbf7d0; }
+.exhibition-page .exhibition-main a:not(.exhibition-video):hover {
+    color: var(--xg-link-hover);
+    text-decoration-color: rgba(221, 214, 254, 0.7);
+}
 
 .exhibition-page .exhibition-file-drawer-note { color: rgba(226, 232, 240, 0.82); }
 
@@ -211,6 +220,13 @@
 .exhibition-page .exhibition-idea span { color: var(--xg-muted); }
 
 /* ---- media previews -------------------------------------------------- */
+
+/* The vibecoding column is a little wider than it used to be, but its
+   preview cards keep their former size: 92% of the old 0.75-width column. */
+.exhibition-page .exhibition-thread-narrow .exhibition-video {
+    width: calc(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px));
+    max-width: 100%;
+}
 
 .exhibition-page .exhibition-video {
     border-radius: 14px;

@@ -947,8 +947,8 @@ button:focus-visible {
 }
 
 .exhibition-main {
-    /* Wide enough for all four columns (the first at 3/4 width) at their original width */
-    max-width: 100.25rem;
+    /* Wide enough for all four columns (the first at 0.85 width) at their original width */
+    max-width: 102.75rem;
 }
 
 .exhibition-scroll-hint {
@@ -1016,8 +1016,8 @@ button:focus-visible {
 }
 
 .exhibition-thread-narrow {
-    flex-basis: calc(var(--exhibition-col) * 0.75);
-    width: calc(var(--exhibition-col) * 0.75);
+    flex-basis: calc(var(--exhibition-col) * 0.85);
+    width: calc(var(--exhibition-col) * 0.85);
 }
 
 /* Center the columns when they all fit; no effect while scrolling */
