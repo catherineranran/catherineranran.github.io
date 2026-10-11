@@ -267,7 +267,7 @@
 /* without the layout script: plain rows of two, newest first */
 .vibe-feed {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(max(9.5rem, calc((100% - 0.75rem) / 2)), 1fr));
     align-items: start;
     gap: 0.75rem;
 }

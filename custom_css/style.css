@@ -947,8 +947,8 @@ button:focus-visible {
 }
 
 .exhibition-main {
-    /* Wide enough for all four columns (the first at ~1.17 width) at their original width */
-    max-width: 110.75rem;
+    /* Wide enough for all four columns (the first at ~1.36 width) at their original width */
+    max-width: 115.5rem;
 }
 
 .exhibition-scroll-hint {
@@ -1015,11 +1015,11 @@ button:focus-visible {
     flex-direction: column;
 }
 
-/* "Vibecoding everyday": two cards side by side. Each card is 2/3 as wide as
-   in the double-width version (1.7 columns), so the column is 1.1333 + 0.9rem */
+/* "Vibecoding everyday": two cards side by side, each about 250px wide on a
+   wide screen (and proportionally narrower on smaller ones) */
 .exhibition-thread-wide {
-    flex-basis: calc(var(--exhibition-col) * 1.1333 + 0.9rem);
-    width: calc(var(--exhibition-col) * 1.1333 + 0.9rem);
+    flex-basis: calc(var(--exhibition-col) * 1.25 + 2.75rem);
+    width: calc(var(--exhibition-col) * 1.25 + 2.75rem);
 }
 
 /* phones: the same width as the other columns, cards in one column */
