@@ -9,9 +9,11 @@
     <title>Virtual Reality as a Window into Crime | ESC 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./esc-panel.css?v=20260907q">
+    <link rel="stylesheet" href="../custom_css/starry-sky.css?v=20261012">
 </head>
 <body class="esc-panel-page">
-    <div id="particles-bg" aria-hidden="true"></div>
+    <div class="sky-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div id="particles-bg" data-content-width="1540" aria-hidden="true"></div>
     <div class="panel-tulip panel-tulip-upper" aria-hidden="true"></div>
     <div class="panel-tulip panel-tulip-lower" aria-hidden="true"></div>
 
@@ -297,8 +299,7 @@
         <p>Max Planck Institute for the Study of Crime, Security, and Law</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/particles.js/2.0.0/particles.min.js"></script>
-    <script src="../script/particles.js"></script>
+    <script src="../script/starry-sky.js?v=20261012"></script>
     <script>
         const workingGroupForm = document.getElementById('working-group-form');
         const workingGroupFrame = document.querySelector('.working-group-response-frame');

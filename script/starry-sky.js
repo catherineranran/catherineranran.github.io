@@ -1,7 +1,9 @@
 // Starry night sky behind the homepage: twinkling stars, a few of which drift
 // and link up with faint lines, a soft Milky Way, glinting bright stars, the
 // odd shooting star, and a small star that follows the mouse with a meteor tail.
-// Used on index.html only; the other pages keep script/particles.js.
+// Each page needs <div id="particles-bg"></div> (optionally with
+// data-content-width="<px>" for the width of its text column) and
+// custom_css/starry-sky.css.
 (function () {
 	const host = document.getElementById("particles-bg");
 	if (!host) return;
@@ -180,10 +182,12 @@
 
 		buildBackdrop(area);
 
-		// Bright stars stay in the margins beside the 1024px content column,
-		// so they never sit behind text; narrow screens get just a few, dimmer.
+		// Bright stars stay in the margins beside the content column (1024px,
+		// or the page's data-content-width), so they never sit behind text;
+		// narrow screens get just a few, dimmer.
 		sparkles = [];
-		const gutter = (W - 1024) / 2;
+		const column = parseFloat(host.dataset.contentWidth) || 1024;
+		const gutter = (W - column) / 2;
 		const roomy = gutter >= 80;
 		const k = roomy ? Math.round(clamp(H / 100, 6, 10)) : 3;
 		for (let i = 0; i < k; i++) {

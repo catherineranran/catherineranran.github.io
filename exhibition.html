@@ -8,9 +8,11 @@
     <title>Exhibition | Ranran Li</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./custom_css/style.css?v=20261006a">
+    <link rel="stylesheet" href="custom_css/starry-sky.css?v=20261012">
 </head>
 <body class="bg">
-    <div id="particles-bg"></div>
+    <div class="sky-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div id="particles-bg" data-content-width="1610"></div>
 
     <nav class="sticky top-0 bg-gray-900 mx-auto z-50 shadow-lg py-1 max-w-screen-lg">
         <div class="container mx-auto px-4">
@@ -461,8 +463,7 @@ Visited my alma mater and met my graduate advisor again. He was as leisurely as 
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script/particles.js"></script>
+    <script src="script/starry-sky.js?v=20261012"></script>
     <script>
         (function () {
             var board = document.querySelector('.exhibition-board');

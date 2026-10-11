@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Starry night sky, shared by the homepage and the subpages.
+   Each page adds the .sky-glow layer and #particles-bg, loads this file last
+   in <head>, and loads script/starry-sky.js, which draws the stars.
+   ========================================================================== */
+
+/* Night sky: deep navy overhead, a rosy glow low on the horizon. */
+.sky-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+        radial-gradient(100% 70% at 50% -15%, rgba(70, 92, 170, 0.35) 0%, transparent 60%),
+        radial-gradient(90% 50% at 50% 115%, rgba(150, 90, 160, 0.3) 0%, transparent 65%),
+        linear-gradient(180deg, #0b1027 0%, #121a38 45%, #1a1b3c 80%, #241d3f 100%);
+}
+
+.sky-glow span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    will-change: transform;
+}
+
+.sky-glow span:nth-child(1) {
+    width: 46vw; height: 46vw;
+    left: -10vw; top: -8vw;
+    background: #2dd4bf; /* a hint of aurora */
+    opacity: 0.12;
+    animation: sky-drift-a 38s ease-in-out infinite alternate;
+}
+
+.sky-glow span:nth-child(2) {
+    width: 40vw; height: 40vw;
+    right: -12vw; top: 18vh;
+    background: #6366f1;
+    opacity: 0.22;
+    animation: sky-drift-b 44s ease-in-out infinite alternate;
+}
+
+.sky-glow span:nth-child(3) {
+    width: 34vw; height: 34vw;
+    left: 28vw; bottom: -14vw;
+    background: #c084fc;
+    opacity: 0.16;
+    animation: sky-drift-c 52s ease-in-out infinite alternate;
+}
+
+@keyframes sky-drift-a { to { transform: translate(18vw, 22vh) scale(1.15); } }
+@keyframes sky-drift-b { to { transform: translate(-20vw, 30vh) scale(0.9); } }
+@keyframes sky-drift-c { to { transform: translate(-16vw, -40vh) scale(1.2); } }
+
+/* The page's own flat background would sit on top of the sky otherwise;
+   :root body outranks .bg, .bg-gray-900 and plain body rules. */
+html { background-color: #0f1530; }
+:root body {
+    background-color: transparent;
+    background-image: none;
+}
+
+.starry-sky {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* the little star that follows the mouse, drawn above everything */
+.star-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sky-glow span { animation: none; }
+}
