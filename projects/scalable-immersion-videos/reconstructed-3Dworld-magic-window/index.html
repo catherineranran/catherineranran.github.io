@@ -123,6 +123,110 @@
             var buf = await res.arrayBuffer();
             return crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(buf, 0, 12) }, key, new Uint8Array(buf, 12));
         }
+        // Apply the excerpt only to this screen session after the existing password unlock.
+        // Keep animation, audio and captions on source time; show elapsed clip time in the controls.
+        function clipWorldForScreen(html) {
+            var edits = [
+    [
+        "0:00.0 / 3:17.9",
+        "0:00.0 / 1:35.0"
+    ],
+    [
+        "aria-valuemax=\"197.9\"",
+        "aria-valuemax=\"95\""
+    ],
+    [
+        "const SC = { t: 0,",
+        "const CLIP = Object.freeze({ start: 95, end: 190, duration: 95 });\nconst SC = { t: CLIP.start,"
+    ],
+    [
+        "if (on && SC.t >= SCN.dur - 0.05) SC.t = 0;",
+        "if (on && SC.t >= CLIP.end - 0.05) SC.t = CLIP.start;"
+    ],
+    [
+        "SC.t = clamp(t, 0, SCN.dur);",
+        "SC.t = clamp(t, CLIP.start, CLIP.end);"
+    ],
+    [
+        "if (SC.t >= SCN.dur) { SC.t = SCN.dur; setPlaying(false);",
+        "SC.t = Math.max(CLIP.start, SC.t);\n  if (SC.t >= CLIP.end) { SC.t = CLIP.end; setPlaying(false); if (scAudio) { try { scAudio.currentTime = CLIP.end; } catch (e) {} }"
+    ],
+    [
+        "const t = SC.t, pct = (t / SCN.dur) * 100;",
+        "const t = SC.t, elapsed = t - CLIP.start, pct = (elapsed / CLIP.duration) * 100;"
+    ],
+    [
+        "`${fmt(t)} / ${fmt(SCN.dur)}`",
+        "`${fmt(elapsed)} / ${fmt(CLIP.duration)}`"
+    ],
+    [
+        "setAttribute('aria-valuenow', t.toFixed(1))",
+        "setAttribute('aria-valuenow', elapsed.toFixed(1))"
+    ],
+    [
+        "`${fmt(t)}, ${sg.id}`",
+        "`${fmt(elapsed)}, ${sg.id}`"
+    ],
+    [
+        "for (const s of SCN.segs) {\n    const d",
+        "for (const original of SCN.segs) {\n    if (original.t1 <= CLIP.start || original.t0 >= CLIP.end) continue;\n    const s = { ...original, t0: Math.max(CLIP.start, original.t0), t1: Math.min(CLIP.end, original.t1) };\n    const d"
+    ],
+    [
+        "(s.t0 / SCN.dur)",
+        "((s.t0 - CLIP.start) / CLIP.duration)"
+    ],
+    [
+        "((s.t1 - s.t0) / SCN.dur)",
+        "((s.t1 - s.t0) / CLIP.duration)"
+    ],
+    [
+        "(${fmt(s.t0)}–${fmt(s.t1)})",
+        "(${fmt(s.t0 - CLIP.start)}–${fmt(s.t1 - CLIP.start)})"
+    ],
+    [
+        "for (const [k, t] of SCN.keys) { const d",
+        "for (const [k, t] of SCN.keys) { if (t < CLIP.start || t > CLIP.end) continue; const d"
+    ],
+    [
+        "(t / SCN.dur)",
+        "((t - CLIP.start) / CLIP.duration)"
+    ],
+    [
+        "`${k} at ${fmt(t)}`",
+        "`${k} at ${fmt(t - CLIP.start)}`"
+    ],
+    [
+        "seekScenario(((e.clientX - r.left) / r.width) * SCN.dur)",
+        "seekScenario(CLIP.start + ((e.clientX - r.left) / r.width) * CLIP.duration)"
+    ],
+    [
+        "seekScenario(e.code === 'Home' ? 0 : SCN.dur)",
+        "seekScenario(e.code === 'Home' ? CLIP.start : CLIP.end)"
+    ],
+    [
+        "const starts = SCN.segs.map((s) => s.t0);",
+        "const starts = SCN.segs.map((s) => s.t0).filter((t) => t >= CLIP.start && t < CLIP.end);"
+    ],
+    [
+        "seekScenario(n ?? SCN.dur)",
+        "seekScenario(n ?? CLIP.end)"
+    ],
+    [
+        "seekScenario(prev.length ? prev[prev.length - 1] : 0)",
+        "seekScenario(prev.length ? prev[prev.length - 1] : CLIP.start)"
+    ],
+    [
+        "'The scene plays from the neutral lead-in.'",
+        "'The scene plays for 1 minute 35 seconds.'"
+    ]
+];
+            for (var i = 0; i < edits.length; i++) {
+                var parts = html.split(edits[i][0]);
+                if (parts.length !== 2) throw new Error('The screen excerpt could not be prepared. Please contact the study researcher.');
+                html = parts[0] + edits[i][1] + parts[1];
+            }
+            return html;
+        }
         async function unlock(pass) {
             btn.disabled = true; say('Opening the session…');
             try {
@@ -137,6 +241,7 @@
                     var url = URL.createObjectURL(new Blob([data], { type: MEDIA[i][1] }));
                     html = html.split("'" + MEDIA[i][0] + "'").join("'" + url + "'");
                 }
+                html = clipWorldForScreen(html);
                 var head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><base href="' + BASE + '">'
                     + '<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui;background:#0b1019}img{max-width:100%}[hidden]{display:none!important}</style>'
                     + '<script>window.__DELIVERY=' + JSON.stringify(DELIVERY) + ';window.__VIEW=' + JSON.stringify(VIEW) + ';<\/script></head><body>';
@@ -154,3 +259,4 @@
     </script>
 </body>
 </html>
+
