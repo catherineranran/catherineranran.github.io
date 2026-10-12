@@ -1,0 +1,18 @@
+{
+  "format": "survey-studio-video/1",
+  "type": "video/mp4",
+  "parts": [
+    "part-1-0a8bdfe7af.bin",
+    "part-2-016393822d.bin"
+  ],
+  "encrypted": true,
+  "bytes": 28216559,
+  "duration": 89,
+  "width": 1440,
+  "height": 1440,
+  "view": "wrap",
+  "span": 140,
+  "fov": 90,
+  "title": "Bystander scenario, 140°",
+  "check": "rtB86C2gW67PmvMWek1tBQ26LN-g9DAh6Dqx4kO_AZe12X8zJxo6D0OKy_i7gKU"
+}
