@@ -255,7 +255,7 @@
     height: auto;
     transition: transform 300ms var(--xg-spring), filter 200ms ease;
 }
-.exhibition-page .exhibition-shot:hover img {
+.exhibition-page a.exhibition-shot:hover img {
     transform: scale(1.02);
     filter: brightness(1.06);
 }
@@ -287,6 +287,11 @@
     container: vibe-preview / inline-size;
     width: calc(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px));
     max-width: 100%;
+}
+
+/* the launchpad screenshot is shown smaller: 2/3 of a regular preview */
+.exhibition-page .vibe-feed .exhibition-shot-compact {
+    width: calc(min(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px), 100%) * 2 / 3);
 }
 
 /* on smaller previews the play button and label shrink a little,
