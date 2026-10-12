@@ -34,6 +34,8 @@ button:disabled { opacity: 0.55; cursor: default; }
 .stage { position: relative; width: 100%; height: calc(100vh - 65px); height: calc(100dvh - 65px); min-height: 480px; overflow: hidden; background: #05080d; }
 .stage canvas { display: block; cursor: grab; }
 .stage canvas:active { cursor: grabbing; }
+.stage.flat { padding-top: 12px; }
+.stage.flat video { display: block; width: 100%; object-fit: contain; background: #05080d; cursor: pointer; }
 .controls { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 12px; border: 1px solid #283447; border-radius: 10px; background: rgba(11, 16, 25, .86); }
 .controls button { padding: 8px 12px; font-size: .85rem; color: #f2f5fa; background: #1a2840; }
 .controls button:hover { background: #24375a; }
