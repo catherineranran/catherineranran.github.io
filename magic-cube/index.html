@@ -1,0 +1,1616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solving the 4×4 Cube | Ranran Li</title>
+<meta name="description" content="A beginner's guide to solving the 4×4 cube with the reduction method: centers, edge pairing, the 3×3 stage and parity, with a 3D cube that plays every algorithm.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Solving the 4×4 Cube">
+<meta property="og:description" content="A beginner's guide to the 4×4 cube: centers, edges, the 3×3 stage and parity, with a 3D cube that plays every step.">
+<meta property="og:url" content="https://ranranli.net/magic-cube/">
+<meta property="og:image" content="https://ranranli.net/assets/vibes/solving-4x4.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/icons/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Mono:wght@400;500&family=Figtree:ital,wght@0,400..800;1,400&display=swap">
+<style>
+/* Layout: a liquid-glass puzzle manual. A fixed field of cube-colour light sits behind frosted glass:
+   top bar, hero, four stage tiles, a sticky step rail, and one glass sheet per stage whose demo cards
+   pair a glass well (the live cube) with the steps. */
+:root {
+  --bg: #E8EDF4;
+  --ink: #10131A;
+  --ink-2: #485164;
+  --link: #0A58D0;
+  --hl: #F9D86A;
+  --hl-ink: #10131A;
+  --field-a: .9;
+  /* glass */
+  --glass-a: rgba(255,255,255,.60);
+  --glass-b: rgba(255,255,255,.30);
+  --thick-a: rgba(255,255,255,.80);
+  --thick-b: rgba(255,255,255,.56);
+  --glass-solid: rgba(246,248,252,.96);
+  --sheet-a: rgba(255,255,255,.70);
+  --sheet-b: rgba(255,255,255,.46);
+  --rim-top: rgba(255,255,255,.95);
+  --rim-bot: rgba(255,255,255,.38);
+  --edge-hi: rgba(255,255,255,1);
+  --edge-mid: rgba(255,255,255,.30);
+  --edge-lo: rgba(16,26,48,.10);
+  --edge-hi2: rgba(255,255,255,.70);
+  --sheen: rgba(255,255,255,.55);
+  --sheen-2: rgba(255,255,255,.20);
+  --drop-1: rgba(16,26,48,.06);
+  --drop-2: rgba(16,26,48,.30);
+  --chip: rgba(255,255,255,.62);
+  --chip-line: rgba(16,26,48,.10);
+  --line: rgba(16,26,48,.12);
+  --well-hi: rgba(255,255,255,.72);
+  --well-lo: rgba(206,215,230,.58);
+  --well-shadow: rgba(16,26,48,.14);
+  --well-line: rgba(16,26,48,.07);
+  --btn: rgba(16,19,26,.86);
+  --btn-ink: #FFFFFF;
+  --btn-rim: rgba(255,255,255,.28);
+  --note-bg: rgba(255,214,10,.20);
+  --note-line: rgba(178,140,0,.38);
+  --cube-body: #D8D3CD;
+  --cube-edge: rgba(0,0,0,0);
+  /* sticker colours (content; the same in both themes) */
+  --s-W: #F7F5F0; --s-Y: #F6E49A; --s-R: #F2AEBF; --s-O: #F7C29B; --s-B: #9DCFE7; --s-G: #9DD7BF;
+  /* type */
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #06080C; --ink: #EDF0F6; --ink-2: #A6AFC0; --link: #82B2FF; --field-a: .3;
+    --glass-a: rgba(255,255,255,.10); --glass-b: rgba(255,255,255,.035);
+    --thick-a: rgba(24,28,37,.72); --thick-b: rgba(18,21,29,.56); --glass-solid: rgba(20,23,31,.96); --sheet-a: rgba(255,255,255,.09); --sheet-b: rgba(255,255,255,.035);
+    --rim-top: rgba(255,255,255,.22); --rim-bot: rgba(255,255,255,.05);
+    --edge-hi: rgba(255,255,255,.42); --edge-mid: rgba(255,255,255,.08); --edge-lo: rgba(255,255,255,.03); --edge-hi2: rgba(255,255,255,.18);
+    --sheen: rgba(255,255,255,.10); --sheen-2: rgba(255,255,255,.04);
+    --drop-1: rgba(0,0,0,.30); --drop-2: rgba(0,0,0,.62);
+    --chip: rgba(255,255,255,.08); --chip-line: rgba(255,255,255,.12); --line: rgba(255,255,255,.11);
+    --well-hi: rgba(255,255,255,.08); --well-lo: rgba(255,255,255,.02); --well-shadow: rgba(0,0,0,.55); --well-line: rgba(255,255,255,.07);
+    --btn: rgba(240,243,250,.92); --btn-ink: #0A0C11; --btn-rim: rgba(255,255,255,.7);
+    --note-bg: rgba(255,214,10,.10); --note-line: rgba(255,214,10,.32);
+    --cube-body: #C6C0B9; --cube-edge: rgba(0,0,0,0);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #06080C; --ink: #EDF0F6; --ink-2: #A6AFC0; --link: #82B2FF; --field-a: .3;
+  --glass-a: rgba(255,255,255,.10); --glass-b: rgba(255,255,255,.035);
+  --thick-a: rgba(24,28,37,.72); --thick-b: rgba(18,21,29,.56); --glass-solid: rgba(20,23,31,.96); --sheet-a: rgba(255,255,255,.09); --sheet-b: rgba(255,255,255,.035);
+  --rim-top: rgba(255,255,255,.22); --rim-bot: rgba(255,255,255,.05);
+  --edge-hi: rgba(255,255,255,.42); --edge-mid: rgba(255,255,255,.08); --edge-lo: rgba(255,255,255,.03); --edge-hi2: rgba(255,255,255,.18);
+  --sheen: rgba(255,255,255,.10); --sheen-2: rgba(255,255,255,.04);
+  --drop-1: rgba(0,0,0,.30); --drop-2: rgba(0,0,0,.62);
+  --chip: rgba(255,255,255,.08); --chip-line: rgba(255,255,255,.12); --line: rgba(255,255,255,.11);
+  --well-hi: rgba(255,255,255,.08); --well-lo: rgba(255,255,255,.02); --well-shadow: rgba(0,0,0,.55); --well-line: rgba(255,255,255,.07);
+  --btn: rgba(240,243,250,.92); --btn-ink: #0A0C11; --btn-rim: rgba(255,255,255,.7);
+  --note-bg: rgba(255,214,10,.10); --note-line: rgba(255,214,10,.32);
+  --cube-body: #C6C0B9; --cube-edge: rgba(0,0,0,0);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 88px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.62 var(--f-body); -webkit-font-smoothing: antialiased; }
+a { color: var(--link); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3, h4 { text-wrap: balance; }
+p { margin: 0 0 .9em; }
+code { font-family: var(--f-mono); }
+.mv, .alg-inline { font: 500 .9em var(--f-mono); background: var(--chip); box-shadow: 0 0 0 1px var(--chip-line); padding: 1px 7px; border-radius: 7px; }
+.mv { white-space: nowrap; }
+.alg-inline { word-spacing: .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* ---------- colour field ---------- */
+.field { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.field i { position: absolute; display: block; border-radius: 50%; filter: blur(72px); opacity: var(--field-a); will-change: transform; animation: drift 44s ease-in-out infinite alternate; }
+.field .b1 { width: 54vmax; height: 54vmax; left: -16vmax; top: -20vmax; background: var(--s-Y); }
+.field .b2 { width: 46vmax; height: 46vmax; right: -18vmax; top: 4vh; background: var(--s-B); animation-delay: -9s; }
+.field .b3 { width: 46vmax; height: 46vmax; left: 4vw; bottom: -26vmax; background: var(--s-G); animation-delay: -18s; }
+.field .b4 { width: 30vmax; height: 30vmax; left: 40vw; top: 34vh; background: var(--s-O); animation-delay: -26s; }
+.field .b5 { width: 26vmax; height: 26vmax; right: 4vw; bottom: -8vh; background: var(--s-R); animation-delay: -33s; }
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(5vmax, -3vmax, 0) scale(1.08); }
+  100% { transform: translate3d(-4vmax, 4vmax, 0) scale(.95); }
+}
+@media (prefers-reduced-motion: reduce) { .field i { animation: none; } }
+
+/* ---------- liquid glass ---------- */
+.glass {
+  position: relative; isolation: isolate;
+  background: linear-gradient(145deg, var(--glass-a), var(--glass-b));
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+  border-radius: 28px;
+  box-shadow: inset 0 1px 0 var(--rim-top), inset 0 -1px 0 var(--rim-bot), 0 1px 2px var(--drop-1), 0 28px 56px -30px var(--drop-2);
+}
+.glass::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(118deg, var(--sheen) 0%, transparent 30%, transparent 68%, var(--sheen-2) 100%);
+}
+.glass::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(155deg, var(--edge-hi), var(--edge-mid) 36%, var(--edge-lo) 62%, var(--edge-hi2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.thick { --glass-a: var(--thick-a); --glass-b: var(--thick-b); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--glass-solid); }
+}
+
+/* ---------- top bar ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; padding: 10px 12px 0; }
+.topbar-in { max-width: 1200px; margin-inline: auto; display: flex; align-items: center; gap: 16px; height: 56px; padding-inline: 10px 8px; border-radius: 999px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 700 1.02rem var(--f-display); letter-spacing: -.01em; white-space: nowrap; padding-left: 4px; }
+.logo { width: 26px; height: 26px; padding: 3px; gap: 2px; display: grid; grid-template-columns: 1fr 1fr; background: var(--cube-body); border-radius: 7px; box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 1px 3px rgba(16,26,48,.25); flex: none; }
+.logo i { border-radius: 2.5px; }
+.logo i:nth-child(1) { background: var(--s-G); } .logo i:nth-child(2) { background: var(--s-Y); }
+.logo i:nth-child(3) { background: var(--s-R); } .logo i:nth-child(4) { background: var(--s-B); }
+.topnav { margin-left: auto; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.topnav::-webkit-scrollbar { display: none; }
+.topnav a { padding: 8px 12px; border-radius: 999px; color: var(--ink-2); font-weight: 600; font-size: .92rem; text-decoration: none; white-space: nowrap; }
+.topnav a:hover { color: var(--ink); background: var(--chip); }
+@media (max-width: 640px) { .brand .bname { display: none; } .topbar-in { gap: 8px; } .topnav { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); padding-right: 24px; } }
+
+/* ---------- page ---------- */
+.page { max-width: 1200px; margin-inline: auto; padding-inline: 16px; padding-block: 18px 40px; display: flex; flex-direction: column; gap: 22px; }
+@media (min-width: 760px) { .page { padding-inline: 24px; } }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "cube" "facts"; gap: 22px; padding: 28px 22px 26px; border-radius: 36px; }
+.hero-copy { grid-area: copy; } .hero-cube { grid-area: cube; } .facts { grid-area: facts; }
+@media (min-width: 900px) { .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); grid-template-areas: "copy cube" "facts cube"; align-items: center; padding: 48px 44px 40px; gap: 10px 28px; } .hero-copy { align-self: end; } .facts { align-self: start; } }
+.eyebrow { margin: 0 0 12px; font: 700 .76rem var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.hero h1 { margin: 0 0 18px; font: 800 clamp(2.7rem, 7vw, 5.2rem)/.94 var(--f-display); letter-spacing: -.04em; font-variation-settings: "opsz" 96; }
+.hero h1 span { display: block; }
+.lede { font-size: clamp(1.08rem, 1.6vw, 1.22rem); color: var(--ink-2); max-width: 40ch; margin-bottom: 22px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; border: 0; font: 650 1rem var(--f-body); text-decoration: none; cursor: pointer; background: var(--btn); color: var(--btn-ink); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 var(--btn-rim), 0 12px 26px -14px var(--drop-2); }
+.btn:hover { filter: brightness(1.08); }
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; border-radius: 999px; border: 0; cursor: pointer; font: 600 .95rem var(--f-body); color: var(--ink); text-decoration: none; background: var(--chip); box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--chip-line), 0 8px 18px -12px var(--drop-2); }
+.pill:hover:not(:disabled) { box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--ink-2), 0 8px 18px -12px var(--drop-2); }
+.pill:disabled { opacity: .45; cursor: default; }
+.facts { display: flex; flex-wrap: wrap; gap: 16px 34px; margin: 8px 0 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.facts div { display: flex; flex-direction: column-reverse; }
+.facts dd { margin: 0; font: 700 1.5rem/1.1 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.facts dt { color: var(--ink-2); font-size: .9rem; }
+.hero-cube { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.puck { position: relative; width: min(100%, 440px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 34% 26%, var(--well-hi), var(--well-lo) 62%); box-shadow: inset 0 2px 1px var(--rim-top), inset 0 -10px 30px -12px var(--well-shadow), 0 0 0 1px var(--well-line), 0 40px 70px -40px var(--drop-2); }
+.puck::after { content: ""; position: absolute; inset: 6% 18% auto 18%; height: 22%; border-radius: 50%; background: linear-gradient(180deg, var(--sheen), transparent); pointer-events: none; }
+.hero-stage { position: absolute; inset: 4%; border-radius: 50%; overflow: hidden; }
+.hero-stage canvas, .hero-stage svg { width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: grab; }
+.hero-tools { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.readout { min-width: 9.5em; text-align: center; font: 500 .95rem var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* stage tiles */
+.plan-head { display: grid; gap: 6px; padding: 10px 6px 0; max-width: 68ch; }
+.plan-head h2 { margin: 0; font: 750 clamp(1.6rem, 3.4vw, 2.2rem)/1.05 var(--f-display); letter-spacing: -.025em; }
+.plan-head p { color: var(--ink-2); margin: 0; }
+.plan { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .plan { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 440px) { .plan { grid-template-columns: minmax(0, 1fr); } }
+.tile { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 16px 18px 18px; border-radius: 24px; text-decoration: none; color: var(--ink); transition: transform .25s ease; }
+.tile:hover { transform: translateY(-3px); }
+@media (prefers-reduced-motion: reduce) { .tile, .tile:hover { transition: none; transform: none; } }
+.tile .n { font: 500 .8rem var(--f-mono); color: var(--ink-2); }
+.tile .fig { display: block; width: 100%; max-width: 150px; margin: 2px auto 4px; aspect-ratio: 1; }
+.tile h3 { margin: 0; font: 700 1.25rem var(--f-display); letter-spacing: -.01em; }
+.tile p { margin: 0; color: var(--ink-2); font-size: .97rem; }
+
+/* layout with rail */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (min-width: 1180px) { .layout { grid-template-columns: 210px minmax(0, 1fr); } }
+.rail { display: none; }
+@media (min-width: 1180px) {
+  .rail { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); max-height: calc(100vh - 104px); overflow: auto; padding: 16px 12px; border-radius: 24px; font-size: .92rem; scrollbar-width: thin; }
+}
+.rail ol { list-style: none; margin: 0; padding: 0; }
+.rail > ol > li + li { margin-top: 10px; }
+.rail a { display: block; padding: 4px 10px; border-radius: 10px; color: var(--ink-2); text-decoration: none; line-height: 1.35; }
+.rail a:hover { color: var(--ink); background: var(--chip); }
+.rail a.on { color: var(--ink); background: var(--chip); box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--chip-line); font-weight: 650; }
+.rail .top { font-weight: 700; color: var(--ink); }
+.rail ol ol a { padding-left: 22px; font-size: .88rem; }
+.rail .num { font-family: var(--f-mono); font-size: .78rem; margin-right: 6px; color: var(--ink-2); }
+
+.content { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+
+/* stage sheets */
+.sheet { --glass-a: var(--sheet-a); --glass-b: var(--sheet-b); padding: 26px 20px 30px; border-radius: 32px; min-width: 0; }
+@media (min-width: 760px) { .sheet { padding: 38px 40px 42px; } }
+.sheet-head { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
+.stage-num { flex: none; width: 68px; height: 68px; border-radius: 20px; display: grid; place-items: center; font: 800 2.4rem/1 var(--f-display); letter-spacing: -.04em; color: var(--btn-ink); background: var(--btn); box-shadow: inset 0 1px 0 var(--btn-rim), 0 14px 28px -16px var(--drop-2); }
+.sheet-head h2 { margin: 0; font: 750 clamp(1.75rem, 4.2vw, 2.7rem)/1.02 var(--f-display); letter-spacing: -.03em; }
+.sheet-head p { margin: 6px 0 0; color: var(--ink-2); font-size: 1.05rem; }
+.prose { max-width: 66ch; }
+.prose ul, .prose ol { padding-left: 1.3em; margin: 0 0 1em; }
+.prose li { margin: .3em 0; }
+.prose li::marker { color: var(--ink-2); font-weight: 700; }
+.step { margin-top: 38px; }
+.step > h3 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; font: 700 1.42rem/1.2 var(--f-display); letter-spacing: -.015em; }
+.step-no { font: 500 .88rem var(--f-mono); color: var(--ink-2); flex: none; }
+.small { font-size: .95rem; color: var(--ink-2); }
+.note { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; margin: 14px 0; border-radius: 16px; background: var(--note-bg); box-shadow: inset 0 0 0 1px var(--note-line); max-width: 66ch; }
+.note::before { content: "!"; flex: none; width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; font: 800 .85rem var(--f-display); background: var(--s-Y); color: #10131A; margin-top: 1px; }
+.note p { margin: 0; }
+
+/* demo cards */
+.demos { display: grid; gap: 16px; margin-top: 18px; }
+.demo { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 16px; border-radius: 26px; }
+@media (min-width: 720px) { .demo { grid-template-columns: minmax(0, 290px) minmax(0, 1fr); padding: 18px 20px 18px 18px; gap: 24px; } }
+.demo-side { width: 100%; max-width: 360px; margin-inline: auto; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.well { position: relative; aspect-ratio: 1; max-width: 100%; border-radius: 20px; overflow: hidden; background: radial-gradient(120% 95% at 30% 18%, var(--well-hi), var(--well-lo)); box-shadow: inset 0 1px 2px var(--well-shadow), inset 0 0 0 1px var(--well-line); }
+.screen { position: absolute; inset: 0; }
+.screen svg, .screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.screen canvas { touch-action: pan-y; cursor: grab; }
+.screen canvas:active { cursor: grabbing; }
+.play-big { position: absolute; right: 12px; bottom: 12px; width: 54px; height: 54px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--btn); color: var(--btn-ink); box-shadow: inset 0 1px 0 var(--btn-rim), 0 12px 24px -12px var(--drop-2); }
+.play-big svg { width: 24px; height: 24px; margin-left: 3px; }
+.is-live .play-big { display: none; }
+.hint { position: absolute; left: 12px; top: 10px; font: 500 .72rem var(--f-mono); color: var(--ink-2); opacity: 0; transition: opacity .3s; pointer-events: none; }
+.is-live .hint { opacity: .85; }
+.netbox { border-radius: 14px; padding: 8px; background: var(--chip); box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--chip-line); }
+.netbox svg { display: block; width: 100%; height: auto; }
+.ctrls { display: flex; align-items: center; gap: 6px; }
+.cb { width: 38px; height: 38px; flex: none; border: 0; border-radius: 12px; display: grid; place-items: center; cursor: pointer; color: var(--ink); background: var(--chip); box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--chip-line); }
+.cb svg { width: 18px; height: 18px; }
+.cb:hover:not(:disabled) { box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--ink-2); }
+.cb:disabled { opacity: .4; cursor: default; }
+.cb.main { width: 46px; background: var(--btn); color: var(--btn-ink); box-shadow: inset 0 1px 0 var(--btn-rim); }
+.cb.speed { width: auto; padding: 0 10px; font: 500 .82rem var(--f-mono); }
+.count { margin-left: auto; font: 500 .82rem var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.demo-body { min-width: 0; }
+.demo-body h4 { margin: 2px 0 8px; font: 700 1.12rem/1.3 var(--f-display); letter-spacing: -.01em; }
+.demo-body p { color: var(--ink-2); max-width: 60ch; }
+.algs { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.seg-label { margin: 0 0 6px; font: 700 .72rem var(--f-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mvc { border: 0; cursor: pointer; font: 500 .98rem/1 var(--f-mono); padding: 8px 11px; border-radius: 999px; color: var(--ink); background: var(--chip); box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--chip-line); }
+.mvc:hover { box-shadow: inset 0 1px 0 var(--rim-top), 0 0 0 1px var(--ink-2); }
+.mvc.done { opacity: .5; }
+.mvc.now { opacity: 1; background: var(--hl); color: var(--hl-ink); box-shadow: 0 0 0 1px rgba(120,90,0,.22), 0 8px 20px -6px rgba(235,185,50,.7); }
+
+/* basics */
+.pieces { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .pieces { grid-template-columns: minmax(0, 1fr); } }
+.pieces li { display: flex; gap: 12px; align-items: center; padding: 12px 14px 12px 10px; border-radius: 20px; }
+.pieces .fig { width: 92px; flex: none; aspect-ratio: 1; }
+.pieces b { display: block; font: 700 1.1rem var(--f-display); }
+.pieces span { color: var(--ink-2); font-size: .95rem; line-height: 1.45; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (min-width: 860px) { .split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); } }
+.pairs { list-style: none; padding: 0; margin: 0 0 1em; display: grid; gap: 8px; }
+.pairs li { display: flex; align-items: center; gap: 10px; }
+.sw { width: 20px; height: 20px; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); flex: none; }
+.sw.W { background: var(--s-W); } .sw.Y { background: var(--s-Y); } .sw.R { background: var(--s-R); }
+.sw.O { background: var(--s-O); } .sw.B { background: var(--s-B); } .sw.G { background: var(--s-G); }
+.scheme { margin: 0; padding: 14px; border-radius: 22px; }
+.scheme .fig { display: block; width: 100%; }
+.scheme figcaption { margin-top: 8px; font-size: .9rem; color: var(--ink-2); text-align: center; }
+.notation { margin: 0; display: grid; gap: 0; }
+.notation div { display: grid; grid-template-columns: minmax(0, 11.5rem) minmax(0, 1fr); gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.notation div:first-child { border-top: 1px solid var(--line); }
+.notation dt { display: flex; flex-wrap: wrap; gap: 4px; align-content: start; }
+.notation dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 480px) { .notation div { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+.pad { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 16px; border-radius: 26px; }
+@media (min-width: 560px) and (max-width: 859px) { .pad { grid-template-columns: minmax(0, 240px) minmax(0, 1fr); } }
+.pad .demo-side { max-width: 300px; }
+.pad-last { margin: 0 0 10px; min-height: 3.1em; }
+.pad-last code { display: block; font: 500 1.6rem/1.1 var(--f-mono); color: var(--ink); }
+.pad-last span { color: var(--ink-2); font-size: .95rem; }
+.padgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 6px; }
+.padgrid .mvc { padding: 10px 0; text-align: center; }
+
+/* cheat sheet */
+.table-wrap { overflow-x: auto; margin-top: 10px; border-radius: 18px; }
+table.sheet-t { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .97rem; }
+.sheet-t th, .sheet-t td { text-align: left; vertical-align: top; padding: 11px 12px; border-bottom: 1px solid var(--line); }
+.sheet-t thead th { font: 700 .72rem var(--f-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet-t tbody th { font-weight: 650; width: 26%; }
+.sheet-t tbody th a { color: var(--ink); text-decoration: none; }
+.sheet-t tbody th a:hover { text-decoration: underline; }
+.sheet-t .grp th { padding-top: 22px; font: 750 1.05rem var(--f-display); letter-spacing: -.01em; border-bottom-color: transparent; }
+.sheet-t td.a { font: 500 .95rem/1.5 var(--f-mono); word-spacing: .1em; }
+.sheet-t td.w { color: var(--ink-2); }
+.copy { margin-left: 8px; padding: 3px 9px; border: 0; border-radius: 999px; cursor: pointer; font: 600 .75rem var(--f-body); color: var(--ink-2); background: var(--chip); box-shadow: 0 0 0 1px var(--chip-line); vertical-align: 1px; }
+.copy:hover { color: var(--ink); }
+
+footer.foot { max-width: 1200px; margin: 0 auto; padding: 8px 24px 48px; color: var(--ink-2); font-size: .9rem; }
+footer.foot p { max-width: 80ch; }
+.num-long { font-family: var(--f-mono); font-size: .82rem; word-break: break-all; }
+
+/* svg cube art */
+svg .cb-body { fill: var(--cube-body); stroke: var(--cube-edge); stroke-width: .04; }
+svg.net .cb-body { stroke-width: .6; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+<style>
+/* page basics (on claude.ai the artifact frame supplied these) */
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.foot .by { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="field" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="b5"></i></div>
+
+<header class="topbar">
+  <div class="topbar-in glass">
+    <a class="brand" href="#top"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="bname">Solving the 4×4</span></a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#basics">Basics</a>
+      <a href="#centers">Centers</a>
+      <a href="#edges">Edges</a>
+      <a href="#three">3×3 stage</a>
+      <a href="#parity">Parity</a>
+      <a href="#sheet">Cheat sheet</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page" id="top">
+  <section class="hero glass" aria-labelledby="hero-h">
+    <div class="hero-copy">
+      <p class="eyebrow">Beginner's method · 4×4×4</p>
+      <h1 id="hero-h"><span>Solve the</span> <span>4×4 cube</span></h1>
+      <p class="lede">Group the centers, pair up the edges, and the 4×4 behaves like a big 3×3. Every example here plays its moves for you, one turn at a time.</p>
+      <div class="actions">
+        <a class="btn" href="#centers">Start with the centers</a>
+        <a class="pill" href="#basics">Read the basics</a>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>centers, edges, corners</dt><dd>24 · 24 · 8</dd></div>
+      <div><dt>possible positions</dt><dd>7.4 × 10<sup>45</sup></dd></div>
+      <div><dt>algorithms in this guide</dt><dd>14</dd></div>
+    </dl>
+    <div class="hero-cube">
+      <div class="puck"><div class="hero-stage" id="hero-stage" role="img" aria-label="A scrambled 4×4 cube you can turn and drag"></div></div>
+      <div class="hero-tools">
+        <button class="pill" id="hero-scramble" type="button">Scramble</button>
+        <span class="readout" id="hero-readout" aria-live="polite">Drag to look around</span>
+        <button class="pill" id="hero-undo" type="button">Unscramble</button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <div class="plan-head">
+      <h2 id="plan-h">Reduction, in four stages</h2>
+      <p>A 3×3 has fixed centers and single edges. A 4×4 has neither, so you build them first. Then you solve it like a 3×3, with two extra cases to fix.</p>
+    </div>
+    <ol class="plan" style="margin-top:14px">
+      <li><a class="tile glass" href="#centers"><span class="n">Stage 1</span><span class="fig" data-fig="plan1"></span><h3>Centers</h3><p>Group the 24 center pieces into six 2×2 blocks.</p></a></li>
+      <li><a class="tile glass" href="#edges"><span class="n">Stage 2</span><span class="fig" data-fig="plan2"></span><h3>Edges</h3><p>Pair the 24 edge pieces into 12 double edges.</p></a></li>
+      <li><a class="tile glass" href="#three"><span class="n">Stage 3</span><span class="fig" data-fig="plan3"></span><h3>Like a 3×3</h3><p>Turn only the outer layers and solve it like a 3×3.</p></a></li>
+      <li><a class="tile glass" href="#parity"><span class="n">Stage 4</span><span class="fig" data-fig="plan4"></span><h3>Parity</h3><p>Fix the two positions a 3×3 can never be in.</p></a></li>
+    </ol>
+  </section>
+
+  <div class="layout">
+    <nav class="rail glass" aria-label="Steps">
+      <ol>
+        <li><a class="top" href="#basics">Before you start</a></li>
+        <li><a class="top" href="#centers"><span class="num">1</span>Centers</a>
+          <ol>
+            <li><a href="#c1"><span class="num">1.1</span>White center</a></li>
+            <li><a href="#c2"><span class="num">1.2</span>Yellow center</a></li>
+            <li><a href="#c3"><span class="num">1.3</span>Third center</a></li>
+            <li><a href="#c4"><span class="num">1.4</span>Fourth center</a></li>
+            <li><a href="#c5"><span class="num">1.5</span>Last two</a></li>
+          </ol></li>
+        <li><a class="top" href="#edges"><span class="num">2</span>Edges</a>
+          <ol>
+            <li><a href="#e1"><span class="num">2.1</span>Pair two pieces</a></li>
+            <li><a href="#e2"><span class="num">2.2</span>Different heights</a></li>
+            <li><a href="#e3"><span class="num">2.3</span>Last two edges</a></li>
+          </ol></li>
+        <li><a class="top" href="#three"><span class="num">3</span>Like a 3×3</a>
+          <ol>
+            <li><a href="#t1"><span class="num">3.1</span>White cross</a></li>
+            <li><a href="#t2"><span class="num">3.2</span>White corners</a></li>
+            <li><a href="#t3"><span class="num">3.3</span>Middle layer</a></li>
+            <li><a href="#t4"><span class="num">3.4</span>Yellow cross</a></li>
+            <li><a href="#t5"><span class="num">3.5</span>Yellow face</a></li>
+            <li><a href="#t6"><span class="num">3.6</span>Yellow corners</a></li>
+            <li><a href="#t7"><span class="num">3.7</span>Yellow edges</a></li>
+          </ol></li>
+        <li><a class="top" href="#parity"><span class="num">4</span>Parity</a>
+          <ol>
+            <li><a href="#p1"><span class="num">4.1</span>One flipped edge</a></li>
+            <li><a href="#p2"><span class="num">4.2</span>Two swapped edges</a></li>
+          </ol></li>
+        <li><a class="top" href="#sheet">Cheat sheet</a></li>
+      </ol>
+    </nav>
+
+    <div class="content">
+
+      <!-- ===================== BASICS ===================== -->
+      <section class="sheet glass" id="basics" aria-labelledby="basics-h">
+        <div class="sheet-head">
+          <div><p class="eyebrow" style="margin-bottom:6px">Basics</p><h2 id="basics-h">Before you start</h2><p>The pieces, the color scheme and how to read the moves.</p></div>
+        </div>
+
+        <div class="step" style="margin-top:22px">
+          <h3>The pieces</h3>
+          <ul class="pieces">
+            <li class="glass thick"><span class="fig" data-fig="centers"></span><span><b>24 centers</b>Four per face. Nothing holds them in place, so you build each center yourself.</span></li>
+            <li class="glass thick"><span class="fig" data-fig="edges"></span><span><b>24 edges</b>Two per edge. Each pair has the same two colors.</span></li>
+            <li class="glass thick"><span class="fig" data-fig="corners"></span><span><b>8 corners</b>They behave just like the corners of a 3×3.</span></li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <h3>The color scheme</h3>
+          <div class="split">
+            <div class="prose">
+              <p>No center is fixed, so the cube can't show you where each color belongs. Use the standard scheme:</p>
+              <ul class="pairs">
+                <li><span class="sw W"></span><span class="sw Y"></span>White is opposite yellow</li>
+                <li><span class="sw G"></span><span class="sw B"></span>Green is opposite blue</li>
+                <li><span class="sw R"></span><span class="sw O"></span>Red is opposite orange</li>
+              </ul>
+              <p>Hold white on top and green in front: red is on the right, orange on the left and blue at the back. Building the centers in the wrong order makes the cube impossible to finish, so check this before you start stage&nbsp;1.</p>
+            </div>
+            <figure class="scheme glass thick"><span class="fig" data-fig="scheme"></span><figcaption>The solved cube, unfolded. White on top, green in front.</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="step">
+          <h3>Reading the moves</h3>
+          <div class="split">
+            <dl class="notation">
+              <div><dt><code class="mv">R</code><code class="mv">L</code><code class="mv">U</code><code class="mv">D</code><code class="mv">F</code><code class="mv">B</code></dt><dd>Right, left, up, down, front, back. Turn that face a quarter turn clockwise, as if you were looking straight at it.</dd></div>
+              <div><dt><code class="mv">R'</code></dt><dd>A prime means counterclockwise.</dd></div>
+              <div><dt><code class="mv">R2</code></dt><dd>A half turn. Either direction works.</dd></div>
+              <div><dt><code class="mv">Rw</code></dt><dd>Wide: the two right layers together. <code class="mv">Uw</code>, <code class="mv">Fw</code>, <code class="mv">Lw</code>, <code class="mv">Dw</code> and <code class="mv">Bw</code> work the same way.</dd></div>
+              <div><dt><code class="mv">r</code></dt><dd>Only the second layer from the right, also written 2R.</dd></div>
+              <div><dt><code class="mv">x</code><code class="mv">y</code><code class="mv">z</code></dt><dd>Turn the whole cube in your hands: x follows R, y follows U, z follows F.</dd></div>
+            </dl>
+            <div class="pad glass thick" id="pad">
+              <div class="demo-side"></div>
+              <div>
+                <p class="pad-last" id="pad-last"><code>R U R'</code><span>Tap a move to see it on the cube.</span></p>
+                <div class="padgrid" role="group" aria-label="Moves to try"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== STAGE 1 ===================== -->
+      <section class="sheet glass" id="centers" aria-labelledby="centers-h">
+        <div class="sheet-head"><span class="stage-num" aria-hidden="true">1</span><div><h2 id="centers-h">Centers</h2><p>Build six solid 2×2 centers.</p></div></div>
+        <div class="prose">
+          <p>A 4×4 has 24 center pieces, four of each color, and they move around freely. Gather each color into a 2×2 block. Edges and corners don't matter yet, so they're grey in the examples, and the flat map under each cube shows all six faces at once.</p>
+        </div>
+
+        <div class="step" id="c1">
+          <h3><span class="step-no">1.1</span>White center</h3>
+          <div class="prose">
+            <p>Build white on top. Wide turns do the work: <code class="mv">Rw</code>, <code class="mv">Lw</code>, <code class="mv">Fw</code> and <code class="mv">Bw</code> each carry a column of center pieces from one face to the next.</p>
+            <ul>
+              <li>Lift white pieces onto the top with a wide turn.</li>
+              <li>Before you lift, turn the top (<code class="mv">U</code>) so the white pieces already there aren't in the column that's about to move.</li>
+              <li>Make a 1×2 bar first, then a second bar, then join them.</li>
+            </ul>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="firstCenter">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>A white center, start to finish</h4>
+                <p><code class="mv">Rw</code> tucks the right-hand white piece away, <code class="mv">U</code> slides the other one along, and <code class="mv">Rw'</code> brings the first one back: now they form a bar. <code class="mv">U</code> turns the bar to the right, and <code class="mv">Lw2</code> lifts the second bar from the bottom into the gap.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="c2">
+          <h3><span class="step-no">1.2</span>Yellow center, opposite white</h3>
+          <div class="prose">
+            <p>Turn the cube over (<code class="mv">x2</code>) so white is on the bottom. From now on, any slice you turn has to be turned back, or you'll break the white center. This three-move insert only swaps pieces between the top and the front, so white is never touched:</p>
+            <ol>
+              <li>Turn the whole cube (<code class="mv">y</code>) until a yellow piece is on the front.</li>
+              <li>Turn <code class="mv">F</code> until that piece sits at the bottom-right of the front center.</li>
+              <li>Turn <code class="mv">U</code> until the back-left spot of the top center is empty (not yellow).</li>
+              <li>Do <code class="alg-inline">Rw U Rw'</code>. The piece lands at the front-left of the top.</li>
+            </ol>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="yellowOne">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>One insert</h4>
+                <p>The yellow piece starts at the front's bottom-right and the gap is at the back-left of the top. Three moves later the yellow center is complete.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+            <figure class="demo glass thick" data-case="yellow">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>A whole yellow center</h4>
+                <p>Three pieces, three inserts. Each one starts with a short setup: a <code class="mv">y</code> to find a yellow piece, an <code class="mv">F</code> turn to put it at the bottom-right, a <code class="mv">U</code> turn to move the gap to the back-left.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+            <figure class="demo glass thick" data-case="yellowBar">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Shortcut: two at once</h4>
+                <p>If two yellow pieces are stacked in the front's right column, <code class="alg-inline">Rw U2 Rw'</code> swaps that whole column with the left side of the top. Turn <code class="mv">U</code> first so the top's left side is the empty half.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="c3">
+          <h3><span class="step-no">1.3</span>The third center</h3>
+          <div class="prose">
+            <p>Hold the cube with white on the left and yellow on the right. <code class="mv">Rw</code> and <code class="mv">Lw</code> only move the top, front, bottom and back, so they can't disturb white or yellow. Build green on top exactly the way you built white, using <code class="mv">Rw</code>, <code class="mv">Lw</code> and turns of <code class="mv">U</code>, <code class="mv">F</code>, <code class="mv">D</code> and <code class="mv">B</code>.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="third">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Green on top</h4>
+                <p>The same bar trick as the white center. White and yellow stay put on the sides the whole time.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="c4">
+          <h3><span class="step-no">1.4</span>The fourth center</h3>
+          <div class="prose">
+            <p>Tilt the cube (<code class="mv">x</code>) so green goes to the back. Orange goes on top now: with white on the left, yellow on the right and green at the back, the top of a solved cube is orange. Insert orange pieces with the same rule as before, gap at the back-left of the top:</p>
+            <ul>
+              <li><b>From the front:</b> piece at the front's bottom-right, then <code class="alg-inline">Rw U Rw'</code>.</li>
+              <li><b>From the bottom:</b> piece at the back-right of the bottom center, then <code class="alg-inline">Rw2 U Rw2</code>.</li>
+            </ul>
+            <p>Both leave white, yellow and green alone.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="fourth">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Orange from the front and the bottom</h4>
+                <p>One piece comes up from the front, two come up from the bottom. A <code class="mv">D</code> turn moves a bottom piece to the back-right, a <code class="mv">U</code> turn moves the gap.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="c5">
+          <h3><span class="step-no">1.5</span>The last two centers</h3>
+          <div class="prose">
+            <p>Tilt the cube again (<code class="mv">x</code>). Green is now on the bottom and orange at the back, so blue belongs on top and red in front. Keep inserting blue pieces from the front with <code class="alg-inline">Rw U Rw'</code> until the top is all blue. The front turns red by itself.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="lastTwo">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Blue on top, red in front</h4>
+                <p>Two inserts. All six centers are done after this.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== STAGE 2 ===================== -->
+      <section class="sheet glass" id="edges" aria-labelledby="edges-h">
+        <div class="sheet-head"><span class="stage-num" aria-hidden="true">2</span><div><h2 id="edges-h">Edges</h2><p>Pair the 24 edge pieces into 12 double edges.</p></div></div>
+        <div class="prose">
+          <p>Each edge of a 4×4 is two pieces with the same two colors. Your job is to get every matching pair side by side. One algorithm does it, and it puts the centers back when it's done. In the examples the corners are grey, and only the two pieces being paired are in color.</p>
+        </div>
+
+        <div class="step" id="e1">
+          <h3><span class="step-no">2.1</span>Pair two pieces</h3>
+          <div class="prose">
+            <ol>
+              <li>Find two edge pieces with the same two colors.</li>
+              <li>Put one in the front-right edge and the other in the front-left edge, both in the bottom half. They'll show the same color toward you. Use outer turns for this (<code class="mv">R</code>, <code class="mv">L</code>, <code class="mv">U</code>, <code class="mv">D</code>, <code class="mv">F</code>, <code class="mv">B</code>), which never move the centers.</li>
+              <li>Do <code class="alg-inline">Dw R U R' F R' F' R Dw'</code>. The left piece moves over and joins its partner on the right.</li>
+              <li>Move the finished pair into the top or bottom layer, for example with <code class="alg-inline">R U R'</code>. Pairs are safe there.</li>
+            </ol>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="edgeSame">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Two pieces become one edge</h4>
+                <p><code class="mv">Dw</code> slides the bottom half a quarter turn. The seven moves in the middle swap the two halves of the right edge. <code class="mv">Dw'</code> slides the bottom half back, which puts the centers back too.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="e2">
+          <h3><span class="step-no">2.2</span>When they're at different heights</h3>
+          <div class="prose">
+            <p>If one piece is in the top half and the other in the bottom half, flip the right edge first with <code class="alg-inline">R U R' F R' F' R</code>. Those are the same seven moves as in the middle of the pairing algorithm: they swap the top and bottom halves of the front-right edge and leave the front-left edge alone. If both pieces are in the top half, <code class="mv">F2</code> drops them both to the bottom.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="edgeCross">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Flip, then pair</h4>
+                <p>The right-hand piece starts high. The flip brings it down to the bottom half, level with its partner, and the pairing algorithm finishes the job.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="e3">
+          <h3><span class="step-no">2.3</span>The last two edges</h3>
+          <div class="prose">
+            <p>Pairing always leaves a spare piece behind in the front-left edge, so you finish with two unpaired edges. Put them in the front-left and front-right edges. If the two bottom pieces match each other, one pairing algorithm closes both edges at once. If they don't, flip the right edge first, as in 2.2.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="lastTwoEdges">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Both edges in one go</h4>
+                <p>The bottom pieces match, and so do the top pieces. After the algorithm all twelve edges are paired.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== STAGE 3 ===================== -->
+      <section class="sheet glass" id="three" aria-labelledby="three-h">
+        <div class="sheet-head"><span class="stage-num" aria-hidden="true">3</span><div><h2 id="three-h">Solve it like a 3×3</h2><p>Outer turns only from here on.</p></div></div>
+        <div class="prose">
+          <p>Treat every 2×2 center as one center and every pair as one edge, and turn only the outer layers (<code class="mv">R</code>, <code class="mv">L</code>, <code class="mv">U</code>, <code class="mv">D</code>, <code class="mv">F</code>, <code class="mv">B</code>). If you can already solve a 3×3, do that now and keep stage&nbsp;4 handy. If not, here's a beginner's method with white on the bottom and yellow on top.</p>
+        </div>
+
+        <div class="step" id="t1">
+          <h3><span class="step-no">3.1</span>White cross</h3>
+          <div class="prose">
+            <p>First make a daisy: get all four white edges onto the top around the yellow center, white facing up. If a white edge is in the middle layer, turn its side face to bring it up, but turn <code class="mv">U</code> first so you don't knock off a petal you already have.</p>
+            <p>Then, for each petal, turn <code class="mv">U</code> until its side color matches the center below it, and turn that face twice. It drops into place on the bottom.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="daisy">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>From daisy to cross</h4>
+                <p>Four petals, each matched to its center and dropped with a half turn. The map shows the cross forming on the bottom.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t2">
+          <h3><span class="step-no">3.2</span>White corners</h3>
+          <div class="prose">
+            <p>Find a white corner in the top layer. Turn <code class="mv">U</code> until it sits above its spot, between the two centers that match its other colors, and hold the cube so that spot is at the front-right. Repeat <code class="alg-inline">R U R' U'</code> until the corner drops in the right way round. That takes 1, 3 or 5 repeats.</p>
+            <p class="small">A white corner stuck in the bottom layer in the wrong place: hold it at the front-right and do <code class="alg-inline">R U R' U'</code> once to bring it up.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="firstLayer">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Three repeats</h4>
+                <p>White faces right at the start, so this corner needs three repeats.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t3">
+          <h3><span class="step-no">3.3</span>Middle layer</h3>
+          <div class="prose">
+            <p>Find an edge in the top layer without any yellow. Turn <code class="mv">U</code> until its front color matches the front center, then check its top color:</p>
+            <ul>
+              <li>Matches the right center: <code class="alg-inline">U R U' R' U' F' U F</code></li>
+              <li>Matches the left center: <code class="alg-inline">U' L' U L U F U' F'</code></li>
+            </ul>
+            <p class="small">An edge in the middle layer but wrong: insert any top edge into its slot to pop it out, then insert it properly.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="secondRight">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Insert to the right</h4>
+                <p>Green faces the green center and orange sits on top, matching the orange center on the right.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+            <figure class="demo glass thick" data-case="secondLeft">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Insert to the left</h4>
+                <p>Green faces the green center and red sits on top, matching the red center on the left.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t4">
+          <h3><span class="step-no">3.4</span>Yellow cross</h3>
+          <div class="prose">
+            <p>Look only at the yellow edges on top and do <code class="alg-inline">F R U R' U' F'</code> as often as you need:</p>
+            <ul>
+              <li><b>Dot:</b> do it once to get an L.</li>
+              <li><b>L:</b> hold the L at the back-left and do it to get a line.</li>
+              <li><b>Line:</b> hold it left to right and do it to get the cross.</li>
+            </ul>
+          </div>
+          <div class="note"><p><b>One or three yellow edges?</b> A 3×3 can't do that, so it's parity. Fix it with <a href="#p1">step 4.1</a>, then come back.</p></div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="cross">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Dot, L, line, cross</h4>
+                <p>Only yellow stickers are colored on the top layer, since that's all this step looks at.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t5">
+          <h3><span class="step-no">3.5</span>Yellow face</h3>
+          <div class="prose">
+            <p>Count the yellow corners on top, hold the cube as below, and do <code class="alg-inline">R U R' U R U2 R'</code>, known as the Sune. Repeat until the top is all yellow.</p>
+            <ul>
+              <li><b>None:</b> turn <code class="mv">U</code> until the front-left corner shows yellow on its left side.</li>
+              <li><b>One:</b> turn <code class="mv">U</code> to bring it to the front-left.</li>
+              <li><b>Two:</b> turn <code class="mv">U</code> until the front-left corner shows yellow facing you.</li>
+            </ul>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="sune">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Two Sunes</h4>
+                <p>No yellow corners at first. After one Sune there's one, which goes to the front-left for the second Sune.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t6">
+          <h3><span class="step-no">3.6</span>Yellow corners</h3>
+          <div class="prose">
+            <p>Look at the sides of the top layer for two corners with the same color on one side. Cubers call them headlights. Hold the headlights at the back and do <code class="alg-inline">R' F R' B2 R F' R' B2 R2</code>. No headlights anywhere? Do it once from any side, and they'll appear. Finish by turning <code class="mv">U</code> to line the corners up with the centers.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="corners">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Headlights to the back</h4>
+                <p>The matching corners are on the front at the start. <code class="mv">U2</code> sends them to the back, then the algorithm places the other two.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="t7">
+          <h3><span class="step-no">3.7</span>Yellow edges</h3>
+          <div class="prose">
+            <p>Hold a fully solved side at the back and do <code class="alg-inline">R U' R U R U R U' R' U' R2</code>. If the edges still aren't right, do it once more. No solved side? Do it once from anywhere, then look again.</p>
+          </div>
+          <div class="note"><p><b>Two edges need to swap and nothing else?</b> That's the other kind of parity: see <a href="#p2">step 4.2</a>.</p></div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="edges">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>The last three edges</h4>
+                <p>Turn the whole cube (<code class="mv">y2</code>) to put the solved side at the back. This case needs the algorithm twice.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== STAGE 4 ===================== -->
+      <section class="sheet glass" id="parity" aria-labelledby="parity-h">
+        <div class="sheet-head"><span class="stage-num" aria-hidden="true">4</span><div><h2 id="parity-h">Parity</h2><p>Two positions a 3×3 never shows you.</p></div></div>
+        <div class="prose">
+          <p>Pairing edges can leave the 4×4 in a position no 3×3 can reach. You didn't make a mistake: it comes from the way the edges happened to pair up. Each case has one fix, and about three solves in four need at least one of them.</p>
+        </div>
+
+        <div class="step" id="p1">
+          <h3><span class="step-no">4.1</span>OLL parity: one flipped edge</h3>
+          <div class="prose">
+            <p><b>When you'll see it:</b> at the yellow cross, there are one or three yellow edges on top. Hold the cube with a non-yellow edge at the front and do:</p>
+            <p><code class="alg-inline">Rw U2 x Rw U2 Rw U2 Rw' U2 Lw U2 Rw' U2 Rw U2 Rw' U2 Rw'</code></p>
+            <p>It flips that edge and leaves the first two layers alone. The rest of the top layer gets mixed up, which doesn't matter: go back to the yellow cross. The <code class="mv">x</code> halfway through means turn the whole cube like an <code class="mv">R</code> move, then carry on.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="ollParity">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Three edges become four</h4>
+                <p><code class="mv">U</code> brings the flipped edge to the front. After the algorithm all four yellow edges are up.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="step" id="p2">
+          <h3><span class="step-no">4.2</span>PLL parity: two swapped edges</h3>
+          <div class="prose">
+            <p><b>When you'll see it:</b> at the very end, two edges need to swap and everything else is solved. Hold the two edges at the front and back and do:</p>
+            <p><code class="alg-inline">r2 U2 r2 Uw2 r2 Uw2</code>, then <code class="mv">U2</code></p>
+            <p><code class="mv">r2</code> turns only the second layer from the right; <code class="mv">Uw2</code> turns the top two layers. If the two edges are next to each other instead, do the algorithm and <code class="mv">U2</code> from any side, then finish with step 3.7.</p>
+          </div>
+          <div class="demos">
+            <figure class="demo glass thick" data-case="pllParity">
+              <div class="demo-side"></div>
+              <figcaption class="demo-body">
+                <h4>Swap front and back</h4>
+                <p>The green and blue edges are swapped. Six moves and a <code class="mv">U2</code> later, the cube is solved.</p>
+                <div class="algs"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CHEAT SHEET ===================== -->
+      <section class="sheet glass" id="sheet" aria-labelledby="sheet-h">
+        <div class="sheet-head"><div><p class="eyebrow" style="margin-bottom:6px">Reference</p><h2 id="sheet-h">Cheat sheet</h2><p>All 14 algorithms on one screen.</p></div></div>
+        <div class="table-wrap">
+          <table class="sheet-t">
+            <thead><tr><th scope="col">Step</th><th scope="col">Algorithm</th><th scope="col">Use it when</th></tr></thead>
+            <tbody>
+              <tr class="grp"><th colspan="3" scope="rowgroup">1 · Centers</th></tr>
+              <tr><th scope="row"><a href="#c2">Insert from the front</a></th><td class="a">Rw U Rw'</td><td class="w">Piece at the front's bottom-right, gap at the top's back-left.</td></tr>
+              <tr><th scope="row"><a href="#c2">Insert a bar</a></th><td class="a">Rw U2 Rw'</td><td class="w">Two pieces stacked in the front's right column, top's left side empty.</td></tr>
+              <tr><th scope="row"><a href="#c4">Insert from the bottom</a></th><td class="a">Rw2 U Rw2</td><td class="w">Piece at the back-right of the bottom center, gap at the top's back-left.</td></tr>
+              <tr class="grp"><th colspan="3" scope="rowgroup">2 · Edges</th></tr>
+              <tr><th scope="row"><a href="#e1">Pair</a></th><td class="a">Dw R U R' F R' F' R Dw'</td><td class="w">Matching pieces at the bottom of the front-left and front-right edges.</td></tr>
+              <tr><th scope="row"><a href="#e2">Flip the right edge</a></th><td class="a">R U R' F R' F' R</td><td class="w">The matching pieces are at different heights.</td></tr>
+              <tr class="grp"><th colspan="3" scope="rowgroup">3 · Like a 3×3</th></tr>
+              <tr><th scope="row"><a href="#t2">White corners</a></th><td class="a">R U R' U'</td><td class="w">Corner above its spot at the front-right. Repeat until it's in.</td></tr>
+              <tr><th scope="row"><a href="#t3">Middle edge, right</a></th><td class="a">U R U' R' U' F' U F</td><td class="w">Front color matches, top color matches the right center.</td></tr>
+              <tr><th scope="row"><a href="#t3">Middle edge, left</a></th><td class="a">U' L' U L U F U' F'</td><td class="w">Front color matches, top color matches the left center.</td></tr>
+              <tr><th scope="row"><a href="#t4">Yellow cross</a></th><td class="a">F R U R' U' F'</td><td class="w">Dot, L at the back-left, or line held left to right.</td></tr>
+              <tr><th scope="row"><a href="#t5">Yellow face (Sune)</a></th><td class="a">R U R' U R U2 R'</td><td class="w">Hold by the number of yellow corners, repeat.</td></tr>
+              <tr><th scope="row"><a href="#t6">Yellow corners</a></th><td class="a">R' F R' B2 R F' R' B2 R2</td><td class="w">Headlights at the back.</td></tr>
+              <tr><th scope="row"><a href="#t7">Yellow edges</a></th><td class="a">R U' R U R U R U' R' U' R2</td><td class="w">Solved side at the back, repeat if needed.</td></tr>
+              <tr class="grp"><th colspan="3" scope="rowgroup">4 · Parity</th></tr>
+              <tr><th scope="row"><a href="#p1">OLL parity</a></th><td class="a">Rw U2 x Rw U2 Rw U2 Rw' U2 Lw U2 Rw' U2 Rw U2 Rw' U2 Rw'</td><td class="w">One or three yellow edges up. Flipped edge at the front.</td></tr>
+              <tr><th scope="row"><a href="#p2">PLL parity</a></th><td class="a">r2 U2 r2 Uw2 r2 Uw2 U2</td><td class="w">Only two edges swapped. Hold them front and back.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p class="by">A vibecoding by Ranran Li · <a href="../">ranranli.net</a></p>
+  <p>Notation follows the WCA convention: <code class="mv">Rw</code> turns the two right layers, <code class="mv">r</code> turns the second layer only. Every algorithm and demo on this page was checked on a simulated 4×4. In full, the cube has <span class="num-long">7,401,196,841,564,901,869,874,093,974,498,574,336,000,000,000</span> positions.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Tiny N×N×N cube model: cubies with integer positions + orientation matrices.
+   Coordinates: cubie centres at -M..M in steps of 2 (M = N-1). x→R, y→U, z→F.
+   Notation: R L U D F B (outer), Rw (two outer layers), 3Rw, 2R or r (second layer only),
+   x y z (whole cube). Suffixes ' and 2. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.CubeEngine = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+  const I3 = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  const ROT90 = [
+    [1, 0, 0, 0, 0, -1, 0, 1, 0],   // +90° about x
+    [0, 0, 1, 0, 1, 0, -1, 0, 0],   // +90° about y
+    [0, -1, 0, 1, 0, 0, 0, 0, 1],   // +90° about z
+  ];
+  function mul(a, b) {
+    const r = new Array(9);
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++)
+      r[i * 3 + j] = a[i * 3] * b[j] + a[i * 3 + 1] * b[3 + j] + a[i * 3 + 2] * b[6 + j];
+    return r;
+  }
+  function mvec(m, v) {
+    return [m[0] * v[0] + m[1] * v[1] + m[2] * v[2], m[3] * v[0] + m[4] * v[1] + m[5] * v[2], m[6] * v[0] + m[7] * v[1] + m[8] * v[2]];
+  }
+  const ROTS = [0, 1, 2].map(ax => { const o = [I3]; for (let q = 1; q < 4; q++) o.push(mul(ROT90[ax], o[q - 1])); return o; });
+  const rot = (axis, q) => ROTS[axis][((q % 4) + 4) % 4];
+
+  const FACE = {
+    R: { axis: 0, sign: 1, dir: -1 }, L: { axis: 0, sign: -1, dir: 1 },
+    U: { axis: 1, sign: 1, dir: -1 }, D: { axis: 1, sign: -1, dir: 1 },
+    F: { axis: 2, sign: 1, dir: -1 }, B: { axis: 2, sign: -1, dir: 1 },
+  };
+  const WHOLE = { x: 'R', y: 'U', z: 'F' };
+  const NORMAL = { U: [0, 1, 0], D: [0, -1, 0], F: [0, 0, 1], B: [0, 0, -1], R: [1, 0, 0], L: [-1, 0, 0] };
+  const SCHEME = { U: 'W', D: 'Y', F: 'G', B: 'B', R: 'R', L: 'O' };
+  const FACES = ['U', 'D', 'F', 'B', 'R', 'L'];
+
+  function faceOf(n) {
+    if (n[0] === 1) return 'R'; if (n[0] === -1) return 'L';
+    if (n[1] === 1) return 'U'; if (n[1] === -1) return 'D';
+    if (n[2] === 1) return 'F'; return 'B';
+  }
+
+  function solved(N = 4) {
+    const M = N - 1, cubies = [];
+    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) for (let k = 0; k < N; k++) {
+      const p = [2 * i - M, 2 * j - M, 2 * k - M];
+      const outer = p.filter(c => Math.abs(c) === M).length;
+      if (!outer) continue;
+      const stickers = [];
+      for (const f of FACES) {
+        const n = NORMAL[f], ax = n.findIndex(c => c !== 0);
+        if (p[ax] === n[ax] * M) stickers.push({ face: f, n, color: SCHEME[f] });
+      }
+      cubies.push({ id: cubies.length, home: p.slice(), pos: p.slice(), rot: I3.slice(),
+        type: outer === 3 ? 'corner' : outer === 2 ? 'edge' : 'center', stickers });
+    }
+    return { N, cubies };
+  }
+
+  function clone(st) {
+    return { N: st.N, cubies: st.cubies.map(c => ({ ...c, pos: c.pos.slice(), rot: c.rot.slice() })) };
+  }
+
+  function range(a, b) { const o = []; for (let i = a; i <= b; i++) o.push(i); return o; }
+
+  function tokenize(alg) {
+    return String(alg).replace(/[()\[\]]/g, ' ').replace(/[’`]/g, "'").split(/\s+/).filter(Boolean);
+  }
+
+  function parseMove(tok, N = 4) {
+    const t = tok.replace(/[’`]/g, "'");
+    const m = /^(\d*)([RLUDFBrludfbxyz])(w?)(2'|'2|2|'|)$/.exec(t);
+    if (!m) throw new Error('Bad move: ' + tok);
+    const pre = m[1], L = m[2], w = m[3], suf = m[4];
+    let face, depths;
+    if ('xyz'.includes(L)) { face = WHOLE[L]; depths = range(1, N); }
+    else if (L !== L.toUpperCase()) { face = L.toUpperCase(); depths = [2]; }
+    else {
+      face = L;
+      if (w) depths = range(1, pre ? +pre : 2);
+      else depths = [pre ? +pre : 1];
+    }
+    const F = FACE[face];
+    const layers = depths.map(d => F.sign * (N - 1 - 2 * (d - 1)));
+    let q = F.dir;
+    if (suf === "'") q = -F.dir;
+    else if (suf === '2') q = 2 * F.dir;
+    else if (suf) q = -2 * F.dir;
+    return { axis: F.axis, layers, q, name: t, whole: 'xyz'.includes(L) };
+  }
+
+  function applyMove(st, mv) {
+    if (typeof mv === 'string') mv = parseMove(mv, st.N);
+    const R = rot(mv.axis, mv.q);
+    for (const c of st.cubies) if (mv.layers.includes(c.pos[mv.axis])) { c.pos = mvec(R, c.pos); c.rot = mul(R, c.rot); }
+    return st;
+  }
+  function applyAlg(st, alg) { for (const t of tokenize(alg)) applyMove(st, parseMove(t, st.N)); return st; }
+
+  function invertToken(t) {
+    t = t.replace(/[’`]/g, "'");
+    if (t.endsWith("2'")) return t.slice(0, -1);
+    if (t.endsWith("'2")) return t.slice(0, -2) + '2';
+    if (t.endsWith('2')) return t;
+    if (t.endsWith("'")) return t.slice(0, -1);
+    return t + "'";
+  }
+  function invertAlg(alg) { return tokenize(alg).reverse().map(invertToken).join(' '); }
+
+  // facelet grids, each face N×N row-major as seen from outside (net orientation)
+  function gridRC(f, p, M) {
+    const x = p[0], y = p[1], z = p[2], idx = v => (v + M) / 2, rev = v => (M - v) / 2;
+    switch (f) {
+      case 'U': return [idx(z), idx(x)];
+      case 'D': return [rev(z), idx(x)];
+      case 'F': return [rev(y), idx(x)];
+      case 'B': return [rev(y), rev(x)];
+      case 'R': return [rev(y), rev(z)];
+      case 'L': return [rev(y), idx(z)];
+    }
+  }
+  function facelets(st) {
+    const N = st.N, M = N - 1, out = {};
+    for (const f of FACES) out[f] = new Array(N * N).fill(null);
+    for (const c of st.cubies) for (const s of c.stickers) {
+      const n = mvec(c.rot, s.n), f = faceOf(n), rc = gridRC(f, c.pos, M);
+      out[f][rc[0] * N + rc[1]] = { color: s.color, cubie: c, sticker: s };
+    }
+    return out;
+  }
+  function colors(st) {
+    const fl = facelets(st), o = {};
+    for (const f of FACES) o[f] = fl[f].map(x => x.color).join('');
+    return o;
+  }
+
+  // sticker lookup by position + normal
+  function stickerMap(st) {
+    const m = new Map();
+    for (const c of st.cubies) for (const s of c.stickers) m.set(c.pos.join(',') + '|' + mvec(c.rot, s.n).join(','), s.color);
+    return m;
+  }
+
+  const AXF = [{ 1: 'R', '-1': 'L' }, { 1: 'U', '-1': 'D' }, { 1: 'F', '-1': 'B' }];
+  const ORDER = 'UDFBRL';
+  // dedge slots for N=4: are the two wings matched?
+  function dedges(st) {
+    const M = st.N - 1, map = stickerMap(st), res = [];
+    for (const [a, b] of [[1, 2], [1, 0], [2, 0]]) for (const sa of [1, -1]) for (const sb of [1, -1]) {
+      const c = 3 - a - b, wings = [];
+      for (let t = -(M - 2); t <= M - 2; t += 2) {
+        const p = [0, 0, 0]; p[a] = sa * M; p[b] = sb * M; p[c] = t;
+        const na = [0, 0, 0]; na[a] = sa; const nb = [0, 0, 0]; nb[b] = sb;
+        wings.push({ t, ca: map.get(p.join(',') + '|' + na.join(',')), cb: map.get(p.join(',') + '|' + nb.join(',')) });
+      }
+      const fa = AXF[a][sa], fb = AXF[b][sb];
+      const name = ORDER.indexOf(fa) < ORDER.indexOf(fb) ? fa + fb : fb + fa;
+      const paired = wings.every(w => w.ca === wings[0].ca && w.cb === wings[0].cb);
+      res.push({ slot: name, faces: [fa, fb], paired, wings });
+    }
+    return res;
+  }
+  function centersSolved(st) {
+    const N = st.N, col = colors(st);
+    for (const f of FACES) {
+      const s = new Set();
+      for (let r = 1; r < N - 1; r++) for (let c = 1; c < N - 1; c++) s.add(col[f][r * N + c]);
+      if (s.size !== 1) return false;
+    }
+    return true;
+  }
+  function isSolved(st) {
+    const col = colors(st);
+    return FACES.every(f => new Set(col[f]).size === 1);
+  }
+
+  return { solved, clone, tokenize, parseMove, applyMove, applyAlg, invertAlg, invertToken, facelets, colors,
+    stickerMap, dedges, centersSolved, isSolved, FACES, SCHEME, NORMAL, mvec, mul, rot };
+});
+
+</script>
+<script>
+(function () {
+'use strict';
+const C = window.CubeEngine;
+const DATA = {"daisy":{"scr":"F2 R2 B2 L2 R2 U R U R' U' R' U' R' U R' U","steps":[{"label":"Match red, then L2","alg":"U L2"},{"label":"Match green, then F2","alg":"U F2"},{"label":"Match orange, then R2","alg":"R2"},{"label":"Match blue, then B2","alg":"U B2"}]},"firstLayer":{"scr":"U R U' R' U R U' R' U R U' R'","steps":[{"label":"Repeat 1","alg":"R U R' U'"},{"label":"Repeat 2","alg":"R U R' U'"},{"label":"Repeat 3","alg":"R U R' U'"}],"k":3},"secondRight":{"scr":"F' U' F U R U R' U'","steps":[{"label":"Insert right","alg":"U R U' R' U' F' U F"}]},"secondLeft":{"scr":"F U F' U' L' U' L U","steps":[{"label":"Insert left","alg":"U' L' U L U F U' F'"}]},"pllParity":{"scr":"U2 Uw2 r2 Uw2 r2 U2 r2","steps":[{"label":"PLL parity","alg":"r2 U2 r2 Uw2 r2 Uw2"},{"label":"Line up the top","alg":"U2"}]},"firstCenter":{"scr":"R L Dw2 F2 B D F' L Bw2 B2 Dw' R2 Fw2 Dw' Fw Dw2 F Bw D R R' Dw F Fw2 Fw","sol":"Rw U Rw' U Lw2"},"yellow":{"scr":"Uw2 R2 Lw' U Lw y F2 Dw2 Uw d2 d' Uw2 U2 Rw U2 Rw' d2 d d2 R R U' F' y u' u R2 R Uw U R2 d2 R' Rw U Rw'","steps":["F U Rw U Rw'","F2 Rw U Rw'","y' F2 U' Rw U Rw'"]},"third":{"base":"z' x","scr":"B Lw' Lw2 F' Rw Rw2 Lw Rw' F' B B' D2 F B D2 D' U2 U D' U2 F B2 D2 Rw' Lw2","sol":"Rw U Rw' U' Rw'","score":0},"fourth":{"base":"z' x2","scr":"F Rw U' Rw' Rw U' Rw' D2 F' F Rw U Rw' D' Rw U Rw' F2 D2 Rw2 U2 Rw2 U F2 F Rw U Rw' D Rw2 U Rw2 Rw2 U' Rw2 Rw2 U Rw2 U D Rw U Rw' F","steps":["U Rw U Rw'","Rw2 U Rw2","D2 U2 Rw2 U Rw2"]},"lastTwo":{"base":"z' x'","scr":"F' F' U2 Rw U2 Rw' Rw U2 Rw' U2 F' U Rw U' Rw' U U2 F F Rw U' Rw' F' F' F Rw U' Rw' Rw U' Rw' U2","steps":["F U2 Rw U Rw'","F2 Rw U Rw'"]},"edgeSame":{"scr":"U F2 D D Dw R U R' F R' F' R Dw' D U2 L Uw' R U R' F R' F' R Uw U2 D2 R' B L F2 Dw R U R' F R' F' R Dw' U' U B2 Uw' R U R' F R' F' R Uw L U L2 L2 F2 L2 Dw R U R' F R' F' R Dw' F R2 D2 Uw' R U R' F R' F' R Uw D' R B' D2 U2 R' Dw R U R' F R' F' R Dw' F2 F' L' Uw' R U R' F R' F' R Uw F' B2 D L2 L' B Dw R U R' F R' F' R Dw' U' R' L2 Uw' R U R' F R' F' R Uw F2 L U' B2 F R' Dw R U R' F R' F' R Dw' D' L2 D2 Uw' R U R' F R' F' R Uw U' R F F R' D2 Dw R U R' F R' F' R Dw' F' B2 U Uw' R U R' F R' F' R Uw U' B2","kind":"same"},"edgeCross":{"scr":"D2 D' R' B' Dw R U R' F R' F' R Dw' F L D' Uw' R U R' F R' F' R Uw U U' B F2 B' F' Dw R U R' F R' F' R Dw' L R2 U' Uw' R U R' F R' F' R Uw R2 L' U' U F' R' Dw R U R' F R' F' R Dw' D D F2 Uw' R U R' F R' F' R Uw D2 R B' L B D' Dw R U R' F R' F' R Dw' D2 F L' Uw' R U R' F R' F' R Uw L D U' R D U' Dw R U R' F R' F' R Dw' B2 L U2 Uw' R U R' F R' F' R Uw U2 B' F F2 R' R2 Dw R U R' F R' F' R Dw' F' L2 L Uw' R U R' F R' F' R Uw U2 U2 D2 R' R2 L Dw R U R' F R' F' R Dw' U F2 L' Uw' R U R' F R' F' R Uw B2 B'","kind":"cross"},"lastTwoEdges":{"scr":"L' D U' F2 R U' U2 B2 D2 F' U' B2 F' U2 U' U2 D' R' R2 L' Dw R U R' F R' F' R Dw' L2 R R' R2 B2 F2 F' U L' R2 L' L2 D2 L2"},"cross":{"scr":"U2 U U' R' F R' B2 R F' R' B2 R2 U' R' F R' B2 R F' R' B2 R2 U F R U R' U' F' R U R' U R U2 R' U F R U R' U' F' R' F R' B2 R F' R' B2 R2","steps":[{"label":"Dot \u2192 L-shape","alg":"F R U R' U' F'"},{"label":"Turn the L to the back-left","alg":"U2"},{"label":"L-shape \u2192 line","alg":"F R U R' U' F'"},{"label":"Line \u2192 cross","alg":"F R U R' U' F'"}]},"sune":{"scr":"R U R' U R U2 R' R U R' U R U2 R' R' F R' B2 R F' R' B2 R2 U2 U2 R U' R U R U R U' R' U' R2 R U' R U R U R U' R' U' R2 R U' R U R U R U' R' U' R2 R' F R' B2 R F' R' B2 R2 R U' R U R U R U' R' U' R2","steps":[{"label":"Hold it right","alg":"U","note":"No yellow corners: yellow on the left of the front-left corner"},{"label":"Sune","alg":"R U R' U R U2 R'","note":"No yellow corners: yellow on the left of the front-left corner"},{"label":"Hold it right","alg":"U'","note":"One yellow corner: put it at front-left"},{"label":"Sune","alg":"R U R' U R U2 R'","note":"One yellow corner: put it at front-left"}]},"corners":{"scr":"U' R' F R' B2 R F' R' B2 R2 U R' F R' B2 R F' R' B2 R2 R' F R' B2 R F' R' B2 R2 R' F R' B2 R F' R' B2 R2","steps":[{"label":"Headlights to the back","alg":"U2"},{"label":"Swap the corners","alg":"R' F R' B2 R F' R' B2 R2"}]},"edges":{"scr":"y' R U' R U R U R U' R' U' R2 y y2 y'","steps":[{"label":"Solved side to the back","alg":"y2"},{"label":"Cycle the edges","alg":"R U' R U R U R U' R' U' R2"},{"label":"Cycle the edges","alg":"R U' R U R U R U' R' U' R2"}]},"ollParity":{"scr":"F R U R' U' F' U R' F R' B2 R F' R' B2 R2 R' F R' B2 R F' R' B2 R2 R U R' U R U2 R' U Rw U2 x Rw U2 Rw U2 Rw' U2 Lw U2 Rw' U2 Rw U2 Rw' U2 Rw' U U U2","steps":[{"label":"Bad edge to the front","alg":"U"},{"label":"OLL parity","alg":"Rw U2 x Rw U2 Rw U2 Rw' U2 Lw U2 Rw' U2 Rw U2 Rw' U2 Rw'"}]}};
+
+// ---------------------------------------------------------------- colours & masks
+// macaron palette, matched to a stickerless pastel 4x4
+const HEX = { W: '#F7F5F0', Y: '#F6E49A', R: '#F2AEBF', O: '#F7C29B', B: '#9DCFE7', G: '#9DD7BF', X: '#A9AEB6' };
+const TONE = {};
+function tone(hex) { // the darker plastic seen in the grooves around each tile
+  if (TONE[hex]) return TONE[hex];
+  const n = parseInt(hex.slice(1), 16), f = v => Math.round(v * 0.84).toString(16).padStart(2, '0');
+  return (TONE[hex] = '#' + f(n >> 16 & 255) + f(n >> 8 & 255) + f(n & 255));
+}
+const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function st0(base, scr) { return C.applyAlg(C.applyAlg(C.solved(4), base || ''), scr || ''); }
+
+function makeMask(spec, start) {
+  if (!spec || spec.all) return () => true;
+  const hl = new Set();
+  if (spec.hl) for (const p of spec.hl) { const c = start.cubies.find(q => q.pos.join() === p.join()); if (c) hl.add(c.id); }
+  return (cubie, s) => {
+    const cols = cubie.stickers.map(x => x.color);
+    if (spec.yellowOnly) return !cols.includes('Y') || s.color === 'Y';
+    if (spec.noYellow) return !cols.includes('Y');
+    if (spec.whitePieces) return cubie.type === 'center' || cols.includes('W');
+    if (spec.whiteEdges) return cubie.type === 'center' || (cubie.type === 'edge' && cols.includes('W'));
+    if (cubie.type === 'center') return spec.centers === true || (typeof spec.centers === 'string' && spec.centers.includes(s.color));
+    if (cubie.type === 'edge') return spec.edges === true || hl.has(cubie.id);
+    return spec.corners === true;
+  };
+}
+const colorOf = (mask, f) => mask(f.cubie, f.sticker) ? HEX[f.color] : HEX.X;
+
+// ---------------------------------------------------------------- SVG drawings
+const DEF_VIEW = { az: 35, el: 28 };
+function isoSVG(st, mask, view) {
+  const v = view || DEF_VIEW, az = v.az * Math.PI / 180, el = v.el * Math.PI / 180;
+  const ca = Math.cos(az), sa = Math.sin(az), ce = Math.cos(el), se = Math.sin(el);
+  const P = (x, y, z) => { const x1 = x * ca - z * sa, z1 = x * sa + z * ca; return [x1, -(y * ce - z1 * se)]; };
+  const map = { U: (u, w) => P(-2 + u, 2, -2 + w), F: (u, w) => P(-2 + u, 2 - w, 2), R: (u, w) => P(2, 2 - w, 2 - u) };
+  const fl = C.facelets(st);
+  const pts = a => a.map(p => p[0].toFixed(3) + ',' + p[1].toFixed(3)).join(' ');
+  let body = '', stick = '', shade = '', minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
+  const m = 0.03, ins = 0.075;
+  for (const f of ['U', 'F', 'R']) {
+    const q = [map[f](-m, -m), map[f](4 + m, -m), map[f](4 + m, 4 + m), map[f](-m, 4 + m)];
+    for (const p of q) { minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]); minY = Math.min(minY, p[1]); maxY = Math.max(maxY, p[1]); }
+    body += `<polygon class="cb-body" points="${pts(q)}" stroke-linejoin="round"/>`;
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const col = colorOf(mask, fl[f][r * 4 + c]);
+      const cellQ = [map[f](c, r), map[f](c + 1, r), map[f](c + 1, r + 1), map[f](c, r + 1)];
+      const s = [map[f](c + ins, r + ins), map[f](c + 1 - ins, r + ins), map[f](c + 1 - ins, r + 1 - ins), map[f](c + ins, r + 1 - ins)];
+      stick += `<polygon points="${pts(cellQ)}" fill="${tone(col)}"/><polygon points="${pts(s)}" fill="${col}" stroke="${col}" stroke-width=".05" stroke-linejoin="round"/>`;
+    }
+    if (f !== 'U') shade += `<polygon points="${pts(q)}" fill="#1B2233" fill-opacity="${f === 'F' ? 0.035 : 0.1}"/>`;
+  }
+  const pad = 0.35, w = maxX - minX + 2 * pad, h = maxY - minY + 2 * pad;
+  return `<svg viewBox="${(minX - pad).toFixed(3)} ${(minY - pad).toFixed(3)} ${w.toFixed(3)} ${h.toFixed(3)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${body}${stick}${shade}</svg>`;
+}
+function netSVG(st, mask) {
+  const fl = C.facelets(st), cell = 10, fs = 40, gap = 3;
+  const pos = { U: [1, 0], L: [0, 1], F: [1, 1], R: [2, 1], B: [3, 1], D: [1, 2] };
+  let s = '';
+  for (const f in pos) {
+    const x0 = pos[f][0] * (fs + gap), y0 = pos[f][1] * (fs + gap);
+    s += `<rect class="cb-body" x="${x0 - 0.6}" y="${y0 - 0.6}" width="${fs + 1.2}" height="${fs + 1.2}" rx="3.2"/>`;
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const col = colorOf(mask, fl[f][r * 4 + c]), x = x0 + c * cell, y = y0 + r * cell;
+      s += `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="${(r === 0 && c === 0) || (r === 3 && c === 3) || (r === 0 && c === 3) || (r === 3 && c === 0) ? 2.4 : 0}" fill="${tone(col)}"/><rect x="${x + 0.8}" y="${y + 0.8}" width="8.4" height="8.4" rx="1.9" fill="${col}"/>`;
+    }
+  }
+  const W = 4 * fs + 3 * gap, H = 3 * fs + 2 * gap;
+  return `<svg class="net" viewBox="-1 -1 ${W + 2} ${H + 2}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${s}</svg>`;
+}
+
+// ---------------------------------------------------------------- demo cases
+const PAIR = "Dw R U R' F R' F' R Dw'", FLIP = "R U R' F R' F' R", SUNE = "R U R' U R U2 R'";
+const V_EDGE = { az: 24, el: 20 }, V_TOP = { az: 35, el: 36 }, V_LOW = { az: 38, el: 14 };
+function insertSegs(steps, name) {
+  const segs = [];
+  steps.forEach((s, k) => {
+    const t = C.tokenize(s), trig = t.slice(-3).join(' '), setup = t.slice(0, -3).join(' ');
+    const what = name ? name(trig, k) : 'Piece ' + (k + 1);
+    if (setup) segs.push({ label: what + ': set up', alg: setup });
+    segs.push({ label: what + ': insert', alg: trig });
+  });
+  return segs;
+}
+const CASES = {
+  firstCenter: { base: '', scr: DATA.firstCenter.scr, segs: [{ label: '', alg: DATA.firstCenter.sol }], mask: { centers: 'W' }, net: true },
+  yellowOne: { base: 'x2', scr: C.invertAlg("Rw U Rw'"), segs: [{ label: 'Insert', alg: "Rw U Rw'" }], mask: { centers: 'WY' }, net: true },
+  yellow: { base: 'x2', scr: DATA.yellow.scr, segs: insertSegs(DATA.yellow.steps), mask: { centers: 'WY' }, net: true },
+  yellowBar: { base: 'x2', scr: "Rw U2 Rw'", segs: [{ label: 'Insert both', alg: "Rw U2 Rw'" }], mask: { centers: 'WY' }, net: true },
+  third: { base: "z' x", scr: DATA.third.scr, segs: [{ label: '', alg: DATA.third.sol }], mask: { centers: 'WYG' }, net: true },
+  fourth: { base: "z' x2", scr: DATA.fourth.scr, segs: insertSegs(DATA.fourth.steps, (t, k) => 'Piece ' + (k + 1) + (t.startsWith('Rw2') ? ', from the bottom' : ', from the front')), mask: { centers: 'WYGO' }, net: true },
+  lastTwo: { base: "z' x'", scr: DATA.lastTwo.scr, segs: insertSegs(DATA.lastTwo.steps), mask: { centers: 'WYGOBR' }, net: true },
+  edgeSame: { base: '', scr: DATA.edgeSame.scr, segs: [{ label: 'Pair', alg: PAIR }, { label: 'Put the pair away', alg: "R U R'" }], mask: { centers: true, hl: [[-3, -1, 3], [3, -1, 3]] }, view: V_EDGE },
+  edgeCross: { base: '', scr: DATA.edgeCross.scr, segs: [{ label: 'Flip the right edge', alg: FLIP }, { label: 'Pair', alg: PAIR }], mask: { centers: true, hl: [[-3, -1, 3], [3, 1, 3]] }, view: V_EDGE },
+  lastTwoEdges: { base: '', scr: DATA.lastTwoEdges.scr, segs: [{ label: 'Pair both', alg: PAIR }], mask: { centers: true, edges: true }, view: V_EDGE },
+  daisy: { base: 'z2', scr: DATA.daisy.scr, segs: DATA.daisy.steps, mask: { whiteEdges: true }, net: true, view: V_TOP },
+  firstLayer: { base: 'z2', scr: DATA.firstLayer.scr, segs: DATA.firstLayer.steps, mask: { whitePieces: true }, view: V_LOW },
+  secondRight: { base: 'z2', scr: DATA.secondRight.scr, segs: DATA.secondRight.steps, mask: { noYellow: true } },
+  secondLeft: { base: 'z2', scr: DATA.secondLeft.scr, segs: DATA.secondLeft.steps, mask: { noYellow: true } },
+  cross: { base: 'z2', scr: DATA.cross.scr, segs: DATA.cross.steps, mask: { yellowOnly: true }, view: V_TOP },
+  sune: { base: 'z2', scr: DATA.sune.scr, segs: [
+    { label: 'None yet: yellow faces left', alg: DATA.sune.steps[0].alg }, { label: 'Sune', alg: SUNE },
+    { label: 'One: bring it to the front-left', alg: DATA.sune.steps[2].alg }, { label: 'Sune', alg: SUNE }], mask: { yellowOnly: true }, view: V_TOP },
+  corners: { base: 'z2', scr: DATA.corners.scr, segs: DATA.corners.steps, view: V_TOP },
+  edges: { base: 'z2', scr: DATA.edges.scr, segs: DATA.edges.steps, view: V_TOP },
+  ollParity: { base: 'z2', scr: DATA.ollParity.scr, segs: DATA.ollParity.steps, mask: { yellowOnly: true }, view: V_TOP },
+  pllParity: { base: 'z2', scr: DATA.pllParity.scr, segs: DATA.pllParity.steps, view: V_TOP },
+};
+
+// ---------------------------------------------------------------- 3D cube (three.js)
+const HAS3D = (function () {
+  try { if (!window.THREE) return false; const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; }
+})();
+let SHARED = null;
+function shared() {
+  if (SHARED) return SHARED;
+  const T = THREE;
+  const box = new T.BoxGeometry(0.96, 0.96, 0.96, 4, 4, 4);
+  { const p = box.attributes.position, v = new T.Vector3(), inner = new T.Vector3(), rad = 0.06, h = 0.48 - rad;
+    for (let i = 0; i < p.count; i++) { v.fromBufferAttribute(p, i); inner.set(Math.max(-h, Math.min(h, v.x)), Math.max(-h, Math.min(h, v.y)), Math.max(-h, Math.min(h, v.z))); v.sub(inner); if (v.lengthSq() > 0) v.normalize().multiplyScalar(rad); v.add(inner); p.setXYZ(i, v.x, v.y, v.z); }
+    box.computeVertexNormals(); }
+  const sh = new T.Shape(), a = 0.43, r = 0.13;
+  sh.moveTo(-a + r, -a); sh.lineTo(a - r, -a); sh.quadraticCurveTo(a, -a, a, -a + r); sh.lineTo(a, a - r); sh.quadraticCurveTo(a, a, a - r, a);
+  sh.lineTo(-a + r, a); sh.quadraticCurveTo(-a, a, -a, a - r); sh.lineTo(-a, -a + r); sh.quadraticCurveTo(-a, -a, -a + r, -a);
+  const st = new T.ShapeGeometry(sh, 4);
+  const mats = {}, tones = {};
+  const mat = (hex, rough) => { const m = new T.MeshStandardMaterial({ roughness: rough, metalness: 0.0 }); m.color.setHex(parseInt(hex.slice(1), 16)).convertSRGBToLinear(); return m; };
+  for (const k in HEX) { mats[k] = mat(HEX[k], 0.42); tones[k] = mat(tone(HEX[k]), 0.55); }
+  const inner = mat('#C9C4BE', 0.6);
+  SHARED = { box, st, mats, tones, inner, M4: new T.Matrix4(), AX: [new T.Vector3(1, 0, 0), new T.Vector3(0, 1, 0), new T.Vector3(0, 0, 1)] };
+  return SHARED;
+}
+const GI = { '1,0,0': 0, '-1,0,0': 1, '0,1,0': 2, '0,-1,0': 3, '0,0,1': 4, '0,0,-1': 5 };
+const ROT_FOR = { '1,0,0': [0, Math.PI / 2, 0], '-1,0,0': [0, -Math.PI / 2, 0], '0,1,0': [-Math.PI / 2, 0, 0], '0,-1,0': [Math.PI / 2, 0, 0], '0,0,1': [0, 0, 0], '0,0,-1': [0, Math.PI, 0] };
+
+function Cube3D() {
+  const T = THREE, S = shared();
+  this.canvas = document.createElement('canvas');
+  this.renderer = new T.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+  this.renderer.outputEncoding = T.sRGBEncoding;
+  this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  this.renderer.setClearColor(0x000000, 0);
+  this.scene = new T.Scene();
+  this.camera = new T.PerspectiveCamera(22, 1, 0.1, 100);
+  this.scene.add(this.camera);
+  this.scene.add(new T.HemisphereLight(0xffffff, 0xb4aec4, 0.74));
+  const key = new T.DirectionalLight(0xffffff, 0.62); key.position.set(3, 7, 8); this.camera.add(key);
+  const rim = new T.DirectionalLight(0xfff6ee, 0.3); rim.position.set(-7, 1, -2); this.camera.add(rim);
+  this.group = new T.Group(); this.scene.add(this.group);
+  this.state = C.solved(4); this.meshes = []; this.st = [];
+  for (const c of this.state.cubies) {
+    const faceMats = [S.inner, S.inner, S.inner, S.inner, S.inner, S.inner];
+    const m = new T.Mesh(S.box, faceMats);
+    const arr = c.stickers.map(s => { faceMats[GI[s.n.join()]] = S.tones[s.color]; const sm = new T.Mesh(S.st, S.mats[s.color]); sm.position.set(s.n[0] * 0.484, s.n[1] * 0.484, s.n[2] * 0.484); const rr = ROT_FOR[s.n.join()]; sm.rotation.set(rr[0], rr[1], rr[2]); m.add(sm); return sm; });
+    this.meshes.push(m); this.st.push(arr); this.group.add(m);
+  }
+  this.az = 35; this.el = 28; this.dist = 18.2; this.home = { az: 35, el: 28 };
+  this.mask = () => true; this.gen = 0; this.external = false; this.onDrag = null;
+  this.snapAll(); this.updateCamera(); this.bindDrag();
+  this.ro = new ResizeObserver(() => this.resize());
+}
+Cube3D.prototype.attach = function (host) { host.appendChild(this.canvas); this.ro.disconnect(); this.ro.observe(host); this.resize(); };
+Cube3D.prototype.resize = function () {
+  const host = this.canvas.parentElement; if (!host) return;
+  const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+  this.renderer.setSize(w, h, false); this.camera.aspect = w / h; this.camera.updateProjectionMatrix(); this.render();
+};
+Cube3D.prototype.updateCamera = function () {
+  const a = this.az * Math.PI / 180, e = this.el * Math.PI / 180, d = this.dist;
+  this.camera.position.set(d * Math.cos(e) * Math.sin(a), d * Math.sin(e), d * Math.cos(e) * Math.cos(a)); this.camera.lookAt(0, 0, 0);
+};
+Cube3D.prototype.setView = function (v) { this.home = { az: v.az, el: v.el }; this.az = v.az; this.el = v.el; this.updateCamera(); };
+Cube3D.prototype.setState = function (st, mask) {
+  this.gen++; this.state = C.clone(st); if (mask) this.mask = mask;
+  const S = shared();
+  this.state.cubies.forEach((c, i) => c.stickers.forEach((s, j) => { const k = this.mask(c, s) ? s.color : 'X'; this.st[i][j].material = S.mats[k]; this.meshes[i].material[GI[s.n.join()]] = S.tones[k]; }));
+  this.snapAll(); this.render();
+};
+Cube3D.prototype.snap = function (i) {
+  const c = this.state.cubies[i], m = this.meshes[i], r = c.rot, M4 = shared().M4;
+  m.position.set(c.pos[0] * 0.5, c.pos[1] * 0.5, c.pos[2] * 0.5);
+  M4.set(r[0], r[1], r[2], 0, r[3], r[4], r[5], 0, r[6], r[7], r[8], 0, 0, 0, 0, 1); m.quaternion.setFromRotationMatrix(M4);
+};
+Cube3D.prototype.snapAll = function () { for (let i = 0; i < this.meshes.length; i++) this.snap(i); };
+Cube3D.prototype.render = function () { this.renderer.render(this.scene, this.camera); };
+Cube3D.prototype.turn = function (token, ms) {
+  const mv = C.parseMove(token, 4), ids = [];
+  this.state.cubies.forEach((c, i) => { if (mv.layers.includes(c.pos[mv.axis])) ids.push(i); });
+  const axis = shared().AX[mv.axis], total = mv.q * Math.PI / 2, g = this.gen, self = this;
+  const finish = () => { C.applyMove(self.state, mv); ids.forEach(i => self.snap(i)); if (!self.external) self.render(); };
+  if (!ms) { finish(); return Promise.resolve(); }
+  const base = ids.map(i => ({ p: this.meshes[i].position.clone(), q: this.meshes[i].quaternion.clone() }));
+  const rq = new THREE.Quaternion();
+  return new Promise(res => {
+    const t0 = performance.now();
+    const tick = now => {
+      if (g !== self.gen) { res(false); return; }
+      const t = Math.min(1, (now - t0) / ms), e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      rq.setFromAxisAngle(axis, total * e);
+      ids.forEach((i, k) => { const m = self.meshes[i]; m.position.copy(base[k].p).applyQuaternion(rq); m.quaternion.copy(rq).multiply(base[k].q); });
+      if (!self.external) self.render();
+      if (t < 1) requestAnimationFrame(tick); else { finish(); res(true); }
+    };
+    requestAnimationFrame(tick);
+  });
+};
+Cube3D.prototype.bindDrag = function () {
+  const cv = this.canvas, self = this; let d = null;
+  cv.addEventListener('pointerdown', e => { d = { x: e.clientX, y: e.clientY, az: self.az, el: self.el }; try { cv.setPointerCapture(e.pointerId); } catch (_) {} self.dragging = true; });
+  cv.addEventListener('pointermove', e => {
+    if (!d) return;
+    self.az = d.az - (e.clientX - d.x) * 0.45; self.el = Math.max(-80, Math.min(80, d.el + (e.clientY - d.y) * 0.35));
+    self.updateCamera(); if (!self.external) self.render();
+  });
+  const end = () => { d = null; self.dragging = false; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('dblclick', () => { self.az = self.home.az; self.el = self.home.el; self.updateCamera(); if (!self.external) self.render(); });
+};
+
+// ---------------------------------------------------------------- icons
+const ICON = {
+  play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect fill="currentColor" x="6.5" y="5" width="4" height="14" rx="1.2"/><rect fill="currentColor" x="13.5" y="5" width="4" height="14" rx="1.2"/></svg>',
+  restart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4"/></svg>',
+  back: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 6.6v10.8a.9.9 0 0 1-1.4.74L8 12.74a.9.9 0 0 1 0-1.48l7.6-5.4A.9.9 0 0 1 17 6.6z"/><rect fill="currentColor" x="5.5" y="6" width="2.4" height="12" rx="1"/></svg>',
+  fwd: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 6.6v10.8a.9.9 0 0 0 1.4.74l7.6-5.4a.9.9 0 0 0 0-1.48l-7.6-5.4A.9.9 0 0 0 7 6.6z"/><rect fill="currentColor" x="16.1" y="6" width="2.4" height="12" rx="1"/></svg>',
+};
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ---------------------------------------------------------------- the shared player
+const Player = {
+  view: null, card: null, d: null, cur: null, idx: 0, hi: -1, playing: false, busy: false, gen: 0, speed: 1,
+  ensureView() {
+    if (this.view || !HAS3D) return this.view;
+    try { this.view = new Cube3D(); } catch (e) { this.view = null; }
+    return this.view;
+  },
+  dur(t) { const k = /2/.test(t) ? 1.45 : 1; return (reduceMotion ? 220 : 330) * k / this.speed; },
+  activate(card) {
+    if (this.card === card) return;
+    if (this.card) this.deactivate();
+    const d = card._demo; this.card = card; this.d = d;
+    this.gen++; this.idx = 0; this.hi = -1; this.playing = false; this.busy = false;
+    this.cur = C.clone(d.start);
+    card.classList.add('is-live');
+    if (this.ensureView()) {
+      d.preview.hidden = true; this.view.attach(d.screen); this.view.setView(d.cfg.view || DEF_VIEW); this.view.setState(d.start, d.mask);
+    }
+    this.sync();
+  },
+  deactivate() {
+    const d = this.d, card = this.card; this.gen++; this.playing = false; this.busy = false;
+    this.card = null; this.d = null; this.idx = 0; this.hi = -1;
+    if (this.view && this.view.canvas.parentElement === d.screen) d.screen.removeChild(this.view.canvas);
+    d.preview.hidden = false; d.preview.innerHTML = isoSVG(d.start, d.mask, d.cfg.view);
+    if (d.net) d.net.innerHTML = netSVG(d.start, d.mask);
+    card.classList.remove('is-live'); this.paint(d, 0, -1, false);
+  },
+  drawFallback() { if (!this.view) this.d.preview.innerHTML = isoSVG(this.cur, this.d.mask, this.d.cfg.view); },
+  turn(t, ms) {
+    C.applyAlg(this.cur, t);
+    if (this.view) return this.view.turn(t, ms);
+    this.drawFallback(); return sleep(ms);
+  },
+  reset(k) { // jump to the position before move k
+    this.gen++; this.playing = false; this.busy = false;
+    const d = this.d; this.cur = C.clone(d.start);
+    for (let i = 0; i < k; i++) C.applyAlg(this.cur, d.moves[i]);
+    this.idx = k; this.hi = k - 1;
+    if (this.view) this.view.setState(this.cur, d.mask); else this.drawFallback();
+    this.sync();
+  },
+  async step(dir) {
+    if (!this.d || this.busy) return false;
+    const d = this.d, g = this.gen;
+    if (dir > 0 && this.idx >= d.moves.length) return false;
+    if (dir < 0 && this.idx <= 0) return false;
+    this.busy = true;
+    const k = dir > 0 ? this.idx : this.idx - 1; this.hi = k; this.sync();
+    const t = dir > 0 ? d.moves[k] : C.invertToken(d.moves[k]);
+    await this.turn(t, this.dur(t));
+    if (g !== this.gen) return false;
+    this.busy = false; this.idx += dir; this.hi = this.idx - 1; this.sync();
+    return true;
+  },
+  async stepWhenFree(dir) {
+    const g = this.gen;
+    while (this.busy) { await sleep(25); if (g !== this.gen) return false; }
+    return this.step(dir);
+  },
+  async play() {
+    if (!this.d || this.playing) return;
+    if (this.idx >= this.d.moves.length) this.reset(0);
+    this.playing = true; const g = this.gen; this.sync();
+    while (this.playing && g === this.gen && this.idx < this.d.moves.length) {
+      const ok = await this.step(1);
+      if (!ok || g !== this.gen || !this.playing) break;
+      const segEdge = this.idx < this.d.moves.length && this.d.segOf[this.idx] !== this.d.segOf[this.idx - 1];
+      await sleep((segEdge ? 650 : 120) / this.speed);
+    }
+    if (g === this.gen) { this.playing = false; this.sync(); }
+  },
+  pause() { this.playing = false; this.sync(); },
+  sync() { if (this.d) this.paint(this.d, this.idx, this.hi, this.playing); },
+  paint(d, idx, hi, playing) {
+    d.chips.forEach((ch, i) => { ch.classList.toggle('done', i < hi); ch.classList.toggle('now', i === hi); });
+    if (d.count && d.moves.length) d.count.textContent = idx + ' / ' + d.moves.length;
+    if (d.bPlay) {
+      const ended = idx >= d.moves.length && d.moves.length > 0;
+      d.bPlay.innerHTML = playing ? ICON.pause : ended ? ICON.restart : ICON.play;
+      d.bPlay.setAttribute('aria-label', playing ? 'Pause' : ended ? 'Play again' : 'Play');
+      d.bBack.disabled = idx <= 0; d.bFwd.disabled = idx >= d.moves.length;
+    }
+    if (d.net && this.cur && this.d === d) d.net.innerHTML = netSVG(this.cur, d.mask);
+  },
+};
+
+// ---------------------------------------------------------------- build the demo cards
+function buildDemo(card, cfg) {
+  const start = st0(cfg.base, cfg.scr), mask = makeMask(cfg.mask, start);
+  const side = card.querySelector('.demo-side'), algs = card.querySelector('.algs');
+  side.innerHTML = '<div class="well"><div class="screen"><div class="preview"></div></div><span class="hint">drag to look around</span>' +
+    '<button class="play-big" type="button" aria-label="Play this example">' + ICON.play + '</button></div>' +
+    (cfg.net ? '<div class="netbox" aria-hidden="true"></div>' : '') +
+    '<div class="ctrls"><button class="cb" type="button" data-a="restart" aria-label="Back to the start">' + ICON.restart + '</button>' +
+    '<button class="cb" type="button" data-a="back" aria-label="Previous move">' + ICON.back + '</button>' +
+    '<button class="cb main" type="button" data-a="play" aria-label="Play">' + ICON.play + '</button>' +
+    '<button class="cb" type="button" data-a="fwd" aria-label="Next move">' + ICON.fwd + '</button>' +
+    '<button class="cb speed" type="button" data-a="speed" aria-label="Playback speed">1×</button>' +
+    '<span class="count"></span></div>';
+  const d = { card, cfg, start, mask, moves: [], segOf: [], chips: [] };
+  d.screen = side.querySelector('.screen'); d.preview = side.querySelector('.preview'); d.net = side.querySelector('.netbox');
+  d.count = side.querySelector('.count'); d.bPlay = side.querySelector('[data-a=play]'); d.bBack = side.querySelector('[data-a=back]'); d.bFwd = side.querySelector('[data-a=fwd]');
+  d.preview.innerHTML = isoSVG(start, mask, cfg.view);
+  if (d.net) d.net.innerHTML = netSVG(start, mask);
+  cfg.segs.forEach((sg, si) => {
+    const wrap = document.createElement('div');
+    if (sg.label) { const l = document.createElement('p'); l.className = 'seg-label'; l.textContent = sg.label; wrap.appendChild(l); }
+    const row = document.createElement('div'); row.className = 'chips';
+    C.tokenize(sg.alg).forEach(t => {
+      const k = d.moves.length; d.moves.push(t); d.segOf.push(si);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'mvc'; b.textContent = t;
+      b.setAttribute('aria-label', 'Play move ' + (k + 1) + ', ' + t);
+      b.addEventListener('click', async () => { Player.activate(card); Player.reset(k); await Player.step(1); });
+      row.appendChild(b); d.chips.push(b);
+    });
+    wrap.appendChild(row); algs.appendChild(wrap);
+  });
+  card._demo = d;
+  Player.paint(d, 0, -1, false);
+  side.querySelector('.play-big').addEventListener('click', () => { Player.activate(card); Player.play(); });
+  side.querySelector('.ctrls').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const a = b.dataset.a;
+    if (a === 'speed') { const order = [1, 2, 0.5]; Player.speed = order[(order.indexOf(Player.speed) + 1) % 3]; document.querySelectorAll('.cb.speed').forEach(x => { x.textContent = (Player.speed === 0.5 ? '½' : Player.speed) + '×'; }); return; }
+    Player.activate(card);
+    if (a === 'play') { if (Player.playing) Player.pause(); else Player.play(); }
+    else if (a === 'restart') Player.reset(0);
+    else if (a === 'back') { Player.pause(); Player.stepWhenFree(-1); }
+    else if (a === 'fwd') { Player.pause(); Player.stepWhenFree(1); }
+  });
+}
+
+// ---------------------------------------------------------------- notation pad
+const PAD = ['R', "R'", 'R2', 'L', 'U', "U'", 'F', "F'", 'D', 'B', 'Rw', "Rw'", 'r', "r'", 'Uw', 'Fw', 'x', 'y', 'z'];
+const FACE_NAME = { R: 'right', L: 'left', U: 'top', D: 'bottom', F: 'front', B: 'back' };
+function describe(t) {
+  const m = /^([RLUDFBrludfbxyz])(w?)(2|'|)$/.exec(t); if (!m) return '';
+  const dir = m[3] === "'" ? 'counterclockwise' : m[3] === '2' ? 'half turn' : 'clockwise';
+  if ('xyz'.includes(m[1])) return 'Whole cube, turned like ' + { x: 'R', y: 'U', z: 'F' }[m[1]] + (m[3] === "'" ? "'" : m[3]) ;
+  if (m[1] !== m[1].toUpperCase()) return 'Second layer from the ' + FACE_NAME[m[1].toUpperCase()] + ', ' + dir;
+  if (m[2]) return 'Two ' + FACE_NAME[m[1]] + ' layers, ' + dir;
+  return FACE_NAME[m[1]][0].toUpperCase() + FACE_NAME[m[1]].slice(1) + ' face, ' + dir;
+}
+function buildPad() {
+  const card = document.getElementById('pad'); if (!card) return;
+  const side = card.querySelector('.demo-side'), grid = card.querySelector('.padgrid'), last = document.getElementById('pad-last');
+  const start = C.solved(4), mask = () => true;
+  side.innerHTML = '<div class="well"><div class="screen"><div class="preview"></div></div><span class="hint">drag to look around</span></div>' +
+    '<div class="ctrls"><button class="cb" type="button" data-a="reset" aria-label="Reset the cube">' + ICON.restart + '</button><span class="count">solved</span></div>';
+  const d = { card, cfg: { view: DEF_VIEW }, start, mask, moves: [], segOf: [], chips: [] };
+  d.screen = side.querySelector('.screen'); d.preview = side.querySelector('.preview'); d.count = side.querySelector('.count');
+  d.preview.innerHTML = isoSVG(start, mask);
+  card._demo = d;
+  let q = Promise.resolve(), n = 0;
+  const run = t => {
+    Player.activate(card);
+    const g = Player.gen;
+    q = q.then(async () => {
+      if (g !== Player.gen) return;
+      last.innerHTML = '<code>' + t + '</code><span>' + describe(t) + '</span>';
+      await Player.turn(t, Player.dur(t) * 1.15); n++;
+      d.count.textContent = n + (n === 1 ? ' move' : ' moves');
+    });
+  };
+  PAD.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'mvc'; b.textContent = t; b.setAttribute('aria-label', describe(t)); b.addEventListener('click', () => run(t)); grid.appendChild(b); });
+  side.querySelector('[data-a=reset]').addEventListener('click', () => {
+    Player.activate(card); Player.gen++; q = Promise.resolve(); n = 0; Player.cur = C.clone(start);
+    if (Player.view) Player.view.setState(start, mask); else d.preview.innerHTML = isoSVG(start, mask);
+    d.count.textContent = 'solved'; last.innerHTML = '<code>R U R\'</code><span>Tap a move to see it on the cube.</span>';
+  });
+}
+
+// ---------------------------------------------------------------- hero
+function buildHero() {
+  const host = document.getElementById('hero-stage'), out = document.getElementById('hero-readout');
+  const bS = document.getElementById('hero-scramble'), bU = document.getElementById('hero-undo');
+  const first = "Rw U2 F' Lw D2 R' Uw B2 L' Fw' U R2 Dw' F L2 Bw U' R";
+  let hist = C.tokenize(first), state = st0('', first), busy = false, view = null;
+  if (HAS3D) { try { view = new Cube3D(); view.dist = 20.5; view.setView({ az: 32, el: 26 }); view.attach(host); view.setState(state, () => true); } catch (e) { view = null; } }
+  if (!view) host.innerHTML = isoSVG(state, () => true);
+  const sync = () => { bU.disabled = busy || !hist.length; bS.disabled = busy; };
+  const run = async (moves, ms, label) => {
+    busy = true; sync();
+    for (const t of moves) {
+      out.textContent = label + '  ' + t;
+      C.applyAlg(state, t);
+      if (view) await view.turn(t, ms); else { host.innerHTML = isoSVG(state, () => true); await sleep(ms); }
+    }
+    busy = false; out.textContent = hist.length ? 'Scrambled · drag to look' : 'Solved'; sync();
+  };
+  bS.addEventListener('click', () => {
+    if (busy) return;
+    const faces = 'RLUDFB', axis = { R: 0, L: 0, U: 1, D: 1, F: 2, B: 2 }, mv = []; let lf = '', la = -1, same = 0;
+    while (mv.length < 20) {
+      const f = faces[Math.floor(Math.random() * 6)]; if (f === lf) continue;
+      if (axis[f] === la) { if (same) continue; same = 1; } else same = 0;
+      const w = 'RUF'.includes(f) && Math.random() < 0.35 ? 'w' : '';
+      mv.push(f + w + ['', "'", '2'][Math.floor(Math.random() * 3)]); lf = f; la = axis[f];
+    }
+    hist = hist.concat(mv); run(mv, reduceMotion ? 90 : 150, 'Scramble');
+  });
+  bU.addEventListener('click', () => { if (busy || !hist.length) return; const inv = C.tokenize(C.invertAlg(hist.join(' '))); hist = []; run(inv, reduceMotion ? 70 : 110, 'Undo'); });
+  sync(); out.textContent = 'Drag to look around';
+  if (!view) return;
+  // gentle idle spin while the hero is on screen
+  let onScreen = true, raf = 0;
+  const loop = () => { raf = 0; if (!onScreen || document.hidden) { view.external = false; return; } if (!view.dragging) { view.az += 0.05; view.updateCamera(); } view.render(); raf = requestAnimationFrame(loop); };
+  const startLoop = () => { if (reduceMotion || raf) return; view.external = true; raf = requestAnimationFrame(loop); };
+  new IntersectionObserver(es => { onScreen = es[0].isIntersecting; if (onScreen) startLoop(); }, { threshold: 0.05 }).observe(host);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && onScreen) startLoop(); });
+  startLoop();
+}
+
+// ---------------------------------------------------------------- static figures
+function buildFigures() {
+  const FIG = {
+    plan1: () => [st0('', DATA.edgeSame.scr), makeMask({ centers: true })],
+    plan2: () => [st0('', "R U F' L2 D B' R2 U' F L' D2 B U2 R' F2 L D'"), makeMask({ all: true })],
+    plan3: () => [st0('', ''), makeMask({ all: true })],
+    plan4: () => [st0('z2', "r2 B2 U2 l U2 r' U2 r U2 F2 r F2 l' B2 r2"), makeMask({ all: true }), V_TOP],
+    centers: () => [st0('', ''), makeMask({ centers: true })],
+    edges: () => [st0('', ''), makeMask({ edges: true })],
+    corners: () => [st0('', ''), makeMask({ corners: true })],
+  };
+  document.querySelectorAll('[data-fig]').forEach(el => {
+    const k = el.dataset.fig;
+    if (k === 'scheme') { el.innerHTML = netSVG(C.solved(4), () => true); return; }
+    const f = FIG[k]; if (!f) return; const [st, mask, view] = f(); el.innerHTML = isoSVG(st, mask, view);
+  });
+}
+
+// ---------------------------------------------------------------- rail highlight & copy buttons
+function buildRail() {
+  const links = [...document.querySelectorAll('.rail a')]; if (!links.length || !('IntersectionObserver' in window)) return;
+  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const targets = [...byId.keys()].map(id => document.getElementById(id)).filter(Boolean);
+  const vis = new Set();
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) vis.add(e.target); else vis.delete(e.target); });
+    let best = null; for (const t of targets) if (vis.has(t)) { best = t; }
+    if (!best) return;
+    links.forEach(a => a.classList.toggle('on', a === byId.get(best.id)));
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  targets.forEach(t => io.observe(t));
+}
+function buildCopy() {
+  document.querySelectorAll('.sheet-t td.a').forEach(td => {
+    const text = td.textContent.trim(), b = document.createElement('button');
+    b.type = 'button'; b.className = 'copy'; b.textContent = 'Copy'; b.setAttribute('aria-label', 'Copy ' + text);
+    b.addEventListener('click', () => {
+      const done = () => { b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy'; }, 1400); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(td.firstChild || td); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(() => { b.textContent = 'Copy'; }, 1400); };
+      try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+    });
+    td.appendChild(b);
+  });
+}
+
+// ---------------------------------------------------------------- go
+buildFigures();
+document.querySelectorAll('figure.demo[data-case]').forEach(card => { const cfg = CASES[card.dataset.case]; if (cfg) buildDemo(card, cfg); });
+buildPad();
+buildHero();
+buildRail();
+buildCopy();
+window.__cube = { C, CASES, Player };
+})();
+</script>
+</body>
+</html>

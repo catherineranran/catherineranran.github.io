@@ -387,6 +387,12 @@
       if (!t3['solving the 4×4 cube']) Store.setVibe(uid(), { title: 'Solving the 4×4 Cube', url: 'https://claude.ai/artifact/Fy9ZZg7i14VTQcjhMg8h66', date: '2026-10-12', status: 'live', image: '/assets/vibes/solving-4x4.jpg', repo: '', blurb: 'Beginner’s guide to the 4×4: centers, edges, the 3×3 stage and parity, with a pastel 3D cube that plays every step.' });
       added.push('vibes-3');
     }
+    if (done.indexOf('vibes-4') === -1) {
+      // The 4x4 tutorial now lives on the site; move the card's link there unless it was edited by hand.
+      var cube = titles()['solving the 4×4 cube'];
+      if (cube && cube.url === 'https://claude.ai/artifact/Fy9ZZg7i14VTQcjhMg8h66') Store.setVibe(cube.id, { url: 'https://ranranli.net/magic-cube/' });
+      added.push('vibes-4');
+    }
     if (added.length) Store.setSettings({ migrations: done.concat(added) });
   }
 
