@@ -89,10 +89,13 @@ function renderProject(project, analysisUrl = null) {
     eyebrow.textContent = projectEyebrow;
     const title = document.createElement("h1");
     title.textContent = project.title;
-    const subtitle = document.createElement("p");
-    subtitle.className = "project-subtitle";
-    subtitle.textContent = project.subtitle;
-    heroCopy.append(eyebrow, title, subtitle);
+    heroCopy.append(eyebrow, title);
+    if (project.subtitle) {
+        const subtitle = document.createElement("p");
+        subtitle.className = "project-subtitle";
+        subtitle.textContent = project.subtitle;
+        heroCopy.append(subtitle);
+    }
 
     const lockButton = document.createElement("button");
     lockButton.className = "project-lock-button";
@@ -109,22 +112,26 @@ function renderProject(project, analysisUrl = null) {
     });
     header.append(heroCopy, lockButton);
 
-    const citationPanel = document.createElement("section");
-    citationPanel.className = "project-citation-panel";
-    const citationLabel = document.createElement("p");
-    citationLabel.className = "project-panel-label";
-    citationLabel.textContent = "Project";
-    const citation = document.createElement("p");
-    citation.className = "project-citation";
-    citation.textContent = project.citation;
-    const tags = document.createElement("div");
-    tags.className = "project-tags";
-    project.tags.forEach((tag) => {
-        const item = document.createElement("span");
-        item.textContent = tag;
-        tags.append(item);
-    });
-    citationPanel.append(citationLabel, citation, tags);
+    // The "Project" panel (citation and tags) only appears when a project has a citation.
+    let citationPanel = null;
+    if (project.citation) {
+        citationPanel = document.createElement("section");
+        citationPanel.className = "project-citation-panel";
+        const citationLabel = document.createElement("p");
+        citationLabel.className = "project-panel-label";
+        citationLabel.textContent = "Project";
+        const citation = document.createElement("p");
+        citation.className = "project-citation";
+        citation.textContent = project.citation;
+        const tags = document.createElement("div");
+        tags.className = "project-tags";
+        (project.tags || []).forEach((tag) => {
+            const item = document.createElement("span");
+            item.textContent = tag;
+            tags.append(item);
+        });
+        citationPanel.append(citationLabel, citation, tags);
+    }
 
     const resources = document.createElement("section");
     resources.className = "project-resources";
@@ -207,7 +214,7 @@ function renderProject(project, analysisUrl = null) {
     note.className = "project-access-note";
     note.textContent = "Google Drive permissions apply when opening or editing these materials.";
 
-    const sections = [header, citationPanel, resources, preview];
+    const sections = citationPanel ? [header, citationPanel, resources, preview] : [header, resources, preview];
     if (analysisPreview) sections.push(analysisPreview);
     sections.push(note);
     contentSection.replaceChildren(...sections);
