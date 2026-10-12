@@ -369,16 +369,25 @@
   }
   // One-off updates to the saved launch pad (run once, on whichever device opens it first).
   function migrate() {
-    var done = (Store.doc.settings && Store.doc.settings.migrations) || [];
-    if (done.indexOf('vibes-2') !== -1) return;
-    var byTitle = {};
-    Store.vibeList().forEach(function (v) { byTitle[(v.title || '').toLowerCase()] = v; });
-    function patch(title, fields) { var v = byTitle[title.toLowerCase()]; if (v) Store.setVibe(v.id, fields); }
-    patch('Survey Studio', { image: '/assets/vibes/survey-studio.jpg' });
-    patch('Grill My Supervisor', { image: '/assets/vibes/grill-my-supervisor.jpg', url: 'https://grillmysupervisor.online/', status: 'live', blurb: 'Where the Light Rests: a walkable 3D gallery of sandstone and glass. Kind words go on the posters, complaints in the bin.' });
-    patch('Launch Pad', { image: '/assets/vibes/launch-pad.jpg', blurb: 'This daily workspace: focus music, agenda, calendar, tasks and vibecodings.' });
-    if (!byTitle['tit for tat']) Store.setVibe(uid(), { title: 'Tit for Tat', url: 'https://ranranli.net/exhibition.html', date: '2026-10-02', status: 'video', image: '/assets/videos/tit-for-tat-poster.jpg', repo: '', blurb: 'Animated explainer: why the simplest strategy won the cooperation game.' });
-    Store.setSettings({ migrations: done.concat(['vibes-2']) });
+    var done = (Store.doc.settings && Store.doc.settings.migrations) || [], added = [];
+    var titles = function () { var m = {}; Store.vibeList().forEach(function (v) { m[(v.title || '').toLowerCase()] = v; }); return m; };
+    if (done.indexOf('vibes-2') === -1) {
+      var byTitle = titles();
+      var patch = function (title, fields) { var v = byTitle[title.toLowerCase()]; if (v) Store.setVibe(v.id, fields); };
+      patch('Survey Studio', { image: '/assets/vibes/survey-studio.jpg' });
+      patch('Grill My Supervisor', { image: '/assets/vibes/grill-my-supervisor.jpg', url: 'https://grillmysupervisor.online/', status: 'live', blurb: 'Where the Light Rests: a walkable 3D gallery of sandstone and glass. Kind words go on the posters, complaints in the bin.' });
+      patch('Launch Pad', { image: '/assets/vibes/launch-pad.jpg', blurb: 'This daily workspace: focus music, agenda, calendar, tasks and vibecodings.' });
+      if (!byTitle['tit for tat']) Store.setVibe(uid(), { title: 'Tit for Tat', url: 'https://ranranli.net/exhibition.html', date: '2026-10-02', status: 'video', image: '/assets/videos/tit-for-tat-poster.jpg', repo: '', blurb: 'Animated explainer: why the simplest strategy won the cooperation game.' });
+      added.push('vibes-2');
+    }
+    if (done.indexOf('vibes-3') === -1) {
+      // 12 Oct 2026: new Launch Pad preview (the glass task board) and the 4x4 cube tutorial.
+      var t3 = titles();
+      if (t3['launch pad']) Store.setVibe(t3['launch pad'].id, { image: '/assets/vibes/launch-pad.jpg?v=2' });
+      if (!t3['solving the 4×4 cube']) Store.setVibe(uid(), { title: 'Solving the 4×4 Cube', url: 'https://claude.ai/artifact/Fy9ZZg7i14VTQcjhMg8h66', date: '2026-10-12', status: 'live', image: '/assets/vibes/solving-4x4.jpg', repo: '', blurb: 'Beginner’s guide to the 4×4: centers, edges, the 3×3 stage and parity, with a pastel 3D cube that plays every step.' });
+      added.push('vibes-3');
+    }
+    if (added.length) Store.setSettings({ migrations: done.concat(added) });
   }
 
   function checkExpiry() {
