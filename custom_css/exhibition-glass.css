@@ -289,11 +289,6 @@
     max-width: 100%;
 }
 
-/* the launchpad screenshot is shown smaller: 2/3 of a regular preview */
-.exhibition-page .vibe-feed .exhibition-shot-compact {
-    width: calc(min(0.92 * (var(--exhibition-col) * 0.75 - 3.6rem - 4px), 100%) * 2 / 3);
-}
-
 /* on smaller previews the play button and label shrink a little,
    and on the smallest the label moves up so the two never touch */
 @container vibe-preview (max-width: 170px) {
