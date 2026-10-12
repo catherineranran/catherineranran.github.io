@@ -393,6 +393,12 @@
       if (cube && cube.url === 'https://claude.ai/artifact/Fy9ZZg7i14VTQcjhMg8h66') Store.setVibe(cube.id, { url: 'https://ranranli.net/magic-cube/' });
       added.push('vibes-4');
     }
+    if (done.indexOf('vibes-5') === -1) {
+      // 12 Oct 2026: fresh preview of the rebuilt Grill My Supervisor gallery.
+      var gms = titles()['grill my supervisor'];
+      if (gms) Store.setVibe(gms.id, { image: '/assets/vibes/grill-my-supervisor-2026-10-12.jpg' });
+      added.push('vibes-5');
+    }
     if (added.length) Store.setSettings({ migrations: done.concat(added) });
   }
 
