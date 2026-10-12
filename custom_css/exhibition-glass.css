@@ -262,6 +262,20 @@
 
 /* ---- "Vibecoding everyday": the cards, two side by side ---------------- */
 
+/* the column title sits in the middle of its header line; the count stays right */
+.exhibition-page .exhibition-thread-wide .exhibition-thread-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+.exhibition-page .exhibition-thread-wide .exhibition-thread-header h2 {
+    grid-column: 2;
+    text-align: center;
+}
+.exhibition-page .exhibition-thread-wide .exhibition-thread-header span {
+    grid-column: 3;
+    justify-self: end;
+}
+
 .exhibition-page .vibe-feed-list { scrollbar-gutter: stable; }
 
 /* without the layout script: plain rows of two, newest first */
