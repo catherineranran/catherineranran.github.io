@@ -1,0 +1,19 @@
+{
+  "format": "survey-studio-video/1",
+  "type": "video/mp4",
+  "parts": [
+    "part-1-fae89ca223.bin",
+    "part-2-7c315ad7ba.bin",
+    "part-3-06dc9e6db5.bin"
+  ],
+  "encrypted": true,
+  "bytes": 40677583,
+  "duration": 95,
+  "width": 2048,
+  "height": 2048,
+  "view": "wrap",
+  "span": 180,
+  "fov": 90,
+  "title": "Bystander scenario, 3D reconstruction, 180°",
+  "check": "VVBmu1HJA3lCZmO0mZy-PzoSVn8iQPKCxVO28_zPZGkBRRuGrJut5x1IJ7lrW_Q"
+}
