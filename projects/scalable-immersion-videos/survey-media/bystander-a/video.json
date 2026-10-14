@@ -2,9 +2,9 @@
   "format": "survey-studio-video/1",
   "type": "video/mp4",
   "parts": [
-    "part-1-e50a8324bb.bin",
-    "part-2-a32146f974.bin",
-    "part-3-27caf9894c.bin"
+    "part-1-bacb323092.bin",
+    "part-2-5227189c96.bin",
+    "part-3-c084a1413b.bin"
   ],
   "encrypted": true,
   "bytes": 36209737,
@@ -15,5 +15,5 @@
   "span": 180,
   "fov": 90,
   "title": "Bystander scenario, 180°",
-  "check": "uWuPbBK_tKOUsmJRQvuAtanmFwCHNMyLacj69nKE6mXjwQKDlPKX5np2DISU5Eo"
+  "check": "ypkS8W24y-hR2oNZpnRjTwdJHXWdQGVttq1CTJA5qsr0XoYWXhfAP5GQRqJIauc"
 }
