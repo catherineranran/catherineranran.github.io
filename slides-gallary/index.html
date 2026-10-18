@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slides Gallery | Ranran Li</title>
+<meta name="description" content="Six presentation looks for research talks and a Berlin Science Week 2026 template. Present each one in the browser, or download it for PowerPoint and Keynote.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Slides Gallery">
+<meta property="og:description" content="Six presentation looks for research talks, each as a web presentation, a PowerPoint template and a Keynote file.">
+<meta property="og:url" content="https://ranranli.net/slides-gallary/">
+<meta property="og:image" content="https://ranranli.net/assets/vibes/slides-gallery.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/icons/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: a frosted masthead over a live pastel gradient, then one wide band per look
+   (slides on the left, facts and downloads on the right); a short field guide closes the page. */
+:root {
+  --bg: #F3F2F6;
+  --surface: #FFFFFF;
+  --ink: #17161C;
+  --ink-2: #4A4857;
+  --ink-3: #686576;
+  --line: #E0DEE7;
+  --accent: #3A32C2;
+  --accent-ink: #FFFFFF;
+  --glass: rgba(255, 255, 255, .5);
+  --glass-edge: rgba(255, 255, 255, .78);
+  --glass-shine: rgba(255, 255, 255, .7);
+  --veil: rgba(243, 242, 246, 0);
+  --shadow: 0 1px 2px rgba(23, 22, 28, .05), 0 14px 34px -16px rgba(23, 22, 28, .24);
+  --player-bg: #0B0B0E;
+  --player-fg: #F2F1F6;
+  --player-line: rgba(255, 255, 255, .16);
+  --font-display: "Bricolage Grotesque", "Avenir Next", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E0D12; --surface: #18171E; --ink: #F2F1F6; --ink-2: #BCB9C8; --ink-3: #94919F; --line: #2B2934;
+    --accent: #ACA4FF; --accent-ink: #15131F;
+    --glass: rgba(24, 23, 30, .5); --glass-edge: rgba(255, 255, 255, .14); --glass-shine: rgba(255, 255, 255, .1);
+    --veil: rgba(14, 13, 18, .5);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 36px -16px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E0D12; --surface: #18171E; --ink: #F2F1F6; --ink-2: #BCB9C8; --ink-3: #94919F; --line: #2B2934;
+  --accent: #ACA4FF; --accent-ink: #15131F;
+  --glass: rgba(24, 23, 30, .5); --glass-edge: rgba(255, 255, 255, .14); --glass-shine: rgba(255, 255, 255, .1);
+  --veil: rgba(14, 13, 18, .5);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 36px -16px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.55 var(--font-body); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+a { color: var(--accent); }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- masthead ---------- */
+.masthead { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(36px, 7vw, 92px) clamp(28px, 4vw, 52px); }
+.aurora { position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(42% 62% at 12% 18%, #CDB8F7 0, transparent 72%),
+    radial-gradient(36% 58% at 88% 12%, #FFCDB2 0, transparent 72%),
+    radial-gradient(46% 62% at 72% 92%, #B9DCF8 0, transparent 72%),
+    radial-gradient(36% 52% at 28% 88%, #C4EBCB 0, transparent 72%),
+    #F8C2D8; }
+.aurora canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity 1.4s ease; }
+.aurora.on canvas { opacity: 1; }
+.aurora::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--veil) 0%, var(--veil) 58%, var(--bg) 100%); }
+.glass { max-width: 780px; padding: clamp(22px, 3.6vw, 44px); border-radius: 30px; background: var(--glass); border: 1px solid var(--glass-edge);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--glass-shine); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); }
+.kicker, .meta, .mood, .facts dt, .cap, .btn small, .seg { font-family: var(--font-mono); }
+.kicker { margin: 0 0 10px; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.masthead h1 { margin: 0; font: 800 clamp(3.6rem, 10vw, 7.5rem)/.88 var(--font-display); letter-spacing: -.035em; font-variation-settings: "opsz" 96; }
+.intro { margin: 18px 0 0; max-width: 60ch; font-size: clamp(1.02rem, 1.6vw, 1.16rem); color: var(--ink-2); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 18px 0 0; font-size: .8rem; color: var(--ink-2); }
+.meta span + span::before { content: "·"; margin-right: 18px; color: var(--ink-3); }
+.index { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.index a { display: inline-flex; align-items: center; gap: 9px; padding: 8px 14px 8px 9px; border-radius: 999px; text-decoration: none; color: var(--ink); font-weight: 600; font-size: .92rem;
+  background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.index a:hover { border-color: var(--ink-3); }
+.dot { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--a) 0 50%, var(--b) 50% 100%); box-shadow: inset 0 0 0 1px rgba(127, 127, 127, .35); flex: none; }
+
+/* ---------- how ---------- */
+.how { list-style: none; margin: 0; padding: clamp(18px, 3vw, 32px) 0 clamp(26px, 4vw, 44px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px); }
+.how li { border-top: 2px solid var(--ink); padding-top: 14px; min-width: 0; }
+.how h3 { margin: 0 0 6px; font: 700 1.08rem/1.25 var(--font-body); }
+.how p { margin: 0; color: var(--ink-2); font-size: .97rem; }
+kbd { font: 600 .82em var(--font-mono); padding: 1px 6px; border-radius: 5px; border: 1px solid var(--line); background: var(--surface); }
+code { font: .9em var(--font-mono); }
+@media (max-width: 760px) { .how { grid-template-columns: 1fr; } }
+
+/* ---------- a look ---------- */
+.look { padding-block: clamp(36px, 6vw, 72px); border-top: 1px solid var(--line); scroll-margin-top: 12px; }
+.look-head { display: grid; gap: 8px; margin-bottom: clamp(18px, 2.6vw, 28px); }
+.mood { display: flex; gap: 14px; margin: 0; font-size: .74rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.look h2 { margin: 0; font: 800 clamp(2.1rem, 4.6vw, 3.5rem)/1 var(--font-display); letter-spacing: -.025em; font-variation-settings: "opsz" 72; }
+.lede { margin: 0; max-width: 64ch; font-size: 1.06rem; color: var(--ink-2); }
+.look-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: clamp(20px, 3vw, 44px); align-items: start; }
+@media (max-width: 900px) { .look-body { grid-template-columns: minmax(0, 1fr); } }
+
+.viewer { margin: 0; min-width: 0; }
+.stage { display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 14px; overflow: hidden; cursor: pointer; background: var(--line); box-shadow: var(--shadow); }
+.stage img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .18s ease; }
+.stage:hover img { opacity: .94; }
+.cap { display: flex; align-items: baseline; gap: 12px; margin: 12px 2px 0; font-size: .82rem; color: var(--ink-3); }
+.cap-n { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cap-l { color: var(--ink-2); }
+.cap-t { margin-left: auto; }
+.strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.thumb { display: block; padding: 0; border: 0; border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 9; cursor: pointer; background: var(--line); outline: 2px solid transparent; outline-offset: 2px; }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.thumb[aria-current="true"] { outline-color: var(--accent); }
+.thumb:focus-visible { outline-color: var(--accent); }
+@media (max-width: 900px) {
+  .strip { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 8px; margin-inline: -4px; }
+  .thumb { flex: 0 0 116px; scroll-snap-align: start; }
+}
+
+.facts { display: grid; gap: 22px; min-width: 0; }
+.facts dl { margin: 0; display: grid; gap: 14px; }
+.facts dt { font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.facts dd { margin: 3px 0 0; }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 3px; }
+.sw { width: 26px; height: 26px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(127, 127, 127, .35); }
+.actions, .sw-actions { display: grid; gap: 8px; }
+.btn { display: flex; text-decoration: none; box-sizing: border-box; justify-content: space-between; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font: 700 .97rem/1.2 var(--font-body); text-align: left; cursor: pointer; transition: border-color .15s ease, transform .15s ease; }
+.btn small { font-size: .76rem; font-weight: 400; color: var(--ink-3); }
+.btn:hover { border-color: var(--ink-3); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
+.btn.primary small { color: inherit; opacity: .8; }
+
+.segs { display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px; gap: 4px; border-radius: 12px; background: var(--line); }
+.seg { padding: 9px 6px; border: 0; border-radius: 9px; background: transparent; color: var(--ink-2); font-size: .84rem; font-weight: 600; cursor: pointer; }
+.seg[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
+.sw-note { margin: 0 0 4px; color: var(--ink-2); }
+.muted { color: var(--ink-3); }
+
+/* ---------- guide ---------- */
+.guide { padding-block: clamp(40px, 6vw, 76px); border-top: 1px solid var(--line); }
+.guide h2 { margin: 0 0 clamp(18px, 3vw, 30px); font: 800 clamp(1.9rem, 4vw, 3rem)/1.02 var(--font-display); letter-spacing: -.02em; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 3vw, 44px); }
+.cols > div { min-width: 0; border-top: 2px solid var(--ink); padding-top: 14px; }
+.cols h3 { margin: 0 0 8px; font: 700 1.05rem/1.3 var(--font-body); }
+.cols ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; color: var(--ink-2); }
+@media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+.foot { padding-block: 26px 40px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: .9rem; }
+.foot .wrap { display: grid; gap: 8px; }
+.foot p { margin: 0; max-width: 80ch; }
+.foot .by { color: var(--ink-2); font-weight: 600; }
+
+/* ---------- presenting ---------- */
+.player { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; background: var(--player-bg); color: var(--player-fg); }
+.player-bar { display: flex; align-items: center; gap: 10px; padding-top: max(10px, env(safe-area-inset-top, 0px)); padding-bottom: 10px;
+  padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px)); font: 600 .92rem/1.2 var(--font-body); border-bottom: 1px solid var(--player-line); }
+#player-title { margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.player-hint { font: .78rem var(--font-mono); opacity: .66; }
+@media (max-width: 640px) { .player-hint { display: none; } }
+.pbtn { display: inline-flex; align-items: center; text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--player-line); background: transparent; color: var(--player-fg); font: 600 .86rem/1 var(--font-body); cursor: pointer; }
+.pbtn:hover { background: var(--player-line); }
+.player iframe { flex: 1; width: 100%; border: 0; background: var(--player-bg); }
+.zoom { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--player-bg); }
+.zoom img { max-width: 100%; max-height: 100%; border-radius: 6px; }
+.zoom-close { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); }
+.toast { position: fixed; z-index: 120; left: 50%; bottom: max(18px, env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 16px); max-width: calc(100vw - 32px); padding: 11px 18px; border-radius: 12px;
+  background: var(--ink); color: var(--bg); font-weight: 600; font-size: .92rem; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s; pointer-events: none; }
+.toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .25s ease, transform .25s ease; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="aurora" id="aurora" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="glass">
+      <p class="kicker">Presentation looks for research talks</p>
+      <h1>Slides Gallery</h1>
+      <p class="intro">Six looks for a research talk, plus the Berlin Science Week 2026 speaker template in two new colorways. Every look is built from the same sample talk, so they are easy to compare. Present one straight from the browser, or download it for PowerPoint or Keynote, with real layouts and placeholders.</p>
+      <p class="meta"><span>13 layouts per look</span><span>16:9</span><span>.html · .pptx · .key</span></p>
+    </div>
+    <nav class="index" aria-label="Jump to a look">
+      <a href="#glass"><span class="dot" style="--a:#CDB8F7;--b:#5A3FD1"></span>Liquid Glass</a>
+      <a href="#manuscript"><span class="dot" style="--a:#FFE35A;--b:#161616"></span>Manuscript</a>
+      <a href="#darklab"><span class="dot" style="--a:#0B0D11;--b:#F5B547"></span>Dark Lab</a>
+      <a href="#riso"><span class="dot" style="--a:#3255A4;--b:#FF48B0"></span>Riso</a>
+      <a href="#committee"><span class="dot" style="--a:#1D4F91;--b:#A9C0E0"></span>Committee</a>
+      <a href="#ink"><span class="dot" style="--a:#1C1B19;--b:#B33A2E"></span>Ink &amp; Paper</a>
+      <a href="#sw26"><span class="dot" style="--a:#0A0A0A;--b:#FFE45C"></span>Berlin Science Week</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <ul class="how" aria-label="Three ways to use a look">
+      <li><h3>Present from the browser</h3><p>Press <b>Present</b>. Arrow keys, a presentation clicker or a swipe move between slides, and <kbd>F</kbd> goes full screen. Download the .html to present offline.</p></li>
+      <li><h3>Edit in PowerPoint</h3><p>Each .pptx carries all 13 layouts in its slide master, with placeholders and named theme colors, so every new slide matches.</p></li>
+      <li><h3>Edit in Keynote</h3><p>Open the .pptx in Keynote and it converts on the spot. Layouts become Keynote master slides.</p></li>
+    </ul>
+  </div>
+
+  <section class="look" id="glass" aria-labelledby="h-glass">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Light</span><span>Soft</span></p>
+        <h2 id="h-glass">Liquid Glass</h2>
+        <p class="lede">Frosted glass panels over a slow pastel gradient. In the browser the background drifts gently; the PowerPoint keeps the same gradient as a still image.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="glass" data-name="Liquid Glass" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section divider&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Process&quot;,&quot;Image + caption&quot;,&quot;Big number&quot;,&quot;Chart&quot;,&quot;Table&quot;,&quot;Quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="glass" aria-label="Present Liquid Glass from this slide">
+          <img src="thumbs/glass/L01.jpg" width="1440" height="810" alt="Liquid Glass, slide 1: Title">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/glass/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/glass/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section divider"><img src="thumbs/glass/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/glass/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/glass/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Process"><img src="thumbs/glass/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Image + caption"><img src="thumbs/glass/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Big number"><img src="thumbs/glass/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Chart"><img src="thumbs/glass/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/glass/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Quote"><img src="thumbs/glass/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/glass/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/glass/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Liquid Glass details">
+        <dl>
+          <div><dt>Good for</dt><dd>Conference talks, design-minded audiences, a first talk you want to feel friendly</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Avenir Next</dd></div>
+          <div><dt>In other browsers</dt><dd>Nunito Sans</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#CDB8F7" title="#CDB8F7"></span><span class="sw" style="background:#FFCDB2" title="#FFCDB2"></span><span class="sw" style="background:#B9DCF8" title="#B9DCF8"></span><span class="sw" style="background:#C4EBCB" title="#C4EBCB"></span><span class="sw" style="background:#5A3FD1" title="#5A3FD1"></span><span class="sw" style="background:#1D2140" title="#1D2140"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="glass"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/liquid-glass.pptx" download="Liquid Glass template.pptx"><span>PowerPoint</span><small>.pptx · 329 KB</small></a>
+          
+          <a class="btn" href="decks/glass.html" download="Liquid Glass.html"><span>Web deck</span><small>.html · 447 KB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="manuscript" aria-labelledby="h-manuscript">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Light</span><span>Academic</span></p>
+        <h2 id="h-manuscript">Manuscript</h2>
+        <p class="lede">The talk set like a journal article: line numbers, a running head, numbered figure captions, an APA table and one highlighted number.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="manuscript" data-name="Manuscript" data-layouts="[&quot;Title page&quot;,&quot;Contents&quot;,&quot;Section&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Figure: procedure&quot;,&quot;Figure: image&quot;,&quot;Key number&quot;,&quot;Figure: chart&quot;,&quot;Table&quot;,&quot;Block quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="manuscript" aria-label="Present Manuscript from this slide">
+          <img src="thumbs/manuscript/L01.jpg" width="1440" height="810" alt="Manuscript, slide 1: Title page" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title page</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title page" aria-current="true"><img src="thumbs/manuscript/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Contents"><img src="thumbs/manuscript/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section"><img src="thumbs/manuscript/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/manuscript/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/manuscript/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Figure: procedure"><img src="thumbs/manuscript/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Figure: image"><img src="thumbs/manuscript/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Key number"><img src="thumbs/manuscript/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Figure: chart"><img src="thumbs/manuscript/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/manuscript/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Block quote"><img src="thumbs/manuscript/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/manuscript/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/manuscript/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Manuscript details">
+        <dl>
+          <div><dt>Good for</dt><dd>Lab meetings, methods talks, journal clubs</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Iowan Old Style, Menlo</dd></div>
+          <div><dt>In other browsers</dt><dd>Source Serif 4, JetBrains Mono</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#FBFAF6" title="#FBFAF6"></span><span class="sw" style="background:#161616" title="#161616"></span><span class="sw" style="background:#8C8A83" title="#8C8A83"></span><span class="sw" style="background:#FFE35A" title="#FFE35A"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="manuscript"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/manuscript.pptx" download="Manuscript template.pptx"><span>PowerPoint</span><small>.pptx · 182 KB</small></a>
+          
+          <a class="btn" href="decks/manuscript.html" download="Manuscript.html"><span>Web deck</span><small>.html · 251 KB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="darklab" aria-labelledby="h-darklab">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Dark</span><span>Precise</span></p>
+        <h2 id="h-darklab">Dark Lab</h2>
+        <p class="lede">An instrument panel: near-black, hairline rules, monospaced labels and a single amber signal trace.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="darklab" data-name="Dark Lab" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Process&quot;,&quot;Image&quot;,&quot;Big number&quot;,&quot;Chart&quot;,&quot;Table&quot;,&quot;Quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="darklab" aria-label="Present Dark Lab from this slide">
+          <img src="thumbs/darklab/L01.jpg" width="1440" height="810" alt="Dark Lab, slide 1: Title" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/darklab/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/darklab/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section"><img src="thumbs/darklab/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/darklab/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/darklab/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Process"><img src="thumbs/darklab/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Image"><img src="thumbs/darklab/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Big number"><img src="thumbs/darklab/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Chart"><img src="thumbs/darklab/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/darklab/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Quote"><img src="thumbs/darklab/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/darklab/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/darklab/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Dark Lab details">
+        <dl>
+          <div><dt>Good for</dt><dd>Data-heavy talks, dark lecture halls, technical audiences</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Helvetica Neue, Menlo</dd></div>
+          <div><dt>In other browsers</dt><dd>Arimo, JetBrains Mono</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#0B0D11" title="#0B0D11"></span><span class="sw" style="background:#181C24" title="#181C24"></span><span class="sw" style="background:#A3A9B4" title="#A3A9B4"></span><span class="sw" style="background:#F5B547" title="#F5B547"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="darklab"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/dark-lab.pptx" download="Dark Lab template.pptx"><span>PowerPoint</span><small>.pptx · 317 KB</small></a>
+          
+          <a class="btn" href="decks/darklab.html" download="Dark Lab.html"><span>Web deck</span><small>.html · 489 KB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="riso" aria-labelledby="h-riso">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Light</span><span>Playful</span></p>
+        <h2 id="h-riso">Riso</h2>
+        <p class="lede">A two-ink zine print. Blue carries every word; fluorescent pink prints the halftones, the floods and the slightly out-of-register offsets.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="riso" data-name="Riso" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Process&quot;,&quot;Image&quot;,&quot;Big number&quot;,&quot;Chart&quot;,&quot;Table&quot;,&quot;Quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="riso" aria-label="Present Riso from this slide">
+          <img src="thumbs/riso/L01.jpg" width="1440" height="810" alt="Riso, slide 1: Title" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/riso/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/riso/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section"><img src="thumbs/riso/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/riso/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/riso/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Process"><img src="thumbs/riso/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Image"><img src="thumbs/riso/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Big number"><img src="thumbs/riso/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Chart"><img src="thumbs/riso/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/riso/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Quote"><img src="thumbs/riso/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/riso/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/riso/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Riso details">
+        <dl>
+          <div><dt>Good for</dt><dd>Lightning talks, outreach and public events, science slams</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Futura</dd></div>
+          <div><dt>In other browsers</dt><dd>Jost</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#F5F1E8" title="#F5F1E8"></span><span class="sw" style="background:#3255A4" title="#3255A4"></span><span class="sw" style="background:#FF48B0" title="#FF48B0"></span><span class="sw" style="background:#F7D6DF" title="#F7D6DF"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="riso"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/riso.pptx" download="Riso template.pptx"><span>PowerPoint</span><small>.pptx · 775 KB</small></a>
+          
+          <a class="btn" href="decks/riso.html" download="Riso.html"><span>Web deck</span><small>.html · 1.0 MB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="committee" aria-labelledby="h-committee">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Light</span><span>Formal</span></p>
+        <h2 id="h-committee">Committee</h2>
+        <p class="lede">White pages, one institutional blue with a four-step scale, serif headings and a footer on every slide. The safe choice when the room is deciding something.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="committee" data-name="Committee" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Process&quot;,&quot;Image&quot;,&quot;Big number&quot;,&quot;Chart&quot;,&quot;Table&quot;,&quot;Quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="committee" aria-label="Present Committee from this slide">
+          <img src="thumbs/committee/L01.jpg" width="1440" height="810" alt="Committee, slide 1: Title" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/committee/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/committee/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section"><img src="thumbs/committee/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/committee/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/committee/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Process"><img src="thumbs/committee/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Image"><img src="thumbs/committee/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Big number"><img src="thumbs/committee/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Chart"><img src="thumbs/committee/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/committee/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Quote"><img src="thumbs/committee/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/committee/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/committee/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Committee details">
+        <dl>
+          <div><dt>Good for</dt><dd>Thesis defenses, job talks, grant panels</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Charter, Seravek</dd></div>
+          <div><dt>In other browsers</dt><dd>Source Serif 4, Fira Sans</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#1D4F91" title="#1D4F91"></span><span class="sw" style="background:#5B83BC" title="#5B83BC"></span><span class="sw" style="background:#A9C0E0" title="#A9C0E0"></span><span class="sw" style="background:#1A2433" title="#1A2433"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="committee"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/committee.pptx" download="Committee template.pptx"><span>PowerPoint</span><small>.pptx · 178 KB</small></a>
+          
+          <a class="btn" href="decks/committee.html" download="Committee.html"><span>Web deck</span><small>.html · 241 KB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="ink" aria-labelledby="h-ink">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Light</span><span>Quiet</span></p>
+        <h2 id="h-ink">Ink &amp; Paper</h2>
+        <p class="lede">Washi paper, a brushed ensō and a vermilion seal that reads 信, trust. Wide margins and very little on each slide.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="ink" data-name="Ink &amp; Paper" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section&quot;,&quot;Two columns&quot;,&quot;Points&quot;,&quot;Process&quot;,&quot;Image&quot;,&quot;Big number&quot;,&quot;Chart&quot;,&quot;Table&quot;,&quot;Quote&quot;,&quot;References&quot;,&quot;Closing&quot;]">
+        <button class="stage" type="button" data-present="ink" aria-label="Present Ink &amp; Paper from this slide">
+          <img src="thumbs/ink/L01.jpg" width="1440" height="810" alt="Ink &amp; Paper, slide 1: Title" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">13 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/ink/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/ink/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section"><img src="thumbs/ink/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Two columns"><img src="thumbs/ink/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Points"><img src="thumbs/ink/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Process"><img src="thumbs/ink/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Image"><img src="thumbs/ink/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Big number"><img src="thumbs/ink/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Chart"><img src="thumbs/ink/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Table"><img src="thumbs/ink/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Quote"><img src="thumbs/ink/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: References"><img src="thumbs/ink/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Closing"><img src="thumbs/ink/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Ink &amp; Paper details">
+        <dl>
+          <div><dt>Good for</dt><dd>Keynotes, humanities talks, a calm closing talk</dd></div>
+          <div><dt>Fonts on a Mac</dt><dd>Baskerville, Optima (Hiragino for Japanese)</dd></div>
+          <div><dt>In other browsers</dt><dd>Libre Baskerville, Belleza</dd></div>
+          <div><dt>Palette</dt><dd class="swatches"><span class="sw" style="background:#F2F0EB" title="#F2F0EB"></span><span class="sw" style="background:#1C1B19" title="#1C1B19"></span><span class="sw" style="background:#8A857C" title="#8A857C"></span><span class="sw" style="background:#B33A2E" title="#B33A2E"></span></dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" type="button" data-present="ink"><span>Present</span><small>in the browser</small></button>
+          <a class="btn" href="files/ink-and-paper.pptx" download="Ink and Paper template.pptx"><span>PowerPoint</span><small>.pptx · 578 KB</small></a>
+          
+          <a class="btn" href="decks/ink.html" download="Ink and Paper.html"><span>Web deck</span><small>.html · 789 KB</small></a>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="look" id="sw26" aria-labelledby="h-sw26">
+    <div class="wrap">
+      <div class="look-head">
+        <p class="mood"><span>Speaker template</span><span>17 slides</span></p>
+        <h2 id="h-sw26">Berlin Science Week 2026</h2>
+        <p class="lede">The speaker template for Berlin Science Week 2026, in three versions. Night and Day keep every layout and placeholder and change only the colors, the fonts and the sample pictures.</p>
+      </div>
+      <div class="look-body">
+      <figure class="viewer" data-id="sw26-night" data-name="SW26 Night" data-layouts="[&quot;Title&quot;,&quot;Agenda&quot;,&quot;Section Title&quot;,&quot;Content without Image&quot;,&quot;Content without Image&quot;,&quot;Content with Image&quot;,&quot;Content + 3 Images&quot;,&quot;Content + 4 Images&quot;,&quot;Image + Content&quot;,&quot;Image 1&quot;,&quot;Image 2&quot;,&quot;Image 3&quot;,&quot;Comparison Slide&quot;,&quot;Quote&quot;,&quot;Speaker Introduction&quot;,&quot;Content without Image&quot;,&quot;Thank you / End&quot;]">
+        <button class="stage" type="button" data-zoom="1" aria-label="Show this slide larger">
+          <img src="thumbs/sw26-night/L01.jpg" width="1440" height="810" alt="SW26 Night, slide 1: Title" loading="lazy">
+        </button>
+        <figcaption class="cap"><span class="cap-n">01</span><span class="cap-l">Title</span><span class="cap-t">17 slides · 16:9</span></figcaption>
+        <div class="strip">
+          <button class="thumb" type="button" data-i="1" aria-label="Slide 1: Title" aria-current="true"><img src="thumbs/sw26-night/S01.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="2" aria-label="Slide 2: Agenda"><img src="thumbs/sw26-night/S02.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="3" aria-label="Slide 3: Section Title"><img src="thumbs/sw26-night/S03.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="4" aria-label="Slide 4: Content without Image"><img src="thumbs/sw26-night/S04.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="5" aria-label="Slide 5: Content without Image"><img src="thumbs/sw26-night/S05.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="6" aria-label="Slide 6: Content with Image"><img src="thumbs/sw26-night/S06.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="7" aria-label="Slide 7: Content + 3 Images"><img src="thumbs/sw26-night/S07.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="8" aria-label="Slide 8: Content + 4 Images"><img src="thumbs/sw26-night/S08.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="9" aria-label="Slide 9: Image + Content"><img src="thumbs/sw26-night/S09.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="10" aria-label="Slide 10: Image 1"><img src="thumbs/sw26-night/S10.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="11" aria-label="Slide 11: Image 2"><img src="thumbs/sw26-night/S11.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="12" aria-label="Slide 12: Image 3"><img src="thumbs/sw26-night/S12.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="13" aria-label="Slide 13: Comparison Slide"><img src="thumbs/sw26-night/S13.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="14" aria-label="Slide 14: Quote"><img src="thumbs/sw26-night/S14.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="15" aria-label="Slide 15: Speaker Introduction"><img src="thumbs/sw26-night/S15.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="16" aria-label="Slide 16: Content without Image"><img src="thumbs/sw26-night/S16.jpg" width="480" height="270" alt="" loading="lazy"></button>
+          <button class="thumb" type="button" data-i="17" aria-label="Slide 17: Thank you / End"><img src="thumbs/sw26-night/S17.jpg" width="480" height="270" alt="" loading="lazy"></button>
+        </div>
+      </figure>
+      <aside class="facts" aria-label="Berlin Science Week template details">
+        <div class="segs" role="group" aria-label="Version"><button type="button" class="seg" aria-pressed="false" data-v="sw26-original">Original</button><button type="button" class="seg" aria-pressed="true" data-v="sw26-night">Night</button><button type="button" class="seg" aria-pressed="false" data-v="sw26-day">Day</button></div>
+        <div class="sw-actions" data-for="sw26-original" hidden>
+          <p class="sw-note">The template as the organizers sent it. <span class="muted">Fonts: Arial.</span></p>
+          <a class="btn" href="files/sw26-original.pptx" download="SW26 template - Original.pptx"><span>PowerPoint</span><small>.pptx · 112 KB</small></a>
+          
+        </div>
+        <div class="sw-actions" data-for="sw26-night">
+          <p class="sw-note">Ink-black pages, warm yellow headlines, softer greys. <span class="muted">Fonts: DIN Condensed, Avenir Next.</span></p>
+          <a class="btn" href="files/sw26-night.pptx" download="SW26 template - Night.pptx"><span>PowerPoint</span><small>.pptx · 1.3 MB</small></a>
+          
+        </div>
+        <div class="sw-actions" data-for="sw26-day" hidden>
+          <p class="sw-note">Paper-white pages with a deep cobalt in place of yellow. <span class="muted">Fonts: DIN Condensed, Avenir Next.</span></p>
+          <a class="btn" href="files/sw26-day.pptx" download="SW26 template - Day.pptx"><span>PowerPoint</span><small>.pptx · 1.2 MB</small></a>
+          
+        </div>
+      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide" id="web-or-slides" aria-labelledby="h-guide">
+    <div class="wrap">
+      <h2 id="h-guide">Web page or slide file?</h2>
+      <div class="cols">
+        <div>
+          <h3>Present from a web page when</h3>
+          <ul>
+            <li>you want to send one link before or after the talk;</li>
+            <li>the talk has motion, video or a live figure;</li>
+            <li>you will present from your own laptop;</li>
+            <li>text should stay sharp on any projector, since nothing is a picture.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Bring PowerPoint or Keynote when</h3>
+          <ul>
+            <li>the venue wants your slides uploaded in advance;</li>
+            <li>you rely on speaker notes and a timer in presenter view;</li>
+            <li>co-authors will edit the deck with you;</li>
+            <li>you present from a shared computer at the venue.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Before any talk</h3>
+          <ul>
+            <li>Download the .html and open it once with the network off. On a Mac the decks use built-in fonts; other computers fetch web fonts the first time.</li>
+            <li>Keep a PDF backup: open the .html in Chrome or Safari and print to PDF. Each slide prints as one 16:9 page.</li>
+            <li>Try your clicker. The decks treat Page Down and Page Up as next and back, which is what most clickers send.</li>
+            <li>To jump during questions, add <code>#slide-8</code> to the address, or press Home and End.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="by">A vibecoding by Ranran Li · <a href="../">ranranli.net</a></p>
+    <p>The sample talk is invented, and every slide with numbers says “sample data”. The four references are real papers. The PowerPoint and Keynote files use fonts that come with macOS; the web presentations fall back to Google Fonts on other computers.</p>
+  </div>
+</footer>
+
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-labelledby="player-title">
+  <div class="player-bar">
+    <span id="player-title">Presentation</span>
+    <span class="player-hint">Arrow keys move · Esc closes</span>
+    <a class="pbtn" id="player-tab" href="#" target="_blank" rel="noopener">New tab</a>
+    <button type="button" class="pbtn" id="player-full">Full screen</button>
+    <button type="button" class="pbtn" id="player-close">Close</button>
+  </div>
+  <iframe id="player-frame" title="Presentation" allow="fullscreen" allowfullscreen></iframe>
+</div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Slide">
+  <button type="button" class="pbtn zoom-close" id="zoom-close">Close</button>
+  <img id="zoom-img" alt="">
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const pad = (n) => String(n).padStart(2, "0");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- messages ----------
+  const toastEl = $("#toast");
+  let toastTimer;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove("show"), 3400);
+  }
+
+  // ---------- slide viewers ----------
+  function setSlide(fig, i) {
+    const layouts = JSON.parse(fig.dataset.layouts);
+    i = Math.max(1, Math.min(layouts.length, i));
+    fig.dataset.cur = String(i);
+    const img = $(".stage img", fig);
+    img.src = `thumbs/${fig.dataset.id}/L${pad(i)}.jpg`;
+    img.alt = `${fig.dataset.name}, slide ${i}: ${layouts[i - 1]}`;
+    $(".cap-n", fig).textContent = pad(i);
+    $(".cap-l", fig).textContent = layouts[i - 1];
+    $$(".thumb", fig).forEach((t) => (+t.dataset.i === i ? t.setAttribute("aria-current", "true") : t.removeAttribute("aria-current")));
+    return i;
+  }
+  $$(".viewer").forEach((fig) => {
+    fig.dataset.cur = "1";
+    const thumbs = $$(".thumb", fig);
+    thumbs.forEach((t) => {
+      t.addEventListener("click", () => setSlide(fig, +t.dataset.i));
+      t.addEventListener("pointerenter", () => { const im = new Image(); im.src = `thumbs/${fig.dataset.id}/L${pad(+t.dataset.i)}.jpg`; });
+      t.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        e.preventDefault();
+        const j = setSlide(fig, +t.dataset.i + (e.key === "ArrowRight" ? 1 : -1));
+        thumbs[j - 1].focus();
+      });
+    });
+  });
+
+  // ---------- presenting a web deck ----------
+  const player = $("#player");
+  const frame = $("#player-frame");
+  let lastFocus = null;
+  function present(id, i) {
+    const fig = $(`.viewer[data-id="${id}"]`);
+    $("#player-title").textContent = fig ? fig.dataset.name : "Presentation";
+    lastFocus = document.activeElement;
+    player.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    frame.onload = () => {
+      try {
+        const w = frame.contentWindow;
+        w.addEventListener("keydown", (e) => { if (e.key === "Escape") closePlayer(); });
+        w.focus();
+      } catch (e) { /* the deck still works; Esc then needs a click outside it */ }
+    };
+    frame.src = `decks/${id}.html#slide-${i || 1}`;
+    $("#player-tab").href = `decks/${id}.html#slide-${i || 1}`;
+    $("#player-close").focus();
+  }
+  function closePlayer() {
+    if (player.hidden) return;
+    try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {}
+    player.hidden = true;
+    frame.onload = null;
+    frame.src = "about:blank";
+    document.documentElement.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $$("[data-present]").forEach((b) => b.addEventListener("click", () => {
+    const id = b.dataset.present;
+    const fig = $(`.viewer[data-id="${id}"]`);
+    present(id, fig ? +fig.dataset.cur : 1);
+  }));
+  $("#player-close").addEventListener("click", closePlayer);
+  $("#player-full").addEventListener("click", async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await player.requestFullscreen();
+    } catch (e) {
+      toast("Full screen isn't available in this view. Download the .html to present full screen.");
+    }
+  });
+
+  // ---------- a larger look at one slide (the SW26 versions have no web deck) ----------
+  const zoom = $("#zoom");
+  const zimg = $("#zoom-img");
+  let zoomFig = null;
+  function showZoom(fig) {
+    zoomFig = fig;
+    const i = +fig.dataset.cur;
+    zimg.src = `thumbs/${fig.dataset.id}/L${pad(i)}.jpg`;
+    zimg.alt = $(".stage img", fig).alt;
+  }
+  $$("[data-zoom]").forEach((b) => b.addEventListener("click", () => {
+    lastFocus = document.activeElement;
+    showZoom(b.closest(".viewer"));
+    zoom.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    $("#zoom-close").focus();
+  }));
+  function closeZoom() {
+    if (zoom.hidden) return;
+    zoom.hidden = true;
+    document.documentElement.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $("#zoom-close").addEventListener("click", closeZoom);
+  zoom.addEventListener("click", (e) => { if (e.target === zoom) closeZoom(); });
+
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closePlayer(); closeZoom(); }
+    if (!zoom.hidden && zoomFig && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
+      e.preventDefault();
+      setSlide(zoomFig, +zoomFig.dataset.cur + (e.key === "ArrowRight" ? 1 : -1));
+      showZoom(zoomFig);
+    }
+  });
+
+  // ---------- SW26 versions ----------
+  const swFig = $("#sw26 .viewer");
+  $$("#sw26 .seg").forEach((s) => s.addEventListener("click", () => {
+    const v = s.dataset.v;
+    $$("#sw26 .seg").forEach((x) => x.setAttribute("aria-pressed", x === s ? "true" : "false"));
+    $$("#sw26 .sw-actions").forEach((p) => { p.hidden = p.dataset.for !== v; });
+    swFig.dataset.id = v;
+    swFig.dataset.name = "SW26 " + s.textContent.trim();
+    $$(".thumb img", swFig).forEach((im, k) => { im.src = `thumbs/${v}/S${pad(k + 1)}.jpg`; });
+    setSlide(swFig, +swFig.dataset.cur);
+  }));
+
+  // ---------- the moving glass behind the masthead ----------
+  (async () => {
+    const el = $("#aurora");
+    try {
+      const PS = await import("https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.81/dist/index.js");
+      const colors = ["#CDB8F7", "#FFCDB2", "#B9DCF8", "#F8C2D8", "#C4EBCB"];
+      new PS.ShaderMount(el, PS.meshGradientFragmentShader, {
+        u_colors: colors.map(PS.getShaderColorFromString), u_colorsCount: colors.length,
+        u_distortion: 0.85, u_swirl: 0.45, u_grainMixer: 0, u_grainOverlay: 0.02,
+        u_fit: PS.ShaderFitOptions.cover, u_scale: 1, u_rotation: 0, u_offsetX: 0, u_offsetY: 0,
+        u_originX: 0.5, u_originY: 0.5, u_worldWidth: 0, u_worldHeight: 0,
+      }, undefined, reduce ? 0 : 0.1, 8000, 1, 1920 * 1080);
+      requestAnimationFrame(() => el.classList.add("on"));
+    } catch (e) { /* the still gradient stays */ }
+  })();
+})();
+
+</script>
+</body>
+</html>
