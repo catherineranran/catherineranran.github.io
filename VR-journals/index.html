@@ -40,6 +40,7 @@ img{max-width:100%}
 .toplinks{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-family:var(--mono);font-size:13px}
 .toplinks a{color:var(--accent);text-decoration:none}
 .toplinks a:hover{text-decoration:underline}
+.toplinks .atlases{display:flex;flex-wrap:wrap;gap:8px 20px}
 header{display:grid;gap:10px;max-width:68ch}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font-family:var(--display);font-weight:800;letter-spacing:-.01em;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0;text-wrap:balance}
@@ -84,7 +85,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 <div class="wrap">
   <nav class="toplinks" aria-label="Site">
     <a href="/">← Ranran Li</a>
-    <a href="/crim-journals/">Criminology Journal Atlas →</a>
+    <span class="atlases"><a href="/crim-journals/">Criminology Journal Atlas →</a><a href="/personality-journals/">Personality Journal Atlas →</a></span>
   </nav>
 
   <header>
@@ -147,7 +148,7 @@ const tierRank={A:3,B:2,C:1};
 const rows=document.getElementById('rows'),count=document.getElementById('count'),empty=document.getElementById('empty');
 const typeSel=document.getElementById('typeFilter');
 [...new Set(D.map(d=>d.ty))].sort((a,b)=>TYPE_ORDER.indexOf(a)-TYPE_ORDER.indexOf(b)).forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeSel.appendChild(o)});
-let area='all',type='all',q='',sortK='tier',dir=-1;
+let area='all',type='all',q='',sortK="tier",dir=-1;
 const num=v=>{const x=parseFloat(String(v).replace(/[~,+]/g,''));return isNaN(x)?-1:x};
 const val=(d,k)=>{switch(k){
   case 'name':return d.n.toLowerCase();
@@ -158,7 +159,7 @@ const val=(d,k)=>{switch(k){
   case 'issues':return typeof d.i==='number'?d.i:99;
   case 'arts':return num(d.ar);
   case 'type':return TYPE_ORDER.indexOf(d.ty);
-  case 'fit':return d.f*100+(d.jif||0);
+  case 'fit':return d.f*1000+tierRank[d.t]*100+(d.jif||0);
   case 'scope':return d.s;}};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const fmt=v=>v==null?'—':v.toFixed(1);
