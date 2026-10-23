@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VR Journal Atlas | Ranran Li</title>
+<meta name="description" content="30 journals that publish virtual reality research in the behavioral sciences, compared by standing, impact factor, output, article policy and how often they take VR work.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VR Journal Atlas">
+<meta property="og:description" content="Where VR research in psychology, criminology and human factors gets published: 30 journals, sortable by impact, output and article policy.">
+<meta property="og:url" content="https://ranranli.net/VR-journals/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../assets/icons/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: one reading column for the header and notes, a full-width sortable ledger below.
+   Shared by the journal atlases on ranranli.net; tokens follow the site's own palette and type. */
+:root{
+  --bg:#F3F2F6; --surface:#FFFFFF; --fg:#17161C; --muted:#4A4857; --line:#E0DEE7;
+  --accent:#3A32C2; --accent-soft:#ECEAFA;
+  --tA:#1F6B4C; --tAbg:#DDF1E6; --tB:#7A5A0E; --tBbg:#F6EDD3; --tC:#5A5868; --tCbg:#E9E7EF;
+  --display:"Bricolage Grotesque","Avenir Next",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible Next",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E0D12; --surface:#18171E; --fg:#F2F1F6; --muted:#BCB9C8; --line:#2B2934;
+  --accent:#ACA4FF; --accent-soft:#25223A;
+  --tA:#8FD3B2; --tAbg:#173A2B; --tB:#E2C873; --tBbg:#3A3119; --tC:#C4C1D0; --tCbg:#2A2833; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0D12; --surface:#18171E; --fg:#F2F1F6; --muted:#BCB9C8; --line:#2B2934;
+  --accent:#ACA4FF; --accent-soft:#25223A;
+  --tA:#8FD3B2; --tAbg:#173A2B; --tB:#E2C873; --tBbg:#3A3119; --tC:#C4C1D0; --tCbg:#2A2833; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:1320px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:24px}
+.toplinks{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-family:var(--mono);font-size:13px}
+.toplinks a{color:var(--accent);text-decoration:none}
+.toplinks a:hover{text-decoration:underline}
+header{display:grid;gap:10px;max-width:68ch}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.01em;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.chip:focus-visible,select:focus-visible,input:focus-visible,th button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select,input[type=search]{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;padding:6px 10px}
+input[type=search]{min-width:0;flex:1 1 200px;max-width:280px}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto}
+.ledger{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:1180px;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+thead th{position:sticky;top:0;background:var(--surface);font-weight:700;font-size:12px;color:var(--muted);white-space:nowrap;border-bottom:2px solid var(--line)}
+th button{all:unset;cursor:pointer}
+th button::after{content:" ↕";opacity:.35}
+th[aria-sort="ascending"] button::after{content:" ↑";opacity:1}
+th[aria-sort="descending"] button::after{content:" ↓";opacity:1}
+tbody tr:hover{background:var(--accent-soft)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.jname{font-weight:700}
+.pub{display:block;font-size:12px;color:var(--muted)}
+.tier{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.tA{color:var(--tA);background:var(--tAbg)} .tB{color:var(--tB);background:var(--tBbg)} .tC{color:var(--tC);background:var(--tCbg)}
+.fit{font-family:var(--mono);letter-spacing:2px;color:var(--accent);white-space:nowrap}
+.type{white-space:nowrap}
+.scope{max-width:36ch}
+.est{color:var(--muted)}
+.mark{color:var(--muted);font-size:11px;margin-left:1px}
+.notes{display:grid;gap:8px;max-width:78ch;font-size:13.5px;color:var(--muted)}
+.notes h2{font-family:var(--display);font-size:19px;font-weight:600;color:var(--fg);margin:8px 0 0}
+.notes p{margin:0}
+.notes b{color:var(--fg)}
+.notes a{color:var(--accent)}
+.empty{padding:24px;color:var(--muted)}
+.stamp{font-family:var(--mono);font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toplinks" aria-label="Site">
+    <a href="/">← Ranran Li</a>
+    <a href="/crim-journals/">Criminology Journal Atlas →</a>
+  </nav>
+
+  <header>
+    <span class="eyebrow">Virtual reality · Behavioral science · JCR release June 2026</span>
+    <h1>Where VR research in the behavioral sciences gets published</h1>
+    <p>30 journals that take virtual reality studies, from dedicated VR venues to psychology, HCI, clinical and criminology outlets. Click a column to sort; use the chips to narrow by area.</p>
+  </header>
+
+  <div class="controls">
+    <div class="chips" role="group" aria-label="Area">
+      <button class="chip" id="area-all" data-area="all" aria-pressed="true">All</button>
+      <button class="chip" id="area-vr" data-area="vr" aria-pressed="false">VR &amp; XR venues</button>
+      <button class="chip" id="area-cyber" data-area="cyber" aria-pressed="false">Cyberpsychology, HCI &amp; media</button>
+      <button class="chip" id="area-methods" data-area="methods" aria-pressed="false">Methods &amp; applied</button>
+      <button class="chip" id="area-clinical" data-area="clinical" aria-pressed="false">Clinical &amp; health</button>
+      <button class="chip" id="area-crim" data-area="crim" aria-pressed="false">Criminology &amp; law</button>
+      <button class="chip" id="area-broad" data-area="broad" aria-pressed="false">Broad open access</button>
+    </div>
+    <select id="typeFilter" aria-label="Article policy"><option value="all">Any article policy</option></select>
+    <input type="search" id="q" placeholder="Search name or scope" aria-label="Search journals">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="ledger">
+    <table>
+      <thead><tr>
+        <th data-k="name"><button>Journal</button></th>
+        <th data-k="tier"><button>Standing</button></th>
+        <th data-k="jif"><button>JIF</button></th>
+        <th data-k="jif5"><button>5-yr JIF</button></th>
+        <th data-k="q"><button>JCR Q</button></th>
+        <th data-k="issues"><button>Issues/yr</button></th>
+        <th data-k="arts"><button>Articles/yr</button></th>
+        <th data-k="type"><button>Article policy</button></th>
+        <th data-k="fit"><button>VR fit</button></th>
+        <th data-k="scope"><button>Scope</button></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>No journals match these filters. Clear the search or pick another area.</div>
+  </div>
+
+  <section class="notes">
+    <h2>How to read this</h2>
+    <p><b>Standing</b> is an editorial tier, not a metric: <b>A</b> = a flagship venue in its own field (VR, HCI, or a psychology subfield); <b>B</b> = a strong specialist journal; <b>C</b> = a narrower, newer or mega-journal outlet. Treat it as a starting opinion, and remember that the same paper reads differently to a psychology, criminology or computer-science committee.</p>
+    <p><b>JIF</b> is the Clarivate Journal Impact Factor from the June 2026 release (the 2025 JIF), checked on publisher pages wherever they could be read. A <b>†</b> marks a figure that could not be confirmed on the publisher's own page; hover it to see where it comes from. A dash means no value could be confirmed. Check JCR before quoting a figure in an application.</p>
+    <p><b>Articles/yr</b> is the 2025 count where available; values marked <span class="est">~</span> are approximate and may include editorials and corrections. Issues/yr follows the publisher's stated frequency; continuous-publication journals are marked "cont."</p>
+    <p><b>VR fit</b>: ●●● VR or extended reality is the journal's core subject or has its own section; ●●○ the journal publishes VR studies regularly; ●○○ it takes VR studies when the research question fits its main field.</p>
+    <p><b>Conferences count in VR.</b> In VR and HCI, full papers at IEEE VR, ISMAR, ACM CHI and ACM VRST are primary publications, and the IEEE VR and ISMAR journal-track papers appear in IEEE TVCG. Psychology and criminology committees usually weigh journal articles more.</p>
+    <p><b>For criminology venues beyond VR</b>, see the <a href="/crim-journals/">Criminology Journal Atlas</a>.</p>
+    <p class="stamp">Last checked 23 October 2026.</p>
+  </section>
+</div>
+
+<script>
+const D=[{"n": "IEEE Transactions on Visualization and Computer Graphics","p": "IEEE Computer Society · hybrid","a": "vr","t": "A","jif": 6.8,"jif5": null,"q": "—","i": 12,"ar": "~700","ty": "Empirical + reviews","f": 3,"s": "Graphics, visualization and VR/AR; carries the IEEE VR and ISMAR journal-track papers. Expects a technical or systems contribution, not only a behavioral finding."},{"n": "Virtual Reality","p": "Springer · open access (APC US$3,090)","a": "vr","t": "B","jif": 5.4,"jif5": 6.7,"q": "Q1","i": 4,"ar": "~220","ty": "Empirical + reviews","f": 3,"s": "Dedicated XR journal: VR, AR and MR research, including user studies of presence, embodiment and training. Fully open access since 2024."},{"n": "Frontiers in Virtual Reality","p": "Frontiers · open access (APC CHF 2,195)","a": "vr","t": "C","jif": 3.9,"jif5": null,"q": "Q2","i": "cont.","ar": "~190","ty": "Empirical + conceptual","f": 3,"s": "Broad XR journal with its own 'VR and Human Behaviour' section (presence, embodiment, skill transfer); takes registered reports, methods and theory papers."},{"n": "PRESENCE: Virtual and Augmented Reality","p": "MIT Press · subscription, no APC","a": "vr","t": "C","jif": 1.5,"jy": "June 2026 figure from secondary sources (bioxbio); the publisher's page could not be read to confirm it","jif5": null,"q": "Q3","i": "4–6","ar": "~27","ty": "Empirical + conceptual","f": 3,"s": "The original presence journal (since 1992): presence, virtual humans, haptics. Small now, but a natural home for theory-heavy presence work."},{"n": "JMIR XR and Spatial Computing","p": "JMIR Publications · open access (APC US$1,500)","a": "vr","t": "C","jif": 1.8,"jif5": null,"q": "Q3","i": "cont.","ar": 20,"ty": "Empirical + reviews","f": 3,"s": "Extended reality and spatial computing in health care; the whole journal is XR. Received its first impact factor in 2026."},{"n": "Computers in Human Behavior","p": "Elsevier · hybrid","a": "cyber","t": "A","jif": 12.2,"jy": "June 2026 figure from secondary sources (bioxbio, journalsearches); the publisher's page could not be read to confirm it","jif5": null,"q": "Q1","i": 12,"ar": "~270","ty": "Empirical + conceptual","f": 2,"s": "Psychology of technology use and cyberpsychology; VR is one topic among many. Very highly cited; frames work around human behavior rather than the technology."},{"n": "Computers in Human Behavior Reports","p": "Elsevier · open access (APC ~US$1,580)","a": "cyber","t": "C","jif": 5.5,"jy": "Secondary sources disagree (5.5 vs 5.8); the publisher's page could not be read to confirm it","jif5": null,"q": "—","i": "cont.","ar": "~330","ty": "Empirical + reviews","f": 2,"s": "Open-access companion to Computers in Human Behavior; takes replications, null results and scale validations."},{"n": "Cyberpsychology, Behavior, and Social Networking","p": "SAGE (formerly Mary Ann Liebert) · hybrid","a": "cyber","t": "B","jif": 4.0,"jif5": 5.9,"q": "Q1","i": 12,"ar": "~110","ty": "Empirical + reviews","f": 2,"s": "Psychological and social effects of social media, gaming and immersive tech; papers up to 3,000 words, US$24 submission fee."},{"n": "ACM Transactions on Computer-Human Interaction","p": "ACM · open access since 2026 (APC US$1,450)","a": "cyber","t": "A","jif": 9.6,"jy": "Unofficial figure (bioxbio, Peeref); ACM's site shows no impact factor","jif5": null,"q": "—","i": 6,"ar": 68,"ty": "Empirical + conceptual","f": 1,"s": "ACM's main HCI journal: designing and evaluating interactive technology and its effects on people; occasional VR. Fully open access since January 2026."},{"n": "Human–Computer Interaction","p": "Taylor & Francis · hybrid","a": "cyber","t": "A","jif": 5.8,"jif5": 7.2,"q": "Q1","i": 6,"ar": "~17","ty": "Empirical + conceptual","f": 1,"s": "Small, prestigious HCI journal that prefers substantial research programmes and theory; occasional VR."},{"n": "Media Psychology","p": "Taylor & Francis · hybrid","a": "cyber","t": "A","jif": 3.0,"jif5": 4.9,"q": "Q1","i": 6,"ar": "~34","ty": "Empirical + reviews","f": 1,"s": "Theory-driven research on media use and effects; takes registered reports and replications. VR fits when framed as a media effect, such as presence or immersion."},{"n": "Journal of Media Psychology","p": "Hogrefe · hybrid","a": "cyber","t": "B","jif": 1.9,"jy": "Hogrefe shows 1.9 without a year; Wikipedia gives 2.4 as the 2024 JIF","jif5": 2.3,"q": "—","i": 6,"ar": "~33","ty": "Empirical + conceptual","f": 2,"s": "European media psychology journal; virtual environments and games are in its scope, and a 2025 special issue covered metaverse and XR communication."},{"n": "Journal of Computer-Mediated Communication","p": "Oxford UP · ICA · open access (APCs waived)","a": "cyber","t": "A","jif": 7.4,"jif5": 11.0,"q": "Q1","i": 6,"ar": 22,"ty": "Empirical + reviews","f": 1,"s": "Top social-science journal on communication through digital media; avatars and social VR fit, but VR papers are rare."},{"n": "Technology, Mind, and Behavior","p": "APA · open access (APC US$1,800)","a": "cyber","t": "B","jif": 3.4,"jif5": 4.7,"q": "Q1","i": 4,"ar": "~32","ty": "Empirical + conceptual","f": 2,"s": "APA's open-access journal on how technology shapes affect, cognition and behavior; XR is a named focus, with a 2025 collection on learning in immersive VR."},{"n": "Cyberpsychology: Journal of Psychosocial Research on Cyberspace","p": "Masaryk University · diamond OA (no fees)","a": "cyber","t": "C","jif": 2.6,"jif5": null,"q": "Q1","i": 5,"ar": 41,"ty": "Empirical + reviews","f": 1,"s": "Free-to-publish journal on how digital technologies shape experience and society; occasional VR and avatar studies."},{"n": "Human Behavior and Emerging Technologies","p": "Wiley · open access (APC ~US$1,070)","a": "cyber","t": "C","jif": 4.9,"jif5": null,"q": "—","i": "cont.","ar": 178,"ty": "Empirical + reviews","f": 1,"s": "Human behavior and emerging digital technologies across the behavioral sciences; occasional VR."},{"n": "International Journal of Human-Computer Studies","p": "Elsevier · hybrid","a": "cyber","t": "A","jif": 6.0,"jy": "June 2026 figure from secondary sources (bioxbio, Peeref); the publisher's page could not be read to confirm it","jif5": null,"q": "Q1","i": 12,"ar": "~195","ty": "Empirical + conceptual","f": 2,"s": "Leading HCI journal for empirical and theoretical work on interactive technology; lists VR, AR and MR among its research areas."},{"n": "International Journal of Human–Computer Interaction","p": "Taylor & Francis · hybrid","a": "cyber","t": "B","jif": 6.1,"jif5": 7.0,"q": "Q1","i": "—","ar": "~940","ty": "Empirical + reviews","f": 2,"s": "High-volume HCI journal (about 900 papers a year): usability, interaction design, technology acceptance and VR/AR user studies."},{"n": "Behavior Research Methods","p": "Springer · Psychonomic Society · hybrid","a": "methods","t": "A","jif": 5.1,"jif5": 7.2,"q": "—","i": 12,"ar": "~340","ty": "Methods & tools","f": 2,"s": "Methods, instruments and software for experimental psychology; the place for a VR toolkit, a stimulus set or the validation of a VR measure."},{"n": "Journal of Environmental Psychology","p": "Elsevier · hybrid","a": "methods","t": "A","jif": 7.3,"jy": "June 2026 figure from secondary sources (Wikipedia, xueshu.com); the publisher's page could not be read to confirm it","jif5": null,"q": "—","i": 8,"ar": "~320","ty": "Empirical + reviews","f": 2,"s": "People and physical environments: built and natural settings, wayfinding, restoration, place attachment. Its scope explicitly includes virtual environments."},{"n": "Human Factors","p": "SAGE · HFES · hybrid","a": "methods","t": "A","jif": 3.6,"jif5": 5.5,"q": "—","i": 12,"ar": "~60","ty": "Empirical + reviews","f": 2,"s": "How people interact with technologies and systems: VR training, head-mounted displays, simulators. Expects clear applied relevance."},{"n": "Cognitive Research: Principles and Implications","p": "Springer · Psychonomic Society · open access (APC US$1,990)","a": "methods","t": "B","jif": 3.6,"jif5": 4.6,"q": "—","i": "cont.","ar": "~85","ty": "Empirical + reviews","f": 1,"s": "Use-inspired cognitive research motivated by real-world problems; occasional VR navigation and visual-search studies."},{"n": "Behaviour Research and Therapy","p": "Elsevier · hybrid","a": "clinical","t": "A","jif": 4.5,"jy": "2024 JIF (June 2025 release); the publisher's page could not be read to confirm the 2025 figure","jif5": null,"q": "—","i": 12,"ar": "~185","ty": "Empirical + conceptual","f": 2,"s": "Mechanisms and treatment of emotional and behavioural disorders; a natural home for VR exposure-therapy trials and experimental psychopathology."},{"n": "JMIR Serious Games","p": "JMIR Publications · open access (APC US$2,950)","a": "clinical","t": "B","jif": 4.7,"jif5": 6.1,"q": "Q1","i": "cont.","ar": "~130","ty": "Empirical + reviews","f": 3,"s": "Games, gamification and VR for health, rehabilitation and mental health; VR is named in its scope."},{"n": "European Journal on Criminal Policy and Research","p": "Springer · hybrid","a": "crim","t": "B","jif": 2.8,"jif5": 2.5,"q": "—","i": 4,"ar": "~45","ty": "Empirical + conceptual","f": 2,"s": "Crime and criminal policy in Europe. Hosts the collection 'Criminology & Virtual Reality in Europe' (eds. Caneppele, Cocco, van Gelder), now closed to submissions."},{"n": "Journal of Experimental Criminology","p": "Springer · Academy of Experimental Criminology · hybrid","a": "crim","t": "B","jif": 2.5,"jif5": null,"q": "Q1","i": 4,"ar": 66,"ty": "Empirical + reviews","f": 2,"s": "Randomised and quasi-experimental criminology; has published VR experiments, including a 2025 randomised trial run in VR."},{"n": "Legal and Criminological Psychology","p": "Wiley · British Psychological Society","a": "crim","t": "B","jif": 2.0,"jif5": null,"q": "Q1","i": 2,"ar": 57,"ty": "Empirical + reviews","f": 1,"s": "Forensic psychology: interviewing, eyewitnesses, deception. VR studies fit when the forensic question leads, as in lineup or interview paradigms."},{"n": "Crime Science","p": "Springer (BMC) · open access","a": "crim","t": "C","jif": 2.2,"jif5": null,"q": "Q1","i": "cont.","ar": 36,"ty": "Empirical + conceptual","f": 1,"s": "Situational and data-driven crime science; VR suits studies of offender decision-making and environmental design."},{"n": "Scientific Reports","p": "Springer Nature · open access","a": "broad","t": "C","jif": 4.9,"jif5": null,"q": "—","i": "cont.","ar": "~40,000","ty": "Empirical only","f": 2,"s": "Multidisciplinary sound-science journal; frequent VR, perception and neuroscience studies."},{"n": "PLOS ONE","p": "PLOS · open access (APC US$2,477)","a": "broad","t": "C","jif": 2.8,"jif5": null,"q": "—","i": "cont.","ar": "~20,000","ty": "Empirical + reviews","f": 2,"s": "Judged on soundness, not novelty; publishes many VR studies as well as null results, replications and registered reports."}];
+const FIT_NAME="VR fit";
+const TYPE_ORDER=["Empirical only","Empirical + reviews","Empirical + conceptual","Methods & tools","Reviews only"];
+const tierRank={A:3,B:2,C:1};
+const rows=document.getElementById('rows'),count=document.getElementById('count'),empty=document.getElementById('empty');
+const typeSel=document.getElementById('typeFilter');
+[...new Set(D.map(d=>d.ty))].sort((a,b)=>TYPE_ORDER.indexOf(a)-TYPE_ORDER.indexOf(b)).forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeSel.appendChild(o)});
+let area='all',type='all',q='',sortK='tier',dir=-1;
+const num=v=>{const x=parseFloat(String(v).replace(/[~,+]/g,''));return isNaN(x)?-1:x};
+const val=(d,k)=>{switch(k){
+  case 'name':return d.n.toLowerCase();
+  case 'tier':return tierRank[d.t]*100+(d.jif||0);
+  case 'jif':return d.jif??-1;
+  case 'jif5':return d.jif5??-1;
+  case 'q':return d.q;
+  case 'issues':return typeof d.i==='number'?d.i:99;
+  case 'arts':return num(d.ar);
+  case 'type':return TYPE_ORDER.indexOf(d.ty);
+  case 'fit':return d.f*100+(d.jif||0);
+  case 'scope':return d.s;}};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const fmt=v=>v==null?'—':v.toFixed(1);
+function render(){
+  const list=D.filter(d=>(area==='all'||d.a===area)&&(type==='all'||d.ty===type)&&(!q||(d.n+' '+d.s+' '+d.p).toLowerCase().includes(q)))
+    .sort((x,y)=>{const a=val(x,sortK),b=val(y,sortK);return (a>b?1:a<b?-1:0)*dir});
+  rows.innerHTML=list.map(d=>{
+    const mark=d.jy?`<span class="mark" title="${esc(d.jy)}">†</span>`:'';
+    const est=String(d.ar).startsWith('~')||d.ar==='—';
+    return `<tr>
+  <td><span class="jname">${esc(d.n)}</span><span class="pub">${esc(d.p)}</span></td>
+  <td><span class="tier t${d.t}">${d.t}</span></td>
+  <td class="num">${fmt(d.jif)}${d.jif!=null?mark:''}</td>
+  <td class="num">${fmt(d.jif5)}</td>
+  <td class="num">${esc(d.q)}</td>
+  <td class="num">${esc(d.i)}</td>
+  <td class="num${est?' est':''}">${esc(d.ar)}</td>
+  <td class="type">${esc(d.ty)}</td>
+  <td class="fit" title="${FIT_NAME}: ${d.f} of 3" aria-label="${FIT_NAME} ${d.f} of 3">${'●'.repeat(d.f)}${'○'.repeat(3-d.f)}</td>
+  <td class="scope">${esc(d.s)}</td></tr>`}).join('');
+  empty.hidden=list.length>0;
+  count.textContent=`${list.length} of ${D.length} journals`;
+  document.querySelectorAll('th').forEach(th=>th.setAttribute('aria-sort',th.dataset.k===sortK?(dir>0?'ascending':'descending'):'none'));
+}
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{area=b.dataset.area;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));render()}));
+typeSel.addEventListener('change',e=>{type=e.target.value;render()});
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render()});
+document.querySelectorAll('th button').forEach(b=>b.addEventListener('click',()=>{const k=b.parentElement.dataset.k;if(k===sortK)dir=-dir;else{sortK=k;dir=(k==='name'||k==='scope'||k==='q'||k==='type'||k==='issues')?1:-1}render()}));
+render();
+</script>
+</body>
+</html>
