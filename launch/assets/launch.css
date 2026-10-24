@@ -849,7 +849,7 @@ a.rd-libhead.on b { background: rgba(15, 42, 71, .1); color: var(--accent-ink); 
 .rd-cover::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(10, 20, 40, .08); background: linear-gradient(90deg, rgba(0, 0, 0, .14), rgba(255, 255, 255, .16) 2.5%, rgba(255, 255, 255, 0) 7%); }
 .rd-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: rdFade .4s ease both; }
 .rd-cover-f { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; padding: 16px 12px 13px 15px; color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, .18); }
-.rd-cover-f b { font: 700 15px/1.18 var(--sans); letter-spacing: -.01em; text-wrap: balance; overflow-wrap: anywhere; }
+.rd-cover-f b { font: 700 15px/1.18 var(--sans); letter-spacing: -.01em; text-wrap: balance; overflow-wrap: anywhere; -webkit-hyphens: auto; hyphens: auto; }
 .rd-cover-f small { font: 600 10.5px/1.3 var(--sans); letter-spacing: .02em; opacity: .9; }
 .rd-cover.has-img .rd-cover-f { visibility: hidden; }
 @keyframes rdFade { from { opacity: 0; } to { opacity: 1; } }
@@ -867,6 +867,9 @@ a.rd-libhead.on b { background: rgba(15, 42, 71, .1); color: var(--accent-ink); 
   .rd-lib { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
   .rd-book-g { -webkit-line-clamp: 2; line-clamp: 2; }
   .rd-cover.sm { width: 64px; }
+  .rd-cover.sm .rd-cover-f { padding: 7px 5px 6px 7px; }
+  .rd-cover.sm .rd-cover-f b { font-size: 8px; }
+  .rd-cover.sm .rd-cover-f small { font-size: 6.5px; }
   .rd-titlerow { gap: 14px; }
 }
 
