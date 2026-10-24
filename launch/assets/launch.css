@@ -747,6 +747,8 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .rd-kicker { margin: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font: 800 11.5px/1.3 var(--sans); letter-spacing: .13em; text-transform: uppercase; color: #5b7090; }
 .rd-today { display: inline-block; padding: 3px 9px; border-radius: 999px; background: #ffe39b; color: #6d4a00; font-size: 10px; letter-spacing: .1em; }
 .rd-head { padding-bottom: 22px; margin-bottom: 28px; border-bottom: 1px solid rgba(20, 40, 70, .12); }
+.rd-headrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rd-edit { flex: none; gap: 5px; }
 .rd-head h1, .rd-msg h1 { margin: 12px 0 10px; font: 650 clamp(28px, 3.6vw, 42px)/1.1 var(--sans); letter-spacing: -.035em; color: #111827; text-wrap: balance; }
 .rd-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; color: #5f6b80; }
 .rd-meta:empty { display: none; }

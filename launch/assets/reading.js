@@ -306,6 +306,8 @@
       if (!e.title && f && f.sub) {
         var tp = titleParts(f.plain, parseDate(f.plain));
         e.title = tp.title; e.byline = e.byline || tp.byline;
+        var tm = f.inner.match(/href="https:\/\/docs\.google\.com\/document\/[^"]*[?&]tab=(t\.[\w-]+)/);
+        if (tm) e.tabId = tm[1];
         e.blocks.shift();
       }
       var subs = e.blocks.filter(function (b) { return b.sub; });
@@ -343,7 +345,8 @@
     list: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>',
     note: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></svg>',
     refresh: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>',
-    chev: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
+    chev: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+    edit: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>'
   };
 
   // Kept between tab switches, so coming back to Reading is instant.
@@ -454,7 +457,8 @@
       var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : 'Notes';
       paper.innerHTML =
         '<article class="rd-entry">' +
-        '<header class="rd-head"><p class="rd-kicker">' + kicker + '</p>' +
+        '<header class="rd-head"><div class="rd-headrow"><p class="rd-kicker">' + kicker + '</p>' +
+        '<button type="button" class="btn small rd-edit" data-edit title="Edit this day in the Google Doc">' + ICON.edit + 'Edit</button></div>' +
         '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
         '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + ' sections</span>' : '') + '</p></header>' +
         '<div class="rd-prose">' + (e.blocks.length ? e.blocks.map(function (b) { return b.html; }).join('') : '<p class="rd-emptynote">Nothing under this date yet.</p>') + '</div>' +
@@ -470,6 +474,7 @@
       try { history.replaceState(history.state, '', location.pathname + location.search + '#' + encodeURIComponent(id)); } catch (e) { /* ignore */ }
       renderEntry();
       renderOutline();
+      if (docId) openLink.href = dayUrl(byId(id));
       if (opts.scroll !== false) {
         var top = paper.getBoundingClientRect().top + window.scrollY - 16;
         if (window.scrollY > top || opts.force) window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
@@ -486,6 +491,7 @@
       if (current) markSeen(current);
       renderEntry();
       renderOutline();
+      if (docId) openLink.href = dayUrl(byId(current));
       foot.innerHTML = '<span title="' + esc(cache.model.title) + '">' + esc(cache.model.title || 'Google Doc') + '</span><button type="button" data-change>Change doc</button>';
     }
 
@@ -574,21 +580,33 @@
     }
 
     /* ---------- notes / Google Doc ---------- */
-    function setMode(m) {
+    // The doc, opened at this day's own tab when the day's heading links to it.
+    function dayUrl(e) { return editUrl(docId) + (e && e.tabId ? '?tab=' + encodeURIComponent(e.tabId) : ''); }
+    function setMode(m, url) {
       if (m === 'doc' && !docId) m = 'notes';
+      var was = mode;
       mode = m;
       saveState({ mode: m });
       page.classList.toggle('doc', m === 'doc');
       segs.forEach(function (b) { var on = b.dataset.mode === m; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
       if (m === 'doc') {
-        if (docWrap.dataset.id !== docId) {
-          docWrap.innerHTML = '<iframe title="Reading notes in Google Docs" src="' + esc(editUrl(docId)) + '" allow="clipboard-read; clipboard-write"></iframe>';
-          docWrap.dataset.id = docId;
+        var want = url || docWrap.dataset.src || dayUrl(byId(current));
+        if (docWrap.dataset.id !== docId || docWrap.dataset.src !== want) {
+          docWrap.innerHTML = '<iframe title="Reading notes in Google Docs" src="' + esc(want) + '" allow="clipboard-read; clipboard-write"></iframe>';
+          docWrap.dataset.id = docId; docWrap.dataset.src = want;
         }
         docWrap.hidden = false; paper.hidden = true;
+        window.scrollTo(0, 0);
       } else {
         docWrap.hidden = true; paper.hidden = false;
+        if (was === 'doc' && docId) refresh();   // show what was just edited
       }
+    }
+    // Edit = the real Google Doc: inside the launch pad on a computer, in the Docs app on a phone.
+    function editDay(e) {
+      var url = dayUrl(e);
+      if (window.matchMedia('(max-width: 900px)').matches) { window.open(url, '_blank', 'noopener'); return; }
+      setMode('doc', url);
     }
 
     /* ---------- the outline follows your reading ---------- */
@@ -632,6 +650,7 @@
       if (a) { e.preventDefault(); select(a.dataset.id, { force: true }); return; }
       if (e.target.closest('[data-retry]')) { refresh(true); return; }
       if (e.target.closest('[data-change]')) { changeDoc(); return; }
+      if (e.target.closest('[data-edit]')) { editDay(byId(current)); return; }
       var mb = e.target.closest('[data-mode]');
       if (mb) setMode(mb.dataset.mode);
     });
@@ -643,7 +662,12 @@
       if (err) renderSetup(err);
     });
     foot.addEventListener('click', function (e) { if (e.target.closest('[data-change]')) changeDoc(); });
-    segs.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+    segs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.dataset.mode === 'doc') { if (mode !== 'doc') setMode('doc', dayUrl(byId(current))); }
+        else setMode('notes');
+      });
+    });
     refreshBtn.addEventListener('click', function () { refresh(true); });
     toggle.addEventListener('click', function () { setOpen(!side.classList.contains('open')); });
     q.addEventListener('input', renderOutline);
