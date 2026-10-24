@@ -12,8 +12,8 @@ window.LAUNCH_CONFIG = {
   vaultId: 'ranran-launch',
   unlockHours: 8,
   // Google sign-in for the calendar (public client ID; only works on https://ranranli.net).
-  googleClientId: '270543400403-qfeirftcu5ev9tfbfa6jbilq804rf3db.apps.googleusercontent.com'
+  googleClientId: '270543400403-qfeirftcu5ev9tfbfa6jbilq804rf3db.apps.googleusercontent.com',
   // Server function that keeps the Google connection alive (see launch/supabase/launch-google).
-  // Switched on once the function is deployed in Supabase:
-  // , googleServer: 'https://dcucmzobeolwvhibavfl.supabase.co/functions/v1/launch-google'
+  // Until its Google secret is set, the calendar falls back to the hourly sign-in.
+  googleServer: 'https://dcucmzobeolwvhibavfl.supabase.co/functions/v1/launch-google'
 };

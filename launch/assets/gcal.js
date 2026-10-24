@@ -125,7 +125,10 @@
     on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
     emit: function (w) { this.listeners.forEach(function (fn) { fn(w); }); },
     configured: function () { return !!CFG.googleClientId; },
-    server: function () { return !!CFG.googleServer; },
+    // The lasting connection goes through the server function; if that isn't finished
+    // (no Google secret yet) the page falls back to the hourly sign-in for this visit.
+    _serverOff: false,
+    server: function () { return !!CFG.googleServer && !G._serverOff; },
     token: function () { var t = L.lsGet(TOK); return t && t.access && t.exp > Date.now() + 60000 ? t.access : null; },
     // Linked = connected once on any device (remembered in the synced settings) or on this one.
     wasConnected: function () {
@@ -168,6 +171,7 @@
         return j.access_token;
       }, function (e) {
         G._ensuring = null;
+        if (e.code === 'not_configured') { G._serverOff = true; e.needAuth = true; }
         if (e.code === 'not_connected' && L.Store.doc && (L.Store.doc.settings || {}).gcalLinked) L.Store.setSettings({ gcalLinked: false });
         throw e;
       });
@@ -184,7 +188,8 @@
           return G.serverCall('exchange', { code: code });
         }).then(function (j) {
           G.keep(j);
-          L.Store.setSettings({ gcalLinked: true });
+          // stored = Google handed over a lasting connection and the server kept it
+          L.Store.setSettings({ gcalLinked: !!j.stored });
           G.emit('auth');
           return j.access_token;
         });
@@ -738,8 +743,8 @@
         // Ask the server for a pass quietly; only show "Connect" if it has never been connected.
         if (G.wasConnected() && !view) viewEl.innerHTML = '<div class="gcal-state"><p class="muted">Loading your calendar…</p></div>';
         G.ensure().then(function () { banner(false); start(); }, function (e) {
-          if (e.code === 'not_connected') connectScreen(G.wasConnected() ? 'The Google connection was removed. Connect once more and it stays connected.' : (opts.connectText || 'See and edit your Google Calendar right here.'));
-          else if (e.code === 'not_configured') viewEl.innerHTML = '<div class="gcal-state"><p>Google Calendar is almost set up (the server is missing its Google secret).</p></div>';
+          if (e.code === 'not_connected') connectScreen(G.wasConnected() ? 'Connect Google Calendar once more. After this it stays connected.' : (opts.connectText || 'See and edit your Google Calendar right here.'));
+          else if (e.code === 'not_configured') refresh(); // server not finished: hourly sign-in for now
           else if (G.wasConnected()) { banner(true, 'Couldn’t reach Google just now.'); if (view) view.render(false); }
           else connectScreen(opts.connectText || 'See and edit your Google Calendar right here.');
         });
@@ -758,7 +763,7 @@
     });
     bannerEl.addEventListener('click', function (e) {
       if (!e.target.closest('[data-reconnect]')) return;
-      if (G.server()) { banner(false); G.ensure().then(function () { if (view) view.load(); else start(); }, function (er) { if (er.code === 'not_connected') doConnect(true); else banner(true, 'Couldn’t reach Google just now.'); }); }
+      if (G.server()) { banner(false); G.ensure().then(function () { if (view) view.load(); else start(); }, function (er) { if (er.code === 'not_connected') doConnect(true); else if (er.code === 'not_configured') doConnect(false); else banner(true, 'Couldn’t reach Google just now.'); }); }
       else doConnect(false);
     });
     opts.onError = function (e) { if (e && e.needAuth) banner(true, G.server() ? 'Couldn’t get a Google pass just now.' : null); };
