@@ -479,6 +479,7 @@
       '  <a href="/launch/" data-page="home" class="tab' + (active === 'home' ? ' on' : '') + '">Today</a>' +
       '  <a href="/launch/calendar/" data-page="calendar" class="tab' + (active === 'calendar' ? ' on' : '') + '">Calendar</a>' +
       '  <a href="/launch/task-list/" data-page="tasks" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
+      '  <a href="/launch/reading/" data-page="reading" class="tab' + (active === 'reading' ? ' on' : '') + '">Reading</a>' +
       '  <a href="/launch/vibecodings/" data-page="vibes" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
       '</nav>' +
       '<div class="top-tools">' +
@@ -518,6 +519,7 @@
       '  <label>Focus music link <small>Your Brain.fm player link.</small><input name="music" placeholder="https://my.brain.fm/…"></label>' +
       '  <label>Second time zone in the calendar <small>Shown next to your own, like in Google Calendar. Leave empty for none.</small><input name="tz2" placeholder="Asia/Shanghai"></label>' +
       '  <label>Short name for it <input name="tz2label" placeholder="CN"></label>' +
+      '  <label>Reading notes doc <small>The Google Doc shown in the Reading tab (sharing: anyone with the link).</small><input name="readingDoc" placeholder="https://docs.google.com/document/d/…"></label>' +
       '  <div class="modal-actions"><span class="left"><button type="button" class="btn ghost" data-bg>Change background…</button><button type="button" class="btn ghost" data-pw>Change password…</button></span><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
       '</form>';
     document.body.appendChild(dlg);
@@ -525,13 +527,14 @@
     f.music.value = s.musicUrl || '';
     f.tz2.value = s.tz2 == null ? 'Asia/Shanghai' : s.tz2;
     f.tz2label.value = s.tz2label == null ? 'CN' : s.tz2label;
+    f.readingDoc.value = s.readingDoc || '';
     $('[data-bg]', dlg).addEventListener('click', function () { dlg.close(); openBackgrounds(); });
     $('[data-pw]', dlg).addEventListener('click', function () { dlg.close(); openPassword(); });
     dlg.addEventListener('close', function () {
       if (dlg.returnValue === 'save') {
         var tz2 = f.tz2.value.trim();
         if (tz2) { try { new Intl.DateTimeFormat('en-GB', { timeZone: tz2 }); } catch (e) { tz2 = ''; } }
-        Store.setSettings({ musicUrl: f.music.value.trim(), tz2: tz2, tz2label: f.tz2label.value.trim() });
+        Store.setSettings({ musicUrl: f.music.value.trim(), tz2: tz2, tz2label: f.tz2label.value.trim(), readingDoc: f.readingDoc.value.trim() });
       }
       dlg.remove();
     });
@@ -702,7 +705,7 @@
   var pageScope = [], pages = {}, currentPage = null, shellBuilt = false, navSeq = 0;
   function scoped(off) { pageScope.push(off); }
   function cleanupPage() { var list = pageScope; pageScope = []; list.forEach(function (f) { try { f(); } catch (e) { /* ignore */ } }); }
-  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes' };
+  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes', 'reading.js': 'reading' };
   var loadedScripts = {};
   Array.prototype.forEach.call(document.querySelectorAll('script[src]'), function (s) { loadedScripts[s.getAttribute('src').split('?')[0]] = true; });
   function runPage(name) {

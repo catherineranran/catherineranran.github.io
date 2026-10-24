@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Launch Pad · Reading</title>
+  <link rel="icon" href="/assets/icons/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/launch/assets/launch.css?v=21">
+</head>
+<body class="locked">
+  <main>
+    <div class="rd-page" id="rdPage">
+      <aside class="rd-side" id="rdSide" aria-label="Reading days">
+        <section class="panel rd-outline">
+          <div class="panel-head">
+            <h2>Reading notes</h2>
+            <span class="rd-count" id="rdCount"></span>
+            <button type="button" class="rd-toggle" id="rdToggle" aria-expanded="false" aria-controls="rdList"></button>
+          </div>
+          <div class="rd-search"><input type="search" id="rdQ" placeholder="Search your notes" aria-label="Search your notes" autocomplete="off"></div>
+          <nav class="rd-list" id="rdList" aria-label="Days"></nav>
+          <div class="rd-foot" id="rdFoot"></div>
+        </section>
+      </aside>
+
+      <section class="rd-main" aria-label="Notes">
+        <div class="rd-bar">
+          <div class="seg2" id="rdMode" role="group" aria-label="View">
+            <button type="button" data-mode="notes" class="on" aria-pressed="true">Notes</button>
+            <button type="button" data-mode="doc" aria-pressed="false">Google Doc</button>
+          </div>
+          <span class="rd-status" id="rdStatus" role="status" aria-live="polite"></span>
+          <span class="spacer"></span>
+          <button type="button" class="icon-btn" id="rdRefresh" title="Read the doc again" aria-label="Read the doc again"></button>
+          <a class="btn small" id="rdOpen" href="#" target="_blank" rel="noopener" hidden>Open in Google Docs ↗</a>
+        </div>
+        <div class="rd-paper" id="rdPaper"></div>
+        <div class="rd-docwrap" id="rdDoc" hidden></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/launch/assets/config.js?v=21"></script>
+  <script src="/launch/assets/launch.js?v=21"></script>
+  <script src="/launch/assets/reading.js?v=21"></script>
+</body>
+</html>
