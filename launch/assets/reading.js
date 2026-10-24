@@ -580,13 +580,17 @@
     }
 
     /* ---------- the outline follows your reading ---------- */
-    var spyQueued = false;
+    var spyQueued = false, spyHold = 0;
+    function markSub(id) { each(list.querySelectorAll('.rd-subs a'), function (a) { a.classList.toggle('on', a.dataset.sub === id); }); }
     function spy() {
       spyQueued = false;
-      if (mode !== 'notes') return;
+      if (mode !== 'notes' || Date.now() < spyHold) return;
+      // at the very end of a day, the last heading on screen counts as the one you're reading
+      var atEnd = window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      var line = atEnd ? window.innerHeight - 120 : 140;
       var hs = paper.querySelectorAll('[data-sub]'), active = null;
-      for (var i = 0; i < hs.length; i++) { if (hs[i].getBoundingClientRect().top < 140) active = hs[i].id; else break; }
-      each(list.querySelectorAll('.rd-subs a'), function (a) { a.classList.toggle('on', a.dataset.sub === active); });
+      for (var i = 0; i < hs.length; i++) { if (hs[i].getBoundingClientRect().top < line) active = hs[i].id; else break; }
+      markSub(active);
     }
     L.listen(window, 'scroll', function () { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
 
@@ -601,7 +605,7 @@
       if (sub) {
         e.preventDefault();
         var h = document.getElementById(sub.dataset.sub);
-        if (h) h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (h) { spyHold = Date.now() + 1200; markSub(sub.dataset.sub); h.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
         if (window.matchMedia('(max-width: 900px)').matches) setOpen(false);
         return;
       }
