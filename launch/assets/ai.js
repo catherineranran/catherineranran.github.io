@@ -280,6 +280,19 @@
     var card = img.closest('.ai-item'), it = card && byId[card.dataset.id];
     if (it) img.outerHTML = tile(it);
   }
+  // GitHub draws its repo cards on demand and now and then fails while busy, so a picture that
+  // fails gets two more tries; a website screenshot that is still being made gets one more look a
+  // few seconds later. Only then does the card fall back to its poster.
+  function retry(img, delay, max) {
+    var n = +(img.dataset.tries || 0);
+    if (n >= max) return toTile(img);
+    img.dataset.tries = n + 1;
+    img.classList.add('ai-wait');
+    var src = (img.getAttribute('src') || '').replace(/[?&]try=\d+$/, '');
+    setTimeout(function () {
+      if (img.isConnected) img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + 'try=' + (n + 1);
+    }, delay * (n + 1));
+  }
 
   function copyText(text, btn) {
     var done = function () {
@@ -318,10 +331,12 @@
         patch[m.dataset.act] = !st[m.dataset.act];
         S.setAi(id, patch);
       });
-      list.addEventListener('error', function (e) { if (e.target.tagName === 'IMG') toTile(e.target); }, true);
+      list.addEventListener('error', function (e) { if (e.target.tagName === 'IMG') retry(e.target, 1500, 2); }, true);
       list.addEventListener('load', function (e) {
         var im = e.target;
-        if (im.tagName === 'IMG' && im.dataset.shot && im.naturalWidth && im.naturalWidth < 900) toTile(im);
+        if (im.tagName !== 'IMG') return;
+        if (im.dataset.shot && im.naturalWidth && im.naturalWidth < 900) retry(im, 8000, 1);
+        else im.classList.remove('ai-wait');
       }, true);
     }
 
