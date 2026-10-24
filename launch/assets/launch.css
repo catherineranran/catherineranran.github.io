@@ -585,39 +585,41 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .card.has-strand .card-title { padding-right: 14px; }
 .card.done .strand-dot { top: 50%; transform: translateY(-50%); width: 8px; height: 8px; }
 
-/* ---------- white calendar, Google Calendar style ----------
-   Calendar tab panels, the Today agenda, and the event dialog / right-click menu. */
+/* ---------- frosted white calendar, Google Calendar style ----------
+   Calendar tab panels, the Today agenda, and the event dialog / right-click menu:
+   Google's colours on white glass that lets a little of the background through. */
 .cal-page .panel, .panel.agenda, .modal.gc-light, .menu.gc-light {
   --ink: #3c4043; --ink-2: #3c4043; --muted: #70757a; --faint: #9aa0a6;
   --line: #dadce0; --line-2: #dadce0;
-  --glass: #ffffff; --glass-2: #f1f3f4; --glass-3: #e8eaed;
+  --glass: rgba(255, 255, 255, .8); --glass-2: rgba(60, 64, 67, .06); --glass-3: rgba(60, 64, 67, .1);
   --accent: #1a73e8; --accent-strong: #1a73e8; --accent-ink: #ffffff;
   --edge: 0 0 0 transparent; --overdue: #d93025; --soon: #e37400;
   color: var(--ink);
-  background: #fff;
-  -webkit-backdrop-filter: none; backdrop-filter: none;
-  border-color: #dadce0;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);
+  border-color: rgba(255, 255, 255, .7);
   box-shadow: 0 1px 2px rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
   text-shadow: none;
 }
 .cal-page .panel::before, .panel.agenda::before, .modal.gc-light::before { display: none; }
+.modal.gc-light, .menu.gc-light { --glass: rgba(255, 255, 255, .9); }
 
 /* buttons */
-.cal-page .btn, .panel.agenda .btn, .gc-light .btn { background: #fff; border-color: #dadce0; color: #3c4043; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.cal-page .btn:hover, .panel.agenda .btn:hover, .gc-light .btn:hover { background: #f1f3f4; box-shadow: none; }
+.cal-page .btn, .panel.agenda .btn, .gc-light .btn { background: rgba(255, 255, 255, .66); border-color: rgba(60, 64, 67, .22); color: #3c4043; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.cal-page .btn:hover, .panel.agenda .btn:hover, .gc-light .btn:hover { background: rgba(255, 255, 255, .95); box-shadow: none; }
 .cal-page .btn.ghost, .panel.agenda .btn.ghost, .gc-light .btn.ghost { background: transparent; border-color: transparent; }
-.cal-page .btn.ghost:hover, .panel.agenda .btn.ghost:hover, .gc-light .btn.ghost:hover { background: #f1f3f4; }
+.cal-page .btn.ghost:hover, .panel.agenda .btn.ghost:hover, .gc-light .btn.ghost:hover { background: rgba(60, 64, 67, .08); }
 .cal-page .btn.primary, .panel.agenda .btn.primary, .gc-light .btn.primary { background: #1a73e8; border-color: #1a73e8; color: #fff; }
 .cal-page .btn.primary:hover, .panel.agenda .btn.primary:hover, .gc-light .btn.primary:hover { background: #1765cc; box-shadow: 0 1px 2px rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); }
 .cal-page .btn.danger, .gc-light .btn.danger { color: #d93025; }
-#calCreate { background: #fff; color: #3c4043; border-color: transparent; border-radius: 16px; padding: 12px 22px 12px 16px; font-weight: 500; box-shadow: 0 1px 2px rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); }
-#calCreate:hover { background: #f6fafe; box-shadow: 0 1px 3px rgba(60, 64, 67, .3), 0 4px 8px 3px rgba(60, 64, 67, .15); }
+#calCreate { background: rgba(255, 255, 255, .9); color: #3c4043; border-color: transparent; border-radius: 16px; padding: 12px 22px 12px 16px; font-weight: 500; box-shadow: 0 1px 2px rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); }
+#calCreate:hover { background: #fff; box-shadow: 0 1px 3px rgba(60, 64, 67, .3), 0 4px 8px 3px rgba(60, 64, 67, .15); }
 .cal-page .icon-btn, .panel.agenda .icon-btn { color: #5f6368; }
-.cal-page .icon-btn:hover, .panel.agenda .icon-btn:hover { background: #f1f3f4; color: #3c4043; }
+.cal-page .icon-btn:hover, .panel.agenda .icon-btn:hover { background: rgba(60, 64, 67, .08); color: #3c4043; }
 
 /* toolbar */
 .cal-page .cal-toolbar h2 { font-weight: 400; color: #3c4043; letter-spacing: 0; }
-.cal-page .seg2 { background: #fff; border-color: #dadce0; }
+.cal-page .seg2 { background: rgba(255, 255, 255, .55); border-color: rgba(60, 64, 67, .2); }
 .cal-page .seg2 button { color: #3c4043; font-weight: 500; }
 .cal-page .seg2 button.on { background: #e8f0fe; color: #1967d2; }
 
@@ -626,7 +628,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .cv-dayhead b { color: #3c4043; font-weight: 400; font-size: 26px; letter-spacing: 0; }
 .cv-dayhead.today { color: #1a73e8; }
 .cv-dayhead.today b { width: 44px; height: 44px; background: #1a73e8; color: #fff; }
-.cv-dayhead:hover b { background: #f1f3f4; border-radius: 50%; }
+.cv-dayhead:hover b { background: rgba(60, 64, 67, .08); border-radius: 50%; }
 .cv-dayhead.today:hover b { background: #1765cc; }
 .cv-gutter span { color: #70757a; font-size: 10.5px; }
 .cv-tzlabels, .cv-allday .cv-gl { color: #70757a; }
@@ -644,32 +646,32 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .mm-head strong { color: #3c4043; font-weight: 500; letter-spacing: 0; }
 .mm-head strong span { color: #1a73e8; }
 .mm-nav button { color: #5f6368; }
-.mm-nav button:hover { background: #f1f3f4; }
+.mm-nav button:hover { background: rgba(60, 64, 67, .08); }
 .mm-grid .dow { color: #70757a; font-weight: 500; }
 .mm-grid button { color: #3c4043; }
 .mm-grid button.out { color: #9aa0a6; }
-.mm-grid button:hover { background: #f1f3f4; }
+.mm-grid button:hover { background: rgba(60, 64, 67, .08); }
 .mm-grid button.sel { background: #d2e3fc; color: #185abc; font-weight: 600; }
 .mm-grid button.today, .mm-grid button.today.sel { background: #1a73e8; color: #fff; font-weight: 600; }
 
 /* event dialog */
-.modal.gc-light input, .modal.gc-light textarea, .modal.gc-light select { background: #fff; border-color: #dadce0; color: #3c4043; }
+.modal.gc-light input, .modal.gc-light textarea, .modal.gc-light select { background: rgba(255, 255, 255, .72); border-color: rgba(60, 64, 67, .22); color: #3c4043; }
 .modal.gc-light input:focus, .modal.gc-light textarea:focus, .modal.gc-light select:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 1px #1a73e8; }
 .modal.gc-light input::placeholder, .modal.gc-light textarea::placeholder { color: #80868b; }
 .modal.gc-light .title-input { background: transparent; border-color: transparent; font-weight: 400; font-size: 22px; box-shadow: none; }
-.modal.gc-light .title-input:hover { background: #f1f3f4; }
-.modal.gc-light .title-input:focus { background: #f1f3f4; box-shadow: inset 0 -2px 0 #1a73e8; }
+.modal.gc-light .title-input:hover { background: rgba(60, 64, 67, .06); }
+.modal.gc-light .title-input:focus { background: rgba(60, 64, 67, .06); box-shadow: inset 0 -2px 0 #1a73e8; }
 .modal.gc-light label { color: #5f6368; }
 .modal.gc-light input[type="date"]::-webkit-calendar-picker-indicator, .modal.gc-light input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: .6; }
-.gc-light .cvm-default { background: #fff; border-color: #dadce0; color: #3c4043; }
+.gc-light .cvm-default { background: rgba(255, 255, 255, .72); border-color: rgba(60, 64, 67, .22); color: #3c4043; }
 .gc-light .cvm-default.on { background: #e8f0fe; border-color: #1a73e8; color: #1967d2; }
 .gc-light .swatch { border-color: transparent; }
 
 /* right-click menu */
 .menu.gc-light { box-shadow: 0 4px 16px rgba(60, 64, 67, .28), 0 1px 3px rgba(60, 64, 67, .2); border-color: #dadce0; }
-.menu.gc-light button:hover { background: #f1f3f4; }
+.menu.gc-light button:hover { background: rgba(60, 64, 67, .08); }
 .menu.gc-light .cvm-pen { border-color: #dadce0; color: #5f6368; }
-.menu.gc-light .cvm-default { background: #f1f3f4; border-color: transparent; }
+.menu.gc-light .cvm-default { background: rgba(60, 64, 67, .07); border-color: transparent; }
 .menu.gc-light .cvm-default.on { background: #e8f0fe; color: #1967d2; }
 .cal-page .panel, .panel.agenda, .modal.gc-light, .menu.gc-light { color-scheme: light; }
 .modal.gc-light input[type="checkbox"] { accent-color: #1a73e8; width: 16px; height: 16px; }
