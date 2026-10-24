@@ -1,6 +1,7 @@
 /* AI updates: skills and tools from Ranran's RedNote likes and collections, checked every day by Claude.
    The list lives in /launch/AI-updates/items.json (written by the daily check); your own marks
-   (installed, hidden) are saved in the encrypted launch pad like your tasks. */
+   (installed, hidden) are saved in the encrypted launch pad like your tasks.
+   Cards are picture-first: a preview of the tool, its name and one line; details sit in icon tooltips. */
 (function () {
   'use strict';
   var L = window.Launch, S = L.Store, $ = L.$, esc = L.esc;
@@ -27,11 +28,15 @@
   var ICON = {
     check: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
     hide: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.9 17.9A10 10 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.1-5.9"/><path d="M9.9 4.2A9 9 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/><path d="m1 1 22 22"/></svg>',
-    show: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+    show: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+    info: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.4"/></svg>',
+    // "Saved from RedNote": a small red notebook, no words.
+    note: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="4" fill="#ff2442"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/></svg>'
   };
 
   /* ---------- data ---------- */
-  var data = null, loadError = null;
+  var data = null, loadError = null, byId = {};
   function load() {
     return fetch(DATA_URL, { cache: 'no-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -66,18 +71,15 @@
   function linkLabel(u) { var g = ghPath(u); return g ? 'GitHub' : (host(u) || 'Open'); }
   function noteUrl(n) { return 'https://www.xiaohongshu.com/explore/' + encodeURIComponent(n.id); }
   function newest(it) { var d = ''; (it.sources || []).forEach(function (n) { if (n.date > d) d = n.date; }); return d; }
+  function hue(s) { var h = 0; s = String(s); for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
 
-  // Commands in the "Get it" line become copyable code.
+  // The install command, when the "install" text has one (in backticks or starting with a known tool).
   var CMD = /^(npx|npm|pnpm|yarn|pip3?|uvx?|brew|git|docker|curl|claude|\/plugin|cargo|go)\b/;
-  function howHtml(s) {
+  function commandOf(s) {
     s = String(s || '');
     var tick = s.match(/`([^`]+)`/);
-    if (tick) {
-      return esc(s.slice(0, tick.index)) + '<code>' + esc(tick[1]) + '</code>' +
-        '<button type="button" class="ai-copy" data-copy="' + esc(tick[1]) + '">Copy</button>' + esc(s.slice(tick.index + tick[0].length));
-    }
-    if (CMD.test(s.trim())) return '<code>' + esc(s) + '</code><button type="button" class="ai-copy" data-copy="' + esc(s) + '">Copy</button>';
-    return esc(s);
+    if (tick) return tick[1];
+    return CMD.test(s.trim()) ? s.trim() : '';
   }
 
   // "Install with Claude" opens a new Claude chat with the request already written.
@@ -114,6 +116,8 @@
     if (na !== nb) return na ? -1 : 1;
     var la = hasRealLink(a), lb = hasRealLink(b);
     if (la !== lb) return la ? -1 : 1;
+    var ia = !!a.img, ib = !!b.img;
+    if (ia !== ib) return ia ? -1 : 1;
     if ((a.found || '') !== (b.found || '')) return (b.found || '') < (a.found || '') ? -1 : 1;
     var da = newest(a), db = newest(b);
     if (da !== db) return db < da ? -1 : 1;
@@ -123,19 +127,38 @@
   }
 
   /* ---------- rendering ---------- */
+  // A colour poster with the name, for tools without a picture.
+  function tile(it) {
+    var name = String(it.name).replace(/\s*\([^)]*\)\s*$/, '');
+    return '<div class="ai-tile" style="--h:' + hue(it.id) + '"><span>' + esc(name) + '</span></div>';
+  }
+  function cover(it, link) {
+    var inner = it.img
+      ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"' + (/mshots/.test(it.img) ? ' data-shot="1"' : '') + '>'
+      : tile(it);
+    return link
+      ? '<a class="ai-cover" href="' + esc(link) + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">' + inner + '</a>'
+      : '<div class="ai-cover">' + inner + '</div>';
+  }
+
   function card(it) {
     var k = KIND[kindOf(it)], st = S.aiState(it.id) || {};
     var link = L.safeUrl(it.link || it.site);
-    var site = it.site && it.link && it.site !== it.link ? L.safeUrl(it.site) : '';
-    var stars = fmtStars(it.stars), src = it.sources || [];
+    var stars = fmtStars(it.stars), src = it.sources || [], first = src[0];
     var canInstall = (k.k === 'skill' || k.k === 'mcp-plugin') && !!(it.link || it.site);
+    var cmd = commandOf(it.install);
     var prompts = Array.isArray(it.prompts) ? it.prompts : [];
+    var info = [it.install && !cmd ? 'Get it: ' + it.install : '', it.note, it.review,
+      it.linkKind === 'search' ? 'No official link confirmed yet; the button searches for it.' : ''].filter(Boolean).join('\n');
+    var noteTip = first ? 'Saved from RedNote: ' + first.title + (first.author ? ' · ' + first.author : '') + (src.length > 1 ? ' (+' + (src.length - 1) + ' more)' : '') : '';
     return '<article class="ai-item' + (st.installed ? ' is-installed' : '') + (st.hidden ? ' is-hidden' : '') + '" data-id="' + esc(it.id) + '" style="--k:' + k.c + '">' +
+      cover(it, link) +
+      '<div class="ai-body">' +
       '<div class="ai-item-top">' +
       '<span class="ai-kind">' + esc(k.one) + '</span>' +
       (isNew(it) ? '<span class="ai-tag new">New</span>' : '') +
       (st.installed ? '<span class="ai-tag done">Installed</span>' : '') +
-      (it.plugin ? '<span class="ai-tag sent" title="Packaged as a plugin by the daily check">Plugin sent ' + esc(dateOf(it.plugin, { day: 'numeric', month: 'short' })) + '</span>' : '') +
+      (it.plugin ? '<span class="ai-tag sent" title="Packaged as a plugin by the daily check">Plugin ready</span>' : '') +
       '<span class="spacer"></span>' +
       (stars ? '<span class="ai-stars" title="GitHub stars as reported in the RedNote post">★ ' + esc(stars) + '</span>' : '') +
       '<span class="ai-marks">' +
@@ -144,23 +167,21 @@
       '</span>' +
       '</div>' +
       '<h3>' + (link ? '<a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(it.name) + '</a>' : esc(it.name)) + '</h3>' +
-      (it.summary ? '<p class="ai-sum">' + esc(it.summary) + '</p>' : '') +
-      (it.install ? '<p class="ai-how"><span class="ai-label">Get it</span> ' + howHtml(it.install) + '</p>' : '') +
-      (prompts.length ? '<details class="ai-prompts"><summary>Show the ' + prompts.length + ' prompts</summary><ol>' +
-        prompts.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ol>' +
-        '<button type="button" class="ai-copy" data-copy="' + esc(prompts.join('\n\n')) + '">Copy all</button></details>' : '') +
-      (it.review ? '<p class="ai-review' + (/^flag/i.test(it.review) ? ' flag' : '') + '">' + esc(it.review) + '</p>' : '') +
-      (it.note ? '<p class="ai-caveat">' + esc(it.note) + '</p>' : '') +
-      (src.length ? '<p class="ai-src"><span class="ai-label">Saved from</span> ' + src.slice(0, 2).map(function (n) {
-        return '<a href="' + esc(noteUrl(n)) + '" target="_blank" rel="noopener" title="' + esc((n.author ? n.author + ' · ' : '') + dateOf(n.date) + ' · opens in the RedNote app') + '">' + esc(n.title) + '</a>';
-      }).join('<span class="dot">·</span>') + (src.length > 2 ? ' <span class="muted">+' + (src.length - 2) + '</span>' : '') + '</p>' : '') +
+      (it.summary ? '<p class="ai-sum" title="' + esc(it.summary) + '">' + esc(it.summary) + '</p>' : '') +
       '<div class="ai-actions">' +
-      (link ? (it.linkKind === 'search'
-        ? '<a class="btn small ghost" href="' + esc(link) + '" target="_blank" rel="noopener" title="No official link confirmed yet; this searches for it">Search ' + L.ICONS.ext + '</a>'
-        : '<a class="btn small" href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(linkLabel(link)) + ' ' + L.ICONS.ext + '</a>')
-        : '<span class="ai-nolink">No link found yet</span>') +
-      (site ? '<a class="btn small ghost" href="' + esc(site) + '" target="_blank" rel="noopener">Website</a>' : '') +
-      (canInstall ? '<a class="btn small primary" href="' + esc(claudeUrl(it)) + '" target="_blank" rel="noopener" title="Opens a new Claude chat that reviews it and packages it for you">' + (k.k === 'skill' ? 'Install with Claude' : 'Set up with Claude') + '</a>' : '') +
+      (canInstall
+        ? '<a class="btn small primary" href="' + esc(claudeUrl(it)) + '" target="_blank" rel="noopener" title="Opens a new Claude chat that reviews it and packages it for you">' + (k.k === 'skill' ? 'Install with Claude' : 'Set up with Claude') + '</a>'
+        : (link ? (it.linkKind === 'search'
+          ? '<a class="btn small ghost" href="' + esc(link) + '" target="_blank" rel="noopener">Search ' + L.ICONS.ext + '</a>'
+          : '<a class="btn small" href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(linkLabel(link)) + ' ' + L.ICONS.ext + '</a>') : '')) +
+      '<span class="ai-icons">' +
+      (canInstall && link ? '<a class="icon-btn" href="' + esc(link) + '" target="_blank" rel="noopener" title="Open ' + esc(linkLabel(link) === 'GitHub' ? 'on GitHub' : linkLabel(link)) + '" aria-label="Open ' + esc(it.name) + '">' + L.ICONS.ext + '</a>' : '') +
+      (cmd ? '<button type="button" class="icon-btn ai-copy" data-copy="' + esc(cmd) + '" title="Copy install command: ' + esc(cmd) + '" aria-label="Copy install command">' + ICON.copy + '</button>' : '') +
+      (prompts.length ? '<button type="button" class="icon-btn ai-copy" data-copy="' + esc(prompts.join('\n\n')) + '" title="Copy all ' + prompts.length + ' prompts" aria-label="Copy the prompts">' + ICON.copy + '</button>' : '') +
+      (info ? '<span class="icon-btn ai-info" tabindex="0" role="img" title="' + esc(info) + '" aria-label="' + esc(info) + '">' + ICON.info + '</span>' : '') +
+      (first ? '<a class="icon-btn ai-note" href="' + esc(noteUrl(first)) + '" target="_blank" rel="noopener" title="' + esc(noteTip) + '" aria-label="Open the RedNote post it came from">' + ICON.note + '</a>' : '') +
+      '</span>' +
+      '</div>' +
       '</div>' +
       '</article>';
   }
@@ -182,7 +203,7 @@
     }).join('');
     var sub = $('#aiSub');
     if (sub && checked && !isNaN(checked)) {
-      sub.textContent = 'Skills, tools and resources you saved, with links and how to get them. Last checked ' +
+      sub.textContent = 'Skills, tools and resources you saved. Last checked ' +
         checked.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) + ', ' +
         checked.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '.';
     }
@@ -233,24 +254,9 @@
     }).join('');
   }
 
-  function renderUnpinned() {
-    var box = $('#aiUnpinned'), list = $('#aiUnpinnedList');
-    if (!box || !list) return;
-    var u = (data && data.unpinned) || [];
-    box.hidden = !u.length;
-    $('#aiUnpinnedN').textContent = u.length ? '(' + u.length + ')' : '';
-    list.innerHTML = u.map(function (n) {
-      return '<li><a href="' + esc(noteUrl(n)) + '" target="_blank" rel="noopener">' + esc(n.title) + '</a><span class="muted"> · ' + esc(n.author || '') + (n.date ? ' · ' + esc(dateOf(n.date)) : '') + '</span></li>';
-    }).join('');
-  }
-
   function renderFoot() {
     var f = $('#aiFoot'); if (!f) return;
-    var parts = [];
-    if (data && data.schedule) parts.push(data.schedule);
-    if (data && data.scan) parts.push('The first pass read your ' + data.scan + '.');
-    parts.push('RedNote links open in the app (on a computer, scan the code).');
-    f.textContent = parts.join(' ');
+    f.textContent = (data && data.schedule) || '';
   }
 
   function render() {
@@ -260,16 +266,27 @@
       return;
     }
     var all = (data.items || []).filter(function (it) { return it && it.id && it.name; });
+    byId = {};
+    all.forEach(function (it) { byId[it.id] = it; });
     renderStats(all);
     renderBanner();
     renderChips(all);
     renderList(all);
-    renderUnpinned();
     renderFoot();
   }
 
+  // A picture that fails to load, or a website screenshot that is still being made, becomes a colour poster.
+  function toTile(img) {
+    var card = img.closest('.ai-item'), it = card && byId[card.dataset.id];
+    if (it) img.outerHTML = tile(it);
+  }
+
   function copyText(text, btn) {
-    var done = function () { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = t; }, 1400); };
+    var done = function () {
+      var t = btn.getAttribute('title');
+      btn.classList.add('copied'); btn.setAttribute('title', 'Copied');
+      setTimeout(function () { btn.classList.remove('copied'); btn.setAttribute('title', t); }, 1400);
+    };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy:', text); });
     else window.prompt('Copy:', text);
   }
@@ -292,14 +309,21 @@
       filter.kind = c.dataset.kind; saveFilter(); render();
     });
     var list = $('#aiList');
-    if (list) list.addEventListener('click', function (e) {
-      var cp = e.target.closest('.ai-copy');
-      if (cp) { copyText(cp.dataset.copy, cp); return; }
-      var m = e.target.closest('.ai-mark'); if (!m) return;
-      var id = m.closest('.ai-item').dataset.id, st = S.aiState(id) || {}, patch = {};
-      patch[m.dataset.act] = !st[m.dataset.act];
-      S.setAi(id, patch);
-    });
+    if (list) {
+      list.addEventListener('click', function (e) {
+        var cp = e.target.closest('.ai-copy');
+        if (cp) { copyText(cp.dataset.copy, cp); return; }
+        var m = e.target.closest('.ai-mark'); if (!m) return;
+        var id = m.closest('.ai-item').dataset.id, st = S.aiState(id) || {}, patch = {};
+        patch[m.dataset.act] = !st[m.dataset.act];
+        S.setAi(id, patch);
+      });
+      list.addEventListener('error', function (e) { if (e.target.tagName === 'IMG') toTile(e.target); }, true);
+      list.addEventListener('load', function (e) {
+        var im = e.target;
+        if (im.tagName === 'IMG' && im.dataset.shot && im.naturalWidth && im.naturalWidth < 900) toTile(im);
+      }, true);
+    }
 
     render();
     load().then(render, render);

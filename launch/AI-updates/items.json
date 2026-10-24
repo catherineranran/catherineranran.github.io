@@ -26,7 +26,8 @@
      "author": "Cyan 云辰",
      "date": "2026-10-07"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/answer-me-with-html.webp"
   },
   {
    "id": "hallmark",
@@ -45,7 +46,8 @@
      "author": "Akring",
      "date": "2026-10-23"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/hallmark.webp"
   },
   {
    "id": "taste-skill",
@@ -65,7 +67,8 @@
      "author": "Q叔未来事务所",
      "date": "2026-10-21"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/taste-skill.webp"
   },
   {
    "id": "supervisor-skills",
@@ -83,7 +86,8 @@
      "author": "来自赛博坦星球的小Ai",
      "date": "2026-10-10"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/HKUSTDial/Supervisor-Skills"
   },
   {
    "id": "scientific-agent-skills",
@@ -102,7 +106,8 @@
      "author": "硅基摸鱼办",
      "date": "2026-10-17"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/K-Dense-AI/scientific-agent-skills"
   },
   {
    "id": "anatomy",
@@ -121,7 +126,8 @@
      "author": "阿博粒",
      "date": "2026-10-11"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/anatomy.webp"
   },
   {
    "id": "3dviz-pro-max",
@@ -140,7 +146,8 @@
      "author": "AI小蔡狗",
      "date": "2026-09-22"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/3dviz-pro-max.webp"
   },
   {
    "id": "lieflat-charts",
@@ -159,7 +166,8 @@
      "author": "躺在废墟里",
      "date": "2026-09-06"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/lieflat-charts.webp"
   },
   {
    "id": "matt-pocock-skills",
@@ -178,7 +186,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/mattpocock/skills"
   },
   {
    "id": "ponytail",
@@ -197,7 +206,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/ponytail.webp"
   },
   {
    "id": "agent-reach",
@@ -216,7 +226,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/Panniantong/Agent-Reach"
   },
   {
    "id": "quantskills",
@@ -241,7 +252,8 @@
      "author": "Panda AI",
      "date": "2026-08-12"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fquantskills.ai?w=960&h=540"
   },
   {
    "id": "humanizer",
@@ -260,7 +272,8 @@
      "author": "冯冯的AIGC工作室",
      "date": "2026-09-14"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/blader/humanizer"
   },
   {
    "id": "writing-plans",
@@ -279,7 +292,8 @@
      "author": "冯冯的AIGC工作室",
      "date": "2026-09-14"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/obra/superpowers"
   },
   {
    "id": "hermes-research-paper-writing",
@@ -494,7 +508,8 @@
      "author": "TBOY",
      "date": "2026-09-15"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/blender-mcp.webp"
   },
   {
    "id": "tvscreener",
@@ -512,7 +527,8 @@
      "author": "爱吃折耳根的Ace",
      "date": "2026-10-13"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/tvscreener.webp"
   },
   {
    "id": "seedance-blender",
@@ -530,7 +546,8 @@
      "author": "CG快报",
      "date": "2026-08-03"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdreamina.capcut.com%2Fseedance%2Fseedance-2-5-blender-model-workflow?w=960&h=540"
   },
   {
    "id": "rea",
@@ -560,7 +577,8 @@
      "author": "杨竹筠",
      "date": "2026-10-15"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/rea.webp"
   },
   {
    "id": "voicestudio",
@@ -585,7 +603,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/voicestudio.webp"
   },
   {
    "id": "xerj",
@@ -603,7 +622,8 @@
      "author": "硅基摸鱼办",
      "date": "2026-10-17"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/xerj.webp"
   },
   {
    "id": "digup",
@@ -620,7 +640,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/digup.webp"
   },
   {
    "id": "local-deep-research",
@@ -637,7 +658,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/LearningCircuit/local-deep-research"
   },
   {
    "id": "kokoro",
@@ -655,7 +677,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/hexgrad/kokoro"
   },
   {
    "id": "short-video-factory",
@@ -672,7 +695,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/short-video-factory.webp"
   },
   {
    "id": "ai-youtube-shorts-generator",
@@ -690,7 +714,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/SamurAIGPT/AI-Youtube-Shorts-Generator"
   },
   {
    "id": "podcastfy",
@@ -707,7 +732,8 @@
      "author": "夯的AI猜想",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/souzatharsis/podcastfy"
   },
   {
    "id": "personaplex",
@@ -724,7 +750,8 @@
      "author": "屌丝装作大佬很忙",
      "date": "2026-10-12"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/personaplex.webp"
   },
   {
    "id": "free-claude-code",
@@ -742,7 +769,8 @@
      "author": "青青王-AI",
      "date": "2026-10-12"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/free-claude-code.webp"
   },
   {
    "id": "cc-switch",
@@ -760,7 +788,8 @@
      "author": "青青王-AI",
      "date": "2026-10-12"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/farion1231/cc-switch"
   },
   {
    "id": "openmontage",
@@ -779,7 +808,8 @@
      "author": "李白｜AI创造力实验室",
      "date": "2026-10-03"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/openmontage.webp"
   },
   {
    "id": "tradingagents",
@@ -797,7 +827,8 @@
      "author": "深度学习的Alpha狗",
      "date": "2026-10-07"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/tradingagents.webp"
   },
   {
    "id": "hindsight",
@@ -827,7 +858,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/hindsight.webp"
   },
   {
    "id": "codex-lookout",
@@ -845,7 +877,8 @@
      "author": "GitHub分享",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/codex-lookout.webp"
   },
   {
    "id": "compositor",
@@ -863,7 +896,8 @@
      "author": "机器之心",
      "date": "2026-09-21"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/robbietilton/Compositor"
   },
   {
    "id": "artcraft",
@@ -880,7 +914,8 @@
      "author": "Ai万有引力",
      "date": "2026-10-10"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/storytold/artcraft"
   },
   {
    "id": "cli-anything",
@@ -897,7 +932,8 @@
      "author": "AIGC成也",
      "date": "2026-10-03"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/cli-anything.webp"
   },
   {
    "id": "paper2agent",
@@ -914,7 +950,8 @@
      "author": "涌现Lab",
      "date": "2026-09-23"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/paper2agent.webp"
   },
   {
    "id": "openmaic",
@@ -931,7 +968,8 @@
      "author": "飞飞的AI工具箱",
      "date": "2026-09-09"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/openmaic.webp"
   },
   {
    "id": "univer",
@@ -955,7 +993,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/univer.webp"
   },
   {
    "id": "orca",
@@ -979,7 +1018,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/orca.webp"
   },
   {
    "id": "deepseek-harness",
@@ -996,7 +1036,8 @@
      "author": "AI时倾",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/deepseek-ai/deepseek-harness"
   },
   {
    "id": "paperclip",
@@ -1020,7 +1061,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/paperclip.webp"
   },
   {
    "id": "jev-ultrafast",
@@ -1043,7 +1085,8 @@
      "author": "李白｜AI创造力实验室",
      "date": "2026-09-23"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/jev-ultrafast.webp"
   },
   {
    "id": "google-ax",
@@ -1061,7 +1104,8 @@
      "author": "AI时倾",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/google/ax"
   },
   {
    "id": "laya",
@@ -1078,7 +1122,8 @@
      "author": "AI时倾",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/laya.webp"
   },
   {
    "id": "kev",
@@ -1095,7 +1140,8 @@
      "author": "AI时倾",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/kev.webp"
   },
   {
    "id": "jev-chat-jarvis",
@@ -1113,7 +1159,8 @@
      "author": "AI时倾",
      "date": "2026-09-27"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/jev-chat/jev-chat-jarvis"
   },
   {
    "id": "openshell",
@@ -1131,7 +1178,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/openshell.webp"
   },
   {
    "id": "ai-engineering-from-scratch",
@@ -1149,7 +1197,8 @@
      "author": "AI时倾",
      "date": "2026-10-04"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/ai-engineering-from-scratch.webp"
   },
   {
    "id": "claude-code-game-studios",
@@ -1167,7 +1216,8 @@
      "author": "青青",
      "date": "2026-10-08"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/Donchitos/Claude-Code-Game-Studios"
   },
   {
    "id": "deeptutor",
@@ -1184,7 +1234,8 @@
      "author": "AI 珂珂",
      "date": "2026-10-02"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/deeptutor.webp"
   },
   {
    "id": "lightpanda",
@@ -1202,7 +1253,8 @@
      "author": "梦莱加德",
      "date": "2026-10-09"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/lightpanda-io/browser"
   },
   {
    "id": "clicky",
@@ -1220,7 +1272,8 @@
      "author": "AI量子口袋",
      "date": "2026-10-22"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/clicky.webp"
   },
   {
    "id": "piik",
@@ -1237,7 +1290,8 @@
      "author": "增长研习社",
      "date": "2026-10-10"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/piik.webp"
   },
   {
    "id": "gaussiangpt",
@@ -1255,7 +1309,8 @@
      "author": "GitHubStore",
      "date": "2026-09-19"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/gaussiangpt.webp"
   },
   {
    "id": "ego-lite",
@@ -1272,7 +1327,8 @@
      "author": "郭瀚森",
      "date": "2026-10-18"
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/ego-lite.webp"
   },
   {
    "id": "quantsplaybook",
@@ -1289,7 +1345,8 @@
      "author": "Panda AI",
      "date": "2026-09-16"
     }
-   ]
+   ],
+   "img": "https://opengraph.githubassets.com/1/hugo2046/QuantsPlaybook"
   },
   {
    "id": "tripo",
@@ -1306,7 +1363,8 @@
      "author": "Tripo AI",
      "date": "2026-10-13"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.tripo3d.ai?w=960&h=540"
   },
   {
    "id": "marble",
@@ -1323,7 +1381,8 @@
      "author": "Tripo AI",
      "date": "2026-10-13"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmarble.worldlabs.ai?w=960&h=540"
   },
   {
    "id": "hyper3d",
@@ -1352,7 +1411,8 @@
      "author": "TBOY",
      "date": "2026-09-15"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhyper3d.ai?w=960&h=540"
   },
   {
    "id": "hi3d",
@@ -1369,7 +1429,8 @@
      "author": "煜林AI",
      "date": "2026-09-28"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.hitem3d.ai?w=960&h=540"
   },
   {
    "id": "jimeng",
@@ -1386,7 +1447,8 @@
      "author": "缪斯_MiuSi",
      "date": "2026-10-17"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fjimeng.jianying.com?w=960&h=540"
   },
   {
    "id": "seedance",
@@ -1403,7 +1465,8 @@
      "author": "杰瑞Chang",
      "date": "2026-08-26"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fseed.bytedance.com?w=960&h=540"
   },
   {
    "id": "libtv",
@@ -1457,7 +1520,8 @@
      "author": "AIagent官方-超级实战营",
      "date": "2026-10-09"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fskills.sh?w=960&h=540"
   },
   {
    "id": "cocoloop",
@@ -1571,7 +1635,8 @@
      "author": "Panda AI",
      "date": "2026-09-16"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fjkpfactors.com?w=960&h=540"
   },
   {
    "id": "papers-with-backtest",
@@ -1588,7 +1653,8 @@
      "author": "Panda AI",
      "date": "2026-09-16"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fpaperswithbacktest.com?w=960&h=540"
   },
   {
    "id": "quantpedia",
@@ -1605,7 +1671,8 @@
      "author": "Panda AI",
      "date": "2026-09-16"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fquantpedia.com?w=960&h=540"
   },
   {
    "id": "motionsites",
@@ -1628,7 +1695,8 @@
      "author": "顾澄野",
      "date": "2026-09-08"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmotionsites.ai?w=960&h=540"
   },
   {
    "id": "react-bits",
@@ -1645,7 +1713,8 @@
      "author": "顾澄野",
      "date": "2026-09-08"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Freactbits.dev?w=960&h=540"
   },
   {
    "id": "21st-dev",
@@ -1668,7 +1737,8 @@
      "author": "顾澄野",
      "date": "2026-09-08"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2F21st.dev?w=960&h=540"
   },
   {
    "id": "threejs",
@@ -1691,7 +1761,8 @@
      "author": "顾澄野",
      "date": "2026-09-08"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fthreejs.org?w=960&h=540"
   },
   {
    "id": "awwwards",
@@ -1708,7 +1779,8 @@
      "author": "顾澄野",
      "date": "2026-09-08"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.awwwards.com?w=960&h=540"
   },
   {
    "id": "uiverse",
@@ -1731,7 +1803,8 @@
      "author": "冯又又",
      "date": "2026-10-09"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fuiverse.io?w=960&h=540"
   },
   {
    "id": "shadcn-ui",
@@ -1748,7 +1821,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fui.shadcn.com?w=960&h=540"
   },
   {
    "id": "aceternity-ui",
@@ -1765,7 +1839,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fui.aceternity.com?w=960&h=540"
   },
   {
    "id": "magic-ui",
@@ -1782,7 +1857,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmagicui.design?w=960&h=540"
   },
   {
    "id": "motion-primitives",
@@ -1799,7 +1875,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmotion-primitives.com?w=960&h=540"
   },
   {
    "id": "animejs",
@@ -1816,7 +1893,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fanimejs.com?w=960&h=540"
   },
   {
    "id": "mapcn",
@@ -1833,7 +1911,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "/launch/AI-updates/img/mapcn.webp"
   },
   {
    "id": "minimal-gallery",
@@ -1850,7 +1929,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fminimal.gallery?w=960&h=540"
   },
   {
    "id": "refero",
@@ -1867,7 +1947,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Frefero.design?w=960&h=540"
   },
   {
    "id": "component-gallery",
@@ -1884,7 +1965,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcomponent.gallery?w=960&h=540"
   },
   {
    "id": "jiro-build",
@@ -1901,7 +1983,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fjiro.build?w=960&h=540"
   },
   {
    "id": "3dicons",
@@ -1918,7 +2001,8 @@
      "author": "卷卷今天臭美了么",
      "date": ""
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2F3dicons.co?w=960&h=540"
   },
   {
    "id": "supahero",
@@ -1935,7 +2019,8 @@
      "author": "发发华",
      "date": "2026-09-10"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fsupahero.io?w=960&h=540"
   },
   {
    "id": "saaspo",
@@ -1952,7 +2037,8 @@
      "author": "发发华",
      "date": "2026-09-10"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fsaaspo.com?w=960&h=540"
   },
   {
    "id": "searchsystem",
@@ -1969,7 +2055,8 @@
      "author": "发发华",
      "date": "2026-09-10"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fsearchsystem.co?w=960&h=540"
   },
   {
    "id": "kage",
@@ -2275,7 +2362,8 @@
      "author": "乐鑫科技",
      "date": "2026-08-19"
     }
-   ]
+   ],
+   "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmosaico.espressif.com?w=960&h=540"
   },
   {
    "id": "dayotag",
