@@ -261,6 +261,7 @@
   /* ---------- blocks → days ---------- */
   var QUEUE = /\b(queue|up next|next up|to[- ]read|reading list|wish ?list|backlog)\b/i;
   function words(s) { return (String(s || '').match(/\S+/g) || []).length; }
+  function squash(s) { return String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim(); }
   function slug(s) { return String(s || '').toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-').slice(0, 40); }
 
   // The level that starts a day: the heading level most dated headings use (Heading 1 wins ties).
@@ -302,8 +303,9 @@
     });
     entries.forEach(function (e) {
       // A day named only by its date (a doc tab called "24.10.2026") takes its title from the first heading in it.
+      // So does a tab named with a short title ("Shared Wisdom") whose first heading repeats it with the author.
       var f = e.blocks[0];
-      if (!e.title && f && f.sub) {
+      if (f && f.sub && (!e.title || squash(f.plain).indexOf(squash(e.title)) === 0)) {
         var tp = titleParts(f.plain, parseDate(f.plain));
         e.title = tp.title; e.byline = e.byline || tp.byline;
         var tm = f.inner.match(/href="https:\/\/docs\.google\.com\/document\/[^"]*[?&]tab=(t\.[\w-]+)/);
@@ -346,6 +348,7 @@
     note: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></svg>',
     refresh: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>',
     chev: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+    book: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5v-2z"/><path d="M8 7h7"/></svg>',
     edit: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>'
   };
 
@@ -368,6 +371,8 @@
 
     function linkFromSettings() { return ((S.doc && S.doc.settings) || {}).readingDoc || ''; }
     function byId(id) { var m = cache.model; if (!m) return null; for (var i = 0; i < m.entries.length; i++) if (m.entries[i].id === id) return m.entries[i]; return null; }
+    var LIB = 'library';   // the shelf of all undated entries (one per book)
+    function known(id) { return id === LIB ? !!(cache.model && cache.model.other.length) : !!byId(id); }
 
     function setStatus(text, bad) { status.textContent = text || ''; status.classList.toggle('bad', !!bad); }
     function stamp(t) { return new Date(t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
@@ -375,8 +380,10 @@
     /* which day to show */
     function pickDefault() {
       var m = cache.model, h = decodeURIComponent((location.hash || '').slice(1));
-      if (h && byId(h)) return h;
-      for (var i = 0; i < m.dated.length; i++) if (isToday(m.dated[i].date)) return m.dated[i].id;
+      if (h && known(h)) return h;
+      // today's notes, unless today is only a placeholder and there's a shelf of books to show
+      for (var i = 0; i < m.dated.length; i++) if (isToday(m.dated[i].date) && (m.dated[i].words > 60 || !m.other.length)) return m.dated[i].id;
+      if (m.other.length && !(m.dated[0] && m.dated[0].words > 60)) return LIB;
       if (m.dated[0]) return m.dated[0].id;
       return m.entries[0] ? m.entries[0].id : null;
     }
@@ -402,7 +409,7 @@
       var badge = d
         ? '<span class="rd-d"><b>' + d.getDate() + '</b><small>' + (isToday(d) ? 'Today' : esc(weekday(d))) + '</small></span>'
         : e.queue ? '<span class="rd-d"><b>' + e.items + '</b><small>' + (e.items === 1 ? 'book' : 'books') + '</small></span>'
-          : '<span class="rd-d rd-ic">' + ICON.note + '</span>';
+          : '<span class="rd-d rd-ic">' + (e.byline ? ICON.book : ICON.note) + '</span>';
       var h = '<a class="rd-day' + (on ? ' on' : '') + (isToday(d) ? ' today' : '') + '" href="#' + esc(e.id) + '" data-id="' + esc(e.id) + '"' + (on ? ' aria-current="true"' : '') + '>' +
         badge + '<span class="rd-t"><span>' + esc(e.label) + '</span>' + (e.byline ? '<small>' + esc(e.byline) + '</small>' : '') + '</span>' +
         (isNew(e) && !on ? '<i class="rd-new" title="New"></i>' : '') + '</a>';
@@ -425,27 +432,56 @@
         h += row(e);
       });
       if (queue.length) h += '<p class="rd-group">Up next</p>' + queue.map(row).join('');
-      if (other.length) h += '<p class="rd-group">' + (m.dated.length ? 'Other notes' : 'Notes') + '</p>' + other.map(row).join('');
+      if (other.length) h += '<a class="rd-group rd-libhead' + (current === LIB ? ' on' : '') + '" href="#' + LIB + '" data-id="' + LIB + '"' + (current === LIB ? ' aria-current="true"' : '') + '>Library<b>' + m.other.length + '</b></a>' + other.map(row).join('');
       if (!h) h = '<p class="rd-none">' + (term ? 'Nothing matches “' + esc(term) + '”.' : 'No days yet. Each day starts with a heading that begins with its date.') + '</p>';
       list.innerHTML = h;
       countEl.textContent = m.dated.length ? m.dated.length + (m.dated.length === 1 ? ' day' : ' days') : '';
       var e = byId(current), tt = $('#rdToggleText');
-      if (tt) tt.textContent = e ? (e.date ? dm(e.date) + ' · ' : '') + e.label : 'All dates';
+      if (tt) tt.textContent = current === LIB ? 'Library · ' + m.other.length + ' books' : e ? (e.date ? dm(e.date) + ' · ' : '') + e.label : 'All dates';
       spy();
     }
 
     /* ---------- the page of one day ---------- */
     function neighbours(e) {
       var d = cache.model.dated, i = d.indexOf(e);
-      return i === -1 ? {} : { newer: d[i - 1] || null, older: d[i + 1] || null };
+      if (i !== -1) return { newer: d[i - 1] || null, older: d[i + 1] || null };
+      var o = cache.model.other, j = o.indexOf(e);   // books: previous / next on the shelf
+      return j === -1 ? {} : { older: o[j - 1] || null, newer: o[j + 1] || null, shelf: true };
     }
     function pagerLink(e, cls, label) {
       if (!e) return '';
       return '<a class="' + cls + '" href="#' + esc(e.id) + '" data-id="' + esc(e.id) + '"><small>' + label + '</small><span>' + (e.date ? dm(e.date) + ' · ' : '') + esc(e.label) + '</span></a>';
     }
+    function hue(t) { var h = 0; for (var i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) % 360; return h; }
+    function gist(e) {
+      for (var i = 0; i < e.blocks.length; i++) {
+        var b = e.blocks[i];
+        if (b.sub || b.list || !b.plain) continue;
+        var t = b.plain.replace(/^[^.]*·[^.]*?\d{4}\.\s*/, '');   // drop the "subtitle · publisher, year." lead-in
+        return t.length > 170 ? t.slice(0, 168).replace(/\s+\S*$/, '') + '…' : t;
+      }
+      return '';
+    }
+    function renderShelf() {
+      var books = cache.model.other, total = 0;
+      books.forEach(function (b) { total += Math.max(1, Math.round(b.words / WPM)); });
+      paper.innerHTML =
+        '<article class="rd-entry rd-shelf">' +
+        '<header class="rd-head"><p class="rd-kicker">Library</p><h1>Your books</h1>' +
+        '<p class="rd-meta"><span>' + books.length + (books.length === 1 ? ' summary' : ' summaries') + '</span><span>about ' + total + ' min of reading</span></p></header>' +
+        '<div class="rd-lib">' + books.map(function (b) {
+          var mins = Math.max(1, Math.round(b.words / WPM));
+          return '<a class="rd-book" href="#' + esc(b.id) + '" data-id="' + esc(b.id) + '" style="--h:' + hue(b.title || b.label) + '">' +
+            '<span class="rd-book-t">' + esc(b.title || b.label) + '</span>' +
+            (b.byline ? '<span class="rd-book-a">' + esc(b.byline) + '</span>' : '') +
+            '<span class="rd-book-g">' + esc(gist(b)) + '</span>' +
+            '<span class="rd-book-m">' + mins + ' min · ' + b.subs.length + (b.subs.length === 1 ? ' section' : ' sections') + (isNew(b) ? '<i class="rd-new" title="New"></i>' : '') + '</span></a>';
+        }).join('') + '</div></article>';
+    }
     function renderEntry() {
       var m = cache.model;
       if (!m) return;
+      if (current === LIB && m.other.length) { renderShelf(); return; }
       var e = byId(current);
       if (!e) {
         paper.innerHTML = '<article class="rd-entry"><header class="rd-head"><p class="rd-kicker">Reading notes</p><h1>' + esc(m.title || 'Your reading doc') + '</h1></header>' +
@@ -454,23 +490,23 @@
         return;
       }
       var nav = neighbours(e), mins = Math.max(1, Math.round(e.words / WPM));
-      var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : 'Notes';
+      var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : e.byline ? 'Library' : 'Notes';
       paper.innerHTML =
         '<article class="rd-entry">' +
         '<header class="rd-head"><div class="rd-headrow"><p class="rd-kicker">' + kicker + '</p>' +
         '<button type="button" class="btn small rd-edit" data-edit title="Edit this day in the Google Doc">' + ICON.edit + 'Edit</button></div>' +
         '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
-        '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + ' sections</span>' : '') + '</p></header>' +
+        '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + (e.subs.length === 1 ? ' section' : ' sections') + '</span>' : '') + '</p></header>' +
         '<div class="rd-prose">' + (e.blocks.length ? e.blocks.map(function (b) { return b.html; }).join('') : '<p class="rd-emptynote">Nothing under this date yet.</p>') + '</div>' +
-        (nav.older || nav.newer ? '<nav class="rd-pager" aria-label="Other days">' + pagerLink(nav.older, 'rd-older', '← Older') + pagerLink(nav.newer, 'rd-newer', 'Newer →') + '</nav>' : '') +
+        (nav.older || nav.newer ? '<nav class="rd-pager" aria-label="' + (nav.shelf ? 'Other books' : 'Other days') + '">' + pagerLink(nav.older, 'rd-older', nav.shelf ? '← Previous' : '← Older') + pagerLink(nav.newer, 'rd-newer', nav.shelf ? 'Next →' : 'Newer →') + '</nav>' : '') +
         '</article>';
     }
 
     function select(id, opts) {
       opts = opts || {};
-      if (!byId(id)) return;
+      if (!known(id)) return;
       current = id;
-      markSeen(id);
+      if (id !== LIB) markSeen(id);
       try { history.replaceState(history.state, '', location.pathname + location.search + '#' + encodeURIComponent(id)); } catch (e) { /* ignore */ }
       renderEntry();
       renderOutline();
@@ -487,8 +523,8 @@
     function render(first) {
       if (!cache.model) return;
       if (first) initSeen();
-      if (!current || !byId(current)) current = pickDefault();
-      if (current) markSeen(current);
+      if (!current || !known(current)) current = pickDefault();
+      if (current && current !== LIB) markSeen(current);
       renderEntry();
       renderOutline();
       if (docId) openLink.href = dayUrl(byId(current));
@@ -646,11 +682,17 @@
       select(a.dataset.id, { fromList: true, force: true });
     });
     paper.addEventListener('click', function (e) {
-      var a = e.target.closest('.rd-pager [data-id]');
+      var a = e.target.closest('.rd-pager [data-id], .rd-lib [data-id]');
       if (a) { e.preventDefault(); select(a.dataset.id, { force: true }); return; }
       if (e.target.closest('[data-retry]')) { refresh(true); return; }
       if (e.target.closest('[data-change]')) { changeDoc(); return; }
       if (e.target.closest('[data-edit]')) { editDay(byId(current)); return; }
+      var link = e.target.closest('.rd-prose a[href]');
+      if (link && docId && cache.model) {
+        var tm = link.getAttribute('href').match(/docs\.google\.com\/document\/(?:u\/\d+\/)?d\/([\w-]+)\/[^?#]*\?(?:[^#]*&)?tab=(t\.[\w-]+)/);
+        var hit = tm && tm[1] === docId && cache.model.entries.filter(function (x) { return x.tabId === tm[2]; })[0];
+        if (hit) { e.preventDefault(); select(hit.id, { force: true }); return; }
+      }
       var mb = e.target.closest('[data-mode]');
       if (mb) setMode(mb.dataset.mode);
     });
