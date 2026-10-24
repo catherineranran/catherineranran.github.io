@@ -641,6 +641,10 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .cv-now { background: #ea4335; box-shadow: none; }
 .cv-now::before { background: #ea4335; left: -6px; top: -5px; width: 12px; height: 12px; }
 .gcal-banner { background: #fef7e0; color: #3c4043; }
+.gcal-banner-btns { display: flex; gap: 6px; flex: none; }
+.cvm-custom { padding-top: 8px; border-top: 1px solid var(--line); }
+.cvm-custom[hidden] { display: none; }
+.swatches.grid24.in-dialog.cvm-custom { margin-top: 8px; }
 
 /* mini month */
 .mm-head strong { color: #3c4043; font-weight: 500; letter-spacing: 0; }

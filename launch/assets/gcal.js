@@ -4,12 +4,14 @@
   var L = window.Launch, $ = L.$, esc = L.esc, CFG = window.LAUNCH_CONFIG;
   var TOK = 'launch.gtoken.v1';
   var API = 'https://www.googleapis.com/calendar/v3';
-  var SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.calendarlist.readonly';
+  // calendar.calendars: read the calendar's colour labels (how Google keeps its 24 colours) and add missing ones.
+  var SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.calendarlist.readonly https://www.googleapis.com/auth/calendar.calendars';
   var EVENT_COLORS = { 1: '#7986cb', 2: '#33b679', 3: '#8e24aa', 4: '#e67c73', 5: '#f6bf26', 6: '#f4511e', 7: '#039be5', 8: '#616161', 9: '#3f51b5', 10: '#0b8043', 11: '#d50000' };
   var DAY = 86400000;
-  // Google Calendar's 24 colours, in the order of its right-click menu. `id` = colorId the API can store on events.
+  // Google Calendar's 24 colours, in the order (and with the exact colours) of its right-click menu.
+  // `id` = the old colorId for the 11 colours that have one; the other 13 only exist as colour labels.
   var PALETTE = [
-    ['cherry', 'Cherry blossom', '#ad1457'], ['radicchio', 'Radicchio', '#d81b60'], ['flamingo', 'Flamingo', '#e67c73', '4'],
+    ['radicchio', 'Radicchio', '#ad1457'], ['cherry', 'Cherry Blossom', '#d81b60'], ['flamingo', 'Flamingo', '#e67c73', '4'],
     ['tomato', 'Tomato', '#d50000', '11'], ['tangerine', 'Tangerine', '#f4511e', '6'], ['pumpkin', 'Pumpkin', '#ef6c00'],
     ['mango', 'Mango', '#f09300'], ['banana', 'Banana', '#f6bf26', '5'], ['citron', 'Citron', '#e4c441'],
     ['avocado', 'Avocado', '#c0ca33'], ['pistachio', 'Pistachio', '#7cb342'], ['basil', 'Basil', '#0b8043', '10'],
@@ -21,7 +23,30 @@
   var apiColors = {};
   var BY_KEY = {}; PALETTE.forEach(function (p) { BY_KEY[p.k] = p; });
   var apiIds = {};   // extra colorIds Google's /colors reports, by palette key (in case Google adds more)
-  function idFor(k) { var p = BY_KEY[k]; return p ? (p.id || apiIds[k] || '') : ''; }
+  function idFor(k) { var p = BY_KEY[k]; return p ? p.id : ''; }
+  function presetForHex(hex) { var h = String(hex || '').toLowerCase(); return PALETTE.filter(function (p) { return p.hex === h; })[0] || null; }
+  function safeHex(h) { h = String(h || '').toLowerCase(); return /^#[0-9a-f]{6}$/.test(h) ? h : ''; }
+
+  /* Colour labels. Since mid 2026 Google keeps event colours as labels defined on each calendar
+     (labelProperties.eventLabels: id, name, backgroundColor) and puts the label on the event
+     (eventLabelId); the old 11 colours also still come as colorId. */
+  var LABELS = {};           // calId -> { at, list }
+  var labelsDenied = false;  // Google hasn't given the launch pad permission to read the labels yet
+  var STALE = {}, TO_MOVE = {}, MOVE_FAILED = {};
+  function labelList(calId) { var c = LABELS[calId]; return c ? c.list : []; }
+  function labelById(calId, id) { return labelList(calId).filter(function (l) { return l.id === id; })[0] || null; }
+  function labelForHex(calId, hex, name) {
+    var h = String(hex || '').toLowerCase(), n = String(name || '').toLowerCase();
+    var same = labelList(calId).filter(function (l) { return String(l.backgroundColor || '').toLowerCase() === h; });
+    return same.filter(function (l) { return String(l.name || '').toLowerCase() === n; })[0] || same[0] || null;
+  }
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    var b = crypto.getRandomValues(new Uint8Array(16)); b[6] = b[6] & 15 | 64; b[8] = b[8] & 63 | 128;
+    var h = Array.prototype.map.call(b, function (x) { return (x + 256).toString(16).slice(1); }).join('');
+    return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+  }
+  function calById(id) { return (G.calendars || []).filter(function (c) { return c.id === id; })[0] || { id: id, owner: false }; }
   function keyForId(id) {
     for (var i = 0; i < PALETTE.length; i++) if (PALETTE[i].id === id) return PALETTE[i].k;
     for (var k in apiIds) if (apiIds[k] === id) return k;
@@ -39,20 +64,30 @@
     if (hexOrNull) o[key] = hexOrNull; else delete o[key];
     L.Store.setSettings({ eventColors: o });
   }
-  // Colour key of an event: launch-pad-only colour first, then Google's colorId, '' = calendar colour
+  // Which swatch an event's colour is: a palette key, 'label:<id>' for one of the calendar's own colours,
+  // '' = the calendar's colour.
   function eventKey(ev) {
-    var o = overrides()[ev.calId + '|' + ev.id];
-    if (o) { for (var i = 0; i < PALETTE.length; i++) if (PALETTE[i].hex === o) return PALETTE[i].k; }
-    return ev.colorId ? keyForId(ev.colorId) : '';
+    if (!ev.localColor && !ev.labelId && !ev.colorId) return '';
+    var p = presetForHex(ev.color);
+    if (p) return p.k;
+    if (ev.colorId && !ev.labelId) return keyForId(ev.colorId);
+    return ev.labelId ? 'label:' + ev.labelId : '';
   }
-  // Save a colour: Google gets the exact colour when its API can store it, otherwise the closest one,
-  // and the launch pad remembers the exact choice.
+  // Save a colour so Google shows the same one: the 11 old colours as colorId (which every app
+  // understands), the other 13 and the calendar's own colours as Google colour labels. Without
+  // permission for labels it falls back to the closest of the 11, keeping the exact colour here.
   function applyColor(ev, k) {
-    var key = ev.calId + '|' + ev.id, p = BY_KEY[k], id = idFor(k);
-    if (!p) { if (overrides()[key]) setOverride(key, null); return G.patchEvent(ev.calId, ev.id, { colorId: null }); }
-    if (id) { if (overrides()[key]) setOverride(key, null); return G.patchEvent(ev.calId, ev.id, { colorId: id }); }
-    setOverride(key, p.hex);
-    return G.patchEvent(ev.calId, ev.id, { colorId: nearestId(p.hex) });
+    var key = ev.calId + '|' + ev.id;
+    function done(r) { if (overrides()[key]) setOverride(key, null); return r; }
+    if (k && k.indexOf('label:') === 0) return G.setLabel(ev, k.slice(6)).then(done);
+    var p = BY_KEY[k];
+    if (!p) return G.clearColor(ev).then(done);
+    if (p.id) return G.clearLabel(ev).then(function () { return G.patchEvent(ev.calId, ev.id, { colorId: p.id }); }).then(done);
+    return G.ensureLabel(calById(ev.calId), p.hex, p.name).then(function (labelId) { return G.setLabel(ev, labelId); }).then(done, function (e) {
+      if (!e.noLabels) throw e;
+      setOverride(key, p.hex);
+      return G.clearLabel(ev).then(function () { return G.patchEvent(ev.calId, ev.id, { colorId: nearestId(p.hex) }); });
+    });
   }
   // The API still reports calendar colours in Google's old palette; the Calendar app shows these instead.
   var MODERN = {
@@ -227,7 +262,11 @@
         }
         if (r.status === 204) return null;
         return r.json().then(function (j) {
-          if (!r.ok) throw new Error((j.error && j.error.message) || ('Google error ' + r.status));
+          if (!r.ok) {
+            var er = (j && j.error) || {}, x = new Error(er.message || ('Google error ' + r.status));
+            x.status = r.status; x.reason = (er.errors && er.errors[0] && er.errors[0].reason) || er.status || '';
+            throw x;
+          }
           return j;
         });
       });
@@ -247,7 +286,7 @@
       return G.api('/users/me/calendarList?maxResults=250').then(function (j) {
         G.calendars = (j.items || []).map(function (c) {
           return { id: c.id, name: c.summaryOverride || c.summary, color: modern(c.backgroundColor), primary: !!c.primary,
-            writable: c.accessRole === 'owner' || c.accessRole === 'writer', selected: c.selected !== false };
+            writable: c.accessRole === 'owner' || c.accessRole === 'writer', owner: c.accessRole === 'owner', selected: c.selected !== false };
         }).sort(function (a, b) { return (b.primary - a.primary) || (b.writable - a.writable) || a.name.localeCompare(b.name); });
         return G.calendars;
       });
@@ -262,9 +301,22 @@
       var allDay = !!(e.start && e.start.date);
       var start = allDay ? parseDate(e.start.date) : new Date(e.start.dateTime);
       var end = allDay ? parseDate(e.end.date) : new Date(e.end.dateTime);
+      var key = cal.id + '|' + e.id, own = overrides()[key] || '';
+      var lab = e.eventLabelId ? labelById(cal.id, e.eventLabelId) : null;
+      var labHex = lab ? safeHex(lab.backgroundColor) : '';
+      var idHex = e.colorId ? (EVENT_COLORS[e.colorId] || apiColors[e.colorId] || '') : '';
+      if (own) {
+        // A colour only the launch pad knew (picked before Google had 24 colours). If it was changed in
+        // Google since, Google wins; if not, it moves into Google as a label after loading.
+        var sameId = (e.colorId || '') === nearestId(own);
+        var labelOk = !e.eventLabelId || (lab && labHex === idHex);   // no label, or just the twin of colorId
+        if (!sameId || (lab && !labelOk)) { STALE[key] = 1; own = ''; }
+        else if (labelOk) TO_MOVE[key] = { calId: cal.id, id: e.id, hex: own };
+      }
       return {
         id: e.id, calId: cal.id, title: e.summary || '(No title)', start: start, end: end, allDay: allDay,
-        color: overrides()[cal.id + '|' + e.id] || (e.colorId ? (EVENT_COLORS[e.colorId] || apiColors[e.colorId] || cal.color) : cal.color), colorId: e.colorId || '', calColor: cal.color, location: e.location || '', description: e.description || '',
+        color: own || labHex || idHex || cal.color, colorId: e.colorId || '', labelId: e.eventLabelId || '', localColor: own,
+        calColor: cal.color, location: e.location || '', description: e.description || '',
         link: e.htmlLink, recurring: !!e.recurringEventId, editable: cal.writable && !e.locked,
         raw: e
       };
@@ -275,31 +327,116 @@
         return Promise.all(cals.map(function (c) {
           var q = '?singleEvents=true&orderBy=startTime&maxResults=2500&timeMin=' + encodeURIComponent(from.toISOString()) + '&timeMax=' + encodeURIComponent(to.toISOString());
           return G.api('/calendars/' + encodeURIComponent(c.id) + '/events' + q).then(function (j) {
-            return (j.items || []).filter(function (e) { return e.status !== 'cancelled' && e.start; }).map(function (e) { return G.normalize(e, c); });
+            var items = (j.items || []).filter(function (e) { return e.status !== 'cancelled' && e.start; });
+            var c0 = LABELS[c.id], age = c0 ? Date.now() - c0.at : Infinity;
+            var labelled = items.some(function (e) { return e.eventLabelId; });
+            var unknown = items.some(function (e) { return e.eventLabelId && !labelById(c.id, e.eventLabelId); });
+            var hasOwn = items.some(function (e) { return overrides()[c.id + '|' + e.id]; });
+            var need = !labelsDenied && age > 30000 && (unknown || ((labelled || hasOwn) && age > 5 * 60000));
+            return (need ? G.labels(c.id, true).catch(function () { return []; }) : Promise.resolve()).then(function () {
+              return items.map(function (e) { return G.normalize(e, c); });
+            });
           }).catch(function (err) { if (err.needAuth) throw err; return []; });
         }));
-      }).then(function (lists) { return [].concat.apply([], lists); });
+      }).then(function (lists) { var all = [].concat.apply([], lists); G._afterLoad(); return all; });
+    },
+    // Colour labels defined on a calendar (cached for a few minutes; `fresh` reads them again).
+    labels: function (calId, fresh) {
+      var c = LABELS[calId];
+      if (!fresh && c && Date.now() - c.at < 5 * 60000) return Promise.resolve(c.list);
+      if (labelsDenied) return Promise.reject(Object.assign(new Error('No permission for Google colour labels yet'), { noLabels: true }));
+      return G.api('/calendars/' + encodeURIComponent(calId) + '?fields=labelProperties').then(function (j) {
+        var list = ((j && j.labelProperties && j.labelProperties.eventLabels) || []).filter(function (l) { return l && l.id; });
+        LABELS[calId] = { at: Date.now(), list: list };
+        return list;
+      }, function (e) {
+        if (e.needAuth) throw e;
+        if (e.status === 403 && (/scope/i.test(e.message) || /insufficientPermissions|SCOPE/i.test(e.reason || ''))) {
+          labelsDenied = true; G.emit('labels-denied');
+        } else LABELS[calId] = { at: Date.now(), list: labelList(calId) };
+        throw Object.assign(e, { noLabels: true });
+      });
+    },
+    // The calendar's label with this colour, added to the calendar first if it has none (owner only).
+    ensureLabel: function (cal, hex, name) {
+      return G.labels(cal.id, true).then(function (list) {
+        var hit = labelForHex(cal.id, hex, name);
+        if (hit) return hit.id;
+        if (!cal.owner) throw Object.assign(new Error('Only the calendar’s owner can add colours to it'), { noLabels: true });
+        var lab = { id: uuid(), backgroundColor: hex, name: name || '' }, next = list.concat([lab]);
+        return G.api('/calendars/' + encodeURIComponent(cal.id) + '?fields=labelProperties', { method: 'PATCH', body: { labelProperties: { eventLabels: next } } }).then(function (j) {
+          var saved = (j && j.labelProperties && j.labelProperties.eventLabels) || next;
+          LABELS[cal.id] = { at: Date.now(), list: saved };
+          var got = labelForHex(cal.id, hex, name);
+          return got ? got.id : lab.id;
+        });
+      });
+    },
+    setLabel: function (ev, labelId) { return G.patchEvent(ev.calId, ev.id, { eventLabelId: labelId }, true); },
+    clearLabel: function (ev) { return ev.labelId ? G.patchEvent(ev.calId, ev.id, { eventLabelId: '' }, true) : Promise.resolve(null); },
+    clearColor: function (ev) {
+      return G.clearLabel(ev).then(function (r) {
+        var left = r ? r.colorId : ev.colorId;
+        return left ? G.patchEvent(ev.calId, ev.id, { colorId: null }) : r;
+      });
+    },
+    // After loading: forget launch-pad-only colours that Google has since changed, and hand the
+    // unchanged ones to Google as labels (one at a time, in the background).
+    _afterLoad: function () {
+      var stale = Object.keys(STALE); STALE = {};
+      if (stale.length && L.Store.doc) { var o = Object.assign({}, overrides()); stale.forEach(function (k) { delete o[k]; }); L.Store.setSettings({ eventColors: o }); }
+      var move = Object.keys(TO_MOVE).filter(function (k) { return !MOVE_FAILED[k]; }).map(function (k) { return TO_MOVE[k]; }); TO_MOVE = {};
+      if (!move.length || labelsDenied || G._moving) return;
+      G._moving = true;
+      (function next() {
+        var m = move.shift();
+        if (!m || labelsDenied) { G._moving = false; return; }
+        var key = m.calId + '|' + m.id, cal = calById(m.calId), p = presetForHex(m.hex);
+        if (!overrides()[key]) return next();
+        G.ensureLabel(cal, m.hex, p ? p.name : '').then(function (labelId) {
+          return G.patchEvent(m.calId, m.id, { eventLabelId: labelId }, true);
+        }).then(function () { setOverride(key, null); }, function () { MOVE_FAILED[key] = 1; }).then(next);
+      })();
     },
     timeBody: function (start, end, allDay) {
       return allDay
         ? { start: { date: iso(start), dateTime: null }, end: { date: iso(end), dateTime: null } }
         : { start: { dateTime: start.toISOString(), date: null }, end: { dateTime: end.toISOString(), date: null } };
     },
-    createEvent: function (calId, fields) {
-      return G.api('/calendars/' + encodeURIComponent(calId) + '/events', { method: 'POST', body: fields });
+    // `labels`: send eventLabelVersion=1 so Google reads eventLabelId (and ignores colorId).
+    createEvent: function (calId, fields, labels) {
+      return G.api('/calendars/' + encodeURIComponent(calId) + '/events' + (labels ? '?eventLabelVersion=1' : ''), { method: 'POST', body: fields });
     },
-    patchEvent: function (calId, id, fields) {
-      return G.api('/calendars/' + encodeURIComponent(calId) + '/events/' + encodeURIComponent(id), { method: 'PATCH', body: fields });
+    patchEvent: function (calId, id, fields, labels) {
+      return G.api('/calendars/' + encodeURIComponent(calId) + '/events/' + encodeURIComponent(id) + (labels ? '?eventLabelVersion=1' : ''), { method: 'PATCH', body: fields });
     },
     deleteEvent: function (calId, id) {
       return G.api('/calendars/' + encodeURIComponent(calId) + '/events/' + encodeURIComponent(id), { method: 'DELETE' });
     }
   };
   if (G.configured()) loadGis().catch(function () { /* offline */ });
+  // A new Google pass may carry the labels permission: try labels again.
+  G.on(function (w) { if (w === 'auth') { labelsDenied = false; LABELS = {}; MOVE_FAILED = {}; } });
 
   function defaultCal(cals) { return cals.filter(function (c) { return c.primary; })[0] || cals[0] || { color: '#7986cb' }; }
-  function swatchHtml() {
-    return PALETTE.map(function (p) { return '<button type="button" class="swatch" role="radio" data-c="' + p.k + '" title="' + p.name + '" aria-label="' + p.name + '" style="--c:' + p.hex + '"></button>'; }).join('');
+  // The 24 colours; a colour renamed in Google (e.g. Lavender → "Research") shows its name.
+  function swatchHtml(calId) {
+    return PALETTE.map(function (p) {
+      var l = calId ? labelForHex(calId, p.hex, p.name) : null;
+      var t = l && l.name && l.name.toLowerCase() !== p.name.toLowerCase() ? l.name + ' (' + p.name + ')' : p.name;
+      return '<button type="button" class="swatch" role="radio" data-c="' + p.k + '" title="' + esc(t) + '" aria-label="' + esc(t) + '" style="--c:' + p.hex + '"></button>';
+    }).join('');
+  }
+  // Colours made in Google beyond the 24 (custom labels on this calendar).
+  function customHtml(calId) {
+    return labelList(calId).filter(function (l) { return safeHex(l.backgroundColor) && !presetForHex(l.backgroundColor); }).map(function (l) {
+      var t = l.name || 'Custom colour';
+      return '<button type="button" class="swatch" role="radio" data-c="label:' + esc(l.id) + '" title="' + esc(t) + '" aria-label="' + esc(t) + '" style="--c:' + safeHex(l.backgroundColor) + '"></button>';
+    }).join('');
+  }
+  function colourOf(k, ev) {
+    if (k && k.indexOf('label:') === 0) { var l = labelById(ev.calId, k.slice(6)); return l ? safeHex(l.backgroundColor) : ev.color; }
+    var p = BY_KEY[k]; return p ? p.hex : ev.calColor;
   }
   var ICON_TRASH = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
   var ICON_PEN = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg>';
@@ -311,12 +448,20 @@
     m.className = 'menu cv-menu gc-light'; m.setAttribute('role', 'menu');
     m.innerHTML = '<button type="button" class="cvm-del" data-a="del">' + ICON_TRASH + '<span>Delete</span></button><hr>' +
       '<div class="cvm-body"><button type="button" class="cvm-pen" data-a="edit" title="Edit event" aria-label="Edit event">' + ICON_PEN + '</button>' +
-      '<div class="swatches grid24">' + swatchHtml() + '</div>' +
+      '<div class="swatches grid24 cvm-preset">' + swatchHtml(ev.calId) + '</div>' +
+      '<div class="swatches grid24 cvm-custom"></div>' +
       '<button type="button" class="cvm-default" data-a="default"><i style="--c:' + esc(ev.calColor) + '"></i>Default</button></div>';
     document.body.appendChild(m);
     var cur = eventKey(ev);
-    m.querySelectorAll('.swatch').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.c === cur)); });
-    m.querySelector('.cvm-default').classList.toggle('on', !cur);
+    function paint() {
+      var custom = customHtml(ev.calId), box = m.querySelector('.cvm-custom');
+      box.innerHTML = custom; box.hidden = !custom;
+      m.querySelector('.cvm-preset').innerHTML = swatchHtml(ev.calId);
+      m.querySelectorAll('.swatch').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.c === cur)); });
+      m.querySelector('.cvm-default').classList.toggle('on', !cur);
+    }
+    paint();
+    if (!LABELS[ev.calId] && !labelsDenied) G.labels(ev.calId).then(function () { if (m.isConnected) paint(); }, function () {});
     var w = m.offsetWidth, h = m.offsetHeight;
     m.style.left = Math.max(8, Math.min(x, window.innerWidth - w - 8)) + window.scrollX + 'px';
     m.style.top = Math.max(8, Math.min(y, window.innerHeight - h - 8)) + window.scrollY + 'px';
@@ -326,8 +471,7 @@
     setTimeout(function () { document.addEventListener('pointerdown', outside, true); document.addEventListener('keydown', esc1); }, 0);
     function recolour(k) {
       close();
-      var p = BY_KEY[k];
-      onDone({ color: p ? p.hex : ev.calColor });
+      onDone({ color: colourOf(k, ev) });
       applyColor(ev, k).then(function () { onDone(); })
         .catch(function (x) { alert(x.needAuth ? 'Google connection expired. Reconnect and try again.' : 'Couldn’t change the colour: ' + x.message); onDone(); });
     }
@@ -364,7 +508,8 @@
       '    <label class="enddate" hidden>Until <input type="date" name="endDate"></label>' +
       '  </div>' +
       (isNew ? '  <label>Calendar <select name="cal">' + cals.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>'; }).join('') + '</select></label>' : '') +
-      '  <div><label style="margin-bottom:6px">Colour</label><div class="swatches grid24 in-dialog" role="radiogroup" aria-label="Event colour">' + swatchHtml() + '</div>' +
+      '  <div><label style="margin-bottom:6px">Colour</label><div class="swatches grid24 in-dialog" role="radiogroup" aria-label="Event colour">' + swatchHtml(isNew ? null : ev.calId) + '</div>' +
+      '  <div class="swatches grid24 in-dialog cvm-custom" role="radiogroup" aria-label="Your own colours" hidden></div>' +
       '  <button type="button" class="cvm-default small" data-default><i style="--c:' + esc(isNew ? defaultCal(cals).color : ev.calColor) + '"></i>Default (calendar colour)</button></div>' +
       '  <label>Location <input name="location" placeholder="Add location"></label>' +
       '  <label>Description <textarea name="description" rows="3" placeholder="Add description"></textarea></label>' +
@@ -386,17 +531,29 @@
     f.endDate.value = iso(endShown);
     f.location.value = ev.location || ''; f.description.value = ev.description || '';
     if (isNew && f.cal) { var prim = cals.filter(function (c) { return c.primary; })[0]; if (prim) f.cal.value = prim.id; }
-    var colorKey = isNew ? '' : eventKey(ev);
+    var colorKey = isNew ? '' : eventKey(ev), origKey = colorKey;
+    function calOf() { return isNew && f.cal ? f.cal.value : ev.calId; }
     function paintSwatches() {
+      var calId = calOf(), box = dlg.querySelector('.cvm-custom'), custom = calId ? customHtml(calId) : '';
+      box.innerHTML = custom; box.hidden = !custom;
+      if (calId) dlg.querySelector('.swatches').innerHTML = swatchHtml(calId);
+      if (isNew && colorKey.indexOf('label:') === 0 && !dlg.querySelector('.swatch[data-c="' + colorKey.replace(/"/g, '') + '"]')) colorKey = '';
       dlg.querySelectorAll('.swatch').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.c === colorKey)); });
       dlg.querySelector('[data-default]').classList.toggle('on', !colorKey);
     }
-    paintSwatches();
-    dlg.querySelector('.swatches').addEventListener('click', function (e) { var b = e.target.closest('.swatch'); if (!b || !canEdit) return; colorKey = b.dataset.c; paintSwatches(); });
+    function loadLabels() {
+      var calId = calOf();
+      if (calId && !LABELS[calId] && !labelsDenied) G.labels(calId).then(function () { if (dlg.isConnected) paintSwatches(); }, function () {});
+    }
+    paintSwatches(); loadLabels();
+    dlg.querySelectorAll('.swatches').forEach(function (box) {
+      box.addEventListener('click', function (e) { var b = e.target.closest('.swatch'); if (!b || !canEdit) return; colorKey = b.dataset.c; paintSwatches(); });
+    });
     dlg.querySelector('[data-default]').addEventListener('click', function () { if (!canEdit) return; colorKey = ''; paintSwatches(); });
     if (isNew && f.cal) f.cal.addEventListener('change', function () {
       var c = cals.filter(function (x) { return x.id === f.cal.value; })[0];
       var d = dlg.querySelector('[data-default] i'); if (c && d) d.style.setProperty('--c', c.color);
+      paintSwatches(); loadLabels();
     });
     function syncAllDay() {
       f.start.disabled = f.end.disabled = f.allDay.checked;
@@ -421,14 +578,16 @@
           if (end <= start) end = new Date(start.getTime() + 3600000);
         }
         var body = Object.assign({ summary: f.title.value.trim() || '(No title)', location: f.location.value.trim(), description: f.description.value }, G.timeBody(start, end, f.allDay.checked));
-        var pk = BY_KEY[colorKey], exactId = idFor(colorKey);
-        body.colorId = pk ? (exactId || nearestId(pk.hex)) : null;
-        var exactLocal = pk && !exactId ? pk.hex : null;
+        // The colour is saved on its own (see applyColor), and only when it changed, so a colour
+        // set in Google is never touched by editing the title or time here.
+        var calId = calOf(), classic = idFor(colorKey), recolour = isNew ? (!!colorKey && !classic) : colorKey !== origKey;
+        if (isNew && classic) body.colorId = classic;
         err.textContent = 'Saving…';
-        var calId = isNew ? f.cal.value : ev.calId;
         (isNew ? G.createEvent(calId, body) : G.patchEvent(ev.calId, ev.id, body)).then(function (saved) {
-          var id = (saved && saved.id) || ev.id, key = calId + '|' + id;
-          if (exactLocal) setOverride(key, exactLocal); else if (overrides()[key]) setOverride(key, null);
+          if (!recolour) return;
+          var target = isNew ? { calId: calId, id: saved.id, labelId: '', colorId: '' } : { calId: ev.calId, id: ev.id, labelId: (saved && saved.eventLabelId) || ev.labelId, colorId: (saved && saved.colorId) || '' };
+          return applyColor(target, colorKey);
+        }).then(function () {
           dlg.close(); onDone && onDone();
         }).catch(function (x) { err.textContent = x.needAuth ? 'Google connection expired. Click “Reconnect” and try again.' : 'Couldn’t save: ' + x.message; });
       }
@@ -767,6 +926,17 @@
       else doConnect(false);
     });
     opts.onError = function (e) { if (e && e.needAuth) banner(true, G.server() ? 'Couldn’t get a Google pass just now.' : null); };
+    // Google's 24 colours need one more permission than the launch pad first asked for.
+    var askedLabels = false;
+    L.scoped(G.on(function (w) {
+      if (w !== 'labels-denied' || askedLabels || bannerEl.querySelector('[data-reconnect]')) return;
+      askedLabels = true;
+      bannerEl.innerHTML = '<div class="gcal-banner"><span>To match all 24 Google colours, connect Google once more (it needs permission for colour labels).</span><span class="gcal-banner-btns"><button type="button" class="btn small ghost" data-later>Later</button><button type="button" class="btn small primary" data-regrant>Connect</button></span></div>';
+    }));
+    bannerEl.addEventListener('click', function (e) {
+      if (e.target.closest('[data-later]')) banner(false);
+      else if (e.target.closest('[data-regrant]')) { banner(false); doConnect(true); }
+    });
     L.scoped(G.on(function (w) { if (w === 'auth' && G.token() && view) { banner(false); view.load(); } }));
     refresh();
     return { get view() { return view; }, refresh: refresh };
