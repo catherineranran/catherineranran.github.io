@@ -922,7 +922,15 @@
     }
     function refresh() {
       if (!G.configured()) { viewEl.innerHTML = '<div class="gcal-state"><p>Google Calendar isn’t set up yet.</p></div>'; return; }
-      if (G.token()) { banner(false); start(); G.probe(); return; }
+      if (G.token()) {
+        banner(false); start();
+        // Staying connected is switched on but not connected yet: offer it now, not only when the hour runs out.
+        G.probe().then(function (state) {
+          if (state !== 'not_connected' || bannerEl.querySelector('.gcal-banner')) return;
+          bannerEl.innerHTML = '<div class="gcal-banner"><span>Connect Google once more and the calendar stays connected from now on.</span><span class="gcal-banner-btns"><button type="button" class="btn small primary" data-regrant>Connect</button></span></div>';
+        });
+        return;
+      }
       if (G.server()) {
         // Ask the server for a pass quietly; only show "Connect" if it has never been connected.
         if (G.wasConnected() && !view) viewEl.innerHTML = '<div class="gcal-state"><p class="muted">Loading your calendar…</p></div>';
