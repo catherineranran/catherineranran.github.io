@@ -86,7 +86,13 @@ Deno.serve(async (req) => {
     if (!SECRET) return json({ error: 'not_configured', detail: 'GOOGLE_CLIENT_SECRET is not set' }, 500);
 
     if (action === 'exchange') {
-      const t = await google({ code: String(body.code || ''), redirect_uri: 'postmessage', grant_type: 'authorization_code' });
+      // Codes from Google's sign-in popup are redeemed with redirect_uri "postmessage"; Google's newer
+      // docs name the page's origin instead, so that is tried if Google refuses the first.
+      const code = String(body.code || '');
+      let t = await google({ code, redirect_uri: 'postmessage', grant_type: 'authorization_code' });
+      if (!t.access_token && t.error === 'redirect_uri_mismatch') {
+        t = await google({ code, redirect_uri: ORIGINS.includes(origin) ? origin : ORIGINS[0], grant_type: 'authorization_code' });
+      }
       if (!t.access_token) return json({ error: 'google', detail: t.error_description || t.error }, 400);
       if (t.refresh_token) {
         await db('launch_google', {
@@ -95,7 +101,9 @@ Deno.serve(async (req) => {
           body: JSON.stringify({ id: VAULT, refresh_token: await seal(t.refresh_token), updated_at: new Date().toISOString() }),
         });
       }
-      return json({ access_token: t.access_token, expires_in: t.expires_in, stored: !!t.refresh_token });
+      // stored = the server holds a lasting connection now (new, or one kept from before)
+      const kept = t.refresh_token ? [1] : await db(`launch_google?id=eq.${VAULT}&select=id`);
+      return json({ access_token: t.access_token, expires_in: t.expires_in, stored: Array.isArray(kept) && kept.length > 0 });
     }
 
     if (action === 'token') {

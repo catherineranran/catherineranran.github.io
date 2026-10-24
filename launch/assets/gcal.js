@@ -210,7 +210,26 @@
         if (e.code === 'not_connected' && L.Store.doc && (L.Store.doc.settings || {}).gcalLinked) L.Store.setSettings({ gcalLinked: false });
         throw e;
       });
+      if (!G._probed) G._probed = G._ensuring.then(function () { return 'ready'; }, function (e) { return e.code || 'error'; });
       return G._ensuring;
+    },
+    // Once per page: is the lasting connection set up? (Runs quietly even when a pass is still cached,
+    // so a later click goes the right way: through the server, or the hourly sign-in until it's ready.)
+    _probed: null,
+    probe: function () {
+      if (!CFG.googleServer) return Promise.resolve('off');
+      if (G._probed) return G._probed;
+      if (!L.Store.unlock) return Promise.resolve('locked');
+      G._probed = G.serverCall('token').then(function (j) {
+        G.keep(j);
+        if (L.Store.doc && !(L.Store.doc.settings || {}).gcalLinked) L.Store.setSettings({ gcalLinked: true });
+        return 'ready';
+      }, function (e) {
+        if (e.code === 'not_configured') G._serverOff = true;
+        if (!e.code) G._probed = null;   // network hiccup: try again next time
+        return e.code || 'error';
+      });
+      return G._probed;
     },
     // Must run inside a click handler so the Google window isn't blocked.
     signIn: function (fresh) {
@@ -218,9 +237,15 @@
         if (!codeClient) { loadGis(); return Promise.reject(new Error('Google is still loading, try again in a second.')); }
         return new Promise(function (res, rej) {
           pendingCode = { res: res, rej: rej };
-          codeClient.requestCode({ prompt: 'consent', login_hint: CFG.googleHint || '' });
+          codeClient.requestCode();
         }).then(function (code) {
-          return G.serverCall('exchange', { code: code });
+          return G.serverCall('exchange', { code: code }).catch(function (e) {
+            if (e.code === 'not_configured') {
+              G._serverOff = true;
+              throw new Error('Staying connected isn’t switched on yet, so click Connect once more to connect for this hour');
+            }
+            throw e;
+          });
         }).then(function (j) {
           G.keep(j);
           // stored = Google handed over a lasting connection and the server kept it
@@ -897,7 +922,7 @@
     }
     function refresh() {
       if (!G.configured()) { viewEl.innerHTML = '<div class="gcal-state"><p>Google Calendar isn’t set up yet.</p></div>'; return; }
-      if (G.token()) { banner(false); start(); return; }
+      if (G.token()) { banner(false); start(); G.probe(); return; }
       if (G.server()) {
         // Ask the server for a pass quietly; only show "Connect" if it has never been connected.
         if (G.wasConnected() && !view) viewEl.innerHTML = '<div class="gcal-state"><p class="muted">Loading your calendar…</p></div>';
@@ -915,7 +940,11 @@
     function doConnect(fresh, note) {
       if (note) note.textContent = 'Waiting for Google…';
       G.signIn(fresh).then(function () { G.calendars = null; refresh(); if (opts.onConnect) opts.onConnect(); })
-        .catch(function (e) { if (note) note.textContent = (e && (e.message || e.type || e.error)) ? 'Google sign-in didn’t finish (' + (e.message || e.type || e.error) + ').' : 'Google sign-in didn’t finish.'; });
+        .catch(function (e) {
+          var why = e && (e.message || e.type || e.error);
+          var msg = why ? (/^Staying connected/.test(why) ? why + '.' : 'Google sign-in didn’t finish (' + why + ').') : 'Google sign-in didn’t finish.';
+          if (note) note.textContent = msg; else banner(true, msg);
+        });
     }
     viewEl.addEventListener('click', function (e) {
       if (e.target.closest('[data-connect]')) doConnect(true, viewEl.querySelector('.gcal-state .small-note'));
@@ -927,14 +956,17 @@
     });
     opts.onError = function (e) { if (e && e.needAuth) banner(true, G.server() ? 'Couldn’t get a Google pass just now.' : null); };
     // Google's 24 colours need one more permission than the launch pad first asked for.
-    var askedLabels = false;
+    // Only with the lasting connection (the hourly sign-in asks for it by itself next time), and not
+    // again for a week after "Later".
+    var askedLabels = false, LATER = 'launch.labelsLater';
     L.scoped(G.on(function (w) {
-      if (w !== 'labels-denied' || askedLabels || bannerEl.querySelector('[data-reconnect]')) return;
+      if (w !== 'labels-denied' || askedLabels || !G.server() || bannerEl.querySelector('[data-reconnect]')) return;
+      if (Date.now() < (+L.lsGet(LATER) || 0)) return;
       askedLabels = true;
       bannerEl.innerHTML = '<div class="gcal-banner"><span>To match all 24 Google colours, connect Google once more (it needs permission for colour labels).</span><span class="gcal-banner-btns"><button type="button" class="btn small ghost" data-later>Later</button><button type="button" class="btn small primary" data-regrant>Connect</button></span></div>';
     }));
     bannerEl.addEventListener('click', function (e) {
-      if (e.target.closest('[data-later]')) banner(false);
+      if (e.target.closest('[data-later]')) { L.lsSet(LATER, Date.now() + 7 * 86400000); banner(false); }
       else if (e.target.closest('[data-regrant]')) { banner(false); doConnect(true); }
     });
     L.scoped(G.on(function (w) { if (w === 'auth' && G.token() && view) { banner(false); view.load(); } }));
