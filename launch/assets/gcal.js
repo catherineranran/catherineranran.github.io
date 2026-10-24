@@ -80,7 +80,7 @@
   function minutesOf(d) { return d.getHours() * 60 + d.getMinutes(); }
 
   /* ---------- Google sign-in (Google Identity Services, token model) ---------- */
-  var gisReady = null, tokenClient = null, pending = null;
+  var gisReady = null, tokenClient = null, codeClient = null, pending = null, pendingCode = null;
   function loadGis() {
     if (gisReady) return gisReady;
     gisReady = new Promise(function (res, rej) {
@@ -102,6 +102,20 @@
         },
         error_callback: function (e) { var p = pending; pending = null; if (p) p.rej(e); }
       });
+      // Code model: Google hands over a one-time code that the server function swaps for a
+      // long-lasting connection, so the launch pad never has to ask again.
+      codeClient = google.accounts.oauth2.initCodeClient({
+        client_id: CFG.googleClientId,
+        scope: SCOPES,
+        ux_mode: 'popup',
+        select_account: false,
+        callback: function (r) {
+          var p = pendingCode; pendingCode = null;
+          if (!p) return;
+          if (r && r.code) p.res(r.code); else p.rej(r || new Error('No code'));
+        },
+        error_callback: function (e) { var p = pendingCode; pendingCode = null; if (p) p.rej(e); }
+      });
     });
     return gisReady;
   }
@@ -111,10 +125,70 @@
     on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
     emit: function (w) { this.listeners.forEach(function (fn) { fn(w); }); },
     configured: function () { return !!CFG.googleClientId; },
-    token: function () { var t = L.lsGet(TOK); return t && t.access && t.exp > Date.now() + 30000 ? t.access : null; },
-    wasConnected: function () { var t = L.lsGet(TOK); return !!(t && t.ok); },
+    server: function () { return !!CFG.googleServer; },
+    token: function () { var t = L.lsGet(TOK); return t && t.access && t.exp > Date.now() + 60000 ? t.access : null; },
+    // Linked = connected once on any device (remembered in the synced settings) or on this one.
+    wasConnected: function () {
+      var s = (L.Store.doc && L.Store.doc.settings) || {}, t = L.lsGet(TOK);
+      return !!(s.gcalLinked || (t && t.ok));
+    },
+    linked: function () { return G.wasConnected(); },
+    // A fresh Google pass from the server function, without any Google window.
+    serverCall: function (action, extra) {
+      var u = L.Store.unlock;
+      if (!u) return Promise.reject(Object.assign(new Error('Launch pad is locked'), { needAuth: true }));
+      return fetch(CFG.googleServer, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
+        body: JSON.stringify(Object.assign({ action: action, vaultToken: u.token }, extra || {}))
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (r.ok) return j;
+          var err = new Error(j.detail || j.error || ('Server error ' + r.status));
+          err.code = j.error; err.status = r.status;
+          if (j.error === 'not_connected' || j.error === 'locked') err.needAuth = true;
+          throw err;
+        });
+      });
+    },
+    keep: function (j) {
+      L.lsSet(TOK, { access: j.access_token, exp: Date.now() + (j.expires_in || 3599) * 1000, ok: true, server: true });
+      return j.access_token;
+    },
+    _ensuring: null,
+    ensure: function () {
+      var tok = G.token();
+      if (tok) return Promise.resolve(tok);
+      if (!G.server()) return Promise.reject(Object.assign(new Error('Google connection expired'), { needAuth: true }));
+      if (G._ensuring) return G._ensuring;
+      G._ensuring = G.serverCall('token').then(function (j) {
+        G._ensuring = null;
+        G.keep(j);
+        if (L.Store.doc && !(L.Store.doc.settings || {}).gcalLinked) L.Store.setSettings({ gcalLinked: true });
+        return j.access_token;
+      }, function (e) {
+        G._ensuring = null;
+        if (e.code === 'not_connected' && L.Store.doc && (L.Store.doc.settings || {}).gcalLinked) L.Store.setSettings({ gcalLinked: false });
+        throw e;
+      });
+      return G._ensuring;
+    },
     // Must run inside a click handler so the Google window isn't blocked.
     signIn: function (fresh) {
+      if (G.server()) {
+        if (!codeClient) { loadGis(); return Promise.reject(new Error('Google is still loading, try again in a second.')); }
+        return new Promise(function (res, rej) {
+          pendingCode = { res: res, rej: rej };
+          codeClient.requestCode({ prompt: 'consent', login_hint: CFG.googleHint || '' });
+        }).then(function (code) {
+          return G.serverCall('exchange', { code: code });
+        }).then(function (j) {
+          G.keep(j);
+          L.Store.setSettings({ gcalLinked: true });
+          G.emit('auth');
+          return j.access_token;
+        });
+      }
       if (!tokenClient) { loadGis(); return Promise.reject(new Error('Google is still loading, try again in a second.')); }
       return new Promise(function (res, rej) {
         pending = { res: res, rej: rej };
@@ -123,14 +197,18 @@
     },
     disconnect: function () {
       var t = L.lsGet(TOK);
-      if (t && t.access && window.google) try { google.accounts.oauth2.revoke(t.access); } catch (e) { /* ignore */ }
+      if (G.server()) G.serverCall('disconnect').catch(function () {});
+      else if (t && t.access && window.google) try { google.accounts.oauth2.revoke(t.access); } catch (e) { /* ignore */ }
       try { localStorage.removeItem(TOK); } catch (e) { /* ignore */ }
+      if (L.Store.doc) L.Store.setSettings({ gcalLinked: false });
+      G.calendars = null;
       G.emit('auth');
     },
-    api: function (path, opts) {
-      var tok = G.token();
-      if (!tok) return Promise.reject(Object.assign(new Error('Google connection expired'), { needAuth: true }));
+    api: function (path, opts, retried) {
       opts = opts || {};
+      return G.ensure().then(function (tok) { return G._fetch(path, opts, tok, retried); });
+    },
+    _fetch: function (path, opts, tok, retried) {
       return fetch(API + path, {
         method: opts.method || 'GET',
         headers: Object.assign({ Authorization: 'Bearer ' + tok }, opts.body ? { 'Content-Type': 'application/json' } : {}),
@@ -138,6 +216,7 @@
       }).then(function (r) {
         if (r.status === 401) {
           var t = L.lsGet(TOK); if (t) { t.exp = 0; L.lsSet(TOK, t); }
+          if (G.server() && !retried) return G.api(path, opts, true);
           G.emit('auth');
           throw Object.assign(new Error('Google connection expired'), { needAuth: true });
         }
@@ -224,7 +303,7 @@
   function colorMenu(ev, x, y, onDone) {
     document.querySelectorAll('.cv-menu').forEach(function (n) { n.remove(); });
     var m = document.createElement('div');
-    m.className = 'menu cv-menu'; m.setAttribute('role', 'menu');
+    m.className = 'menu cv-menu gc-light'; m.setAttribute('role', 'menu');
     m.innerHTML = '<button type="button" class="cvm-del" data-a="del">' + ICON_TRASH + '<span>Delete</span></button><hr>' +
       '<div class="cvm-body"><button type="button" class="cvm-pen" data-a="edit" title="Edit event" aria-label="Edit event">' + ICON_PEN + '</button>' +
       '<div class="swatches grid24">' + swatchHtml() + '</div>' +
@@ -265,7 +344,7 @@
     var isNew = !ev.id;
     var cals = (G.calendars || []).filter(function (c) { return c.writable; });
     var canEdit = isNew || ev.editable;
-    var dlg = L.el('dialog', { class: 'modal', 'aria-label': isNew ? 'New event' : 'Edit event' });
+    var dlg = L.el('dialog', { class: 'modal gc-light', 'aria-label': isNew ? 'New event' : 'Edit event' });
     var endShown = ev.allDay ? addDays(ev.end, -1) : ev.end;
     dlg.innerHTML =
       '<form method="dialog" class="modal-body">' +
@@ -644,8 +723,8 @@
     function connectScreen(msg) {
       viewEl.innerHTML = '<div class="gcal-state"><p>' + esc(msg) + '</p><button type="button" class="btn primary" data-connect>Connect Google Calendar</button><p class="muted small-note"></p></div>';
     }
-    function banner(show) {
-      bannerEl.innerHTML = show ? '<div class="gcal-banner"><span>Google connection paused (it renews hourly).</span><button type="button" class="btn small primary" data-reconnect>Reconnect</button></div>' : '';
+    function banner(show, msg) {
+      bannerEl.innerHTML = show ? '<div class="gcal-banner"><span>' + esc(msg || 'Google connection paused (it renews hourly).') + '</span><button type="button" class="btn small primary" data-reconnect>' + (G.server() ? 'Connect again' : 'Reconnect') + '</button></div>' : '';
     }
     function start() {
       if (!view) view = new CalView(viewEl, opts);
@@ -654,23 +733,51 @@
     }
     function refresh() {
       if (!G.configured()) { viewEl.innerHTML = '<div class="gcal-state"><p>Google Calendar isn’t set up yet.</p></div>'; return; }
-      if (G.token()) { banner(false); start(); }
-      else if (G.wasConnected()) { banner(true); if (view) view.render(false); else start().catch(function () {}); }
+      if (G.token()) { banner(false); start(); return; }
+      if (G.server()) {
+        // Ask the server for a pass quietly; only show "Connect" if it has never been connected.
+        if (G.wasConnected() && !view) viewEl.innerHTML = '<div class="gcal-state"><p class="muted">Loading your calendar…</p></div>';
+        G.ensure().then(function () { banner(false); start(); }, function (e) {
+          if (e.code === 'not_connected') connectScreen(G.wasConnected() ? 'The Google connection was removed. Connect once more and it stays connected.' : (opts.connectText || 'See and edit your Google Calendar right here.'));
+          else if (e.code === 'not_configured') viewEl.innerHTML = '<div class="gcal-state"><p>Google Calendar is almost set up (the server is missing its Google secret).</p></div>';
+          else if (G.wasConnected()) { banner(true, 'Couldn’t reach Google just now.'); if (view) view.render(false); }
+          else connectScreen(opts.connectText || 'See and edit your Google Calendar right here.');
+        });
+        return;
+      }
+      if (G.wasConnected()) { banner(true); if (view) view.render(false); else start().catch(function () {}); }
       else connectScreen(opts.connectText || 'See and edit your Google Calendar right here.');
     }
     function doConnect(fresh, note) {
+      if (note) note.textContent = 'Waiting for Google…';
       G.signIn(fresh).then(function () { G.calendars = null; refresh(); if (opts.onConnect) opts.onConnect(); })
         .catch(function (e) { if (note) note.textContent = (e && (e.message || e.type || e.error)) ? 'Google sign-in didn’t finish (' + (e.message || e.type || e.error) + ').' : 'Google sign-in didn’t finish.'; });
     }
     viewEl.addEventListener('click', function (e) {
       if (e.target.closest('[data-connect]')) doConnect(true, viewEl.querySelector('.gcal-state .small-note'));
     });
-    bannerEl.addEventListener('click', function (e) { if (e.target.closest('[data-reconnect]')) doConnect(false); });
-    opts.onError = function (e) { if (e && e.needAuth) banner(true); };
+    bannerEl.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-reconnect]')) return;
+      if (G.server()) { banner(false); G.ensure().then(function () { if (view) view.load(); else start(); }, function (er) { if (er.code === 'not_connected') doConnect(true); else banner(true, 'Couldn’t reach Google just now.'); }); }
+      else doConnect(false);
+    });
+    opts.onError = function (e) { if (e && e.needAuth) banner(true, G.server() ? 'Couldn’t get a Google pass just now.' : null); };
     L.scoped(G.on(function (w) { if (w === 'auth' && G.token() && view) { banner(false); view.load(); } }));
     refresh();
     return { get view() { return view; }, refresh: refresh };
   }
 
-  window.GCal = { G: G, CalView: CalView, mount: mount, modernColor: modern, MiniMonth: MiniMonth, openEventEditor: openEventEditor, startOfWeek: startOfWeek, addDays: addDays, iso: iso, sameDay: sameDay };
+  // The real Google Calendar, in its own window docked to the right of the screen.
+  function openGoogleSide(date) {
+    var d = date ? new Date(date) : new Date();
+    var url = 'https://calendar.google.com/calendar/u/0/r/week/' + d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+    var sw = screen.availWidth, sh = screen.availHeight;
+    var w = Math.max(720, Math.min(1100, Math.round(sw * 0.5))), h = sh;
+    var left = (screen.availLeft || 0) + sw - w, top = screen.availTop || 0;
+    var win = window.open(url, 'ranran-google-calendar', 'popup=yes,width=' + w + ',height=' + h + ',left=' + left + ',top=' + top);
+    if (!win) window.open(url, '_blank', 'noopener');
+    else try { win.focus(); } catch (e) { /* ignore */ }
+  }
+
+  window.GCal = { G: G, openGoogleSide: openGoogleSide, CalView: CalView, mount: mount, modernColor: modern, MiniMonth: MiniMonth, openEventEditor: openEventEditor, startOfWeek: startOfWeek, addDays: addDays, iso: iso, sameDay: sameDay };
 })();

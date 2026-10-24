@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/launch/assets/launch.css?v=19">
+  <link rel="stylesheet" href="/launch/assets/launch.css?v=20">
 </head>
 <body class="locked">
   <main>
@@ -31,7 +31,7 @@
           <button type="button" class="icon-btn" id="calNext" aria-label="Next">›</button>
           <h2 id="calTitle"></h2>
           <div class="seg2" role="group" aria-label="View"><button type="button" data-days="1">Day</button><button type="button" data-days="7" class="on">Week</button></div>
-          <a class="btn small ghost" href="https://calendar.google.com/calendar/u/0/r/week" target="_blank" rel="noopener">Google ↗</a>
+          <button type="button" class="btn small" id="calGoogle" title="Opens the real Google Calendar in a window on the right">Open in Google ↗</button>
         </div>
         <div id="calBanner"></div>
         <div id="calView" style="flex:1;min-height:0;display:flex;flex-direction:column"></div>
@@ -39,9 +39,9 @@
     </div>
   </main>
 
-  <script src="/launch/assets/config.js?v=19"></script>
-  <script src="/launch/assets/launch.js?v=19"></script>
-  <script src="/launch/assets/gcal.js?v=19"></script>
-  <script src="/launch/assets/calendar.js?v=19"></script>
+  <script src="/launch/assets/config.js?v=20"></script>
+  <script src="/launch/assets/launch.js?v=20"></script>
+  <script src="/launch/assets/gcal.js?v=20"></script>
+  <script src="/launch/assets/calendar.js?v=20"></script>
 </body>
 </html>

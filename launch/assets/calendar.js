@@ -37,15 +37,15 @@
       setDays(+b.dataset.days); if (cal.view) cal.view.setDate(date);
     });
     $('#calToday').addEventListener('click', function () { go(new Date()); });
+    $('#calGoogle').addEventListener('click', function () { GC.openGoogleSide(date); });
     $('#calPrev').addEventListener('click', function () { go(GC.addDays(date, -days)); });
     $('#calNext').addEventListener('click', function () { go(GC.addDays(date, days)); });
     $('#calCreate').addEventListener('click', function () {
-      if (!G.token()) { alert('Connect Google Calendar first.'); return; }
-      G.loadCalendars().then(function () {
+      G.ensure().then(function () { return G.loadCalendars(); }).then(function () {
         var s = new Date(date), now = new Date();
         s.setHours(GC.sameDay(date, now) ? now.getHours() + 1 : 9, 0, 0, 0);
         GC.openEventEditor({ start: s, end: new Date(s.getTime() + 3600000), allDay: false }, function () { if (cal.view) cal.view.load(); });
-      });
+      }).catch(function () { alert('Connect Google Calendar first.'); });
     });
     L.listen(document, 'keydown', function (e) {
       if (e.target.closest('input, textarea, select, dialog')) return;
@@ -58,7 +58,7 @@
 
     // My calendars: tick to show/hide (remembered across devices)
     function paintList() {
-      if (!G.token()) return;
+      if (!G.linked() && !G.token()) return;
       G.loadCalendars().then(function (all) {
         var shown = G.visibleCalendars().map(function (c) { return c.id; });
         $('#calListPanel').hidden = false;
@@ -75,7 +75,7 @@
     paintTitle();
     paintList();
     L.scoped(G.on(function (w) { if (w === 'auth') paintList(); }));
-    L.listen(document, 'visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && G.token()) cal.view.load(); });
+    L.listen(document, 'visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && G.linked()) cal.view.load(); });
     L.onStore(function (d, why) { if (why === 'remote' && cal.view) cal.view.render(false); });
   });
 })();

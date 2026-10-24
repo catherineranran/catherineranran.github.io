@@ -93,3 +93,13 @@ end;
 $$;
 revoke all on function public.launch_rekey(text, text, text, text, bigint) from public;
 grant execute on function public.launch_rekey(text, text, text, text, bigint) to anon, authenticated;
+
+-- Google Calendar connection (used by the Edge Function launch-google, see supabase/launch-google).
+-- Holds Google's long-lasting refresh token, encrypted. Only the server (service role) can touch it.
+create table if not exists public.launch_google (
+  id            text primary key,
+  refresh_token text not null,
+  updated_at    timestamptz not null default now()
+);
+alter table public.launch_google enable row level security;
+revoke all on public.launch_google from anon, authenticated;

@@ -114,7 +114,7 @@
     $('#agPrev').addEventListener('click', function () { goDay(GC.addDays(day, -1)); });
     $('#agNext').addEventListener('click', function () { goDay(GC.addDays(day, 1)); });
     paintDate();
-    L.listen(document, 'visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && GC.G.token()) cal.view.load(); });
+    L.listen(document, 'visibilitychange', function () { if (document.visibilityState === 'visible' && cal.view && GC.G.linked()) cal.view.load(); });
 
     L.onStore(function () { paintDue(); paintFocus(); L.Dock.refresh(); });
   });
