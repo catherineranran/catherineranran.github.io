@@ -246,8 +246,16 @@
   function titleParts(text, pd) {
     var t = pd ? text.slice(0, pd.index).replace(WD_END, '') + ' ' + text.slice(pd.index + pd.length).replace(WD_START, '') : text;
     t = t.replace(/^[\s·•|—–\-:,.;/]+|[\s·•|—–\-:,;/(]+$/g, '').trim();
-    var m = t.match(/^(.+?)\s+[—–|-]\s+(.+)$/);
+    // "Title — Author", "Title, edited by A and B", "Title by Author" (the last " by ")
+    var m = t.match(/^(.+?)\s+[—–|-]\s+(.+)$/) || t.match(/^(.+?),?\s+((?:edited|ed\.|eds\.)\s+(?:by\s+)?.+)$/i) || t.match(/^(.+)\s+by\s+(.+)$/i);
     return m ? { title: m[1].trim(), byline: m[2].trim() } : { title: t, byline: '' };
+  }
+  // A heading that repeats a known title: what follows the title is the author line.
+  function afterTitle(text, title) {
+    var i = text.toLowerCase().indexOf(title.toLowerCase());
+    if (i !== 0) return titleParts(text, null);
+    var rest = text.slice(title.length).replace(/^[\s,:;·•|—–\-]+/, '').replace(/^by\s+/i, '').trim();
+    return { title: title, byline: rest };
   }
   function pad(n) { return String(n).padStart(2, '0'); }
   function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
@@ -306,7 +314,7 @@
       // So does a tab named with a short title ("Shared Wisdom") whose first heading repeats it with the author.
       var f = e.blocks[0];
       if (f && f.sub && (!e.title || squash(f.plain).indexOf(squash(e.title)) === 0)) {
-        var tp = titleParts(f.plain, parseDate(f.plain));
+        var tp = e.title ? afterTitle(f.plain, e.title) : titleParts(f.plain, parseDate(f.plain));
         e.title = tp.title; e.byline = e.byline || tp.byline;
         var tm = f.inner.match(/href="https:\/\/docs\.google\.com\/document\/[^"]*[?&]tab=(t\.[\w-]+)/);
         if (tm) e.tabId = tm[1];
