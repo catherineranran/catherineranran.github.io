@@ -291,11 +291,8 @@
         return;
       }
       if (!cur) { front.push(b); return; }
-      if (b.h != null) {
-        var depth = Math.min(3, b.h - lvl), sid = cur.id + '--' + (cur.subs.length + 1);
-        cur.subs.push({ id: sid, depth: depth, text: b.text });
-        cur.blocks.push({ html: '<h' + (depth + 1) + ' id="' + sid + '" data-sub>' + b.inner + '</h' + (depth + 1) + '>', plain: b.text });
-      } else {
+      if (b.h != null) cur.blocks.push({ sub: true, depth: b.h - lvl, inner: b.inner, plain: b.text });
+      else {
         cur.blocks.push(b);
         if (b.list) cur.items += (b.html.match(/<li>/g) || []).length;
         else if (b.plain) cur.items += 1;
@@ -304,6 +301,20 @@
       cur.text += ' ' + b.plain;
     });
     entries.forEach(function (e) {
+      // A day named only by its date (a doc tab called "24.10.2026") takes its title from the first heading in it.
+      var f = e.blocks[0];
+      if (!e.title && f && f.sub) {
+        var tp = titleParts(f.plain, parseDate(f.plain));
+        e.title = tp.title; e.byline = e.byline || tp.byline;
+        e.blocks.shift();
+      }
+      var subs = e.blocks.filter(function (b) { return b.sub; });
+      var shift = subs.length ? Math.min.apply(null, subs.map(function (b) { return b.depth; })) - 1 : 0;
+      subs.forEach(function (b, i) {
+        var depth = Math.max(1, Math.min(3, b.depth - shift)), sid = e.id + '--' + (i + 1), t = 'h' + (depth + 1);
+        b.html = '<' + t + ' id="' + sid + '" data-sub>' + b.inner + '</' + t + '>';
+        e.subs.push({ id: sid, depth: depth, text: b.plain });
+      });
       var firstText = '';
       e.blocks.some(function (b) { if (b.plain) { firstText = b.plain; return true; } return false; });
       e.label = e.title || (e.subs[0] && e.subs[0].text) || (firstText.length > 60 ? firstText.slice(0, 58) + '…' : firstText) || (e.date ? 'Reading notes' : 'Notes');
@@ -444,7 +455,7 @@
       paper.innerHTML =
         '<article class="rd-entry" aria-live="polite">' +
         '<header class="rd-head"><p class="rd-kicker">' + kicker + '</p>' +
-        '<h1>' + esc(e.title || e.label) + '</h1>' +
+        '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
         '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + ' sections</span>' : '') + '</p></header>' +
         '<div class="rd-prose">' + (e.blocks.length ? e.blocks.map(function (b) { return b.html; }).join('') : '<p class="rd-emptynote">Nothing under this date yet.</p>') + '</div>' +
         (nav.older || nav.newer ? '<nav class="rd-pager" aria-label="Other days">' + pagerLink(nav.older, 'rd-older', '← Older') + pagerLink(nav.newer, 'rd-newer', 'Newer →') + '</nav>' : '') +

@@ -1,7 +1,7 @@
 /* Test harness: runs the Reading tab with a mocked launch pad (no password, no vault). */
 (async function () {
   var BASE = window.__RD_BASE;
-  var files = await Promise.all(['launch/assets/launch.css', 'launch/assets/reading.js', 'launch/reading/index.html', '_rdtest/sample.html'].map(function (p) {
+  var files = await Promise.all(['launch/assets/launch.css', 'launch/assets/reading.js', 'launch/reading/index.html', (window.__RD_SAMPLE || '_rdtest/sample.html')].map(function (p) {
     return fetch(BASE + p, { cache: 'no-store' }).then(function (r) { return r.text(); });
   }));
   var css = files[0], js = files[1], page = files[2], sample = files[3];
