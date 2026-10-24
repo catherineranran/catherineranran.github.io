@@ -272,6 +272,32 @@
   function squash(s) { return String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim(); }
   function slug(s) { return String(s || '').toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-').slice(0, 40); }
 
+  // A book's first paragraph opens with "Subtitle · Publisher, 2019." (or "…, 1994 (Galilée, 1981).").
+  // The earliest year in that lead-in is the year of first publication.
+  var LEAD = /^(.{0,240}?\b(?:1[5-9]\d\d|20\d\d)\b[^.]{0,60})\.(?:\s+|$)/;
+  function leadIn(t) { var m = LEAD.exec(t || ''); return m ? m[1] : ''; }
+  function yearOf(t) {
+    var ys = (leadIn(t).match(/\b(?:1[5-9]\d\d|20\d\d)\b/g) || []).map(Number);
+    return ys.length ? Math.min.apply(null, ys) : null;
+  }
+  // Before a book's first section: its cover (an image pasted at the top of the tab) and its lead-in line.
+  function bookFront(e) {
+    for (var i = 0; i < e.blocks.length; i++) {
+      var b = e.blocks[i];
+      if (b.sub) break;
+      if (!e.cover && b.html.indexOf('<img') !== -1) {
+        var m = b.html.match(/<img[^>]*\ssrc="([^"]+)"[^>]*>/);
+        if (m) {
+          e.cover = m[1].replace(/&amp;/g, '&');
+          b.html = b.html.replace(m[0], '');
+          if (!b.plain && b.html.indexOf('<img') === -1) { e.blocks.splice(i--, 1); continue; }
+        }
+      }
+      if (!e.deck && b.plain && !b.list) e.deck = b.plain;
+    }
+    e.year = yearOf(e.deck);
+  }
+
   // The level that starts a day: the heading level most dated headings use (Heading 1 wins ties).
   function entryLevel(heads) {
     var dated = heads.filter(function (h) { return h.pd; }), pool = dated.length ? dated : heads.filter(function (h) { return h.h > 0; });
@@ -320,6 +346,7 @@
         if (tm) e.tabId = tm[1];
         e.blocks.shift();
       }
+      if (e.byline && !e.date) bookFront(e);
       var subs = e.blocks.filter(function (b) { return b.sub; });
       var shift = subs.length ? Math.min.apply(null, subs.map(function (b) { return b.depth; })) - 1 : 0;
       subs.forEach(function (b, i) {
@@ -363,6 +390,71 @@
   // Kept between tab switches, so coming back to Reading is instant.
   var cache = { id: null, model: null, at: 0, failed: false };
 
+  /* ---------- book covers ----------
+     A cover pasted at the top of a book's tab wins. Otherwise the cover is looked up once by title and
+     author (Open Library first, for its larger scans, then Google Books) and remembered on this device. */
+  var COVER_KEY = 'launch.reading.covers.v1', COVER_RETRY = 7 * 864e5;
+  var coverMem = null, coverWait = {};
+  function covers() { if (!coverMem) coverMem = L.lsGet(COVER_KEY) || {}; return coverMem; }
+  function firstAuthor(by) {
+    return (String(by || '').replace(/^(?:edited|ed\.|eds\.)\s+(?:by\s+)?/i, '').split(/\s*(?:,|&|\band\b)\s*/)[0] || '').trim();
+  }
+  function lastName(n) { var p = String(n || '').split(/\s+/); return p[p.length - 1] || ''; }
+  function coverKey(e) { return squash(e.title || e.label) + '|' + squash(lastName(firstAuthor(e.byline))); }
+  // "Psych: The Story of the Human Mind" is the book "Psych"; "The Science of Science Policy" is not "The Science of Science"
+  function mainTitle(t) { return squash(String(t || '').split(/\s*[:(—–]\s*|\s-\s/)[0]); }
+  function sameTitle(found, ours) { var a = mainTitle(found), b = mainTitle(ours); return !!a && a === b; }
+  function getJSON(url) {
+    return fetch(url, { credentials: 'omit' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+  }
+  function fromOpenLibrary(title, author) {
+    return getJSON('https://openlibrary.org/search.json?limit=8&fields=title,cover_i,first_publish_year&title=' + encodeURIComponent(title) +
+      (author ? '&author=' + encodeURIComponent(author) : '')).then(function (j) {
+      var d = (j.docs || []).filter(function (x) { return x.cover_i && sameTitle(x.title, title); })[0];
+      return d ? { src: 'https://covers.openlibrary.org/b/id/' + d.cover_i + '-L.jpg', year: d.first_publish_year || null } : null;
+    });
+  }
+  function fromGoogleBooks(title, author) {
+    var q = 'intitle:' + title + (author ? ' inauthor:' + author : '');
+    return getJSON('https://www.googleapis.com/books/v1/volumes?maxResults=6&printType=books&fields=items(id,volumeInfo(title,publishedDate,imageLinks))&q=' + encodeURIComponent(q)).then(function (j) {
+      var it = (j.items || []).filter(function (x) { var v = x.volumeInfo || {}; return v.imageLinks && sameTitle(v.title, title); })[0];
+      if (!it) return null;
+      var v = it.volumeInfo, year = parseInt(v.publishedDate, 10) || null;
+      var https = function (u) { return String(u || '').replace(/^http:/, 'https:').replace(/&edge=curl/, ''); };
+      var small = { src: https(v.imageLinks.thumbnail || v.imageLinks.smallThumbnail), year: year };
+      // the search only gives a thumbnail; the volume itself often has a larger publisher image
+      return getJSON('https://www.googleapis.com/books/v1/volumes/' + encodeURIComponent(it.id) + '?fields=volumeInfo/imageLinks').then(function (d) {
+        var l = (d.volumeInfo || {}).imageLinks || {}, big = l.medium || l.small || l.large;
+        return big ? { src: https(big), year: year } : small;
+      }, function () { return small; });
+    });
+  }
+  function coverFor(e) {
+    if (e.cover) return Promise.resolve({ src: e.cover });
+    var key = coverKey(e), hit = covers()[key];
+    if (hit && (hit.src || Date.now() - hit.at < COVER_RETRY)) return Promise.resolve(hit.src ? hit : null);
+    if (coverWait[key]) return coverWait[key];
+    var title = e.title || e.label, author = lastName(firstAuthor(e.byline)), failed = 0;
+    var soft = function (p) { return p.catch(function () { failed++; return null; }); };
+    var p = soft(fromOpenLibrary(title, author)).then(function (c) {
+      return c || soft(fromGoogleBooks(title, author));
+    }).then(function (c) {
+      delete coverWait[key];
+      if (!c && failed) return null;              // offline or blocked: try again next time
+      var m = covers();
+      m[key] = c ? { src: c.src, year: c.year || null, at: Date.now() } : { at: Date.now() };
+      L.lsSet(COVER_KEY, m);
+      return c;
+    });
+    coverWait[key] = p;
+    return p;
+  }
+  function coverBox(e, cls) {
+    return '<span class="rd-cover' + (cls ? ' ' + cls : '') + '" data-cover="' + esc(e.id) + '" style="--h:' + hue(e.title || e.label) + '" aria-hidden="true">' +
+      '<span class="rd-cover-f"><b>' + esc(e.title || e.label) + '</b><small>' + esc(firstAuthor(e.byline)) + '</small></span></span>';
+  }
+  function hue(t) { var h = 0; t = String(t || ''); for (var i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) % 360; return h; }
+
   /* ---------- the tab ---------- */
   L.boot('reading', function () {
     var page = $('#rdPage'), side = $('#rdSide'), list = $('#rdList'), q = $('#rdQ'), foot = $('#rdFoot');
@@ -389,9 +481,8 @@
     function pickDefault() {
       var m = cache.model, h = decodeURIComponent((location.hash || '').slice(1));
       if (h && known(h)) return h;
-      // today's notes, unless today is only a placeholder and there's a shelf of books to show
-      for (var i = 0; i < m.dated.length; i++) if (isToday(m.dated[i].date) && (m.dated[i].words > 60 || !m.other.length)) return m.dated[i].id;
-      if (m.other.length && !(m.dated[0] && m.dated[0].words > 60)) return LIB;
+      if (m.other.length) return LIB;   // the Library overview is the front page
+      for (var i = 0; i < m.dated.length; i++) if (isToday(m.dated[i].date)) return m.dated[i].id;
       if (m.dated[0]) return m.dated[0].id;
       return m.entries[0] ? m.entries[0].id : null;
     }
@@ -460,15 +551,30 @@
       if (!e) return '';
       return '<a class="' + cls + '" href="#' + esc(e.id) + '" data-id="' + esc(e.id) + '"><small>' + label + '</small><span>' + (e.date ? dm(e.date) + ' · ' : '') + esc(e.label) + '</span></a>';
     }
-    function hue(t) { var h = 0; for (var i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) % 360; return h; }
     function gist(e) {
-      for (var i = 0; i < e.blocks.length; i++) {
-        var b = e.blocks[i];
-        if (b.sub || b.list || !b.plain) continue;
-        var t = b.plain.replace(/^[^.]*·[^.]*?\d{4}\.\s*/, '');   // drop the "subtitle · publisher, year." lead-in
-        return t.length > 170 ? t.slice(0, 168).replace(/\s+\S*$/, '') + '…' : t;
-      }
-      return '';
+      var t = e.deck;
+      if (!t) e.blocks.some(function (b) { if (!b.sub && !b.list && b.plain) { t = b.plain; return true; } return false; });
+      if (!t) return '';
+      var lead = leadIn(t);
+      if (lead) t = t.slice(lead.length).replace(/^\.\s*/, '');   // drop the "subtitle · publisher, year." lead-in
+      return t.length > 150 ? t.slice(0, 148).replace(/\s+\S*$/, '') + '…' : t;
+    }
+    function yearFor(e) { if (e.year) return e.year; var c = covers()[coverKey(e)]; return c && c.year || null; }
+    function fillCovers(root) {
+      Array.prototype.forEach.call(root.querySelectorAll('[data-cover]'), function (box) {
+        var e = byId(box.getAttribute('data-cover'));
+        if (!e) return;
+        coverFor(e).then(function (c) {
+          if (!c || !c.src || !box.isConnected || box.querySelector('img')) return;
+          var img = new Image();
+          img.alt = ''; img.decoding = 'async'; img.referrerPolicy = 'no-referrer';
+          img.onload = function () {
+            if (img.naturalWidth < 40 || !box.isConnected) return;   // Open Library answers a missing scan with a 1×1 image
+            box.appendChild(img); box.classList.add('has-img');
+          };
+          img.src = c.src;
+        });
+      });
     }
     function renderShelf() {
       var books = cache.model.other, total = 0;
@@ -478,13 +584,15 @@
         '<header class="rd-head"><p class="rd-kicker">Library</p><h1>Your books</h1>' +
         '<p class="rd-meta"><span>' + books.length + (books.length === 1 ? ' summary' : ' summaries') + '</span><span>about ' + total + ' min of reading</span></p></header>' +
         '<div class="rd-lib">' + books.map(function (b) {
-          var mins = Math.max(1, Math.round(b.words / WPM));
-          return '<a class="rd-book" href="#' + esc(b.id) + '" data-id="' + esc(b.id) + '" style="--h:' + hue(b.title || b.label) + '">' +
-            '<span class="rd-book-t">' + esc(b.title || b.label) + '</span>' +
+          var mins = Math.max(1, Math.round(b.words / WPM)), y = yearFor(b), t = b.title || b.label;
+          return '<a class="rd-book" href="#' + esc(b.id) + '" data-id="' + esc(b.id) + '" title="' + esc(t + (b.byline ? ', ' + b.byline : '') + (y ? ' (' + y + ')' : '')) + '">' +
+            coverBox(b) +
+            '<span class="rd-book-t">' + esc(t) + '</span>' +
             (b.byline ? '<span class="rd-book-a">' + esc(b.byline) + '</span>' : '') +
-            '<span class="rd-book-g">' + esc(gist(b)) + '</span>' +
-            '<span class="rd-book-m">' + mins + ' min · ' + b.subs.length + (b.subs.length === 1 ? ' section' : ' sections') + (isNew(b) ? '<i class="rd-new" title="New"></i>' : '') + '</span></a>';
+            '<span class="rd-book-m">' + (y ? '<b data-year>' + y + '</b>' : '') + '<span>' + mins + ' min read</span>' + (isNew(b) ? '<i class="rd-new" title="New"></i>' : '') + '</span>' +
+            '<span class="rd-book-g">' + esc(gist(b)) + '</span></a>';
         }).join('') + '</div></article>';
+      fillCovers(paper);
     }
     function renderEntry() {
       var m = cache.model;
@@ -498,16 +606,19 @@
         return;
       }
       var nav = neighbours(e), mins = Math.max(1, Math.round(e.words / WPM));
-      var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : e.byline ? 'Library' : 'Notes';
+      var book = !!(e.byline && !e.date && !e.queue), y = book ? yearFor(e) : null;
+      var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : e.byline ? '<a href="#' + LIB + '" data-id="' + LIB + '">Library</a>' : 'Notes';
+      var title = '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
+        '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (y ? '<span>' + y + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + (e.subs.length === 1 ? ' section' : ' sections') + '</span>' : '') + '</p>';
       paper.innerHTML =
         '<article class="rd-entry">' +
         '<header class="rd-head"><div class="rd-headrow"><p class="rd-kicker">' + kicker + '</p>' +
-        '<button type="button" class="btn small rd-edit" data-edit title="Edit this day in the Google Doc">' + ICON.edit + 'Edit</button></div>' +
-        '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
-        '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + (e.subs.length === 1 ? ' section' : ' sections') + '</span>' : '') + '</p></header>' +
+        '<button type="button" class="btn small rd-edit" data-edit title="Edit this in the Google Doc">' + ICON.edit + 'Edit</button></div>' +
+        (book ? '<div class="rd-titlerow">' + coverBox(e, 'sm') + '<div class="rd-titletext">' + title + '</div></div>' : title) + '</header>' +
         '<div class="rd-prose">' + (e.blocks.length ? e.blocks.map(function (b) { return b.html; }).join('') : '<p class="rd-emptynote">Nothing under this date yet.</p>') + '</div>' +
         (nav.older || nav.newer ? '<nav class="rd-pager" aria-label="' + (nav.shelf ? 'Other books' : 'Other days') + '">' + pagerLink(nav.older, 'rd-older', nav.shelf ? '← Previous' : '← Older') + pagerLink(nav.newer, 'rd-newer', nav.shelf ? 'Next →' : 'Newer →') + '</nav>' : '') +
         '</article>';
+      if (book) fillCovers(paper);
     }
 
     function select(id, opts) {
@@ -690,7 +801,7 @@
       select(a.dataset.id, { fromList: true, force: true });
     });
     paper.addEventListener('click', function (e) {
-      var a = e.target.closest('.rd-pager [data-id], .rd-lib [data-id]');
+      var a = e.target.closest('.rd-pager [data-id], .rd-lib [data-id], .rd-kicker [data-id]');
       if (a) { e.preventDefault(); select(a.dataset.id, { force: true }); return; }
       if (e.target.closest('[data-retry]')) { refresh(true); return; }
       if (e.target.closest('[data-change]')) { changeDoc(); return; }
