@@ -1,0 +1,2520 @@
+{
+ "version": 1,
+ "baseline": "2026-10-24",
+ "checked": "2026-10-24T18:15:45Z",
+ "status": {
+  "state": "ok"
+ },
+ "noteCount": 64,
+ "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
+ "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
+ "items": [
+  {
+   "id": "answer-me-with-html",
+   "name": "answer-me-with-html",
+   "kind": "skill",
+   "summary": "Ask a hard question, get a tidy HTML page instead of a wall of text; can also make 3b1b-style explainer videos.",
+   "link": "https://github.com/QingYunA/answer-me-with-html",
+   "stars": 1900,
+   "install": "`npx skills add QingYunA/answer-me-with-html`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac614f000000000150125b6",
+     "title": "x 爆火的 html skill",
+     "author": "Cyan 云辰",
+     "date": "2026-10-07"
+    }
+   ]
+  },
+  {
+   "id": "hallmark",
+   "name": "Hallmark",
+   "kind": "skill",
+   "summary": "Design skill that refuses the AI look: picks themes, builds the page, then checks it in a real browser.",
+   "link": "https://github.com/Nutlope/hallmark",
+   "stars": 30000,
+   "install": "`npx skills add nutlope/hallmark -g`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6adb29d00000000025006f8c",
+     "title": "GitHub 3万星，专治AI味网页",
+     "author": "Akring",
+     "date": "2026-10-23"
+    }
+   ]
+  },
+  {
+   "id": "taste-skill",
+   "name": "Taste Skill",
+   "kind": "skill",
+   "summary": "Raises the design quality of interfaces your agent builds.",
+   "link": "https://github.com/Leonxlnx/taste-skill",
+   "site": "https://tasteskill.dev",
+   "install": "`npx skills add https://github.com/Leonxlnx/taste-skill`",
+   "note": "Similar in spirit to the Design Taste skills you already have, but a different project.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad812f90000000033036726",
+     "title": "HowTo| 提高 AI 审美",
+     "author": "Q叔未来事务所",
+     "date": "2026-10-21"
+    }
+   ]
+  },
+  {
+   "id": "supervisor-skills",
+   "name": "Supervisor-Skills",
+   "kind": "skill",
+   "summary": "An HKUST professor’s PhD-supervision know-how as 12 research skills: idea checks, literature, writing, reviewing.",
+   "link": "https://github.com/HKUSTDial/Supervisor-Skills",
+   "install": "`npx skills add HKUSTDial/Supervisor-Skills`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aca190d000000000a01eb02",
+     "title": "科研外挂，这个把导师蒸馏成skill太好用了",
+     "author": "来自赛博坦星球的小Ai",
+     "date": "2026-10-10"
+    }
+   ]
+  },
+  {
+   "id": "scientific-agent-skills",
+   "name": "Scientific Agent Skills",
+   "kind": "skill",
+   "summary": "About 170 science skills: databases, bioinformatics, chemistry, statistics, papers. Works in any agent.",
+   "link": "https://github.com/K-Dense-AI/scientific-agent-skills",
+   "install": "`npx skills add K-Dense-AI/scientific-agent-skills`",
+   "note": "Big collection: pick the skills you want rather than installing all.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad31b200000000015009011",
+     "title": "Github近三日热点解读",
+     "author": "硅基摸鱼办",
+     "date": "2026-10-17"
+    }
+   ]
+  },
+  {
+   "id": "anatomy",
+   "name": "Anatomy",
+   "kind": "skill",
+   "summary": "Explains an idea by building it as a working, interactive isometric machine you can poke at.",
+   "link": "https://github.com/wheresryan22/anatomy",
+   "install": "`npx skills add wheresryan22/anatomy -g`",
+   "note": "Matched from the post’s description; the post itself only shows it in the video.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acafc0e000000000202acae",
+     "title": "把这个Skill喂给Claude，进化成3D机械师",
+     "author": "阿博粒",
+     "date": "2026-10-11"
+    }
+   ]
+  },
+  {
+   "id": "3dviz-pro-max",
+   "name": "3dviz-pro-max",
+   "kind": "skill",
+   "summary": "Lets an agent build explorable Three.js 3D scenes, with a step-by-step workflow, presets and examples.",
+   "link": "https://github.com/viettranx/3dviz-pro-max",
+   "install": "`/plugin marketplace add viettranx/3dviz-pro-max` (Claude Code)",
+   "note": "Marked experimental by its author.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab0f531000000003302ea1b",
+     "title": "专为Agent设计3D代码神器",
+     "author": "AI小蔡狗",
+     "date": "2026-09-22"
+    }
+   ]
+  },
+  {
+   "id": "lieflat-charts",
+   "name": "Lieflat Charts",
+   "kind": "skill",
+   "summary": "Turns data into polished interactive charts (60+ types), slides and report pages.",
+   "link": "https://github.com/larashero3-dotcom/lieflat-charts",
+   "stars": 4800,
+   "install": "`npx skills add https://github.com/larashero3-dotcom/lieflat-charts`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9d442f000000002802a435",
+     "title": "我开源的图表skill在外网爆火了",
+     "author": "躺在废墟里",
+     "date": "2026-09-06"
+    }
+   ]
+  },
+  {
+   "id": "matt-pocock-skills",
+   "name": "Matt Pocock’s skills",
+   "kind": "skill",
+   "summary": "The engineering skills Matt Pocock uses daily with coding agents: planning, TDD, reviews and more.",
+   "link": "https://github.com/mattpocock/skills",
+   "stars": 275000,
+   "install": "`npx skills@latest add mattpocock/skills`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "ponytail",
+   "name": "Ponytail",
+   "kind": "skill",
+   "summary": "Makes coding agents write much less code: one clear line where others write fifty.",
+   "link": "https://github.com/DietrichGebert/ponytail",
+   "stars": 153000,
+   "install": "`/plugin marketplace add DietrichGebert/ponytail` (Claude Code)",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "agent-reach",
+   "name": "Agent Reach",
+   "kind": "skill",
+   "summary": "Gives agents clean access to X, Reddit, YouTube, Xiaohongshu and other sites behind login walls.",
+   "link": "https://github.com/Panniantong/Agent-Reach",
+   "stars": 89800,
+   "install": "Skill plus a command-line tool; one-command install in the README",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "quantskills",
+   "name": "QuantSkills",
+   "kind": "skill",
+   "summary": "PandaAI’s trading-research skills: daily market review, stock dossiers, futures, factor tools, overfitting checks.",
+   "link": "https://quantskills.ai",
+   "install": "Works with Codex, Claude Code and Cursor; data via PandaData",
+   "note": "Named in the posts; for research only, not investment advice.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a450322000000002100a320",
+     "title": "📈 做 AI Trading，必装的3个Skill",
+     "author": "Panda AI",
+     "date": "2026-07-01"
+    },
+    {
+     "id": "6a7bda4d00000000060060d9",
+     "title": "📈做AI Trading，必装的3个Skill（2）",
+     "author": "Panda AI",
+     "date": "2026-08-12"
+    }
+   ]
+  },
+  {
+   "id": "humanizer",
+   "name": "Humanizer",
+   "kind": "skill",
+   "summary": "Rewrites text to remove the tell-tale signs of AI writing.",
+   "link": "https://github.com/blader/humanizer",
+   "install": "`npx skills add blader/humanizer`",
+   "note": "A copy also ships with Hermes Agent.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "writing-plans",
+   "name": "writing-plans (Superpowers)",
+   "kind": "skill",
+   "summary": "Turns a task into a step-by-step implementation plan before any code is written.",
+   "link": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
+   "install": "`/plugin install superpowers@claude-plugins-official` (Claude Code)",
+   "note": "Part of the Superpowers skill set.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-research-paper-writing",
+   "name": "research-paper-writing (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Helps draft and structure research papers in academic style.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/optional-skills/research/research-paper-writing",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “research-paper-writing”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-arxiv",
+   "name": "arxiv (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Searches arXiv and pulls papers into your agent for literature work.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/skills/research/arxiv",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “arxiv”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-claude-design",
+   "name": "claude-design (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Design-direction skill for pages and visuals.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/claude-design",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “claude-design”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-popular-web-designs",
+   "name": "popular-web-designs (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Reference patterns from well-known websites to steer web design.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/popular-web-designs",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “popular-web-designs”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-powerpoint",
+   "name": "powerpoint (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Creates and edits PowerPoint decks.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/skills/productivity/powerpoint",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “powerpoint”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-creative-ideation",
+   "name": "creative-ideation (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Structured brainstorming for ideas and topics.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/optional-skills/creative/creative-ideation",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “creative-ideation”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-jupyter-notebook",
+   "name": "jupyter-notebook (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Works with Jupyter notebooks for data analysis and experiments.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/optional-skills/data-science/jupyter-notebook",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “jupyter-notebook”",
+   "note": "Listed as “jupyter-live-kernel” in the post; this is the closest Hermes skill. Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "hermes-sketch",
+   "name": "sketch (Hermes Agent)",
+   "kind": "skill",
+   "summary": "Quick visual sketches and mock-ups.",
+   "link": "https://github.com/NousResearch/hermes-agent/tree/main/optional-skills/creative/sketch",
+   "install": "`npx skills add NousResearch/hermes-agent` and pick “sketch”",
+   "note": "Written for Hermes Agent; check it works in Claude before relying on it.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa7df66000000000d024693",
+     "title": "Skill 宝藏清单｜写作设计论文开发",
+     "author": "冯冯的AIGC工作室",
+     "date": "2026-09-14"
+    }
+   ]
+  },
+  {
+   "id": "pdf-to-web-skill",
+   "name": "PDF → checkable web page skill",
+   "kind": "skill",
+   "summary": "Turns a PDF into a web page where every number links to the original sentence and page.",
+   "link": "",
+   "install": "Install command is in the post’s pinned comment",
+   "note": "The author didn’t publish a repo link in the post text.",
+   "confidence": "low",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ada0bc60000000033012aea",
+     "title": "帮你无痛阅读枯燥PDF！（烧4亿token版🔥",
+     "author": "你的AI阿舟",
+     "date": "2026-10-22"
+    }
+   ]
+  },
+  {
+   "id": "replica-skill",
+   "name": "Replica",
+   "kind": "skill",
+   "summary": "Clones an app, then finds and fixes the original’s weak spots.",
+   "link": "https://www.google.com/search?q=replica-skill%20Claude%20skill%20clone%20app%20github",
+   "linkKind": "search",
+   "note": "New skill with few stars; repo not confirmed yet.",
+   "confidence": "low",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac653e4000000001a020ac1",
+     "title": "Claude 帮你克隆 App，还能自动找出原版缺点并修好",
+     "author": "AI小白开挂",
+     "date": "2026-10-07"
+    }
+   ]
+  },
+  {
+   "id": "blender-mcp",
+   "name": "Blender MCP",
+   "kind": "mcp-plugin",
+   "summary": "Connects Blender to Claude and other AI so they can model, texture and light scenes for you.",
+   "link": "https://github.com/ahujasid/blender-mcp",
+   "install": "Blender add-on + MCP server (see README)",
+   "note": "Free and MIT-licensed; the AI model behind it is billed separately.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6adb83100000000033008b1f",
+     "title": "Blender用户狂喜！Blender的Agent时刻！",
+     "author": "青青王-AI",
+     "date": "2026-10-23"
+    },
+    {
+     "id": "6aa94131000000001103405e",
+     "title": "GPT6+HYPER3D MCP+BLENDER全自动场景制作",
+     "author": "TBOY",
+     "date": "2026-09-15"
+    }
+   ]
+  },
+  {
+   "id": "tvscreener",
+   "name": "tvscreener",
+   "kind": "mcp-plugin",
+   "summary": "Python library for TradingView’s screener (13,000+ fields), with an MCP server so Claude Code can query it.",
+   "link": "https://github.com/deepentropy/tvscreener",
+   "install": "`pip install tvscreener`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acd8e1a000000001802fd96",
+     "title": "TradingView选股器也能接AI了",
+     "author": "爱吃折耳根的Ace",
+     "date": "2026-10-13"
+    }
+   ]
+  },
+  {
+   "id": "seedance-blender",
+   "name": "Seedance 2.5 in Blender",
+   "kind": "mcp-plugin",
+   "summary": "ByteDance’s Blender route to Seedance 2.5: turn viewport shots into AI video.",
+   "link": "https://dreamina.capcut.com/seedance/seedance-2-5-blender-model-workflow",
+   "note": "Links to Dreamina’s official workflow page.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a70660e0000000033012983",
+     "title": "Blender直连Seedance2.5？官方插件能干啥？",
+     "author": "CG快报",
+     "date": "2026-08-03"
+    }
+   ]
+  },
+  {
+   "id": "rea",
+   "name": "REA (Reverse Engineer Anything)",
+   "kind": "open-source",
+   "summary": "Agent-driven reverse engineering: work out how closed software works.",
+   "link": "https://github.com/morluto/rea",
+   "note": "Use only on software you’re allowed to analyse.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad737fd000000002f038d7b",
+     "title": "这个开源项目，让封闭软件集体裸奔",
+     "author": "深度学习的Alpha狗",
+     "date": "2026-10-20"
+    },
+    {
+     "id": "6ad31b200000000015009011",
+     "title": "Github近三日热点解读",
+     "author": "硅基摸鱼办",
+     "date": "2026-10-17"
+    },
+    {
+     "id": "6ad0ae27000000001500c719",
+     "title": "逆向一切，今年最危险的开源项目，集体裸奔",
+     "author": "杨竹筠",
+     "date": "2026-10-15"
+    }
+   ]
+  },
+  {
+   "id": "voicestudio",
+   "name": "VoiceStudio",
+   "kind": "open-source",
+   "summary": "Local voice cloning, voice design, dubbing, dictation and audiobooks in hundreds of languages.",
+   "link": "https://github.com/debpalash/VoiceStudio",
+   "stars": 52600,
+   "install": "Desktop app (Electron)",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad31b200000000015009011",
+     "title": "Github近三日热点解读",
+     "author": "硅基摸鱼办",
+     "date": "2026-10-17"
+    },
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "xerj",
+   "name": "XERJ",
+   "kind": "open-source",
+   "summary": "Local search engine for agents: indexes your code, docs and logs, returns cited answers.",
+   "link": "https://github.com/xerj-org/xerj",
+   "install": "One local binary (Rust)",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad31b200000000015009011",
+     "title": "Github近三日热点解读",
+     "author": "硅基摸鱼办",
+     "date": "2026-10-17"
+    }
+   ]
+  },
+  {
+   "id": "digup",
+   "name": "DigUp",
+   "kind": "open-source",
+   "summary": "Search files on your Mac by what’s inside them, including images, audio and video.",
+   "link": "https://github.com/ARahim3/DigUp",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "local-deep-research",
+   "name": "Local Deep Research",
+   "kind": "open-source",
+   "summary": "Agentic deep-research assistant that can run on local models and write reports.",
+   "link": "https://github.com/LearningCircuit/local-deep-research",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "kokoro",
+   "name": "Kokoro TTS",
+   "kind": "open-source",
+   "summary": "Small, free text-to-speech model you can run locally.",
+   "link": "https://github.com/hexgrad/kokoro",
+   "install": "`pip install kokoro`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "short-video-factory",
+   "name": "Short Video Factory",
+   "kind": "open-source",
+   "summary": "Script, AI voice-over, auto-editing and subtitles chained into one short-video pipeline.",
+   "link": "https://github.com/YILS-LIN/short-video-factory",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "ai-youtube-shorts-generator",
+   "name": "AI YouTube Shorts Generator",
+   "kind": "open-source",
+   "summary": "Turns long videos into ranked 9:16 shorts with subtitles.",
+   "link": "https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator",
+   "note": "The post linked the wrong repo; this is the project it describes.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "podcastfy",
+   "name": "Podcastfy",
+   "kind": "open-source",
+   "summary": "Turns articles, PDFs and web pages into two-voice AI podcasts.",
+   "link": "https://github.com/souzatharsis/podcastfy",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4e486000000001e035097",
+     "title": "GitHub 已经彻底疯了，搞钱、提效太猛了！",
+     "author": "夯的AI猜想",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "personaplex",
+   "name": "PersonaPlex",
+   "kind": "open-source",
+   "summary": "NVIDIA’s real-time voice model you can interrupt mid-sentence, with persona and voice control.",
+   "link": "https://github.com/NVIDIA/personaplex",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acc33b90000000012034b4d",
+     "title": "NVIDIA彻底解决语音AI最大痛点🤯",
+     "author": "屌丝装作大佬很忙",
+     "date": "2026-10-12"
+    }
+   ]
+  },
+  {
+   "id": "free-claude-code",
+   "name": "Free Claude Code",
+   "kind": "open-source",
+   "summary": "Proxy that runs Claude Code on other providers’ free quotas (DeepSeek, Kimi …) with fallbacks.",
+   "link": "https://github.com/Alishahryar1/free-claude-code",
+   "note": "Unofficial; check each provider’s terms.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acca474000000001203c1f6",
+     "title": "永久免费ClaudeCode来了！月13亿token随便造",
+     "author": "青青王-AI",
+     "date": "2026-10-12"
+    }
+   ]
+  },
+  {
+   "id": "cc-switch",
+   "name": "CC Switch",
+   "kind": "open-source",
+   "summary": "Desktop app to switch providers and manage MCP, skills and prompts for Claude Code, Codex and Gemini CLI.",
+   "link": "https://github.com/farion1231/cc-switch",
+   "install": "Desktop app (Mac, Windows, Linux)",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acca474000000001203c1f6",
+     "title": "永久免费ClaudeCode来了！月13亿token随便造",
+     "author": "青青王-AI",
+     "date": "2026-10-12"
+    }
+   ]
+  },
+  {
+   "id": "openmontage",
+   "name": "OpenMontage",
+   "kind": "open-source",
+   "summary": "Runs inside Claude Code or Codex: one sentence in, a researched, voiced and edited video out.",
+   "link": "https://github.com/calesthio/OpenMontage",
+   "stars": 50000,
+   "install": "Clone and open in Claude Code",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac0787f0000000015012f86",
+     "title": "五万多星开源项目，一句话自动出片",
+     "author": "李白｜AI创造力实验室",
+     "date": "2026-10-03"
+    }
+   ]
+  },
+  {
+   "id": "tradingagents",
+   "name": "TradingAgents",
+   "kind": "open-source",
+   "summary": "Multi-agent trading firm: analysts, researchers, a trader and risk team debate each decision.",
+   "link": "https://github.com/TauricResearch/TradingAgents",
+   "note": "Research framework, not investment advice.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab52e2d0000000018013f02",
+     "title": "AI圈股神能覆盖任何市场",
+     "author": "深度学习的Alpha狗",
+     "date": "2026-10-07"
+    }
+   ]
+  },
+  {
+   "id": "hindsight",
+   "name": "Hindsight",
+   "kind": "open-source",
+   "summary": "Agent memory that learns, not just stores: retain, recall, reflect. Works with Claude Code, Codex, Cursor.",
+   "link": "https://github.com/vectorize-io/hindsight",
+   "stars": 45100,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6abb73560000000015011579",
+     "title": "日榜第一：Hindsight， Agent 长期记忆系统",
+     "author": "牛马AI",
+     "date": "2026-09-29"
+    },
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    },
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "codex-lookout",
+   "name": "Codex Lookout",
+   "kind": "open-source",
+   "summary": "Watch and steer your Codex tasks from your phone over local Wi-Fi.",
+   "link": "https://github.com/makorise/codex-local-hub",
+   "install": "Mac + phone on the same Wi-Fi",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab92cbc000000000100be34",
+     "title": "终于有人做了！局域网把 Codex 装进手机",
+     "author": "GitHub分享",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "compositor",
+   "name": "Compositor",
+   "kind": "open-source",
+   "summary": "12 MB Photoshop alternative for Mac: layers, masks, adjustment layers, clone stamp.",
+   "link": "https://github.com/robbietilton/Compositor",
+   "install": "Mac app",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab0cc99000000003b0053cf",
+     "title": "🎉宝藏开源软件！PS 平替，App 仅 12M 大",
+     "author": "机器之心",
+     "date": "2026-09-21"
+    }
+   ]
+  },
+  {
+   "id": "artcraft",
+   "name": "ArtCraft",
+   "kind": "open-source",
+   "summary": "An IDE for artists: layers, camera and light controls and storyboards on top of AI image and video models.",
+   "link": "https://github.com/storytold/artcraft",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aca686b000000001500e2a9",
+     "title": "设计师与电影人量身定制的 AI 原生 IDE",
+     "author": "Ai万有引力",
+     "date": "2026-10-10"
+    }
+   ]
+  },
+  {
+   "id": "cli-anything",
+   "name": "CLI-Anything",
+   "kind": "open-source",
+   "summary": "Turns any software into a command-line tool your agent can drive (HKU).",
+   "link": "https://github.com/HKUDS/CLI-Anything",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab4ed4e000000001a02471c",
+     "title": "软件变AI调用工具",
+     "author": "AIGC成也",
+     "date": "2026-10-03"
+    }
+   ]
+  },
+  {
+   "id": "paper2agent",
+   "name": "Paper2Agent",
+   "kind": "open-source",
+   "summary": "Turns a research paper and its code into an interactive AI agent (Stanford; Nature 2026).",
+   "link": "https://github.com/jmiao24/Paper2Agent",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab38b37000000000f039c00",
+     "title": "Nature一作详解Paper2Agent｜「涌现Lab」",
+     "author": "涌现Lab",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  {
+   "id": "openmaic",
+   "name": "OpenMAIC",
+   "kind": "open-source",
+   "summary": "Type a topic, get a multi-agent interactive class: AI teacher, quizzes and simulated labs (Tsinghua).",
+   "link": "https://github.com/THU-MAIC/OpenMAIC",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa0d9fd0000000011036b61",
+     "title": "💥宝藏网站！清华做的一款神仙学习AI网站",
+     "author": "飞飞的AI工具箱",
+     "date": "2026-09-09"
+    }
+   ]
+  },
+  {
+   "id": "univer",
+   "name": "Univer",
+   "kind": "open-source",
+   "summary": "Office harness for AI agents: spreadsheets, docs and slides they can operate.",
+   "link": "https://github.com/dream-num/univer",
+   "stars": 22300,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    },
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "orca",
+   "name": "Orca",
+   "kind": "open-source",
+   "summary": "Runs many coding agents (Codex, Claude Code …) side by side on one project.",
+   "link": "https://github.com/stablyai/orca",
+   "stars": 82400,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    },
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "deepseek-harness",
+   "name": "DeepSeek Harness",
+   "kind": "open-source",
+   "summary": "DeepSeek’s open-source agent harness (dsh): models, tools and plugins in one base.",
+   "link": "https://github.com/deepseek-ai/deepseek-harness",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "paperclip",
+   "name": "Paperclip",
+   "kind": "open-source",
+   "summary": "Manage a team of AI agents like a company: tasks, goals, progress and budgets.",
+   "link": "https://github.com/paperclipai/paperclip",
+   "stars": 96800,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    },
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "jev-ultrafast",
+   "name": "Jev Ultrafast",
+   "kind": "open-source",
+   "summary": "Very fast browser agent: a tiny decision model picks each click (Browser Use).",
+   "link": "https://github.com/browser-use/jev-ultrafast",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    },
+    {
+     "id": "6ab3746200000000140031d3",
+     "title": "Jev API的20个玩法：快去加入Agent里",
+     "author": "李白｜AI创造力实验室",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  {
+   "id": "google-ax",
+   "name": "AX",
+   "kind": "open-source",
+   "summary": "Google’s experimental base for running agents at scale.",
+   "link": "https://github.com/google/ax",
+   "note": "In heavy development.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "laya",
+   "name": "Laya",
+   "kind": "open-source",
+   "summary": "Multilingual “System 1” decision engine: yes/no, scores and labels in about 33 ms.",
+   "link": "https://github.com/NandhaKishorM/laya",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "kev",
+   "name": "Kev",
+   "kind": "open-source",
+   "summary": "Small Jev-style decision models you train and run yourself.",
+   "link": "https://github.com/jaredpalmer/kev",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "jev-chat-jarvis",
+   "name": "Jev Chat Jarvis",
+   "kind": "open-source",
+   "summary": "Phone chat co-pilot that reads the conversation and suggests replies.",
+   "link": "https://github.com/jev-chat/jev-chat-jarvis",
+   "note": "The repo has no README yet.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab985b9000000001403bf8c",
+     "title": "上周涨星最快的10个AI项目",
+     "author": "AI时倾",
+     "date": "2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "openshell",
+   "name": "OpenShell",
+   "kind": "open-source",
+   "summary": "NVIDIA’s sandbox so agents can run commands without touching the rest of your machine.",
+   "link": "https://github.com/NVIDIA/OpenShell",
+   "stars": 14700,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "ai-engineering-from-scratch",
+   "name": "AI Engineering From Scratch",
+   "kind": "open-source",
+   "summary": "Hands-on course: build model internals, retrieval and agent runtimes yourself.",
+   "link": "https://github.com/rohitg00/ai-engineering-from-scratch",
+   "stars": 63200,
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac2b141000000001403ad18",
+     "title": "GitHub本周暴涨的10个AI项目，建议收藏",
+     "author": "AI时倾",
+     "date": "2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "claude-code-game-studios",
+   "name": "Claude Code Game Studios",
+   "kind": "open-source",
+   "summary": "Turns one Claude Code session into a game studio with dozens of specialist agents.",
+   "link": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+   "note": "Commenters say it plans well but burns a lot of tokens.",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac76509000000000a02244f",
+     "title": "游戏创作者的天塌了，一个人做游戏，也能有 AI 团队分工协助",
+     "author": "青青",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  {
+   "id": "deeptutor",
+   "name": "DeepTutor",
+   "kind": "open-source",
+   "summary": "HKU’s lifelong, personalised tutoring system built around one agent.",
+   "link": "https://github.com/HKUDS/DeepTutor",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6abf6bd7000000001303f0b2",
+     "title": "AI 圈彻底炸锅了，港大开源了终身学习系统",
+     "author": "AI 珂珂",
+     "date": "2026-10-02"
+    }
+   ]
+  },
+  {
+   "id": "lightpanda",
+   "name": "Lightpanda",
+   "kind": "open-source",
+   "summary": "Headless browser built from scratch for AI agents: much faster and lighter than Chrome.",
+   "link": "https://github.com/lightpanda-io/browser",
+   "note": "Best match for the post’s description.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac85ec9000000001301bae4",
+     "title": "开源浏览器，响应速度比Chrome快了整整9倍",
+     "author": "梦莱加德",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  {
+   "id": "clicky",
+   "name": "Clicky",
+   "kind": "open-source",
+   "summary": "AI buddy by your cursor: sees your screen and teaches you the app you’re in.",
+   "link": "https://github.com/farzaa/clicky",
+   "note": "Sends screenshots to a cloud model.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad9b2c7000000002c027dfe",
+     "title": "住在桌面上的老师：鼠标点到哪它就教到哪！",
+     "author": "AI量子口袋",
+     "date": "2026-10-22"
+    }
+   ]
+  },
+  {
+   "id": "piik",
+   "name": "Piik",
+   "kind": "open-source",
+   "summary": "Private screen sharing in the browser for up to 20 friends; send a link, no app needed. Self-hostable.",
+   "link": "https://github.com/TNTcraftHIM/Piik",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac9a62100000000140387ab",
+     "title": "甩个链接就能共享屏幕？试试这个开源项目",
+     "author": "增长研习社",
+     "date": "2026-10-10"
+    }
+   ]
+  },
+  {
+   "id": "gaussiangpt",
+   "name": "GaussianGPT",
+   "kind": "open-source",
+   "summary": "Research code: grows 3D Gaussian scenes token by token, like GPT writes text (ECCV 2026).",
+   "link": "https://github.com/nicolasvonluetzow/GaussianGPT",
+   "site": "https://nicolasvonluetzow.github.io/GaussianGPT/",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aadd68b0000000012026207",
+     "title": "用写字的方式生成三维场景：GaussianGPT",
+     "author": "GitHubStore",
+     "date": "2026-09-19"
+    }
+   ]
+  },
+  {
+   "id": "ego-lite",
+   "name": "ego lite",
+   "kind": "open-source",
+   "summary": "Browser where your AI agents work in their own spaces while you keep browsing.",
+   "link": "https://github.com/citrolabs/ego-lite",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad4bf6f000000002f039e98",
+     "title": "可能是最适合 AI 使用的浏览器没有之一",
+     "author": "郭瀚森",
+     "date": "2026-10-18"
+    }
+   ]
+  },
+  {
+   "id": "quantsplaybook",
+   "name": "QuantsPlaybook",
+   "kind": "open-source",
+   "summary": "Open-source replications of Chinese brokers’ quant research reports.",
+   "link": "https://github.com/hugo2046/QuantsPlaybook",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaa649c000000002b01f596",
+     "title": "📍AI Trading研究必备｜5个宝藏网站",
+     "author": "Panda AI",
+     "date": "2026-09-16"
+    }
+   ]
+  },
+  {
+   "id": "tripo",
+   "name": "Tripo AI",
+   "kind": "web-tool",
+   "summary": "Text or image to 3D models, with an API.",
+   "link": "https://www.tripo3d.ai",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acdc36f000000000100a05d",
+     "title": "Showcase｜和梵高一起喝杯咖啡",
+     "author": "Tripo AI",
+     "date": "2026-10-13"
+    }
+   ]
+  },
+  {
+   "id": "marble",
+   "name": "Marble (World Labs)",
+   "kind": "web-tool",
+   "summary": "Turns an image and a prompt into an explorable 3D world.",
+   "link": "https://marble.worldlabs.ai",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6acdc36f000000000100a05d",
+     "title": "Showcase｜和梵高一起喝杯咖啡",
+     "author": "Tripo AI",
+     "date": "2026-10-13"
+    }
+   ]
+  },
+  {
+   "id": "hyper3d",
+   "name": "Hyper3D (Rodin, WorldGen)",
+   "kind": "web-tool",
+   "summary": "Photo or text to production-ready 3D models; WorldGen turns one photo into an editable 3D scene.",
+   "link": "https://hyper3d.ai",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6abcbf3a0000000001009dc0",
+     "title": "何同学的一镜到底，Hyper3D 帮了什么忙？",
+     "author": "Hyper3D.AI",
+     "date": "2026-09-30"
+    },
+    {
+     "id": "6aa3769f000000000b002f99",
+     "title": "一张照片生成3D世界！每个物体都能单独编辑",
+     "author": "Jiajin Cheng",
+     "date": "2026-09-11"
+    },
+    {
+     "id": "6aa94131000000001103405e",
+     "title": "GPT6+HYPER3D MCP+BLENDER全自动场景制作",
+     "author": "TBOY",
+     "date": "2026-09-15"
+    }
+   ]
+  },
+  {
+   "id": "hi3d",
+   "name": "Hi3D",
+   "kind": "web-tool",
+   "summary": "An agent that does 3D modelling from your description (by Hitem3D).",
+   "link": "https://www.hitem3d.ai",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab49c2c0000000018013b09",
+     "title": "这是一个让3D建模师集体失业的网站",
+     "author": "煜林AI",
+     "date": "2026-09-28"
+    }
+   ]
+  },
+  {
+   "id": "jimeng",
+   "name": "Jimeng (即梦)",
+   "kind": "web-tool",
+   "summary": "ByteDance’s creative suite; copies the motion from a reference video onto your character.",
+   "link": "https://jimeng.jianying.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad394c60000000018038848",
+     "title": "还在死磕提示词？深度视频动作一键复刻！",
+     "author": "缪斯_MiuSi",
+     "date": "2026-10-17"
+    }
+   ]
+  },
+  {
+   "id": "seedance",
+   "name": "Seedance & Seedream",
+   "kind": "web-tool",
+   "summary": "ByteDance’s video (Seedance 2.5) and image (Seedream 5.0) models used in these workflows.",
+   "link": "https://seed.bytedance.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a8e7d5b000000001f007bb1",
+     "title": "我给AI画了6个点，镜头飞进清明上河图",
+     "author": "杰瑞Chang",
+     "date": "2026-08-26"
+    }
+   ]
+  },
+  {
+   "id": "libtv",
+   "name": "LibTV",
+   "kind": "web-tool",
+   "summary": "LiblibAI’s canvas for AI video: storyboard, image and video models in one flow.",
+   "link": "https://www.google.com/search?q=LibTV%20LiblibAI%20%E5%AE%98%E7%BD%91",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a8e7d5b000000001f007bb1",
+     "title": "我给AI画了6个点，镜头飞进清明上河图",
+     "author": "杰瑞Chang",
+     "date": "2026-08-26"
+    }
+   ]
+  },
+  {
+   "id": "minimax-code",
+   "name": "MiniMax Code",
+   "kind": "web-tool",
+   "summary": "MiniMax’s coding agent with a strong eye for web design.",
+   "link": "https://www.google.com/search?q=MiniMax%20Code%20agent",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9ff8d90000000011033201",
+     "title": "我可能找到了最懂VibeCoding审美的Agent",
+     "author": "archipelago",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "skills-sh",
+   "name": "skills.sh",
+   "kind": "web-tool",
+   "summary": "Directory and leaderboard of agent skills; install any of them with one command.",
+   "link": "https://skills.sh",
+   "install": "`npx skills add <owner/repo>`",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac8a16b0000000015015a36",
+     "title": "全球装得最多的10个AI Skills",
+     "author": "AIagent官方-超级实战营",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  {
+   "id": "cocoloop",
+   "name": "CocoLoop",
+   "kind": "web-tool",
+   "summary": "Skill store for agents: 170k+ skills for 50+ platforms, each with a safety rating.",
+   "link": "https://www.google.com/search?q=CocoLoop%20skills%20store",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac76e38000000001303d144",
+     "title": "这个网站让你的Agent变全能",
+     "author": "锁毅博",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  {
+   "id": "red-skill",
+   "name": "RED Skill",
+   "kind": "web-tool",
+   "summary": "RedNote’s own skill hub: open a skill in the app and paste it to your agent.",
+   "link": "",
+   "install": "Inside the RedNote app",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9d442f000000002802a435",
+     "title": "我开源的图表skill在外网爆火了",
+     "author": "躺在废墟里",
+     "date": "2026-09-06"
+    },
+    {
+     "id": "6a48ed6b000000002103f0fc",
+     "title": "howto手搓skill？最大程度用AI摸鱼心得",
+     "author": "小镇青年Mandy",
+     "date": "2026-07-04"
+    }
+   ]
+  },
+  {
+   "id": "hyperknow",
+   "name": "Hyperknow",
+   "kind": "web-tool",
+   "summary": "AI tutor that builds a personal course on any topic.",
+   "link": "https://www.google.com/search?q=Hyperknow%20AI%20tutor",
+   "linkKind": "search",
+   "note": "The post used a referral link; this searches for the product itself.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab32b5d000000001c01f8fc",
+     "title": "一个巨牛的学习网站，让你学会任何东西，真的",
+     "author": "念奴姣姣",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  {
+   "id": "jev-api",
+   "name": "Jev API",
+   "kind": "web-tool",
+   "summary": "Fast small decision model for agents: one quick verdict per step instead of a full LLM call.",
+   "link": "https://www.google.com/search?q=Jev%20API%20decision%20model",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ab3746200000000140031d3",
+     "title": "Jev API的20个玩法：快去加入Agent里",
+     "author": "李白｜AI创造力实验室",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  {
+   "id": "pandaai-evo",
+   "name": "PandaAI EVO",
+   "kind": "web-tool",
+   "summary": "AI agent platform for quant research: report replication, factors, strategies, backtests.",
+   "link": "https://www.google.com/search?q=PandaAI%20EVO%20%E9%87%8F%E5%8C%96",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaa649c000000002b01f596",
+     "title": "📍AI Trading研究必备｜5个宝藏网站",
+     "author": "Panda AI",
+     "date": "2026-09-16"
+    }
+   ]
+  },
+  {
+   "id": "global-factor-data",
+   "name": "Global Factor Data",
+   "kind": "web-tool",
+   "summary": "Free factor database: 153 factors across 93 countries.",
+   "link": "https://jkpfactors.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaa649c000000002b01f596",
+     "title": "📍AI Trading研究必备｜5个宝藏网站",
+     "author": "Panda AI",
+     "date": "2026-09-16"
+    }
+   ]
+  },
+  {
+   "id": "papers-with-backtest",
+   "name": "Papers With Backtest",
+   "kind": "web-tool",
+   "summary": "Thousands of academic trading strategies with backtests and Python code.",
+   "link": "https://paperswithbacktest.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaa649c000000002b01f596",
+     "title": "📍AI Trading研究必备｜5个宝藏网站",
+     "author": "Panda AI",
+     "date": "2026-09-16"
+    }
+   ]
+  },
+  {
+   "id": "quantpedia",
+   "name": "Quantpedia",
+   "kind": "web-tool",
+   "summary": "Encyclopedia of quant trading strategies drawn from academic papers.",
+   "link": "https://quantpedia.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaa649c000000002b01f596",
+     "title": "📍AI Trading研究必备｜5个宝藏网站",
+     "author": "Panda AI",
+     "date": "2026-09-16"
+    }
+   ]
+  },
+  {
+   "id": "motionsites",
+   "name": "MotionSites",
+   "kind": "design-resource",
+   "summary": "Web designs with the prompt behind each one, ready to paste into Cursor or Claude.",
+   "link": "https://motionsites.ai",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6abbd4cd000000001301a92d",
+     "title": "这个网站太懂设计师了🤯",
+     "author": "MAXVISION｜动效设计",
+     "date": "2026-09-29"
+    },
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "react-bits",
+   "name": "React Bits",
+   "kind": "design-resource",
+   "summary": "Animated React components; copy the code or a prompt for your AI.",
+   "link": "https://reactbits.dev",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "21st-dev",
+   "name": "21st.dev",
+   "kind": "design-resource",
+   "summary": "Community React components with an MCP server, so your AI can pull them in.",
+   "link": "https://21st.dev",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    },
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "threejs",
+   "name": "Three.js",
+   "kind": "design-resource",
+   "summary": "The 3D library behind most 3D websites; hundreds of examples to point your AI at.",
+   "link": "https://threejs.org",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aaff967000000002b013c89",
+     "title": "Vibe coding没有灵感的都来看这个3D网页库",
+     "author": "Cathy茄子（AI 版）",
+     "date": "2026-09-20"
+    },
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "awwwards",
+   "name": "Awwwards",
+   "kind": "design-resource",
+   "summary": "Daily showcase of top-designed websites for layout and motion ideas.",
+   "link": "https://www.awwwards.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "uiverse",
+   "name": "Uiverse",
+   "kind": "design-resource",
+   "summary": "7,000+ free community UI elements to copy.",
+   "link": "https://uiverse.io",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    },
+    {
+     "id": "6ac8bb93000000001402c38b",
+     "title": "7000多个UI组件，免费抄作业！",
+     "author": "冯又又",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  {
+   "id": "shadcn-ui",
+   "name": "shadcn/ui",
+   "kind": "design-resource",
+   "summary": "Clean, copy-in React components you own and customise.",
+   "link": "https://ui.shadcn.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "aceternity-ui",
+   "name": "Aceternity UI",
+   "kind": "design-resource",
+   "summary": "200+ animated React components.",
+   "link": "https://ui.aceternity.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "magic-ui",
+   "name": "Magic UI",
+   "kind": "design-resource",
+   "summary": "Modern animated components for landing pages.",
+   "link": "https://magicui.design",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "motion-primitives",
+   "name": "Motion Primitives",
+   "kind": "design-resource",
+   "summary": "Ready-made motion components (Motion + Tailwind).",
+   "link": "https://motion-primitives.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "animejs",
+   "name": "Anime.js",
+   "kind": "design-resource",
+   "summary": "Light, flexible JavaScript animation library.",
+   "link": "https://animejs.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "mapcn",
+   "name": "mapcn",
+   "kind": "design-resource",
+   "summary": "shadcn-style map components: markers, routes, popups.",
+   "link": "https://github.com/anmolsaini16/mapcn",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "minimal-gallery",
+   "name": "Minimal Gallery",
+   "kind": "design-resource",
+   "summary": "Curated minimal websites to hand your AI as references.",
+   "link": "https://minimal.gallery",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "refero",
+   "name": "Refero",
+   "kind": "design-resource",
+   "summary": "Thousands of real product screens and styles for reference.",
+   "link": "https://refero.design",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "component-gallery",
+   "name": "Component Gallery",
+   "kind": "design-resource",
+   "summary": "How the top design systems solve the same component.",
+   "link": "https://component.gallery",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "jiro-build",
+   "name": "jiro.build",
+   "kind": "design-resource",
+   "summary": "1,200+ design prompts for AI.",
+   "link": "https://jiro.build",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "3dicons",
+   "name": "3Dicons",
+   "kind": "design-resource",
+   "summary": "Free 3D icon library.",
+   "link": "https://3dicons.co",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "supahero",
+   "name": "Supahero",
+   "kind": "design-resource",
+   "summary": "500+ hero sections from striking websites.",
+   "link": "https://supahero.io",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa29f10000000000d0277a4",
+     "title": "📍VibeCoding千篇一律？先逛4个审美网站",
+     "author": "发发华",
+     "date": "2026-09-10"
+    }
+   ]
+  },
+  {
+   "id": "saaspo",
+   "name": "Saaspo",
+   "kind": "design-resource",
+   "summary": "SaaS website designs by page type, industry and style.",
+   "link": "https://saaspo.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa29f10000000000d0277a4",
+     "title": "📍VibeCoding千篇一律？先逛4个审美网站",
+     "author": "发发华",
+     "date": "2026-09-10"
+    }
+   ]
+  },
+  {
+   "id": "searchsystem",
+   "name": "Search System",
+   "kind": "design-resource",
+   "summary": "Design inspiration in 50 categories: type, colour, branding.",
+   "link": "https://searchsystem.co",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa29f10000000000d0277a4",
+     "title": "📍VibeCoding千篇一律？先逛4个审美网站",
+     "author": "发发华",
+     "date": "2026-09-10"
+    }
+   ]
+  },
+  {
+   "id": "kage",
+   "name": "Kage",
+   "kind": "design-resource",
+   "summary": "Real UI inspiration you can turn into prompts.",
+   "link": "https://www.google.com/search?q=Kage%20UI%20inspiration%20prompts",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "appshot",
+   "name": "AppShot",
+   "kind": "design-resource",
+   "summary": "Library of real mobile-app screenshots.",
+   "link": "https://www.google.com/search?q=AppShot%20mobile%20app%20screenshots%20library",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "vibeprompt",
+   "name": "VibePrompt",
+   "kind": "design-resource",
+   "summary": "Ready prompts for dashboards and landing pages.",
+   "link": "https://www.google.com/search?q=VibePrompt%20dashboard%20landing%20page%20prompts",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "designmd",
+   "name": "DESIGNmd",
+   "kind": "design-resource",
+   "summary": "Turns a design system into Markdown your AI can read.",
+   "link": "https://www.google.com/search?q=DESIGNmd%20design%20system%20markdown%20AI",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "uiable",
+   "name": "UIAble",
+   "kind": "design-resource",
+   "summary": "Collection of ready-made UI components.",
+   "link": "https://www.google.com/search?q=UIAble%20UI%20components",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "kinetics",
+   "name": "Kinetics",
+   "kind": "design-resource",
+   "summary": "150+ motion effects with React code.",
+   "link": "https://www.google.com/search?q=Kinetics%20motion%20effects%20React%20code",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "microkit-ui",
+   "name": "MicroKit UI",
+   "kind": "design-resource",
+   "summary": "Small micro-interactions that make interfaces feel finished.",
+   "link": "https://www.google.com/search?q=MicroKit%20UI%20micro%20interactions",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "liquid-glass",
+   "name": "Liquid Glass components",
+   "kind": "design-resource",
+   "summary": "Glass-refraction UI components.",
+   "link": "https://www.google.com/search?q=Liquid%20Glass%20refraction%20UI%20components",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "css-text-effects",
+   "name": "CSS Text Effects",
+   "kind": "design-resource",
+   "summary": "Text animation effects in CSS.",
+   "link": "https://www.google.com/search?q=CSS%20Text%20Effects%20collection",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "circle-loaders",
+   "name": "Circle Loaders",
+   "kind": "design-resource",
+   "summary": "Creative loading animations.",
+   "link": "https://www.google.com/search?q=Circle%20Loaders%20creative%20loading%20animations",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "gradient-buttons",
+   "name": "Gradient Buttons",
+   "kind": "design-resource",
+   "summary": "Gradient button styles to copy.",
+   "link": "https://www.google.com/search?q=Gradient%20Buttons%20collection%20css",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "kitbitz",
+   "name": "Kitbitz",
+   "kind": "design-resource",
+   "summary": "2,000+ hand-drawn illustrations.",
+   "link": "https://www.google.com/search?q=Kitbitz%20hand-drawn%20illustrations",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ace3693000000000202abe1",
+     "title": "玩 Vibe Coding的人，都值得收藏！",
+     "author": "卷卷今天臭美了么",
+     "date": ""
+    }
+   ]
+  },
+  {
+   "id": "origin-kit",
+   "name": "Origin Kit",
+   "kind": "design-resource",
+   "summary": "Creative interaction components; exports to Framer, with AI prompts.",
+   "link": "https://www.google.com/search?q=Originkit%20animated%20component%20library%20Framer",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9ffbe200000000110303e7",
+     "title": "Vibe Coding 必备六个宝藏网站！",
+     "author": "顾澄野",
+     "date": "2026-09-08"
+    }
+   ]
+  },
+  {
+   "id": "bencho",
+   "name": "Bencho",
+   "kind": "design-resource",
+   "summary": "React micro-interactions by gesture (hover, drag, swipe…), each with a “Copy prompt” for AI.",
+   "link": "https://www.google.com/search?q=Bencho%20React%20micro%20interactions",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ac3890d000000001a02b59d",
+     "title": "React 动效组件，一键复制给 AI",
+     "author": "苏野",
+     "date": "2026-10-05"
+    }
+   ]
+  },
+  {
+   "id": "mlius",
+   "name": "Mlius",
+   "kind": "design-resource",
+   "summary": "Community React component market (shadcn/ui + Tailwind) with an AI prompt per component.",
+   "link": "https://www.google.com/search?q=Mlius%20React%20components%20shadcn",
+   "linkKind": "search",
+   "note": "Name taken from the post; the link searches for it.",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a9109150000000021026b45",
+     "title": "Vibe Coding最好用的组件素材库！",
+     "author": "AiWeb.",
+     "date": "2026-08-28"
+    }
+   ]
+  },
+  {
+   "id": "see-saw",
+   "name": "SEE + SAW",
+   "kind": "design-resource",
+   "summary": "300+ web design examples, updated often.",
+   "link": "https://www.google.com/search?q=SEE%20SAW%20web%20design%20inspiration",
+   "linkKind": "search",
+   "confidence": "medium",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aa29f10000000000d0277a4",
+     "title": "📍VibeCoding千篇一律？先逛4个审美网站",
+     "author": "发发华",
+     "date": "2026-09-10"
+    }
+   ]
+  },
+  {
+   "id": "esp-mosaico",
+   "name": "ESP-Mosaico",
+   "kind": "hardware",
+   "summary": "Espressif’s modular ESP32-S31 boards made for building hardware with coding agents.",
+   "link": "https://mosaico.espressif.com",
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6a8586e0000000003303752d",
+     "title": "AI Coding 属于你的 Mosaico 🙌",
+     "author": "乐鑫科技",
+     "date": "2026-08-19"
+    }
+   ]
+  },
+  {
+   "id": "dayotag",
+   "name": "dayotag",
+   "kind": "hardware",
+   "summary": "Open-source AI accessory that records your day as an always-on memory agent.",
+   "link": "https://www.google.com/search?q=dayotag%20AI%20memory%20accessory%20open%20source",
+   "linkKind": "search",
+   "confidence": "low",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6aca0635000000001802e7d3",
+     "title": "最近开源平台上出现了一个特别的AI配饰dayotag，全时记忆Agent",
+     "author": "AI一下",
+     "date": "2026-10-10"
+    }
+   ]
+  },
+  {
+   "id": "trading-prompts",
+   "name": "7 prompts for trading research",
+   "kind": "prompts",
+   "summary": "Prompts for trade ideas, chart reading, news, backtests, portfolio risk, a trade journal and a daily plan.",
+   "link": "",
+   "note": "For research and journaling; not financial advice.",
+   "prompts": [
+    "Trade idea generator: Analyse the current market and give 5 high-probability trade setups for [stock / index / sector], with entry, exit targets, stop-loss and risk/reward, and explain why each works using technical and fundamental factors.",
+    "Technical analyst: Analyse [ticker] on daily and weekly charts: support and resistance, trend lines, moving averages and momentum indicators. Give step-by-step buy / hold / sell signals with reasons.",
+    "News to action: Summarise the latest news on [company / sector] and turn it into trading implications: likely short- and long-term effects, expected price range and suggested positioning.",
+    "Strategy backtest: Backtest [strategy, e.g. moving-average crossover or RSI divergence] on [stock / index] over [period]. Report win rate, profit factor, maximum drawdown and ways to improve the edge.",
+    "Portfolio risk manager: Analyse my portfolio [tickers and weights]. Point out weaknesses, over-exposure and hidden correlations, and suggest risk-adjusted rebalancing and hedges against a 20% market drop.",
+    "Trade journal review: Review my last 20 trades [entries, exits, results]. Find repeated mistakes, missed opportunities and behavioural biases, and give me 3 personal rules to trade more consistently.",
+    "Daily trading plan: Design a daily plan for [market / asset]: pre-market analysis, opening strategy, intraday adjustments and closing routine."
+   ],
+   "confidence": "high",
+   "found": "2026-10-24",
+   "sources": [
+    {
+     "id": "6ad72d92000000002f030455",
+     "title": "X上58万人看过的自动化股票交易流程",
+     "author": "彳亍",
+     "date": "2026-10-20"
+    }
+   ]
+  }
+ ],
+ "unpinned": [
+  {
+   "id": "6accb466000000001802b69b",
+   "title": "人，刷到请打开你的 Agent。",
+   "author": "数字生命卡兹克",
+   "date": "2026-10-12"
+  },
+  {
+   "id": "6ad52695000000002203ef49",
+   "title": "专为Vibe coding创作者打造的AI 提示词库",
+   "author": "MAXVISION｜动效设计",
+   "date": "2026-10-18"
+  },
+  {
+   "id": "6ad4b41e000000000c009966",
+   "title": "只需三步，把手机实拍变成电影....",
+   "author": "黄白",
+   "date": "2026-10-18"
+  },
+  {
+   "id": "6ad035f80000000018007b85",
+   "title": "三个贼恶心的网站，打亖都不能删除",
+   "author": "楼下小黑",
+   "date": "2026-10-15"
+  },
+  {
+   "id": "6acb2f7f0000000014000f4b",
+   "title": "很独特的可视化风格。",
+   "author": "夜雨科技频道",
+   "date": "2026-10-11"
+  },
+  {
+   "id": "6ac98dcd000000000200e1be",
+   "title": "一分钟，AI把真实场景变成3D仿真环境！",
+   "author": "斯塔克AI",
+   "date": "2026-10-12"
+  },
+  {
+   "id": "6aca129a000000001a032a97",
+   "title": "你给照片画一条线？AI实现精准控制镜头运动",
+   "author": "赛博鸭AIGC",
+   "date": "2026-10-10"
+  },
+  {
+   "id": "6a8b242c000000002802f25c",
+   "title": "神秘牛来模型Ox Alpha，实测好夸张啊！🤯",
+   "author": "蜗牛的科技笔记",
+   "date": "2026-08-23"
+  },
+  {
+   "id": "6ac605ab000000001500c6f1",
+   "title": "这个开源神器把LibTV复刻出来了！而且免费",
+   "author": "李叔聊AI",
+   "date": "2026-10-07"
+  },
+  {
+   "id": "6ac75694000000001b01ebd7",
+   "title": "7个宝藏参考网站❗️Vibe Coding新手必看",
+   "author": "咕舟舟（AI版）",
+   "date": "2026-10-08"
+  },
+  {
+   "id": "6acb84370000000012037192",
+   "title": "把人生喂给AI，挖掘薪资天花板💰",
+   "author": "Hello XJZ🔘",
+   "date": "2026-10-11"
+  },
+  {
+   "id": "6ac8a0230000000002010e5a",
+   "title": "AI把整个场景拆成独立3D物体，太实用了",
+   "author": "斯塔克AI",
+   "date": "2026-10-11"
+  },
+  {
+   "id": "6acb2eeb0000000014000bea",
+   "title": "vibecoding 网站大全",
+   "author": "蓝戈AI",
+   "date": "2026-10-11"
+  },
+  {
+   "id": "6ad90636000000002a03be3c",
+   "title": "当Claude+TradingView",
+   "author": "Andy",
+   "date": "2026-10-21"
+  },
+  {
+   "id": "6ad1d5ae000000000200ce36",
+   "title": "这个多人 AI 3D世界模拟器很猛",
+   "author": "斯塔克AI",
+   "date": "2026-10-18"
+  },
+  {
+   "id": "6ab23d8d000000003003fbdb",
+   "title": "AI人脸风格技巧（附提示词）",
+   "author": "Q-朵朵",
+   "date": "2026-09-22"
+  },
+  {
+   "id": "6acb00120000000018010b38",
+   "title": "有大神开源复刻了Grokbot 表情！可以直接移植到你的AI宠物项目里",
+   "author": "不加班",
+   "date": "2026-10-11"
+  },
+  {
+   "id": "6a9d55b3000000000d02413a",
+   "title": "一个虚拟资料卖家害怕你知道的网站",
+   "author": "泡泡鱼儿y",
+   "date": "2026-09-06"
+  },
+  {
+   "id": "6ac5b795000000001303f20f",
+   "title": "Claude神级动效库",
+   "author": "Game.AI",
+   "date": ""
+  },
+  {
+   "id": "6ac064e20000000014033597",
+   "title": "Muse开源AI硬件 连接物理世界 氛围制造开启",
+   "author": "三三科技生活",
+   "date": "2026-10-03"
+  },
+  {
+   "id": "6abf1a71000000001a0239f0",
+   "title": "智能体交易回测",
+   "author": "爱跳舞的女博士",
+   "date": "2026-10-02"
+  },
+  {
+   "id": "6abf1c66000000001301a560",
+   "title": "谁还没找到：火爆的开源金融项目？",
+   "author": "爱跳舞的女博士",
+   "date": "2026-10-02"
+  },
+  {
+   "id": "6abcd1e9000000001403a88f",
+   "title": "真是AI圈的活菩萨呀！看他就够了",
+   "author": "一只小码农（AI）",
+   "date": "2026-10-01"
+  },
+  {
+   "id": "6abe299d00000000150080f8",
+   "title": "3D建模的直接享福了",
+   "author": "梦莱加德",
+   "date": "2026-10-01"
+  },
+  {
+   "id": "6ab8d246000000001301a639",
+   "title": "以前搭一个3D场景，建模师要熬夜熬半个月。",
+   "author": "Ai万有引力",
+   "date": "2026-09-27"
+  },
+  {
+   "id": "6ab6975a000000000a020eb6",
+   "title": "开源的Ai全自动视频剪辑，阿里出品",
+   "author": "赛博煎蛋",
+   "date": "2026-09-25"
+  },
+  {
+   "id": "6ab4b8a60000000018010d28",
+   "title": "停掉国产Agent，这套组合最省钱",
+   "author": "阿硕（AI 落地）",
+   "date": "2026-09-24"
+  },
+  {
+   "id": "6ab256110000000034000ab2",
+   "title": "睡觉时让AI自己跑实验写论文，醒来就有结果",
+   "author": "APIkyes",
+   "date": "2026-09-22"
+  },
+  {
+   "id": "6aa421eb000000002502fbd1",
+   "title": "让这些AI替我上班！卷疯同事早2h下班！",
+   "author": "辣姐评机",
+   "date": "2026-09-12"
+  },
+  {
+   "id": "6ab255070000000036018139",
+   "title": "全球首款ai office开源套件",
+   "author": "亚莱加德",
+   "date": "2026-09-22"
+  },
+  {
+   "id": "6aafab9f000000002502c5da",
+   "title": "把经历喂给 AI，提升收入的 7️⃣个 提示词",
+   "author": "碳基冉子",
+   "date": "2026-09-20"
+  },
+  {
+   "id": "6a550c080000000016024094",
+   "title": "告别AI假脸，我让人物有了情绪",
+   "author": "野川社",
+   "date": "2026-07-14"
+  }
+ ]
+}

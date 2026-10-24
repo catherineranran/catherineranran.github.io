@@ -151,7 +151,7 @@
   // card: { id, col, title, link, due, next, note, prio 0-4, done, doneAt, order, at, del }
   function mergeDocs(a, b) {
     var out = { v: 1 };
-    ['cards', 'vibes', 'focus'].forEach(function (key) {
+    ['cards', 'vibes', 'focus', 'ai'].forEach(function (key) {
       var A = a[key] || {}, B = b[key] || {}, m = {};
       Object.keys(Object.assign({}, A, B)).forEach(function (id) {
         var x = A[id], y = B[id];
@@ -301,6 +301,15 @@
       this.doc.vibes[id] = Object.assign({}, cur, patch, { at: Date.now() });
       this.change();
       return this.doc.vibes[id];
+    },
+    // AI updates: your own marks on each tool (installed, hidden), keyed by the tool's id.
+    aiState: function (id) { var a = (this.doc && this.doc.ai) || {}; return a[id] || null; },
+    setAi: function (id, patch) {
+      if (!this.doc.ai) this.doc.ai = {};
+      var cur = this.doc.ai[id] || { id: id };
+      this.doc.ai[id] = Object.assign({}, cur, patch, { at: Date.now() });
+      this.change();
+      return this.doc.ai[id];
     },
     setColumns: function (cols) { this.doc.columns = cols; this.doc.columnsAt = Date.now(); this.change(); },
     setSettings: function (patch) { this.doc.settings = Object.assign({}, this.doc.settings, patch); this.doc.settingsAt = Date.now(); this.change(); }
@@ -481,6 +490,7 @@
       '  <a href="/launch/task-list/" data-page="tasks" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
       '  <a href="/launch/reading/" data-page="reading" class="tab' + (active === 'reading' ? ' on' : '') + '">Reading</a>' +
       '  <a href="/launch/vibecodings/" data-page="vibes" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
+      '  <a href="/launch/AI-updates/" data-page="ai" class="tab' + (active === 'ai' ? ' on' : '') + '">AI<span class="tab-long"> updates</span></a>' +
       '</nav>' +
       '<div class="top-tools">' +
       '  <a class="btn small site-link" href="https://ranranli.net/" target="_blank" rel="noopener">To Personal Site ' + ICONS.ext + '</a>' +
@@ -705,7 +715,7 @@
   var pageScope = [], pages = {}, currentPage = null, shellBuilt = false, navSeq = 0;
   function scoped(off) { pageScope.push(off); }
   function cleanupPage() { var list = pageScope; pageScope = []; list.forEach(function (f) { try { f(); } catch (e) { /* ignore */ } }); }
-  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes', 'reading.js': 'reading' };
+  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes', 'reading.js': 'reading', 'ai.js': 'ai' };
   var loadedScripts = {};
   Array.prototype.forEach.call(document.querySelectorAll('script[src]'), function (s) { loadedScripts[s.getAttribute('src').split('?')[0]] = true; });
   function runPage(name) {
