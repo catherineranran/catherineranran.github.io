@@ -118,7 +118,7 @@
     if (tag === 'SUP' || /vertical-align:\s*super/.test(st)) wrap.push('sup');
     else if (tag === 'SUB' || /vertical-align:\s*sub/.test(st)) wrap.push('sub');
     var bg = st.match(/background-color:\s*([^;]+)/);
-    if (bg && !/^(#fff(fff)?|white|transparent|inherit|initial|rgba?\(\s*255\s*,\s*255\s*,\s*255\b)/.test(bg[1].trim())) wrap.push('mark');
+    if (bg && !/^(?:#fff(?:fff)?|white|transparent|inherit|initial|none)$|^rgba?\(\s*255\s*,\s*255\s*,\s*255\b|^rgba?\([^)]*,\s*0\s*\)$/.test(bg[1].trim())) wrap.push('mark');
     if (tag === 'CODE' || /font-family:[^;]*(courier|mono|consolas|source code)/.test(st)) wrap.push('code');
     var holder2 = out;
     wrap.forEach(function (w) { var e = document.createElement(w); holder2.appendChild(e); holder2 = e; });

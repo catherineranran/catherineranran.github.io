@@ -678,7 +678,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .rd-prose ul[data-l="2"] { list-style-type: square; }
 .rd-prose ol[data-l="1"] { list-style-type: lower-alpha; }
 .rd-prose ol[data-l="2"] { list-style-type: lower-roman; }
-.rd-prose [data-l]:not([data-l="0"]) { margin-top: -.6em; }
+.rd-prose :is(ul, ol) + :is(ul, ol) { margin-top: -.7em; }
 .rd-prose a { color: #1d5bb8; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .rd-prose a:hover { color: #0d3f8c; }
 .rd-prose strong { font-weight: 650; color: #111827; }
