@@ -725,6 +725,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .rd-main { display: grid; gap: 12px; min-width: 0; }
 .rd-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .rd-bar .spacer { flex: 1; }
+.rd-bar [hidden] { display: none !important; }
 .rd-bar .seg2 { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 .rd-bar .seg2 button:disabled { opacity: .45; cursor: default; }
 .rd-status { font-size: 12.5px; color: var(--ink-2); text-shadow: 0 1px 8px rgba(0, 0, 0, .4); }
