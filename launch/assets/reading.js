@@ -453,7 +453,7 @@
       var nav = neighbours(e), mins = Math.max(1, Math.round(e.words / WPM));
       var kicker = e.date ? esc(longDate(e.date)) + (isToday(e.date) ? '<span class="rd-today">Today</span>' : '') : e.queue ? 'Up next' : 'Notes';
       paper.innerHTML =
-        '<article class="rd-entry" aria-live="polite">' +
+        '<article class="rd-entry">' +
         '<header class="rd-head"><p class="rd-kicker">' + kicker + '</p>' +
         '<h1>' + esc(e.title || (e.subs[0] && e.subs[0].text) || (e.date ? 'Reading notes' : e.label)) + '</h1>' +
         '<p class="rd-meta">' + (e.byline ? '<span>' + esc(e.byline) + '</span>' : '') + (e.words > 60 ? '<span>' + mins + ' min read</span>' : '') + (e.subs.length ? '<span>' + e.subs.length + ' sections</span>' : '') + '</p></header>' +
@@ -528,6 +528,7 @@
         '<div class="rd-actions"><button type="button" class="btn primary" data-retry>Try again</button><button type="button" class="btn" data-mode="doc">Open it as a Google Doc</button><button type="button" class="btn ghost" data-change>Change doc</button></div></div>';
       list.innerHTML = '<p class="rd-none">The days will be listed here once the doc opens.</p>';
       countEl.textContent = '';
+      foot.innerHTML = '<span>The doc couldn’t be read</span><button type="button" data-change>Change doc</button>';
     }
     function renderSetup(msg) {
       setStatus('');
