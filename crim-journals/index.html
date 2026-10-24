@@ -69,6 +69,11 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 .tA{color:var(--tA);background:var(--tAbg)} .tB{color:var(--tB);background:var(--tBbg)} .tC{color:var(--tC);background:var(--tCbg)}
 .fit{font-family:var(--mono);letter-spacing:2px;color:var(--accent);white-space:nowrap}
 .type{white-space:nowrap}
+.takes{white-space:nowrap}
+.tk{display:inline-block;width:1.7em;margin-right:3px;padding:2px 0;border-radius:4px;text-align:center;font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--accent);background:var(--accent-soft)}
+.tk.off{color:var(--muted);background:none;font-weight:400}
+.legend{margin:-8px 0 0;font-size:13px;color:var(--muted)}
+.legend .tk{margin-right:1px}
 .scope{max-width:36ch}
 .est{color:var(--muted)}
 .mark{color:var(--muted);font-size:11px;margin-left:1px}
@@ -85,7 +90,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 <div class="wrap">
   <nav class="toplinks" aria-label="Site">
     <a href="/">← Ranran Li</a>
-    <span class="atlases"><a href="/VR-journals/">VR Journal Atlas →</a><a href="/personality-journals/">Personality Journal Atlas →</a></span>
+    <span class="atlases"><a href="/VR-journals/">VR Journal Atlas →</a><a href="/personality-journals/">Personality Journal Atlas →</a><a href="/generative-immersion-journals/">Generative Immersion Journal Atlas →</a></span>
   </nav>
 
   <header>
@@ -140,11 +145,22 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 <script>
 const D=[{"n": "Criminology","p": "Wiley · American Society of Criminology","a": "core","t": "A","jif": 5.2,"jif5": null,"q": "Q1","i": 4,"ar": 50,"ty": "Empirical + conceptual","f": 2,"s": "The field's lead general journal: causes of crime, theory tests, sanctions, policing. Acceptance rate 12% (2025); long, theory-driven papers."},{"n": "Annual Review of Criminology","p": "Annual Reviews","a": "core","t": "A","jif": 7.1,"jif5": 9.8,"q": "Q1","i": 1,"ar": 24,"ty": "Reviews only","f": 2,"s": "Invited synthetic reviews across criminology. Not open to unsolicited empirical submissions."},{"n": "Crime and Justice: A Review of Research","p": "University of Chicago Press","a": "core","t": "A","jif": 4.7,"jif5": null,"q": "Q1","i": 1,"ar": 11,"ty": "Reviews only","f": 1,"s": "Annual volume of long commissioned essays; policy and comparative focus."},{"n": "Journal of Research in Crime and Delinquency","p": "SAGE","a": "core","t": "A","jif": 3.2,"jif5": 3.8,"q": "Q1","i": 6,"ar": "~35","ty": "Empirical + conceptual","f": 2,"s": "Theory-testing empirical work on offending and delinquency; strong on self-control, strain, peers, life course."},{"n": "Journal of Quantitative Criminology","p": "Springer","a": "core","t": "A","jif": 2.7,"jif5": null,"q": "Q1","i": 4,"ar": 49,"ty": "Empirical only","f": 2,"s": "Quantitative and methodological contributions: causal inference, spatial and longitudinal modelling, measurement."},{"n": "Justice Quarterly","p": "Taylor & Francis · ACJS","a": "core","t": "A","jif": 2.4,"jif5": 3.4,"q": "Q1","i": 6,"ar": 67,"ty": "Empirical only","f": 2,"s": "Criminology and criminal justice broadly; strong on policing, courts, corrections, public attitudes."},{"n": "Journal of Experimental Criminology","p": "Springer · Academy of Experimental Criminology","a": "core","t": "B","jif": 2.5,"jif5": null,"q": "Q1","i": 4,"ar": 66,"ty": "Empirical + reviews","f": 3,"s": "Randomised and quasi-experimental studies, field trials and systematic reviews. Good home for vignette and lab experiments."},{"n": "British Journal of Criminology","p": "Oxford UP · ISTD","a": "core","t": "A","jif": 2.5,"jif5": null,"q": "Q1","i": 6,"ar": 136,"ty": "Empirical + conceptual","f": 1,"s": "Leading UK/European general journal; mixed and qualitative methods common, critical and sociological tradition."},{"n": "European Journal of Criminology","p": "SAGE · European Society of Criminology","a": "core","t": "B","jif": 2.3,"jif5": 2.8,"q": "Q1","i": 6,"ar": "~70","ty": "Empirical + conceptual","f": 2,"s": "European and comparative criminology; welcomes survey and cross-national work."},{"n": "Journal of Developmental and Life-Course Criminology","p": "Springer","a": "core","t": "B","jif": 1.5,"jif5": null,"q": "Q2","i": 4,"ar": 19,"ty": "Empirical + conceptual","f": 3,"s": "Onset, persistence and desistance across the life course; longitudinal cohort studies, individual risk factors."},{"n": "Journal of Criminology","p": "SAGE · ANZSOC","a": "core","t": "C","jif": 2.2,"jif5": null,"q": "Q1","i": 4,"ar": 40,"ty": "Empirical + conceptual","f": 2,"s": "Australian and NZ society journal (formerly ANZJ Criminology); general criminology with an Asia-Pacific lens."},{"n": "Criminology & Criminal Justice","p": "SAGE · British Society of Criminology","a": "core","t": "B","jif": 1.6,"jif5": 2.1,"q": "Q2","i": 5,"ar": "~60","ty": "Empirical + conceptual","f": 1,"s": "UK-centred criminology and justice policy; much qualitative and policy work."},{"n": "Law and Human Behavior","p": "APA · American Psychology-Law Society","a": "psylaw","t": "A","jif": 3.2,"jif5": 3.5,"q": "Q1","i": 6,"ar": 68,"ty": "Empirical + reviews","f": 3,"s": "Top psychology–law journal: eyewitness memory, juries, interrogation, risk assessment, procedural justice. Open-science badges."},{"n": "Psychology, Public Policy, and Law","p": "APA","a": "psylaw","t": "A","jif": 1.5,"jif5": 2.4,"q": "Q1","i": 4,"ar": 47,"ty": "Empirical + conceptual","f": 3,"s": "Psychology applied to law and policy; explicitly takes theoretical and policy-analytic articles as well as empirical ones."},{"n": "European Journal of Psychology Applied to Legal Context","p": "Colegio Oficial de Psicólogos de Madrid · diamond OA","a": "psylaw","t": "B","jif": 5.5,"jif5": 3.1,"q": "Q1","i": 2,"ar": 11,"ty": "Empirical + reviews","f": 3,"s": "Small open-access journal; empirical studies and meta-analyses in legal and forensic psychology. High JIF on very few papers.","jy": "2024 JIF (June 2025 release); the publisher's page could not be read to confirm the 2025 figure"},{"n": "Legal and Criminological Psychology","p": "Wiley · British Psychological Society","a": "psylaw","t": "B","jif": 2.0,"jif5": null,"q": "Q1","i": 2,"ar": 57,"ty": "Empirical + reviews","f": 3,"s": "BPS forensic journal: investigative interviewing, deception, offender cognition, courts. Acceptance rate 34%, first decision in about 40 days."},{"n": "Criminal Justice and Behavior","p": "SAGE · IACFP","a": "psylaw","t": "B","jif": 2.0,"jif5": 2.6,"q": "Q2","i": 12,"ar": 104,"ty": "Empirical only","f": 3,"s": "Psychological and behavioural side of justice systems: offender assessment, treatment, recidivism, corrections."},{"n": "Psychology, Crime & Law","p": "Taylor & Francis · EAPL","a": "psylaw","t": "B","jif": 2.0,"jif5": 2.1,"q": "Q1","i": 10,"ar": 103,"ty": "Empirical + reviews","f": 3,"s": "European Association of Psychology and Law journal; broad forensic and legal psychology."},{"n": "Psychiatry, Psychology and Law","p": "Taylor & Francis · ANZAPPL","a": "psylaw","t": "C","jif": 1.6,"jif5": 1.9,"q": "Q1","i": 6,"ar": 91,"ty": "Empirical + conceptual","f": 3,"s": "Forensic mental health, psychology and law; includes legal commentary and case-based pieces."},{"n": "Behavioral Sciences & the Law","p": "Wiley","a": "psylaw","t": "C","jif": 1.9,"jif5": null,"q": "Q1","i": 6,"ar": 44,"ty": "Empirical + conceptual","f": 3,"s": "Themed special issues on forensic psychiatry and psychology; mixes empirical, review and legal analysis. Acceptance rate 23%."},{"n": "Journal of Police and Criminal Psychology","p": "Springer · SPCP","a": "psylaw","t": "C","jif": 1.6,"jif5": 2.0,"q": "Q2","i": 4,"ar": 63,"ty": "Empirical + conceptual","f": 3,"s": "Police psychology (stress, selection, use of force), offender psychology and corrections; practitioner-friendly."},{"n": "Journal of Criminal Psychology","p": "Emerald","a": "psylaw","t": "C","jif": 2.0,"jif5": null,"q": "Q1 (ESCI)","i": 4,"ar": 70,"ty": "Empirical + reviews","f": 3,"s": "Offender psychology, risk and rehabilitation. ESCI-indexed, so not in the SSCI category ranking."},{"n": "Journal of Investigative Psychology and Offender Profiling","p": "Wiley · IAIP","a": "psylaw","t": "C","jif": 1.0,"jif5": 1.3,"q": "Q3","i": 3,"ar": "~19","ty": "Empirical only","f": 3,"s": "Behavioural science applied to investigations: crime-scene behaviour, linkage analysis, interviewing.","jy": "2024 JIF (June 2025 release); the publisher's page could not be read to confirm the 2025 figure"},{"n": "Aggression and Violent Behavior","p": "Elsevier","a": "violence","t": "B","jif": 3.4,"jif5": 5.1,"q": "Q1","i": 6,"ar": 59,"ty": "Reviews only","f": 3,"s": "Review journal on aggression and violence across disciplines; no primary empirical studies.","jy": "2024 JIF (June 2025 release); the publisher's page could not be read to confirm the 2025 figure"},{"n": "Trauma, Violence, & Abuse","p": "SAGE","a": "violence","t": "B","jif": 6.7,"jif5": 9.5,"q": "Q1","i": 5,"ar": "—","ty": "Reviews only","f": 2,"s": "Systematic and narrative reviews on trauma, IPV, child abuse and sexual violence. Sister journal to JIV."},{"n": "Journal of Interpersonal Violence","p": "SAGE","a": "violence","t": "B","jif": 2.2,"jif5": 3.3,"q": "Q1","i": 24,"ar": "—","ty": "Empirical only","f": 3,"s": "Very high-volume outlet for single empirical studies (quantitative or qualitative) on victims and perpetrators of interpersonal violence."},{"n": "Psychology of Violence","p": "APA","a": "violence","t": "B","jif": 1.9,"jif5": 3.1,"q": "Q2","i": 6,"ar": 113,"ty": "Empirical only","f": 3,"s": "Causes and prevention of violence from a psychological frame. Rejection rate 68%, first decision about 20 days."},{"n": "Aggressive Behavior","p": "Wiley · ISRA","a": "violence","t": "B","jif": 2.3,"jif5": null,"q": "Q2","i": 6,"ar": 33,"ty": "Empirical only","f": 3,"s": "Aggression research across psychology, ethology and neuroscience; bullying, media effects, CU traits. Very selective: 7% acceptance in 2025."},{"n": "Sexual Abuse","p": "SAGE · ATSA","a": "violence","t": "B","jif": 1.8,"jif5": null,"q": "Q2","i": 8,"ar": "~28","ty": "Empirical + reviews","f": 3,"s": "Assessment, treatment and etiology of sexual offending; risk tools and recidivism."},{"n": "Victims & Offenders","p": "Taylor & Francis","a": "violence","t": "C","jif": 1.7,"jif5": 2.1,"q": "Q2","i": 6,"ar": "~80","ty": "Empirical + conceptual","f": 2,"s": "Victimisation, offending and the overlap between them; evidence-based programmes and policy."},{"n": "Cyberpsychology, Behavior, and Social Networking","p": "SAGE (formerly Mary Ann Liebert)","a": "digital","t": "B","jif": 4.0,"jif5": 5.9,"q": "Q1","i": 12,"ar": "~110","ty": "Empirical only","f": 3,"s": "Psychology of online behaviour; a fit for cyber-victimisation, online harassment and VR studies. Short-report format."},{"n": "Crime Science","p": "BMC (Springer) · open access","a": "digital","t": "C","jif": 2.2,"jif5": null,"q": "Q1","i": "cont.","ar": 36,"ty": "Empirical + conceptual","f": 2,"s": "Situational, data-driven and computational crime research; crime prediction, cybercrime, design against crime."}];
 const FIT_NAME="Psych fit";
+// MODE "type": one article-policy label per journal (d.ty). MODE "takes": the paper types a journal accepts (d.tk, letters from TAKES).
+const MODE="type";
+const TAKES=[];
 const TYPE_ORDER=["Empirical only","Empirical + reviews","Empirical + conceptual","Methods & tools","Reviews only"];
 const tierRank={A:3,B:2,C:1};
 const rows=document.getElementById('rows'),count=document.getElementById('count'),empty=document.getElementById('empty');
 const typeSel=document.getElementById('typeFilter');
-[...new Set(D.map(d=>d.ty))].sort((a,b)=>TYPE_ORDER.indexOf(a)-TYPE_ORDER.indexOf(b)).forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeSel.appendChild(o)});
+const addOpt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;typeSel.appendChild(o)};
+if(MODE==='takes')TAKES.forEach(t=>addOpt(t[0],t[2]));
+else [...new Set(D.map(d=>d.ty))].sort((a,b)=>TYPE_ORDER.indexOf(a)-TYPE_ORDER.indexOf(b)).forEach(t=>addOpt(t,t));
+// Sort weight for takes: position papers first, then frameworks, reviews, empirical.
+const takesScore=tk=>TAKES.reduce((s,t,i)=>s+(tk.includes(t[0])?2**(TAKES.length-1-i):0),0);
+const takesCell=tk=>{const on=TAKES.filter(t=>tk.includes(t[0])).map(t=>t[1]);
+  return `<td class="takes" aria-label="Takes ${esc(on.join('; '))}">${TAKES.map(t=>tk.includes(t[0])
+    ?`<span class="tk" title="Takes ${esc(t[1])}" aria-hidden="true">${t[0]}</span>`
+    :`<span class="tk off" title="Does not take ${esc(t[1])}" aria-hidden="true">·</span>`).join('')}</td>`};
 let area='all',type='all',q='',sortK="tier",dir=-1;
 const num=v=>{const x=parseFloat(String(v).replace(/[~,+]/g,''));return isNaN(x)?-1:x};
 const val=(d,k)=>{switch(k){
@@ -155,13 +171,13 @@ const val=(d,k)=>{switch(k){
   case 'q':return d.q;
   case 'issues':return typeof d.i==='number'?d.i:99;
   case 'arts':return num(d.ar);
-  case 'type':return TYPE_ORDER.indexOf(d.ty);
+  case 'type':return MODE==='takes'?takesScore(d.tk):TYPE_ORDER.indexOf(d.ty);
   case 'fit':return d.f*1000+tierRank[d.t]*100+(d.jif||0);
   case 'scope':return d.s;}};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const fmt=v=>v==null?'—':v.toFixed(1);
 function render(){
-  const list=D.filter(d=>(area==='all'||d.a===area)&&(type==='all'||d.ty===type)&&(!q||(d.n+' '+d.s+' '+d.p).toLowerCase().includes(q)))
+  const list=D.filter(d=>(area==='all'||d.a===area)&&(type==='all'||(MODE==='takes'?d.tk.includes(type):d.ty===type))&&(!q||(d.n+' '+d.s+' '+d.p).toLowerCase().includes(q)))
     .sort((x,y)=>{const a=val(x,sortK),b=val(y,sortK);return (a>b?1:a<b?-1:0)*dir});
   rows.innerHTML=list.map(d=>{
     const mark=d.jy?`<span class="mark" title="${esc(d.jy)}">†</span>`:'';
@@ -174,7 +190,7 @@ function render(){
   <td class="num">${esc(d.q)}</td>
   <td class="num">${esc(d.i)}</td>
   <td class="num${est?' est':''}">${esc(d.ar)}</td>
-  <td class="type">${esc(d.ty)}</td>
+  ${MODE==='takes'?takesCell(d.tk):`<td class="type">${esc(d.ty)}</td>`}
   <td class="fit" title="${FIT_NAME}: ${d.f} of 3" aria-label="${FIT_NAME} ${d.f} of 3">${'●'.repeat(d.f)}${'○'.repeat(3-d.f)}</td>
   <td class="scope">${esc(d.s)}</td></tr>`}).join('');
   empty.hidden=list.length>0;
@@ -184,7 +200,7 @@ function render(){
 document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{area=b.dataset.area;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));render()}));
 typeSel.addEventListener('change',e=>{type=e.target.value;render()});
 document.getElementById('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render()});
-document.querySelectorAll('th button').forEach(b=>b.addEventListener('click',()=>{const k=b.parentElement.dataset.k;if(k===sortK)dir=-dir;else{sortK=k;dir=(k==='name'||k==='scope'||k==='q'||k==='type'||k==='issues')?1:-1}render()}));
+document.querySelectorAll('th button').forEach(b=>b.addEventListener('click',()=>{const k=b.parentElement.dataset.k;if(k===sortK)dir=-dir;else{sortK=k;dir=(k==='name'||k==='scope'||k==='q'||k==='issues'||(k==='type'&&MODE!=='takes'))?1:-1}render()}));
 render();
 </script>
 </body>
