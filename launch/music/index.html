@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Focus music</title>
+  <link rel="icon" href="/assets/icons/favicon.png">
+  <style>
+    :root { color-scheme: dark; }
+    html, body { margin: 0; height: 100%; background: #0d0a1a; color: #ece8f7; font: 13px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+    body { display: flex; flex-direction: column; }
+    header { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #15112a; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+    header i { width: 8px; height: 8px; border-radius: 50%; background: #7ee2a8; box-shadow: 0 0 8px #7ee2a8; flex: none; }
+    header b { font-weight: 650; white-space: nowrap; }
+    header small { min-width: 0; color: rgba(236, 232, 247, .6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #timer { margin-left: auto; flex: none; font-variant-numeric: tabular-nums; font-weight: 650; padding: 2px 9px; border-radius: 999px; background: rgba(255, 255, 255, .08); }
+    #timer[hidden] { display: none; }
+    iframe { flex: 1; width: 100%; border: 0; display: block; background: #0d0a1a; }
+    .msg { margin: auto; max-width: 320px; padding: 24px; text-align: center; color: rgba(236, 232, 247, .8); }
+  </style>
+</head>
+<body>
+  <header><i></i><b>Focus music</b><small>keeps playing when you refresh the launch pad</small><span id="timer" hidden></span></header>
+  <iframe id="player" title="Brain.fm" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  <script>
+  /* The launch pad's Brain.fm player in its own small window. Refreshing the launch pad doesn't touch
+     this window, so the music (and Brain.fm's own timer) keep going. The two talk through localStorage:
+     this window says it's alive every 2 s; the launch pad can ask it to close or switch the link. */
+  (function () {
+    'use strict';
+    var ALIVE = 'launch.music.alive', CMD = 'launch.music.cmd', FOCUS = 'launch.focus.v1';
+    var DEFAULT = 'https://my.brain.fm/';
+    function get(k) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+    function set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage blocked */ } }
+    function del(k) { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+    // Only Brain.fm plays here, so this page can't be used to show some other site.
+    function safe(u) {
+      try { var x = new URL(u); return x.protocol === 'https:' && /(^|\.)brain\.fm$/i.test(x.hostname) ? x.href : DEFAULT; } catch (e) { return DEFAULT; }
+    }
+    var player = document.getElementById('player');
+    var url = safe(new URLSearchParams(location.hash.slice(1)).get('u') || DEFAULT);
+    player.src = url;
+
+    function alive() { set(ALIVE, { at: Date.now(), url: url }); }
+    alive();
+    setInterval(alive, 2000);
+    window.addEventListener('pagehide', function () { del(ALIVE); });
+    window.addEventListener('storage', function (e) {
+      if (e.key === ALIVE && !e.newValue) alive();   // the launch pad cleared it by mistake: still here
+      if (e.key !== CMD || !e.newValue) return;
+      var c = get(CMD) || {};
+      if (Date.now() - (c.at || 0) > 10000) return;
+      if (c.type === 'close') { del(ALIVE); window.close(); }
+      else if (c.type === 'url' && c.url && safe(c.url) !== url) {
+        url = safe(c.url); player.src = url;
+        history.replaceState(null, '', '#u=' + encodeURIComponent(url)); alive();
+      }
+    });
+
+    // The launch pad's focus timer, shown here too (it keeps counting while the launch pad reloads).
+    var timer = document.getElementById('timer');
+    function clock(ms) { var s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+    function paint() {
+      var t = get(FOCUS) || {};
+      if (t.endAt && t.endAt > Date.now()) { timer.hidden = false; timer.textContent = 'Focus ' + clock(t.endAt - Date.now()); }
+      else if (!t.endAt && t.left > 0 && t.left < (t.mins || 50) * 60000) { timer.hidden = false; timer.textContent = 'Paused ' + clock(t.left); }
+      else timer.hidden = true;
+    }
+    paint();
+    setInterval(paint, 1000);
+  })();
+  </script>
+</body>
+</html>

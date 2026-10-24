@@ -4,14 +4,28 @@
   var L = window.Launch, S = L.Store, $ = L.$, GC = window.GCal, F = L.Focus;
 
   L.boot('home', function () {
-    /* ---------- Brain.fm (the player itself lives in L.Dock so it keeps playing across tabs) ---------- */
-    function musicUrl() { return (S.doc.settings || {}).musicUrl || 'https://my.brain.fm/'; }
+    /* ---------- Brain.fm ----------
+       In the page the player lives in L.Dock, so it keeps playing across tabs. "Pop out" moves it into
+       its own small window (L.MusicWin), where it also keeps playing when this page is refreshed. */
+    var MW = L.MusicWin;
     $('#popIcon').innerHTML = L.ICONS.ext;
-    $('#musicPop').addEventListener('click', function () {
-      var w = Math.min(460, screen.availWidth), h = Math.min(820, screen.availHeight);
-      var win = window.open(musicUrl(), 'ranran-brainfm', 'popup=yes,width=' + w + ',height=' + h + ',left=' + (screen.availWidth - w) + ',top=0');
-      if (!win) window.open(musicUrl(), '_blank', 'noopener');
+    $('#musicPop').addEventListener('click', function () { MW.show(); });
+    function paintAway(open) {
+      var slot = $('#musicSlot'), card = slot.querySelector('.music-away');
+      $('#musicPop').style.display = open ? 'none' : '';
+      if (open && !card) {
+        slot.innerHTML = '<div class="music-away"><div class="mw-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
+          '<p><b>Playing in its own window</b><span>Refreshing the launch pad won’t stop the music or its timer.</span></p>' +
+          '<div class="mw-btns"><button type="button" class="btn small" data-mw-show>Show player</button>' +
+          '<button type="button" class="btn small ghost" data-mw-back>Play here instead</button></div></div>';
+      } else if (!open && card) slot.innerHTML = '';
+    }
+    $('#musicSlot').addEventListener('click', function (e) {
+      if (e.target.closest('[data-mw-show]')) MW.show();
+      else if (e.target.closest('[data-mw-back]')) MW.close();
     });
+    paintAway(MW.open());
+    L.scoped(MW.on(paintAway));
 
     /* ---------- focus timer ---------- */
     function paintTimer() {

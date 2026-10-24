@@ -781,14 +781,18 @@
       this.el.appendChild(this.frame);
       document.body.appendChild(this.el);
       this.el.querySelector('.dock-toggle').addEventListener('click', function () { self.open = !self.open; self.place(); });
-      this.el.querySelector('.dock-close').addEventListener('click', function () {
-        if (self.ro) { self.ro.disconnect(); self.ro = null; }
-        self.el.remove(); self.el = null; self.frame = null;
-      });
-      window.addEventListener('resize', function () { self.place(); });
+      this.el.querySelector('.dock-close').addEventListener('click', function () { self.stop(); });
+      if (!this.resizing) { this.resizing = true; window.addEventListener('resize', function () { self.place(); }); }
+    },
+    // Remove the in-page player (its music stops).
+    stop: function () {
+      if (this.ro) { this.ro.disconnect(); this.ro = null; }
+      if (this.el) this.el.remove();
+      this.el = null; this.frame = null;
     },
     place: function () {
       var slot = document.getElementById('musicSlot'), self = this;
+      if (MusicWin.open()) { this.stop(); return; }   // the music plays in its own window instead
       if (this.ro) { this.ro.disconnect(); this.ro = null; }
       if (slot) {
         this.ensure();
@@ -807,8 +811,53 @@
         this.el.querySelector('.dock-toggle').setAttribute('aria-expanded', String(this.open));
       }
     },
-    refresh: function () { if (this.frame && this.frame.getAttribute('src') !== this.url()) this.frame.src = this.url(); }
+    refresh: function () {
+      if (this.frame && this.frame.getAttribute('src') !== this.url()) this.frame.src = this.url();
+      MusicWin.setUrl(this.url());
+    }
   };
+
+  /* ---------- the music in its own small window ----------
+     A page reload always stops music that plays inside the page. In its own window (/launch/music/)
+     Brain.fm keeps playing, and keeps its timer, however often the launch pad is refreshed. That
+     window says it's alive every 2 s through localStorage; while it is, the in-page player stays off. */
+  var MUSIC_ALIVE = 'launch.music.alive', MUSIC_CMD = 'launch.music.cmd', MUSIC_WIN = 'ranran-music';
+  var MusicWin = {
+    listeners: [], was: null,
+    // The window clears its sign when it closes; the long grace only matters if it crashed (a paused,
+    // minimised window may only be woken once a minute by the browser).
+    open: function () { var a = lsGet(MUSIC_ALIVE); return !!(a && Date.now() - a.at < 75000); },
+    on: function (fn) { var l = this.listeners; l.push(fn); return function () { var i = l.indexOf(fn); if (i !== -1) l.splice(i, 1); }; },
+    check: function () {
+      if (!started) return;   // nothing to place before the launch pad is unlocked
+      var now = this.open();
+      if (now === this.was) return;
+      this.was = now;
+      Dock.place();
+      this.listeners.forEach(function (fn) { fn(now); });
+    },
+    page: function (url) { return '/launch/music/#u=' + encodeURIComponent(url); },
+    // Opens the music window, or brings it to the front if it is already open. Call it from a click.
+    show: function () {
+      var url = Dock.url(), already = this.open();
+      var w = Math.min(440, screen.availWidth), h = Math.min(760, screen.availHeight);
+      var feat = 'popup=yes,width=' + w + ',height=' + h + ',left=' + ((screen.availLeft || 0) + screen.availWidth - w) + ',top=' + (screen.availTop || 0);
+      var win = window.open('', MUSIC_WIN, feat);
+      if (!win) { window.open(this.page(url), '_blank'); }
+      else {
+        var blank = false; try { blank = win.location.href === 'about:blank'; } catch (e) { /* not ours */ }
+        if (blank && already) { win.close(); }              // it's open from another tab: leave that one playing
+        else if (blank) win.location.replace(this.page(url));
+        else try { win.focus(); } catch (e) { /* ignore */ }
+      }
+      lsSet(MUSIC_ALIVE, { at: Date.now(), url: url });   // counts as open straight away
+      this.was = null; this.check();
+    },
+    close: function () { lsSet(MUSIC_CMD, { type: 'close', at: Date.now() }); lsDel(MUSIC_ALIVE); this.was = null; this.check(); },
+    setUrl: function (url) { if (this.open()) lsSet(MUSIC_CMD, { type: 'url', url: url, at: Date.now() }); }
+  };
+  window.addEventListener('storage', function (e) { if (e.key === MUSIC_ALIVE) MusicWin.check(); });
+  setInterval(function () { MusicWin.check(); }, 2500);
 
   /* ---------- focus timer + concentration log (runs on every tab) ---------- */
   var FOCUS_KEY = 'launch.focus.v1';
@@ -910,6 +959,7 @@
     onStore: function (fn) { scoped(Store.on(fn)); },
     scoped: function (off) { if (typeof off === 'function') scoped(off); },
     Focus: Focus,
+    MusicWin: MusicWin,
     Dock: Dock,
     lock: function (message) {
       lsDel(UNLOCK_KEY);
