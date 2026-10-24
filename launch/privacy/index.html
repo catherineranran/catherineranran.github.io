@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Launch Pad · Privacy</title>
+  <link rel="icon" href="/assets/icons/favicon.png">
+  <style>
+    :root { --ink: #1f2933; --muted: #5f6b76; --line: #e3e7ec; --accent: #1a73e8; --bg: #f7f9fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+    main { max-width: 680px; margin: 0 auto; padding: 56px 20px 72px; }
+    h1 { font-size: 28px; line-height: 1.25; margin: 0 0 6px; }
+    .date { color: var(--muted); font-size: 14px; margin: 0 0 32px; }
+    h2 { font-size: 17px; margin: 30px 0 6px; }
+    p, li { margin: 0 0 10px; }
+    ul { padding-left: 20px; margin: 0 0 10px; }
+    a { color: var(--accent); }
+    footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Launch Pad privacy</h1>
+    <p class="date">Last updated 24 October 2026</p>
+
+    <p>Launch Pad (ranranli.net/launch) is Ranran Li’s personal daily workspace. It is locked with a password and is used only by her. This page explains what it does with Google account data.</p>
+
+    <h2>What Google data it uses</h2>
+    <p>When Google Calendar is connected, Launch Pad reads and edits events in the signed-in account’s calendars so they can be shown and changed on its Calendar tab and Today agenda. It asks for nothing else from the Google account.</p>
+
+    <h2>What is stored</h2>
+    <ul>
+      <li>Calendar events are fetched live from Google when the page is open and are not stored on any server.</li>
+      <li>To stay connected between visits, the connection token Google issues is kept encrypted in Launch Pad’s own database. It is only used to get short-lived access to the calendar for whoever unlocks Launch Pad with its password.</li>
+      <li>Small display choices, such as which colour an event shows in, are saved in Launch Pad’s encrypted settings.</li>
+    </ul>
+
+    <h2>Sharing</h2>
+    <p>Google user data is not sold, shared with anyone, or used for anything other than showing and editing the calendar inside Launch Pad. Launch Pad’s use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+    <h2>Removing access</h2>
+    <p>Access can be removed at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> (look for “Ranran Launch Pad”). The stored connection stops working immediately and is deleted the next time Launch Pad tries to use it.</p>
+
+    <h2>Contact</h2>
+    <p>Questions: see the contact details on <a href="https://ranranli.net/">ranranli.net</a>.</p>
+
+    <footer><a href="https://ranranli.net/">ranranli.net</a></footer>
+  </main>
+</body>
+</html>

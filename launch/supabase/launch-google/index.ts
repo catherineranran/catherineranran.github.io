@@ -6,14 +6,22 @@
 // can ask: every call carries the launch pad's vault token, checked against launch_vault.
 //
 // Needs (Supabase → Edge Functions → Secrets): GOOGLE_CLIENT_SECRET
-// Deploy with "Verify JWT" turned OFF (the vault token is the check).
+// "Verify JWT" can stay on: the launch pad sends the publishable key, which Supabase's gateway
+// accepts; the real check is the vault token below.
 
 const CLIENT_ID = '270543400403-qfeirftcu5ev9tfbfa6jbilq804rf3db.apps.googleusercontent.com';
 const VAULT = 'ranran-launch';
 const ORIGINS = ['https://ranranli.net', 'https://www.ranranli.net'];
 const SUPA = Deno.env.get('SUPABASE_URL') ?? '';
-const SERVICE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 const SECRET = Deno.env.get('GOOGLE_CLIENT_SECRET') ?? '';
+// Server key for the database: the new secret key if the project has one, else the legacy service_role key.
+const SERVICE = (() => {
+  try {
+    const k = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') ?? '{}');
+    if (k && typeof k.default === 'string' && k.default) return k.default as string;
+  } catch { /* fall through */ }
+  return Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+})();
 const TOKEN_URL = Deno.env.get('GOOGLE_TOKEN_URL') ?? 'https://oauth2.googleapis.com/token';
 
 const te = new TextEncoder(), td = new TextDecoder();
@@ -37,11 +45,13 @@ async function open(blob: string) {
   return td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(iv) }, await key(), unb64(ct)));
 }
 
-function db(path: string, init: RequestInit = {}) {
-  return fetch(SUPA + '/rest/v1/' + path, {
-    ...init,
-    headers: { apikey: SERVICE, Authorization: 'Bearer ' + SERVICE, 'Content-Type': 'application/json', ...(init.headers || {}) },
-  });
+async function db(path: string, init: RequestInit = {}) {
+  const headers: Record<string, string> = { apikey: SERVICE, 'Content-Type': 'application/json' };
+  if (SERVICE.startsWith('eyJ')) headers.Authorization = 'Bearer ' + SERVICE; // legacy JWT key only
+  const r = await fetch(SUPA + '/rest/v1/' + path, { ...init, headers: { ...headers, ...((init.headers as Record<string, string>) || {}) } });
+  if (!r.ok) throw new Error('database ' + r.status + ': ' + (await r.text()).slice(0, 200));
+  const text = await r.text();
+  return text ? JSON.parse(text) : null;
 }
 async function google(params: Record<string, string>) {
   const r = await fetch(TOKEN_URL, {
@@ -65,14 +75,15 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
 
   try {
-    if (!SECRET) return json({ error: 'not_configured', detail: 'GOOGLE_CLIENT_SECRET is not set' }, 500);
     const body = await req.json().catch(() => ({}));
     const action = String(body.action || '');
 
     // Only the launch pad's password holder: the vault token must match launch_vault.
     const hash = await sha256(String(body.vaultToken || ''));
-    const ok = await db(`launch_vault?id=eq.${VAULT}&token_hash=eq.${hash}&select=id`).then((r) => r.json());
+    const ok = await db(`launch_vault?id=eq.${VAULT}&token_hash=eq.${hash}&select=id`);
     if (!Array.isArray(ok) || !ok.length) return json({ error: 'locked' }, 401);
+
+    if (!SECRET) return json({ error: 'not_configured', detail: 'GOOGLE_CLIENT_SECRET is not set' }, 500);
 
     if (action === 'exchange') {
       const t = await google({ code: String(body.code || ''), redirect_uri: 'postmessage', grant_type: 'authorization_code' });
@@ -80,7 +91,7 @@ Deno.serve(async (req) => {
       if (t.refresh_token) {
         await db('launch_google', {
           method: 'POST',
-          headers: { Prefer: 'resolution=merge-duplicates' },
+          headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
           body: JSON.stringify({ id: VAULT, refresh_token: await seal(t.refresh_token), updated_at: new Date().toISOString() }),
         });
       }
@@ -88,7 +99,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === 'token') {
-      const rows = await db(`launch_google?id=eq.${VAULT}&select=refresh_token`).then((r) => r.json());
+      const rows = await db(`launch_google?id=eq.${VAULT}&select=refresh_token`);
       if (!Array.isArray(rows) || !rows.length) return json({ error: 'not_connected' }, 404);
       const t = await google({ refresh_token: await open(rows[0].refresh_token), grant_type: 'refresh_token' });
       if (!t.access_token) {
@@ -99,7 +110,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === 'disconnect') {
-      const rows = await db(`launch_google?id=eq.${VAULT}&select=refresh_token`).then((r) => r.json());
+      const rows = await db(`launch_google?id=eq.${VAULT}&select=refresh_token`);
       if (Array.isArray(rows) && rows.length) {
         const rt = await open(rows[0].refresh_token).catch(() => '');
         if (rt) await fetch('https://oauth2.googleapis.com/revoke?token=' + encodeURIComponent(rt), { method: 'POST' }).catch(() => {});
