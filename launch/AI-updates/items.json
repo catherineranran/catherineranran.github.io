@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-25T08:43:11Z",
+  "checked": "2026-10-26T10:31:00Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 64,
+  "noteCount": 69,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2407,6 +2407,129 @@
           "title": "X上58万人看过的自动化股票交易流程",
           "author": "彳亍",
           "date": "2026-10-20"
+        }
+      ]
+    },
+    {
+      "id": "ai-design-skills",
+      "name": "AI Design Skills (Elaya)",
+      "kind": "skill",
+      "summary": "Two design skills: build polished landing pages, and turn static designs into animated showcases.",
+      "link": "https://github.com/elayadesign/ai-design-skills",
+      "install": "Copy a skill folder into `.claude/skills/`: `git clone https://github.com/elayadesign/ai-design-skills.git` then `cp -r ai-design-skills/skills/landing-page-design .claude/skills/`",
+      "note": "Named by RedNote's assistant in the note's comments.",
+      "confidence": "medium",
+      "found": "2026-10-26",
+      "img": "https://opengraph.githubassets.com/1/elayadesign/ai-design-skills",
+      "review": "Reviewed 2026-10-26: no red flags found",
+      "plugin": "2026-10-26",
+      "sources": [
+        {
+          "id": "6ade0dd2000000002a01f45f",
+          "title": "这个skill做出来的网页好看哭了！",
+          "author": "未来奇点",
+          "date": "2026-10-25"
+        }
+      ]
+    },
+    {
+      "id": "emil-kowalski-skills",
+      "name": "Emil Kowalski's skills",
+      "kind": "skill",
+      "summary": "Animation and UI-polish skills from a Vercel/Linear design engineer: animate, review, improve motion.",
+      "link": "https://github.com/emilkowalski/skills",
+      "install": "`npx skills@latest add emilkowalski/skills`",
+      "note": "RedNote's assistant guessed this is the motion skill in the video; likely, not certain.",
+      "confidence": "medium",
+      "found": "2026-10-26",
+      "img": "https://opengraph.githubassets.com/1/emilkowalski/skills",
+      "review": "Collection of 15 skills: ask Claude to package the ones you want",
+      "sources": [
+        {
+          "id": "6ade0dd2000000002a01f45f",
+          "title": "这个skill做出来的网页好看哭了！",
+          "author": "未来奇点",
+          "date": "2026-10-25"
+        }
+      ]
+    },
+    {
+      "id": "filee",
+      "name": "Filee",
+      "kind": "open-source",
+      "summary": "Free drag-and-drop file converter for 244 formats; offline, no login, Windows, Mac, Linux.",
+      "link": "https://github.com/KnifeLemon/Filee",
+      "site": "https://filee.sh",
+      "install": "Download from GitHub Releases; on macOS/Linux unpack and run `./install.sh`",
+      "note": "macOS version is a preview.",
+      "confidence": "high",
+      "found": "2026-10-26",
+      "img": "/launch/AI-updates/img/filee.webp",
+      "sources": [
+        {
+          "id": "6ad9d15a000000003300e2ba",
+          "title": "格式工厂的天要塌了，244种格式一拖就转",
+          "author": "沐言",
+          "date": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "cat-catch",
+      "name": "Cat-Catch (猫抓)",
+      "kind": "open-source",
+      "summary": "Browser extension that lists a page's video and audio streams and saves them as MP4.",
+      "link": "https://github.com/xifangczy/cat-catch",
+      "stars": 22000,
+      "install": "Install from the Chrome, Edge or Firefox add-on store via the links in the GitHub README",
+      "note": "Matched from the post's description (22k stars, stream merging); fake copies exist in stores, use the README links.",
+      "confidence": "medium",
+      "found": "2026-10-26",
+      "img": "/launch/AI-updates/img/cat-catch.webp",
+      "sources": [
+        {
+          "id": "6adc58420000000024036b43",
+          "title": "网页视频原画质存下来",
+          "author": "千千千",
+          "date": "2026-10-24"
+        }
+      ]
+    },
+    {
+      "id": "clawsgo-science",
+      "name": "ClawsGO Science",
+      "kind": "web-tool",
+      "summary": "Research agent that automates the whole science workflow, from literature to paper; preview release.",
+      "link": "https://www.google.com/search?q=ClawsGO%20Science%20research%20agent",
+      "linkKind": "search",
+      "note": "No official link found yet.",
+      "confidence": "low",
+      "found": "2026-10-26",
+      "sources": [
+        {
+          "id": "6addc17d000000002c010762",
+          "title": "全流程科研自动化 Agent｜ClawsGO正式发布",
+          "author": "ClawsGO",
+          "date": "2026-10-25"
+        }
+      ]
+    },
+    {
+      "id": "reason-network",
+      "name": "Reason Network",
+      "kind": "web-tool",
+      "summary": "Connects AI agents on different apps and computers so they pass tasks to each other.",
+      "link": "https://www.google.com/search?q=Reason%20Network%20Reason%20Machines%20coding%20agents",
+      "linkKind": "search",
+      "note": "By Reason Machines; official site not confirmed.",
+      "confidence": "medium",
+      "found": "2026-10-26",
+      "sources": [
+        {
+          "id": "6addb114000000002c022045",
+          "title": "分享88：一个人公司《把不同AI拉进工作群》",
+          "author": "skill大王王王王",
+          "date": "2026-10-25"
         }
       ]
     }
