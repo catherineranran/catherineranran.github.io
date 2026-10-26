@@ -54,6 +54,32 @@
   function clean(s) { return String(s || '').replace(/\s+/g, ' ').trim(); }
   function each(list, fn) { Array.prototype.forEach.call(list || [], fn); }
 
+  // Chinese translations sit under the English: a paragraph of their own, or a second line (after a
+  // line break) in the same bullet. Text that is mostly Han characters is a translation; English
+  // with a stray character or two is not.
+  var HAN = /[㐀-䶿一-鿿豈-﫿]/g;
+  function isZh(t) {
+    var h = (String(t || '').match(HAN) || []).length;
+    if (h < 3) return false;
+    return h / (h + (String(t).match(/[A-Za-z]/g) || []).length) >= 0.15;
+  }
+  // "English<br>中文" in one bullet: the Chinese line gets a span of its own (instead of the line break).
+  // Returns the English part, for the reading time.
+  function splitZh(box) {
+    var kids = Array.prototype.slice.call(box.childNodes), at = -1;
+    for (var i = kids.length - 1; i >= 0 && at < 0; i--) if (kids[i].nodeName === 'BR') at = i;
+    var text = function (nodes) { return nodes.map(function (k) { return k.textContent; }).join(''); };
+    if (at < 0) return clean(box.textContent);
+    var head = kids.slice(0, at), tail = kids.slice(at + 1);
+    if (!isZh(text(tail)) || isZh(text(head))) return clean(box.textContent);
+    var span = document.createElement('span');
+    span.className = 'rd-zh-line';
+    span.setAttribute('lang', 'zh-Hans');
+    tail.forEach(function (k) { span.appendChild(k); });
+    box.replaceChild(span, kids[at]);
+    return clean(text(head));
+  }
+
   // Styles given by class (the HTML export); the mobile view writes them inline instead.
   function classCss(d) {
     var map = {};
@@ -146,9 +172,10 @@
       var p = inlineOf(n, ctx);
       var plain = clean(p.textContent);
       if (!plain && !p.querySelector('img')) return;
-      var cls = n.classList.contains('subtitle') ? ' class="subtitle"' : '';
+      var zh = tag === 'P' && isZh(plain);
+      var cls = n.classList.contains('subtitle') ? ' class="subtitle"' : zh ? ' class="rd-zh" lang="zh-Hans"' : '';
       var t = tag === 'P' ? 'p' : tag.toLowerCase();
-      out.push({ html: '<' + t + cls + '>' + p.innerHTML + '</' + t + '>', plain: plain });
+      out.push({ html: '<' + t + cls + '>' + p.innerHTML + '</' + t + '>', plain: plain, en: zh ? '' : plain });
       ctx.anon = {};
       return;
     }
@@ -183,16 +210,17 @@
     if (/\bstart\b/.test(cls) || counters[level] == null) counters[level] = startAttr ? startAttr - 1 : 0;
     var first = counters[level] + 1;
     counters[level] += items.length;
-    var html = '', plain = '';
+    var html = '', plain = '', en = '';
     items.forEach(function (li) {
       var box = inlineOf(li, ctx);
       // list items can also hold block children (paragraphs)
+      en += ' ' + splitZh(box);
       html += '<li>' + box.innerHTML + '</li>';
       plain += ' ' + clean(box.textContent);
     });
     if (!html) return;
     var t = ordered ? 'ol' : 'ul';
-    out.push({ html: '<' + t + ' data-l="' + level + '"' + (ordered && first > 1 ? ' start="' + first + '"' : '') + '>' + html + '</' + t + '>', plain: clean(plain), list: true });
+    out.push({ html: '<' + t + ' data-l="' + level + '"' + (ordered && first > 1 ? ' start="' + first + '"' : '') + '>' + html + '</' + t + '>', plain: clean(plain), en: clean(en), list: true });
   }
 
   function table(n, out, ctx) {
@@ -332,7 +360,7 @@
         if (b.list) cur.items += (b.html.match(/<li>/g) || []).length;
         else if (b.plain) cur.items += 1;
       }
-      cur.words += words(b.plain);
+      cur.words += words(b.en != null ? b.en : b.plain);   // the reading time counts the English only
       cur.text += ' ' + b.plain;
     });
     entries.forEach(function (e) {

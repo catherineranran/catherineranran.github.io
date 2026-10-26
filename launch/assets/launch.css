@@ -817,6 +817,12 @@ a.rd-libhead.on b { background: rgba(15, 42, 71, .1); color: var(--accent-ink); 
 .rd-prose a { color: #1d5bb8; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .rd-prose a:hover { color: #0d3f8c; }
 .rd-prose strong { font-weight: 650; color: #111827; }
+/* Chinese translations: their own paragraph under each English one, or a second line in a bullet */
+.rd-prose :is(.rd-zh, .rd-zh-line) { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif; font-size: .92em; line-height: 1.78; color: #4b5565; hyphens: manual; -webkit-hyphens: manual; }
+.rd-prose p.rd-zh { margin: -.4em 0 1.3em; }
+.rd-prose .rd-zh-line { display: block; margin-top: .25em; }
+.rd-prose li:has(> .rd-zh-line) { margin: .6em 0; }
+.rd-prose :is(.rd-zh, .rd-zh-line) strong { font-weight: 600; color: #2b3445; }
 .rd-prose mark { background: linear-gradient(transparent 10%, #fff0a3 10%, #fff0a3 90%, transparent 90%); color: inherit; padding: 0 .08em; }
 .rd-prose code { font: .84em/1.4 ui-monospace, 'SF Mono', Menlo, Consolas, monospace; background: rgba(20, 40, 70, .07); border-radius: 5px; padding: .12em .35em; }
 .rd-prose blockquote { margin: 1.2em 0; padding: .1em 0 .1em 1.1em; border-left: 3px solid rgba(29, 91, 184, .35); color: #3a4457; font-style: italic; }
