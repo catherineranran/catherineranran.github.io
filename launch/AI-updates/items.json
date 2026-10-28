@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-27T11:35:00Z",
+  "checked": "2026-10-28T10:40:00Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 69,
+  "noteCount": 72,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2532,6 +2532,67 @@
           "date": "2026-10-25"
         }
       ]
+    },
+    {
+      "id": "unity-agent-plugin",
+      "name": "Unity Agent Plugin",
+      "kind": "mcp-plugin",
+      "summary": "Unity's official plugin giving Claude Code and Codex 30+ game-dev skills and editor control.",
+      "link": "https://github.com/Unity-Technologies/unity-agent-plugin",
+      "site": "https://unity.com/blog/unity-plugin-codex",
+      "install": "In Claude Code: `/plugin marketplace add Unity-Technologies/unity-agent-plugin` then `/plugin install unity@unity-agent-plugin`",
+      "note": "Needs a Unity install; commenters say Unity is hard to get in mainland China.",
+      "confidence": "high",
+      "found": "2026-10-28",
+      "img": "https://opengraph.githubassets.com/1/Unity-Technologies/unity-agent-plugin",
+      "sources": [
+        {
+          "id": "6ae07aea000000002b003b27",
+          "title": "Codex迎来真3D游戏时刻，Unity发布官方插件",
+          "author": "青青王-AI",
+          "date": "2026-10-27"
+        }
+      ]
+    },
+    {
+      "id": "scenario-blender",
+      "name": "Scenario for Blender",
+      "kind": "mcp-plugin",
+      "summary": "Blender add-on turning sketches, images and video into 3D assets; agents drive it via MCP.",
+      "link": "https://github.com/scenario-labs/blender-plugin",
+      "site": "https://www.scenario.com",
+      "install": "Blender 5.0+: Preferences > Get Extensions > Repositories > add `https://blender.scenario.com/repo/index.json`, install Scenario, paste your Scenario API key",
+      "note": "Generations use paid Scenario credits; the local MCP server needs no key, so keep it off when not in use.",
+      "confidence": "high",
+      "found": "2026-10-28",
+      "img": "/launch/AI-updates/img/scenario-blender.webp",
+      "sources": [
+        {
+          "id": "6ae08a09000000002802e0f2",
+          "title": "blender原生插件——图纸秒变3D",
+          "author": "哈工大AI全栈工程师Peter",
+          "date": "2026-10-27"
+        }
+      ]
+    },
+    {
+      "id": "genie-4",
+      "name": "Genie 4 (Google DeepMind)",
+      "kind": "web-tool",
+      "summary": "DeepMind's world model: generate and explore interactive 3D worlds in real time, with audio.",
+      "link": "https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation/",
+      "note": "Research preview; access may be limited.",
+      "confidence": "high",
+      "found": "2026-10-28",
+      "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdeepmind.google%2Fblog%2Fgenie-4-a-new-generation-of-world-simulation%2F?w=960&h=540",
+      "sources": [
+        {
+          "id": "6ae165130000000034029405",
+          "title": "谷歌Genie4发布，盘点开发者整出哪些3D世界",
+          "author": "阿博粒",
+          "date": "2026-10-28"
+        }
+      ]
     }
   ],
   "unpinned": [
@@ -2744,6 +2805,18 @@
       "title": "这才是Agent该用的3D网站特效动画库",
       "author": "青青王-AI",
       "date": "2026-10-26"
+    },
+    {
+      "id": "6adef7ba0000000015011239",
+      "title": "定制虚拟小镇：开放世界+AI NPC模拟",
+      "author": "San Diego橘域网",
+      "date": "2026-10-26"
+    },
+    {
+      "id": "6ae13a740000000019027ada",
+      "title": "AI新闻｜Mundo:可定制世界模型",
+      "author": "数噬者bitvore",
+      "date": "2026-10-27"
     }
   ]
 }
