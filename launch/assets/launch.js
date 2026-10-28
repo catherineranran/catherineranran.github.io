@@ -408,6 +408,22 @@
       if (gms) Store.setVibe(gms.id, { image: '/assets/vibes/grill-my-supervisor-2026-10-12.jpg' });
       added.push('vibes-5');
     }
+    if (done.indexOf('vibes-6') === -1) {
+      // 28 Oct 2026: the generative immersion journal atlas, the Berlin programme and generative-immersion.com
+      // (skipped if a card with the same title or link is already there).
+      var t6 = titles(), links = {};
+      var linkKey = function (u) { return String(u || '').replace(/^https?:\/\/(www\.)?/i, '').replace(/\/+$/, '').toLowerCase(); };
+      Store.vibeList().forEach(function (v) { if (v.url) links[linkKey(v.url)] = v; });
+      [
+        { title: 'Generative-immersion-journals', url: 'https://ranranli.net/generative-immersion-journals/', date: '2026-10-25', status: 'live', image: '/assets/generative-immersion-journals-preview.webp', repo: 'https://github.com/catherineranran/catherineranran.github.io/tree/main/generative-immersion-journals', blurb: 'Journal Atlas: 42 journals for research on generative immersion, compared by standing, impact factor, output, topic fit and the kinds of paper they take.' },
+        { title: 'Ranran\u2019s Berlin Programme', url: 'https://claude.ai/artifact/X3mYLzuFLCR8A3ydLvoKhn', date: '2026-10-26', edited: '2026-10-26', status: 'live', image: '/assets/vibes/berlin-programme.webp', repo: '', blurb: 'Pocket programme for Falling Walls and Berlin Science Week, 6\u20139 November 2026: day tabs, a timeline coloured by venue, and alternatives to swap in.' },
+        { title: 'Generative Immersion', url: 'https://generative-immersion.com/', date: '2026-10-25', status: 'live', image: '/assets/vibes/generative-immersion.jpg', repo: 'https://github.com/catherineranran/generative-immersion', blurb: 'Website of the Generative Immersion initiative with Botao Amber Hu: AI-generated immersive situations as research instruments for the behavioral sciences.' }
+      ].forEach(function (v) {
+        if (t6[v.title.toLowerCase()] || t6[v.title.replace('\u2019', "'").toLowerCase()] || links[linkKey(v.url)]) return;
+        Store.setVibe(uid(), v);
+      });
+      added.push('vibes-6');
+    }
     if (added.length) Store.setSettings({ migrations: done.concat(added) });
   }
 
