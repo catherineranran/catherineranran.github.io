@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-28T10:40:00Z",
+  "checked": "2026-10-28T20:30:15Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 72,
+  "noteCount": 73,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2590,6 +2590,26 @@
           "id": "6ae165130000000034029405",
           "title": "谷歌Genie4发布，盘点开发者整出哪些3D世界",
           "author": "阿博粒",
+          "date": "2026-10-28"
+        }
+      ]
+    },
+    {
+      "id": "llm-training-growth-prompt",
+      "name": "Growth lessons from LLM training",
+      "kind": "prompts",
+      "summary": "Turns material on how LLMs are trained into plain lessons about personal growth.",
+      "link": "",
+      "prompts": [
+        "Translate the material below on how large language models are trained into lessons about how people grow. First explain the core mechanism in one sentence, then pull out the 1-3 most valuable points, each laid out as: growth insight → how the mechanism maps onto it → a real-life example → a concrete action. Use plain language, keep it short and insightful, and focus on the real dilemmas people face in learning, work and creative work. No piles of jargon, no empty inspiration, no forced analogies; keep research findings separate from life inferences, and say plainly where an analogy doesn't hold."
+      ],
+      "confidence": "high",
+      "found": "2026-10-28",
+      "sources": [
+        {
+          "id": "6ae1ce7e0000000034025de1",
+          "title": "如何成长？玩命理解大模型是如何训练的。",
+          "author": "noi（文字无ai）",
           "date": "2026-10-28"
         }
       ]
