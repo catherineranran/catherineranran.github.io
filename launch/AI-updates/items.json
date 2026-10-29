@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-28T20:30:15Z",
+  "checked": "2026-10-29T08:41:17Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 73,
+  "noteCount": 74,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -1428,6 +1428,12 @@
           "title": "这是一个让3D建模师集体失业的网站",
           "author": "煜林AI",
           "date": "2026-09-28"
+        },
+        {
+          "id": "6adb1a500000000033013173",
+          "title": "❤Hi3D Agent实用教程❤",
+          "author": "3d建模",
+          "date": "2026-10-27"
         }
       ],
       "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.hitem3d.ai?w=960&h=540"
@@ -2836,6 +2842,12 @@
       "id": "6ae13a740000000019027ada",
       "title": "AI新闻｜Mundo:可定制世界模型",
       "author": "数噬者bitvore",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "6ae07da700000000340362ca",
+      "title": "全是干货！我把Claude和GPT工作流打通了",
+      "author": "TT快去搓AI",
       "date": "2026-10-27"
     }
   ]
