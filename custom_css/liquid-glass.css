@@ -289,13 +289,13 @@ footer.glass-panel p.uppercase { letter-spacing: 0.12em; color: rgba(226, 232, 2
     }
 }
 
-/* Motto under the name: Charmonman script, italic, in the flowing tagline colours */
+/* Motto under the name: Charmonman script, upright, in the flowing tagline colours */
 .profile-motto {
     font-family: "Charmonman", "Apple Chancery", "Snell Roundhand", cursive;
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     line-height: 1.6;
-    padding: 0.1em 0.4em;   /* keeps the slanted script inside the coloured area */
+    padding: 0.1em 0.4em;   /* keeps the script's swashes inside the coloured area */
 }
 
 /* About: from 1024px up the column is exactly as wide as its first line, which stays on one row;
