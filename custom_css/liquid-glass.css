@@ -306,14 +306,17 @@ footer.glass-panel p.uppercase { letter-spacing: 0.12em; color: rgba(226, 232, 2
     /* a little wider than the old 64rem, so the profile column keeps about its old 28rem and no line there wraps */
     .main-home-section > .container { max-width: 68rem; padding-left: 1rem; padding-right: 1rem; }
     .main-home-section .main-profile-panel { flex: 1 1 0%; width: auto; min-width: 0; }
+    .main-home-section .main-profile-panel p { padding-left: 0.25rem; padding-right: 0.25rem; }   /* lines are centred anyway; keeps "Support Good Science…" on one row */
     .about-panel { flex: 0 0 auto; width: min-content; }
     .about-lead, .about-row { white-space: nowrap; }
-    /* the tulip keeps its old distance from the centred profile text (old column: 28rem, tulip 0.2rem in) */
-    .main-content-tulip-profile { left: calc(50% - 13.8rem); }
+    /* the tulip keeps its old distance from the centred profile text (old column: 28rem, tulip 0.2rem in),
+       but never slips off the left edge of the screen (the second value in max(): 0.75rem in from the edge) */
+    .main-content-tulip-profile { left: max(calc(50% - 13.8rem), -0.25rem); }
 }
 @media (min-width: 1025px) {
-    .main-content-tulip-profile { left: calc(50% - 14rem + clamp(-4.6rem, -2.5vw, -1.8rem)); }
+    .main-content-tulip-profile { left: max(calc(50% - 14rem + clamp(-4.6rem, -2.5vw, -1.8rem)), -0.25rem); }
 }
 @media (min-width: 1088px) {
     .main-home-section > .container { padding-left: 2rem; padding-right: 2rem; }
+    .main-content-tulip-profile { left: max(calc(50% - 14rem + clamp(-4.6rem, -2.5vw, -1.8rem)), calc(-1.25rem - (100vw - 68rem) / 2)); }
 }
