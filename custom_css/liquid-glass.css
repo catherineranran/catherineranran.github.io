@@ -298,18 +298,22 @@ footer.glass-panel p.uppercase { letter-spacing: 0.12em; color: rgba(226, 232, 2
     padding: 0.1em 0.4em;   /* keeps the script's swashes inside the coloured area */
 }
 
-/* About: from 1024px up the column is exactly as wide as its first line, which stays on one row;
-   the profile column takes the rest. Narrower screens keep the usual 50/50 split or stack. */
+/* About: from 1024px up the column is exactly as wide as its longest must-stay-on-one-row line
+   (.about-lead, and the .about-row openings that end with "Humboldt Research Fellow" and with
+   the "…not a luxury," quote); everything else wraps inside it, and the profile column takes the rest.
+   Narrower screens keep the usual 50/50 split or stack. */
 @media (min-width: 1024px) {
-    /* side padding 4rem -> 2rem, so the profile column keeps about its old 28rem and no line there wraps */
-    .main-home-section > .container { padding-left: 2rem; padding-right: 2rem; }
+    /* a little wider than the old 64rem, so the profile column keeps about its old 28rem and no line there wraps */
+    .main-home-section > .container { max-width: 68rem; padding-left: 1rem; padding-right: 1rem; }
     .main-home-section .main-profile-panel { flex: 1 1 0%; width: auto; min-width: 0; }
-    .about-panel { flex: 0 0 auto; width: -moz-fit-content; width: fit-content; }
-    .about-lead { white-space: nowrap; }
-    .about-panel > :not(.about-lead) { width: 0; min-width: 100%; }   /* wrap to the lead's width, never widen it */
+    .about-panel { flex: 0 0 auto; width: min-content; }
+    .about-lead, .about-row { white-space: nowrap; }
     /* the tulip keeps its old distance from the centred profile text (old column: 28rem, tulip 0.2rem in) */
     .main-content-tulip-profile { left: calc(50% - 13.8rem); }
 }
 @media (min-width: 1025px) {
     .main-content-tulip-profile { left: calc(50% - 14rem + clamp(-4.6rem, -2.5vw, -1.8rem)); }
+}
+@media (min-width: 1088px) {
+    .main-home-section > .container { padding-left: 2rem; padding-right: 2rem; }
 }
