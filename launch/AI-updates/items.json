@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-30T10:40:00Z",
+  "checked": "2026-10-31T08:41:48Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 74,
+  "noteCount": 75,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2617,6 +2617,27 @@
           "title": "如何成长？玩命理解大模型是如何训练的。",
           "author": "noi（文字无ai）",
           "date": "2026-10-28"
+        }
+      ]
+    },
+    {
+      "id": "interactiveworld",
+      "name": "InteractiveWorld",
+      "kind": "open-source",
+      "summary": "Meta's verifiable 3D simulator for testing first-person AI assistants helping simulated humans.",
+      "link": "https://github.com/facebookresearch/InteractiveWorld",
+      "site": "https://meta-interactiveworld.github.io/",
+      "install": "Needs Isaac Sim via the BEHAVIOR-1K installer, then `pip install -r requirements.txt`; see docs/INSTALL.md",
+      "note": "Research code: NVIDIA GPU and ~31 GB scene dataset required.",
+      "confidence": "high",
+      "found": "2026-10-31",
+      "img": "/launch/AI-updates/img/interactiveworld.webp",
+      "sources": [
+        {
+          "id": "6ae5819d000000000602c646",
+          "title": "InteractiveWorld: 真实模拟助手与人的交互",
+          "author": "小胖耶",
+          "date": "2026-10-31"
         }
       ]
     }
