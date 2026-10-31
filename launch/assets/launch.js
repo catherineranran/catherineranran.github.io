@@ -178,6 +178,7 @@
       var map = { saved: 'Saved', saving: 'Saving…', offline: 'Offline · kept on this device', error: 'Couldn’t save · retrying' };
       n.textContent = map[s] || s;
       n.className = 'sync ' + s;
+      fitTop();
     },
     cacheLocal: function () {
       var self = this;
@@ -438,6 +439,7 @@
     if (!n || !u) return;
     var d = new Date(u.until);
     n.textContent = 'Unlocked until ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    fitTop();
   }
   function showFatal(msg) {
     var main = $('main');
@@ -505,6 +507,7 @@
       '  <a href="/launch/calendar/" data-page="calendar" class="tab' + (active === 'calendar' ? ' on' : '') + '">Calendar</a>' +
       '  <a href="/launch/task-list/" data-page="tasks" class="tab' + (active === 'tasks' ? ' on' : '') + '">Tasks</a>' +
       '  <a href="/launch/reading/" data-page="reading" class="tab' + (active === 'reading' ? ' on' : '') + '">Reading</a>' +
+      '  <a href="/launch/positions/" data-page="positions" class="tab' + (active === 'positions' ? ' on' : '') + '">Positions</a>' +
       '  <a href="/launch/vibecodings/" data-page="vibes" class="tab' + (active === 'vibes' ? ' on' : '') + '">Vibecodings</a>' +
       '  <a href="/launch/AI-updates/" data-page="ai" class="tab' + (active === 'ai' ? ' on' : '') + '">AI<span class="tab-long"> updates</span></a>' +
       '</nav>' +
@@ -526,13 +529,35 @@
       $('#topWeek').textContent = 'Week ' + isoWeek(d);
       $('#topTime').textContent = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     }
-    tick(); setInterval(tick, 15000);
+    tick(); setInterval(function () { tick(); fitTop(); }, 15000);
+    fitTop();
+    window.addEventListener('resize', fitTop);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTop);
     $('#lockBtn').addEventListener('click', function () {
       var go = function () { Launch.lock(); };
       if (Store.dirty) Store.save().then(go); else go();
     });
     $('#settingsBtn').addEventListener('click', openSettings);
     $('#bgBtn').addEventListener('click', openBackgrounds);
+  }
+
+  // The header keeps one row while the date, the tabs and the tools fit side by side; otherwise the
+  // tabs move under the date (.top.stack). Below 900px the CSS always stacks them.
+  var topStacked = false;
+  function fitTop() {
+    var top = $('header.top'), tabs = top && $('.tabs', top), tools = top && $('.top-tools', top), day = top && $('#topDay', top);
+    if (!tabs || !tools || !day) return;
+    if (window.innerWidth <= 900) { topStacked = false; top.classList.remove('stack'); return; }
+    var cs = getComputedStyle(top), gap = parseFloat(cs.columnGap) || 16, toolsW = 0, shown = 0;
+    Array.prototype.forEach.call(tools.children, function (c) {
+      if (c.offsetParent === null) return;
+      toolsW += c.getBoundingClientRect().width; shown++;
+    });
+    toolsW += Math.max(0, shown - 1) * (parseFloat(getComputedStyle(tools).columnGap) || 4);
+    var r = document.createRange(); r.selectNodeContents(day);
+    var need = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + Math.max(r.getBoundingClientRect().width, 150) + tabs.scrollWidth + toolsW + 2 * gap;
+    topStacked = need > top.clientWidth - (topStacked ? 24 : 0);   // a little slack before going back to one row
+    top.classList.toggle('stack', topStacked);
   }
 
   function openSettings() {
@@ -546,6 +571,7 @@
       '  <label>Second time zone in the calendar <small>Shown next to your own, like in Google Calendar. Leave empty for none.</small><input name="tz2" placeholder="Asia/Shanghai"></label>' +
       '  <label>Short name for it <input name="tz2label" placeholder="CN"></label>' +
       '  <label>Reading notes doc <small>The Google Doc shown in the Reading tab (sharing: anyone with the link).</small><input name="readingDoc" placeholder="https://docs.google.com/document/d/…"></label>' +
+      '  <label>Positions sheet <small>The Google Sheet shown in the Positions tab (sharing: anyone with the link).</small><input name="positionsSheet" placeholder="https://docs.google.com/spreadsheets/d/…"></label>' +
       '  <div class="modal-actions"><span class="left"><button type="button" class="btn ghost" data-bg>Change background…</button><button type="button" class="btn ghost" data-pw>Change password…</button></span><button value="cancel" class="btn">Cancel</button><button value="save" class="btn primary">Save</button></div>' +
       '</form>';
     document.body.appendChild(dlg);
@@ -554,13 +580,14 @@
     f.tz2.value = s.tz2 == null ? 'Asia/Shanghai' : s.tz2;
     f.tz2label.value = s.tz2label == null ? 'CN' : s.tz2label;
     f.readingDoc.value = s.readingDoc || '';
+    f.positionsSheet.value = s.positionsSheet || '';
     $('[data-bg]', dlg).addEventListener('click', function () { dlg.close(); openBackgrounds(); });
     $('[data-pw]', dlg).addEventListener('click', function () { dlg.close(); openPassword(); });
     dlg.addEventListener('close', function () {
       if (dlg.returnValue === 'save') {
         var tz2 = f.tz2.value.trim();
         if (tz2) { try { new Intl.DateTimeFormat('en-GB', { timeZone: tz2 }); } catch (e) { tz2 = ''; } }
-        Store.setSettings({ musicUrl: f.music.value.trim(), tz2: tz2, tz2label: f.tz2label.value.trim(), readingDoc: f.readingDoc.value.trim() });
+        Store.setSettings({ musicUrl: f.music.value.trim(), tz2: tz2, tz2label: f.tz2label.value.trim(), readingDoc: f.readingDoc.value.trim(), positionsSheet: f.positionsSheet.value.trim() });
       }
       dlg.remove();
     });
@@ -731,7 +758,7 @@
   var pageScope = [], pages = {}, currentPage = null, shellBuilt = false, navSeq = 0;
   function scoped(off) { pageScope.push(off); }
   function cleanupPage() { var list = pageScope; pageScope = []; list.forEach(function (f) { try { f(); } catch (e) { /* ignore */ } }); }
-  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes', 'reading.js': 'reading', 'ai.js': 'ai' };
+  var SCRIPT_PAGE = { 'home.js': 'home', 'calendar.js': 'calendar', 'board.js': 'tasks', 'vibes.js': 'vibes', 'reading.js': 'reading', 'ai.js': 'ai', 'positions.js': 'positions' };
   var loadedScripts = {};
   Array.prototype.forEach.call(document.querySelectorAll('script[src]'), function (s) { loadedScripts[s.getAttribute('src').split('?')[0]] = true; });
   function runPage(name) {
@@ -928,9 +955,10 @@
   function fmtClock(ms) { var s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
   function paintPill() {
     var pill = document.getElementById('focusPill'); if (!pill) return;
-    var on = Focus.running();
+    var on = Focus.running(), was = pill.hidden;
     pill.hidden = !on || currentPage === 'home';
     if (on) pill.querySelector('b').textContent = fmtClock(Focus.left());
+    if (pill.hidden !== was) fitTop();
   }
   function chime() {
     try {

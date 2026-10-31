@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Launch Pad · Positions</title>
+  <link rel="icon" href="/assets/icons/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/launch/assets/launch.css?v=38">
+</head>
+<body class="locked">
+  <main>
+    <section class="panel ps-hero" aria-labelledby="psTitle">
+      <div class="ps-hero-text">
+        <p class="ps-eyebrow">Job search · from your Google Sheet</p>
+        <h2 id="psTitle">Positions</h2>
+        <p class="ps-sub">Openings you might apply for, soonest deadline first. Tell Claude which postings interest you and they go into the sheet.</p>
+      </div>
+      <div class="ps-stats" id="psStats" aria-live="polite"></div>
+    </section>
+
+    <div class="ps-bar">
+      <div class="seg2" id="psMode" role="group" aria-label="View">
+        <button type="button" data-mode="preview" class="on" aria-pressed="true" title="The positions, read from the sheet">Preview</button>
+        <button type="button" data-mode="sheet" aria-pressed="false" title="Edit the Google Sheet here">Sheet</button>
+      </div>
+      <span class="ps-status" id="psStatus" role="status" aria-live="polite"></span>
+      <span class="spacer"></span>
+      <button type="button" class="btn small ghost" id="psAll" hidden>Expand all</button>
+      <button type="button" class="icon-btn" id="psRefresh" title="Read the sheet again" aria-label="Read the sheet again"></button>
+      <a class="btn small" id="psOpen" href="#" target="_blank" rel="noopener" hidden>Open in Google Sheets ↗</a>
+    </div>
+
+    <div class="ps-paper" id="psPaper"></div>
+    <div class="ps-sheetwrap" id="psSheet" hidden></div>
+  </main>
+
+  <script src="/launch/assets/config.js?v=36"></script>
+  <script src="/launch/assets/launch.js?v=39"></script>
+  <script src="/launch/assets/positions.js?v=1"></script>
+</body>
+</html>
