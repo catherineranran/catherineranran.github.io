@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-10-31T08:41:48Z",
+  "checked": "2026-11-01T08:42:14Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 75,
+  "noteCount": 78,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -576,6 +576,12 @@
           "title": "逆向一切，今年最危险的开源项目，集体裸奔",
           "author": "杨竹筠",
           "date": "2026-10-15"
+        },
+        {
+          "id": "6ad977a8000000002403bd87",
+          "title": "Rea逆向一切，万物都可开源",
+          "author": "Choco（工具资源在主页裙）",
+          "date": "2026-10-22"
         }
       ],
       "img": "/launch/AI-updates/img/rea.webp"
@@ -2637,6 +2643,46 @@
           "id": "6ae5819d000000000602c646",
           "title": "InteractiveWorld: 真实模拟助手与人的交互",
           "author": "小胖耶",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "paper-shaders",
+      "name": "Paper Shaders",
+      "kind": "design-resource",
+      "summary": "Zero-dependency animated canvas shaders: flowing gradients and light beams for web backgrounds.",
+      "link": "https://github.com/paper-design/shaders",
+      "site": "https://shaders.paper.design/",
+      "install": "`npm i @paper-design/shaders-react` (React) or `npm i @paper-design/shaders` (vanilla); tune presets on the site",
+      "note": "0.0.x versions may break; pin the dependency.",
+      "confidence": "high",
+      "found": "2026-11-01",
+      "img": "/launch/AI-updates/img/paper-shaders.webp",
+      "sources": [
+        {
+          "id": "6ae46f36000000001200f226",
+          "title": "宝藏工具｜静态网页加上光束，氛围就变了",
+          "author": "职场懒人",
+          "date": "2026-10-30"
+        }
+      ]
+    },
+    {
+      "id": "anywear",
+      "name": "Anywear (Decart)",
+      "kind": "web-tool",
+      "summary": "Real-time AI virtual try-on: see clothes from online shops on yourself live.",
+      "link": "https://anywear.decart.ai",
+      "install": "Open the site; a Chrome extension adds try-on to shopping sites",
+      "confidence": "medium",
+      "found": "2026-11-01",
+      "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fanywear.decart.ai?w=960&h=540",
+      "sources": [
+        {
+          "id": "6ae59b5d000000000e024e76",
+          "title": "不是，我们这就要进入实时试穿时代了？🛒🔥",
+          "author": "李马特",
           "date": "2026-10-31"
         }
       ]
