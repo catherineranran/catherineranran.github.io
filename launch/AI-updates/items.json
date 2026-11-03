@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-02T08:40:57Z",
+  "checked": "2026-11-03T08:42:30Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 78,
+  "noteCount": 79,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2684,6 +2684,28 @@
           "title": "不是，我们这就要进入实时试穿时代了？🛒🔥",
           "author": "李马特",
           "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "scroll-world",
+      "name": "scroll-world",
+      "kind": "skill",
+      "summary": "Agent skill that turns any brand into a scroll-driven fly-through 3D world landing page.",
+      "link": "https://github.com/oso95/scroll-world",
+      "install": "In Claude Code: `/plugin marketplace add oso95/scroll-world` then `/plugin install scroll-world@scroll-world`; other agents: `npx skills add oso95/scroll-world`",
+      "note": "Needs paid Higgsfield and Monid accounts plus ffmpeg; a 6-scene 1080p film costs about $27 in video. Named by RedNote's assistant in the note's comments.",
+      "confidence": "high",
+      "found": "2026-11-03",
+      "img": "https://opengraph.githubassets.com/1/oso95/scroll-world",
+      "review": "Reviewed 2026-11-03: no red flags found",
+      "plugin": "2026-11-03",
+      "sources": [
+        {
+          "id": "6ae7929a00000000250130f8",
+          "title": "沉浸式滚动交互网页，把品牌官网做成3D世界",
+          "author": "青青王-AI",
+          "date": "2026-11-02"
         }
       ]
     }
