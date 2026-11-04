@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-03T08:42:30Z",
+  "checked": "2026-11-04T08:42:28Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 79,
+  "noteCount": 80,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2706,6 +2706,28 @@
           "title": "沉浸式滚动交互网页，把品牌官网做成3D世界",
           "author": "青青王-AI",
           "date": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "id": "aris",
+      "name": "ARIS (Auto Research in Sleep)",
+      "kind": "skill",
+      "summary": "Skills that run overnight research: literature, experiments and paper drafts, cross-reviewed by a second model.",
+      "link": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
+      "site": "https://wanshuiyin.github.io/Auto-claude-code-research-in-sleep/ARIS_INTRO.html",
+      "install": "In Claude Code: `claude plugin marketplace add wanshuiyin/Auto-claude-code-research-in-sleep` then `claude plugin install aris@aris`, then run `/aris:setup` once and restart",
+      "note": "Uses a lot of tokens; its cross-model review needs the Codex CLI or another reviewer. The tool was identified from the README shown in the note's video.",
+      "confidence": "high",
+      "found": "2026-11-04",
+      "img": "/launch/AI-updates/img/aris.webp",
+      "review": "Collection of 87 skills: ask Claude to package the ones you want",
+      "sources": [
+        {
+          "id": "6ae9b862000000000f01e49a",
+          "title": "用上这个skill，让你边睡觉边做科研！",
+          "author": "布尔博士",
+          "date": "2026-11-03"
         }
       ]
     }
