@@ -11,7 +11,7 @@
 @media(max-width:760px){.header-end{gap:12px}.lang-switch>*{padding:5px 8px}.hide-sm{display:none}}
 
 /* English version (/psych101/en/): Latin type, no CJK letter-spacing, small text a little larger */
-html[lang="en"]{--serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif}
+html[lang="en"]{--serif:'Psych101 Kai','Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif}
 html[lang="en"] body{line-height:1.7}
 html[lang="en"] .brand{letter-spacing:.3px}
 html[lang="en"] .brand-sub{letter-spacing:1px}
@@ -36,3 +36,10 @@ html[lang="en"] .hero-actions{flex-wrap:wrap;row-gap:12px}
 }
 html[lang="en"] .small-path{flex-direction:column;align-items:flex-start;gap:4px}   /* "See yourself / See the world / See others" one per line */
 html[lang="en"] .small-path i{display:none}
+
+/* 楷体 for the Chinese headings and titles: 霞鹜文楷 LXGW WenKai, cut down to the characters on these pages and
+   renamed "Psych101 Kai" (SIL OFL, see fonts/OFL.txt; regenerate with _tools/psych101-kai-subset.py after text changes).
+   Only Chinese characters use it; Latin letters and digits keep the other serif. */
+@font-face{font-family:'Psych101 Kai';src:url(/psych101/fonts/psych101-kai-regular.woff2?v=1) format('woff2');font-weight:100 499;font-display:swap;unicode-range:U+3000-303F,U+3400-4DBF,U+4E00-9FFF,U+FF00-FFEF}
+@font-face{font-family:'Psych101 Kai';src:url(/psych101/fonts/psych101-kai-medium.woff2?v=1) format('woff2');font-weight:500 900;font-display:swap;unicode-range:U+3000-303F,U+3400-4DBF,U+4E00-9FFF,U+FF00-FFEF}
+:root{--serif:'Psych101 Kai','Noto Serif SC','Songti SC','STSong',serif}
