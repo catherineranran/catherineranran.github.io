@@ -1,7 +1,7 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-04T08:42:28Z",
+  "checked": "2026-11-05T10:00:38Z",
   "status": {
     "state": "ok"
   },
@@ -2960,6 +2960,12 @@
       "title": "全是干货！我把Claude和GPT工作流打通了",
       "author": "TT快去搓AI",
       "date": "2026-10-27"
+    },
+    {
+      "id": "6aec3b97000000000300bced",
+      "title": "看愣了🤯，100个鼠标Agent同时工作",
+      "author": "量子位",
+      "date": "2026-11-05"
     }
   ]
 }
