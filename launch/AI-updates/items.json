@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-06T20:50:53Z",
+  "checked": "2026-11-07T21:06:44Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 80,
+  "noteCount": 81,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2728,6 +2728,27 @@
           "title": "用上这个skill，让你边睡觉边做科研！",
           "author": "布尔博士",
           "date": "2026-11-03"
+        }
+      ]
+    },
+    {
+      "id": "openai-codex",
+      "name": "OpenAI Codex",
+      "kind": "open-source",
+      "summary": "OpenAI's local coding agent; the post uses it to sort photos into folders.",
+      "link": "https://github.com/openai/codex",
+      "site": "https://chatgpt.com/codex",
+      "install": "Mac/Linux: `curl -fsSL https://chatgpt.com/codex/install.sh | sh`, then run `codex` in a folder (or `codex app` for the desktop app)",
+      "note": "Sorting photos means sending them to OpenAI's model and uses many tokens; point it at a copy of the folder first.",
+      "confidence": "medium",
+      "found": "2026-11-07",
+      "img": "/launch/AI-updates/img/openai-codex.webp",
+      "sources": [
+        {
+          "id": "6aed903500000000230113d2",
+          "title": "Codex 帮你的照片一张张分好类！",
+          "author": "晓白和林亦",
+          "date": "2026-11-07"
         }
       ]
     }
