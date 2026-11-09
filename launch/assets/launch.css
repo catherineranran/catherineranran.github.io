@@ -588,6 +588,9 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .add-card { padding: 7px; font-size: 13px; margin: 0 8px 8px; }
 .add-col { flex-basis: 180px; padding: 10px; font-size: 13px; }
 @media (max-width: 560px) { .col { flex-basis: 80vw; } }
+/* the board's first column (Upcoming Deadlines) is 1.5 times as wide as the others (Ranran, 9 Nov 2026); on phones all columns stay 80vw */
+.board > .col:first-child { flex-basis: 378px; }
+@media (max-width: 560px) { .board > .col:first-child { flex-basis: 80vw; } }
 
 /* research-strand colours on task cards (ranranli.net palette) */
 .card.has-strand { background-color: color-mix(in srgb, var(--s) 26%, rgba(255, 255, 255, .06)); border-color: color-mix(in srgb, var(--s) 60%, transparent); }
