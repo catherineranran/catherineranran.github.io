@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-10T09:45:21Z",
+  "checked": "2026-11-11T09:56:56Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 81,
+  "noteCount": 82,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2749,6 +2749,47 @@
           "title": "Codex 帮你的照片一张张分好类！",
           "author": "晓白和林亦",
           "date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "nerfstudio",
+      "name": "nerfstudio",
+      "kind": "open-source",
+      "summary": "Turns ordinary photos or video into explorable 3D scenes with neural radiance fields.",
+      "link": "https://github.com/nerfstudio-project/nerfstudio",
+      "site": "https://docs.nerf.studio",
+      "install": "`pip install nerfstudio`, then `ns-process-data` on your images and `ns-train nerfacto --data <folder>`",
+      "note": "Training needs an NVIDIA GPU with CUDA.",
+      "confidence": "high",
+      "found": "2026-11-11",
+      "img": "https://opengraph.githubassets.com/1/nerfstudio-project/nerfstudio",
+      "sources": [
+        {
+          "id": "6ae81c7500000000250386cd",
+          "title": "推荐 AR / VR 与空间计算领域开源项目Top10",
+          "author": "真观之知",
+          "date": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "id": "opensplat",
+      "name": "OpenSplat",
+      "kind": "open-source",
+      "summary": "Free 3D Gaussian Splatting: rebuilds real scenes in 3D from photos, runs on Mac too.",
+      "link": "https://github.com/pierotofy/OpenSplat",
+      "install": "Build from source with LibTorch and CMake: `mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=/path/to/libtorch/ .. && make` (see README; Windows build is paid)",
+      "note": "The post links github.com/opensplat/opensplat, which doesn't exist; this is the real repo.",
+      "confidence": "medium",
+      "found": "2026-11-11",
+      "img": "https://opengraph.githubassets.com/1/pierotofy/OpenSplat",
+      "sources": [
+        {
+          "id": "6ae81c7500000000250386cd",
+          "title": "推荐 AR / VR 与空间计算领域开源项目Top10",
+          "author": "真观之知",
+          "date": "2026-11-02"
         }
       ]
     }
