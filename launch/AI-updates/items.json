@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-11T09:56:56Z",
+  "checked": "2026-11-12T08:41:36Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 82,
+  "noteCount": 83,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2790,6 +2790,28 @@
           "title": "推荐 AR / VR 与空间计算领域开源项目Top10",
           "author": "真观之知",
           "date": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "id": "sherlock",
+      "name": "Sherlock",
+      "kind": "open-source",
+      "summary": "Finds a username's accounts across hundreds of social networks from the command line.",
+      "link": "https://github.com/sherlock-project/sherlock",
+      "site": "https://sherlockproject.xyz/",
+      "stars": 90000,
+      "install": "`pipx install sherlock-project`, then `sherlock <username>` (pip, uv, Docker also work)",
+      "note": "Not an AI tool itself; an OSINT username lookup. Use responsibly.",
+      "confidence": "high",
+      "found": "2026-11-12",
+      "img": "/launch/AI-updates/img/sherlock.webp",
+      "sources": [
+        {
+          "id": "6aefda68000000001200e605",
+          "title": "侦探界最高的神器！Github九万多颗星！",
+          "author": "是沐子丫",
+          "date": "2026-11-08"
         }
       ]
     }
