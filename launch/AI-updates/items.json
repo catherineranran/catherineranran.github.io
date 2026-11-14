@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-13T19:40:00Z",
+  "checked": "2026-11-14T18:24:40Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 83,
+  "noteCount": 84,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2812,6 +2812,26 @@
           "title": "侦探界最高的神器！Github九万多颗星！",
           "author": "是沐子丫",
           "date": "2026-11-08"
+        }
+      ]
+    },
+    {
+      "id": "viggle-pinoc",
+      "name": "PINOC (Viggle)",
+      "kind": "web-tool",
+      "summary": "Turns a single image into explorable 3D Gaussian-splat scenes and rigged, animatable characters.",
+      "link": "https://viggle.ai/pinoc",
+      "install": "Sign up at viggle.ai/pinoc; the post drives it from Claude through its MCP connection (see the site for setup)",
+      "note": "The post's 'Fable 5.2' is the AI model used; PINOC MCP setup details weren't confirmed.",
+      "confidence": "medium",
+      "found": "2026-11-14",
+      "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fviggle.ai%2Fpinoc?w=960&h=540",
+      "sources": [
+        {
+          "id": "6af7f71a0000000018039a9e",
+          "title": "用Fable生成的高斯泼溅世界和穿越的女孩",
+          "author": "小哈的成长日记",
+          "date": "2026-11-14"
         }
       ]
     }
