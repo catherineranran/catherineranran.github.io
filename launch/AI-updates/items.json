@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-16T08:41:10Z",
+  "checked": "2026-11-17T08:41:18Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 84,
+  "noteCount": 85,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2832,6 +2832,26 @@
           "title": "用Fable生成的高斯泼溅世界和穿越的女孩",
           "author": "小哈的成长日记",
           "date": "2026-11-14"
+        }
+      ]
+    },
+    {
+      "id": "world-labs-frameboy",
+      "name": "Frameboy (World Labs)",
+      "kind": "web-tool",
+      "summary": "Browser demo for exploring Atlas-generated 3D worlds in real time, streamed at 15 fps.",
+      "link": "https://www.worldlabs.ai",
+      "install": "Open the Frameboy demo from World Labs' site or its launch post on X; runs in the browser",
+      "note": "Research preview of World Labs' Atlas world model; the exact demo URL wasn't confirmed, so the link goes to World Labs' site.",
+      "confidence": "medium",
+      "found": "2026-11-17",
+      "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.worldlabs.ai?w=960&h=540",
+      "sources": [
+        {
+          "id": "6aed5c0c000000002501dd1f",
+          "title": "李飞飞创立的 World Labs 推出 Frameboy",
+          "author": "B.News 比特智讯",
+          "date": "2026-11-06"
         }
       ]
     }
