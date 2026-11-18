@@ -1,7 +1,7 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-17T08:41:18Z",
+  "checked": "2026-11-18T09:33:27Z",
   "status": {
     "state": "ok"
   },
@@ -3102,6 +3102,12 @@
       "title": "Vibecoding了一个3D科幻游戏",
       "author": "小丫小二郎",
       "date": "2026-11-14"
+    },
+    {
+      "id": "6af6e77f0000000016031978",
+      "title": "一句话+一个Skill=人人都会用的CG效果",
+      "author": "AI里克斯（研发CG Skill中）",
+      "date": "2026-11-13"
     }
   ]
 }
