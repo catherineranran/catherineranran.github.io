@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-18T09:33:27Z",
+  "checked": "2026-11-19T08:42:13Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 85,
+  "noteCount": 86,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2852,6 +2852,26 @@
           "title": "李飞飞创立的 World Labs 推出 Frameboy",
           "author": "B.News 比特智讯",
           "date": "2026-11-06"
+        }
+      ]
+    },
+    {
+      "id": "world-labs-atlas",
+      "name": "Atlas (World Labs)",
+      "kind": "web-tool",
+      "summary": "World model that generates, reconstructs and simulates explorable 3D worlds from prompts or photos.",
+      "link": "https://worldlabs.ai/blog/atlas",
+      "install": "Sign up on World Labs' site; new accounts get free credits to try it in the browser",
+      "note": "Credits run out fast; the poster ran out before trying 3D walk-through.",
+      "confidence": "high",
+      "found": "2026-11-19",
+      "img": "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fworldlabs.ai%2Fblog%2Fatlas?w=960&h=540",
+      "sources": [
+        {
+          "id": "6afc19af000000001803b61c",
+          "title": "用Atlas搭建300平米的植物美学空间",
+          "author": "Vivi",
+          "date": "2026-11-17"
         }
       ]
     }
