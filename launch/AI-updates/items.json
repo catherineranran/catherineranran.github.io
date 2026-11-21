@@ -1,7 +1,7 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-20T09:36:00Z",
+  "checked": "2026-11-21T17:26:47Z",
   "status": {
     "state": "ok"
   },
@@ -3128,6 +3128,18 @@
       "title": "一句话+一个Skill=人人都会用的CG效果",
       "author": "AI里克斯（研发CG Skill中）",
       "date": "2026-11-13"
+    },
+    {
+      "id": "6b01898c000000002b026c5c",
+      "title": "City Online 招募AI 3D共创者！",
+      "author": "Momo在coding",
+      "date": "2026-11-20"
+    },
+    {
+      "id": "6aff83a0000000002b01bafc",
+      "title": "怎么把照片做成生日网站送朋友？",
+      "author": "hologram全息",
+      "date": "2026-11-19"
     }
   ]
 }
