@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": "2026-10-24",
-  "checked": "2026-11-24T11:03:33Z",
+  "checked": "2026-11-25T13:25:54Z",
   "status": {
     "state": "ok"
   },
-  "noteCount": 87,
+  "noteCount": 89,
   "schedule": "Claude checks your RedNote likes and collections every day at 09:39 (Berlin time), through its browser on your computer.",
   "scan": "most recent 790 likes and all 170 collected notes on 24 October 2026; showcases, news and general lists are left out",
   "items": [
@@ -2755,6 +2755,12 @@
           "title": "用Codex 做了鬼妈妈的花园",
           "author": "Déliane",
           "date": "2026-11-22"
+        },
+        {
+          "id": "6b065752000000002c00d913",
+          "title": "OpenAI 这次真的杀疯了！ 直接把 Codex 武装成了核武器！",
+          "author": "与时俱进",
+          "date": "2026-11-25"
         }
       ]
     },
@@ -2878,6 +2884,26 @@
           "title": "用Atlas搭建300平米的植物美学空间",
           "author": "Vivi",
           "date": "2026-11-17"
+        }
+      ]
+    },
+    {
+      "id": "pake",
+      "name": "Pake",
+      "kind": "open-source",
+      "summary": "Turn any website into a lightweight Mac, Windows or Linux desktop app.",
+      "link": "https://github.com/tw93/Pake",
+      "site": "https://pake.run/",
+      "install": "CLI: `pnpm install -g pake-cli`, then `pake <url> --name <AppName>`; or download the desktop app from pake.run",
+      "confidence": "high",
+      "found": "2026-11-25",
+      "img": "/launch/AI-updates/img/pake.webp",
+      "sources": [
+        {
+          "id": "6affe556000000002b005fb1",
+          "title": "Pake 可以把任何网站很快变成一个好用应用",
+          "author": "Tw93",
+          "date": "2026-11-20"
         }
       ]
     }
