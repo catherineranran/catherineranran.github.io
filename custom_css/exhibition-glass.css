@@ -342,3 +342,11 @@
         background: rgba(22, 30, 48, 0.96);
     }
 }
+
+/* "📌 Pinned" label after the date of a pinned post (it sits at the top of its column) */
+.exhibition-page .exhibition-pinned {
+    margin-left: 0.45rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+}
